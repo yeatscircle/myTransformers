@@ -39,26 +39,30 @@ This model was contributed by [valhalla](https://huggingface.co/valhalla).
 The `generate()` method can be used to generate text using GPT Neo model.
 
 ```python
->>> from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+>> > from myTransformers import GPTNeoForCausalLM, GPT2Tokenizer
 
->>> model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
->>> tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")
+>> > model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
+>> > tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")
 
->>> prompt = (
-...     "In a shocking finding, scientists discovered a herd of unicorns living in a remote, "
-...     "previously unexplored valley, in the Andes Mountains. Even more surprising to the "
-...     "researchers was the fact that the unicorns spoke perfect English."
+>> > prompt = (
+    ...     "In a shocking finding, scientists discovered a herd of unicorns living in a remote, "
+..."previously unexplored valley, in the Andes Mountains. Even more surprising to the "
+..."researchers was the fact that the unicorns spoke perfect English."
+...)
+
+>> > input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+
+>> > gen_tokens = model.generate(
+    ...
+input_ids,
+...
+do_sample = True,
+...
+temperature = 0.9,
+...
+max_length = 100,
 ... )
-
->>> input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-
->>> gen_tokens = model.generate(
-...     input_ids,
-...     do_sample=True,
-...     temperature=0.9,
-...     max_length=100,
-... )
->>> gen_text = tokenizer.batch_decode(gen_tokens)[0]
+>> > gen_text = tokenizer.batch_decode(gen_tokens)[0]
 ```
 
 ## Combining GPT-Neo and Flash Attention 2
@@ -70,21 +74,24 @@ Make sure as well to load your model in half-precision (e.g. `torch.float16`).
 To load and run a model using Flash Attention 2, refer to the snippet below:
 
 ```python
->>> import torch
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
->>> device = "cuda" # the device to load the model onto
+>> > import torch
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
+>> > device = "cuda"  # the device to load the model onto
 
->>> model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B", torch_dtype=torch.float16, attn_implementation="flash_attention_2")
->>> tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
+>> > model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-neo-2.7B", torch_dtype=torch.float16,
+                                                  attn_implementation="flash_attention_2")
+>> > tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
 
->>> prompt = "def hello_world():"
+>> > prompt = "def hello_world():"
 
->>> model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
->>> model.to(device)
+>> > model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
+>> > model.to(device)
 
->>> generated_ids = model.generate(**model_inputs, max_new_tokens=100, do_sample=True)
->>> tokenizer.batch_decode(generated_ids)[0]
-"def hello_world():\n    >>> run_script("hello.py")\n    >>> exit(0)\n<|endoftext|>"
+>> > generated_ids = model.generate(**model_inputs, max_new_tokens=100, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids)[0]
+"def hello_world():\n    >>> run_script("
+hello.py
+")\n    >>> exit(0)\n<|endoftext|>"
 ```
 
 ### Expected speedups

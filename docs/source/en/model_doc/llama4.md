@@ -56,7 +56,7 @@ have context lengths going up to 10 million tokens.
 <hfoption id="Pipeline">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
@@ -80,7 +80,7 @@ print(output[0]["generated_text"][-1]["content"])
 <hfoption id="AutoModel - Text only">
 
 ```py
-from transformers import AutoTokenizer, Llama4ForConditionalGeneration
+from myTransformers import AutoTokenizer, Llama4ForConditionalGeneration
 import torch
 
 model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
@@ -107,7 +107,7 @@ print(outputs[0])
 <hfoption id="AutoModel - Multimodal">
 
 ```py
-from transformers import AutoProcessor, Llama4ForConditionalGeneration
+from myTransformers import AutoProcessor, Llama4ForConditionalGeneration
 import torch
 
 model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
@@ -151,7 +151,7 @@ print(response)
 <hfoption id="AutoModel - Multimodal with multiple images">
 
 ```py
-from transformers import AutoProcessor, Llama4ForConditionalGeneration
+from myTransformers import AutoProcessor, Llama4ForConditionalGeneration
 import torch
 
 model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
@@ -203,7 +203,7 @@ We will work to enable running with `device_map="auto"` and flex-attention witho
 tensor-parallel in the future.
 
 ```py
-from transformers import Llama4ForConditionalGeneration, AutoTokenizer
+from myTransformers import Llama4ForConditionalGeneration, AutoTokenizer
 import torch
 import time
 
@@ -222,7 +222,8 @@ model = Llama4ForConditionalGeneration.from_pretrained(
 )
 
 messages = [
-    {"role": "user", "content": f"Look at the following texts: [{very_long_text}]\n\n\n\nWhat are the books, and who wrote them? Make me a nice list."},
+    {"role": "user",
+     "content": f"Look at the following texts: [{very_long_text}]\n\n\n\nWhat are the books, and who wrote them? Make me a nice list."},
 ]
 input_ids = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
 
@@ -230,13 +231,13 @@ torch.cuda.synchronize()
 start = time.time()
 out = model.generate(
     input_ids.to(model.device),
-    prefill_chunk_size=2048*8,
+    prefill_chunk_size=2048 * 8,
     max_new_tokens=300,
     cache_implementation="hybrid",
 )
-print(time.time()-start)
+print(time.time() - start)
 print(tokenizer.batch_decode(out[:, input_ids.shape[-1]:]))
-print(f"{torch.cuda.max_memory_allocated(model.device) / 1024**3:.2f} GiB")
+print(f"{torch.cuda.max_memory_allocated(model.device) / 1024 ** 3:.2f} GiB")
 ```
 
 </hfoption>
@@ -264,7 +265,7 @@ Setting Flex Attention ensures the best results with the very long context the m
 > tensor-parallel in the future.
 
 ```py
-from transformers import Llama4ForConditionalGeneration
+from myTransformers import Llama4ForConditionalGeneration
 import torch
 
 model = Llama4ForConditionalGeneration.from_pretrained(
@@ -279,7 +280,7 @@ model = Llama4ForConditionalGeneration.from_pretrained(
 The `sdpa` attention method is generally more compute-efficient than the `eager` method.
 
 ```py
-from transformers import Llama4ForConditionalGeneration
+from myTransformers import Llama4ForConditionalGeneration
 import torch
 
 model = Llama4ForConditionalGeneration.from_pretrained(
@@ -294,7 +295,7 @@ model = Llama4ForConditionalGeneration.from_pretrained(
 The `eager` attention method is set by default, so no need for anything different when loading the model:
 
 ```py
-from transformers import Llama4ForConditionalGeneration
+from myTransformers import Llama4ForConditionalGeneration
 import torch
 
 model = Llama4ForConditionalGeneration.from_pretrained(
@@ -322,7 +323,7 @@ Here is an example loading an BF16 model in FP8 using the FBGEMM approach:
 <hfoption id="FBGEMM">
 
 ```python
-from transformers import AutoTokenizer, Llama4ForConditionalGeneration, FbgemmFp8Config
+from myTransformers import AutoTokenizer, Llama4ForConditionalGeneration, FbgemmFp8Config
 import torch
 
 model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
@@ -352,7 +353,7 @@ print(outputs[0])
 To use the LLM-Compressor technique, we recommend leveraging the pre-quantized FP8 checkpoint available with the release:
 
 ```python
-from transformers import AutoTokenizer, Llama4ForConditionalGeneration
+from myTransformers import AutoTokenizer, Llama4ForConditionalGeneration
 import torch
 
 model_id = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
@@ -386,7 +387,7 @@ However, this also slows down inference as it adds communication overhead.
 In order to enable CPU-offloading, you simply need to specify the `device_map` to `auto` at model load:
 
 ```py
-from transformers import Llama4ForConditionalGeneration
+from myTransformers import Llama4ForConditionalGeneration
 import torch
 
 model = Llama4ForConditionalGeneration.from_pretrained(

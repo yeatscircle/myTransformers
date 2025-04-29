@@ -18,27 +18,27 @@
 import unittest
 
 {% if cookiecutter.has_slow_class == "True" and  cookiecutter.has_fast_class == "True" -%}
-from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}TokenizerFast
+from myTransformers import {{cookiecutter.camelcase_modelname}}Tokenizer, {{cookiecutter.camelcase_modelname}}TokenizerFast
 {% elif  cookiecutter.has_slow_class == "True" -%}
-from transformers import {{cookiecutter.camelcase_modelname}}Tokenizer
+from myTransformers import {{cookiecutter.camelcase_modelname}}Tokenizer
 {% elif  cookiecutter.has_fast_class == "True" -%}
-from transformers import {{cookiecutter.camelcase_modelname}}TokenizerFast
+from myTransformers import {{cookiecutter.camelcase_modelname}}TokenizerFast
 {% endif -%}
 {% if cookiecutter.has_fast_class == "True" and  cookiecutter.slow_tokenizer_use_sentencepiece == "True" -%}
-from transformers.testing_utils import require_sentencepiece, require_tokenizers
+from myTransformers.testing_utils import require_sentencepiece, require_tokenizers
 from ...test_tokenization_common import TokenizerTesterMixin
 
 
 @require_sentencepiece
 @require_tokenizers
 {% elif  cookiecutter.slow_tokenizer_use_sentencepiece == "True" -%}
-from transformers.testing_utils import require_sentencepiece
+from myTransformers.testing_utils import require_sentencepiece
 from ...test_tokenization_common import TokenizerTesterMixin
 
 
 @require_sentencepiece
 {% elif  cookiecutter.has_fast_class == "True" -%}
-from transformers.testing_utils import require_tokenizers
+from myTransformers.testing_utils import require_tokenizers
 from ...test_tokenization_common import TokenizerTesterMixin
 
 

@@ -68,11 +68,11 @@ You are not required to read the following guidelines before opening an issue. H
    ```python
    Traceback (most recent call last):
      File "<string>", line 1, in <module>
-     File "/transformers/src/transformers/__init__.py", line 34, in <module>
+     File "/myTransformers/src/myTransformers/__init__.py", line 34, in <module>
        from . import dependency_versions_check
-     File "/transformers/src/transformers/dependency_versions_check.py", line 34, in <module>
+     File "/myTransformers/src/myTransformers/dependency_versions_check.py", line 34, in <module>
        from .utils import is_tokenizers_available
-     File "/transformers/src/transformers/utils/import_utils.py", line 40, in <module>
+     File "/myTransformers/src/myTransformers/utils/import_utils.py", line 40, in <module>
        from tqdm.auto import tqdm
     ModuleNotFoundError: No module named 'tqdm.auto'
     ```
@@ -118,14 +118,14 @@ You are not required to read the following guidelines before opening an issue. H
 3. If there is a software failure, always provide the full traceback, for example:
 
    ```python
-   $ python -c 'import transformers'
+   $ python -c 'import myTransformers'
    Traceback (most recent call last):
      File "<string>", line 1, in <module>
-     File "/transformers/src/transformers/__init__.py", line 34, in <module>
+     File "/myTransformers/src/myTransformers/__init__.py", line 34, in <module>
        from . import dependency_versions_check
-     File "/transformers/src/transformers/dependency_versions_check.py", line 34, in <module>
+     File "/myTransformers/src/myTransformers/dependency_versions_check.py", line 34, in <module>
        from .utils import is_tokenizers_available
-     File "/transformers/src/transformers/utils/import_utils.py", line 40, in <module>
+     File "/myTransformers/src/myTransformers/utils/import_utils.py", line 40, in <module>
        from tqdm.auto import tqdm
    ModuleNotFoundError: No module named 'tqdm.auto'
    ```

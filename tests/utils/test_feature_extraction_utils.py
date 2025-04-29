@@ -22,8 +22,8 @@ from pathlib import Path
 from huggingface_hub import HfFolder
 from requests.exceptions import HTTPError
 
-from transformers import AutoFeatureExtractor, Wav2Vec2FeatureExtractor
-from transformers.testing_utils import TOKEN, TemporaryHubRepo, get_tests_dir, is_staging_test
+from myTransformers import AutoFeatureExtractor, Wav2Vec2FeatureExtractor
+from myTransformers.testing_utils import TOKEN, TemporaryHubRepo, get_tests_dir, is_staging_test
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "utils"))

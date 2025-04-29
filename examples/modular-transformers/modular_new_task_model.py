@@ -4,13 +4,13 @@ import torch
 import torch.utils.checkpoint
 from torch import nn
 
-from transformers.models.paligemma.modeling_paligemma import PaliGemmaForConditionalGeneration
+from myTransformers.models.paligemma.modeling_paligemma import PaliGemmaForConditionalGeneration
 
 from ...cache_utils import Cache
 
 
 class NewTaskModelForNewTask(PaliGemmaForConditionalGeneration):
-    main_input_name: ClassVar[str] = "doc_input_ids"  # transformers-related
+    main_input_name: ClassVar[str] = "doc_input_ids"  # myTransformers-related
 
     def __init__(self, config):
         super().__init__(config=config)

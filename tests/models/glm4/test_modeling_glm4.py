@@ -18,8 +18,8 @@ import unittest
 
 import pytest
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, Glm4Config, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, Glm4Config, is_torch_available
+from myTransformers.testing_utils import (
     require_flash_attn,
     require_torch,
     require_torch_large_gpu,
@@ -35,7 +35,7 @@ from ...test_configuration_common import ConfigTester
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Glm4ForCausalLM,
         Glm4ForSequenceClassification,
         Glm4ForTokenClassification,

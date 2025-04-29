@@ -14,9 +14,9 @@
 
 import unittest
 
-from transformers import BigBirdTokenizer, BigBirdTokenizerFast
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, require_torch, slow
-from transformers.utils import cached_property
+from myTransformers import BigBirdTokenizer, BigBirdTokenizerFast
+from myTransformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, require_torch, slow
+from myTransformers.utils import cached_property
 
 from ...test_tokenization_common import TokenizerTesterMixin
 
@@ -180,7 +180,7 @@ class BigBirdTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import BigBirdConfig, BigBirdModel
+        from myTransformers import BigBirdConfig, BigBirdModel
 
         # Build sequence
         first_ten_tokens = list(self.big_tokenizer.get_vocab().keys())[:10]

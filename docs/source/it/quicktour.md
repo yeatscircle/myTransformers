@@ -84,9 +84,9 @@ pip install tensorflow
 Importa [`pipeline`] e specifica il compito che vuoi completare:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classificatore = pipeline("sentiment-analysis", model="MilaNLProc/feel-it-italian-sentiment")
+>> > classificatore = pipeline("sentiment-analysis", model="MilaNLProc/feel-it-italian-sentiment")
 ```
 
 La pipeline scarica e salva il [modello pre-allenato](https://huggingface.co/MilaNLProc/feel-it-italian-sentiment) e il tokenizer per l'analisi del sentimento. Se non avessimo scelto un modello, la pipeline ne avrebbe scelto uno di default. Ora puoi utilizzare il `classifier` sul tuo testo obiettivo:
@@ -117,11 +117,12 @@ pip install datasets
 Crea una [`pipeline`] con il compito che vuoi risolvere e con il modello che vuoi utilizzare.
 
 ```py
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> riconoscitore_vocale = pipeline(
-...     "automatic-speech-recognition", model="radiogroup-crits/wav2vec2-xls-r-1b-italian-doc4lm-5gram"
+>> > riconoscitore_vocale = pipeline(
+    ...
+"automatic-speech-recognition", model = "radiogroup-crits/wav2vec2-xls-r-1b-italian-doc4lm-5gram"
 ... )
 ```
 
@@ -163,20 +164,20 @@ La [`pipeline`] può ospitare qualsiasi modello del [Model Hub](https://huggingf
 Usa [`AutoModelForSequenceClassification`] e [`AutoTokenizer`] per caricare il modello pre-allenato e il suo tokenizer associato (maggiori informazioni su una `AutoClass` in seguito):
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </pt>
 <tf>
 Usa [`TFAutoModelForSequenceClassification`] e [`AutoTokenizer`] per caricare il modello pre-allenato e il suo tokenizer associato (maggiori informazioni su una `TFAutoClass` in seguito):
 
 ```py
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -206,10 +207,10 @@ Un tokenizer è responsabile dell'elaborazione del testo in modo da trasformarlo
 Carica un tokenizer con [`AutoTokenizer`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> nome_del_modello = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(nome_del_modello)
+>> > nome_del_modello = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(nome_del_modello)
 ```
 
 Dopodiché, il tokenizer converte i token in numeri in modo da costruire un tensore come input del modello. Questo è conosciuto come il *vocabolario* del modello.
@@ -265,10 +266,10 @@ Leggi il tutorial sul [preprocessing](./preprocessing) per maggiori dettagli sul
 🤗 Transformers fornisce un metodo semplice e unificato per caricare istanze pre-allenate. Questo significa che puoi caricare un [`AutoModel`] come caricheresti un [`AutoTokenizer`]. L'unica differenza è selezionare l'[`AutoModel`] corretto per il compito di interesse. Dato che stai facendo classificazione di testi, o sequenze, carica [`AutoModelForSequenceClassification`]:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -298,10 +299,10 @@ tensor([[0.0041, 0.0037, 0.0203, 0.2005, 0.7713],
 🤗 Transformers fornisce un metodo semplice e unificato per caricare istanze pre-allenate. Questo significa che puoi caricare un [`TFAutoModel`] come caricheresti un [`AutoTokenizer`]. L'unica differenza è selezionare il [`TFAutoModel`] corretto per il compito di interesse. Dato che stai facendo classificazione di testi, o sequenze, carica [`TFAutoModelForSequenceClassification`]:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> nome_del_modello = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(nome_del_modello)
+>> > nome_del_modello = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(nome_del_modello)
 ```
 
 <Tip>
@@ -383,19 +384,19 @@ Una caratteristica particolarmente interessante di 🤗 Transformers è la sua a
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>

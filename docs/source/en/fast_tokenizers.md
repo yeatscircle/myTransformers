@@ -26,14 +26,14 @@ Call [`~PreTrainedTokenizer.from_pretrained`] to load a tokenizer and its config
 Pass a string of text to the tokenizer to return the input ids and attention mask, and set the framework tensor type to return with the `return_tensors` parameter.
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-2b")
 tokenizer("We are very happy to show you the 🤗 Transformers library", return_tensors="pt")
-{'input_ids': tensor([[     2,   1734,    708,   1508,   4915,    577,   1500,    692,    573,
-         156808, 128149,   9581, 235265]]), 
+{'input_ids': tensor([[2, 1734, 708, 1508, 4915, 577, 1500, 692, 573,
+                       156808, 128149, 9581, 235265]]),
  'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
-}
+ }
 ```
 
 Whichever tokenizer you use, make sure the tokenizer vocabulary is the same as the pretrained models tokenizer vocabulary. This is especially important if you're using a custom tokenizer with a different vocabulary from the pretrained models tokenizer.
@@ -57,20 +57,20 @@ The [AutoClass](./model_doc/auto) API is a fast and easy way to load a tokenizer
 Use [`~PreTrainedTokenizer.from_pretrained`] to load a tokenizer.
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-2b")
 tokenizer("We are very happy to show you the 🤗 Transformers library.", return_tensors="pt")
-{'input_ids': tensor([[     2,   1734,    708,   1508,   4915,    577,   1500,    692,    573,
-         156808, 128149,   9581, 235265]]), 
+{'input_ids': tensor([[2, 1734, 708, 1508, 4915, 577, 1500, 692, 573,
+                       156808, 128149, 9581, 235265]]),
  'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
-}
+ }
 ```
 
 Load your own tokenizer by passing its vocabulary file to [`~AutoTokenizer.from_pretrained`].
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("./model_directory/my_vocab_file.txt")
 ```
@@ -84,7 +84,7 @@ Each pretrained model is associated with a tokenizer and the specific vocabulary
 > Refer to a models API documentation to check whether a fast tokenizer is supported.
 
 ```py
-from transformers import GemmaTokenizer
+from myTransformers import GemmaTokenizer
 
 tokenizer = GemmaTokenizer.from_pretrained("google/gemma-2-2b")
 tokenizer("We are very happy to show you the 🤗 Transformers library.", return_tensors="pt")
@@ -93,7 +93,7 @@ tokenizer("We are very happy to show you the 🤗 Transformers library.", return
 To load a fast tokenizer, use the fast implementation class.
 
 ```py
-from transformers import GemmaTokenizerFast
+from myTransformers import GemmaTokenizerFast
 
 tokenizer = GemmaTokenizerFast.from_pretrained("google/gemma-2-2b")
 tokenizer("We are very happy to show you the 🤗 Transformers library.", return_tensors="pt")
@@ -102,7 +102,7 @@ tokenizer("We are very happy to show you the 🤗 Transformers library.", return
 Load your own tokenizer by passing its vocabulary file to the `vocab_file` parameter.
 
 ```py
-from transformers import GemmaTokenizerFast
+from myTransformers import GemmaTokenizerFast
 
 tokenizer = GemmaTokenizerFast(vocab_file="my_vocab_file.txt")
 ```
@@ -174,7 +174,7 @@ tokenizer.save("tokenizer.json")
 Now you can load and reuse the tokenizer object in Transformers by passing it to the `tokenizer_object` parameter in [`PreTrainedTokenizerFast`].
 
 ```py
-from transformers import PreTrainedTokenizerFast
+from myTransformers import PreTrainedTokenizerFast
 
 fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 ```
@@ -182,7 +182,7 @@ fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 To load a saved tokenizer from its JSON file, pass the file path to the `tokenizer_file` parameter in [`PreTrainedTokenizerFast`].
 
 ```py
-from transformers import PreTrainedTokenizerFast
+from myTransformers import PreTrainedTokenizerFast
 
 fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
 ```
@@ -196,7 +196,7 @@ There are currently two models trained and released with tiktoken, GPT2 and Llam
 Add the `subfolder` parameter to [`~PreTrainedModel.from_pretrained`] to specify where the `tokenizer.model` tiktoken file is located.
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", subfolder="original") 
 ```
@@ -208,7 +208,7 @@ The tiktoken `tokenizer.model` file contains no information about additional tok
 Generate the tiktoken `tokenizer.model` file with the [tiktoken.get_encoding](https://github.com/openai/tiktoken/blob/63527649963def8c759b0f91f2eb69a40934e468/tiktoken/registry.py#L63) function, and convert it to `tokenizer.json` with [convert_tiktoken_to_fast](https://github.com/huggingface/transformers/blob/99e0ab6ed888136ea4877c6d8ab03690a1478363/src/transformers/integrations/tiktoken.py#L8).
 
 ```py
-from transformers.integrations.tiktoken import convert_tiktoken_to_fast
+from myTransformers.integrations.tiktoken import convert_tiktoken_to_fast
 from tiktoken import get_encoding
 
 # Load your custom encoding or the one provided by OpenAI
@@ -229,14 +229,14 @@ tokenizer = PreTrainedTokenizerFast.from_pretrained("config/save/dir")
 A Transformers model expects the input to be a PyTorch, TensorFlow, or NumPy tensor. A tokenizers job is to preprocess text into those tensors. Specify the framework tensor type to return with the `return_tensors` parameter.
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-2b")
 tokenizer("We are very happy to show you the 🤗 Transformers library.", return_tensors="pt")
-{'input_ids': tensor([[     2,   1734,    708,   1508,   4915,    577,   1500,    692,    573,
-         156808, 128149,   9581, 235265]]), 
+{'input_ids': tensor([[2, 1734, 708, 1508, 4915, 577, 1500, 692, 573,
+                       156808, 128149, 9581, 235265]]),
  'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
-}
+ }
 ```
 
 The tokenization process of converting text into input ids is completed in two steps.

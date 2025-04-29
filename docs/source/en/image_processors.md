@@ -24,7 +24,7 @@ Image processors converts images into pixel values, tensors that represent image
 Use [`~ImageProcessingMixin.from_pretrained`] to load an image processors configuration (image size, whether to normalize and rescale, etc.) from a vision model on the Hugging Face [Hub](https://hf.co) or local directory. The configuration for each pretrained model is saved in a [preprocessor_config.json](https://huggingface.co/google/vit-base-patch16-224/blob/main/preprocessor_config.json) file.
 
 ```py
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
 
 image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
@@ -61,7 +61,7 @@ The [AutoClass](./model_doc/auto) API provides a convenient method to load an im
 Use [`~AutoImageProcessor.from_pretrained`] to load an image processor, and set `use_fast=True` to load a fast image processor if it's supported.
 
 ```py
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
 
 image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224", use_fast=True)
 ```
@@ -74,7 +74,7 @@ Each image processor is associated with a specific pretrained vision model, and 
 The image processor can be loaded directly from the model-specific class. Check a models API documentation to see whether it supports a fast image processor.
 
 ```py
-from transformers import ViTImageProcessor
+from myTransformers import ViTImageProcessor
 
 image_processor = ViTImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
@@ -82,7 +82,7 @@ image_processor = ViTImageProcessor.from_pretrained("google/vit-base-patch16-224
 To load a fast image processor, use the fast implementation class.
 
 ```py
-from transformers import ViTImageProcessorFast
+from myTransformers import ViTImageProcessorFast
 
 image_processor = ViTImageProcessorFast.from_pretrained("google/vit-base-patch16-224")
 ```
@@ -95,7 +95,7 @@ image_processor = ViTImageProcessorFast.from_pretrained("google/vit-base-patch16
 [`BaseImageProcessorFast`] is based on [torchvision](https://pytorch.org/vision/stable/index.html) and is significantly faster, especially when processing on a GPU. This class can be used as a drop-in replacement for [`BaseImageProcessor`] if it's available for a model because it has the same design. Make sure [torchvision](https://pytorch.org/get-started/locally/#mac-installation) is installed, and set the `use_fast` parameter to `True`.
 
 ```py
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
 
 processor = AutoImageProcessor.from_pretrained("facebook/detr-resnet-50", use_fast=True)
 ```
@@ -104,7 +104,7 @@ Control which device processing is performed on with the `device` parameter. Pro
 
 ```py
 from torchvision.io import read_image
-from transformers import DetrImageProcessorFast
+from myTransformers import DetrImageProcessorFast
 
 images = read_image("image.jpg")
 processor = DetrImageProcessorFast.from_pretrained("facebook/detr-resnet-50")

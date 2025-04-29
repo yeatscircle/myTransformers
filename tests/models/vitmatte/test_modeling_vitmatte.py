@@ -17,14 +17,14 @@ import unittest
 
 from huggingface_hub import hf_hub_download
 
-from transformers import VitMatteConfig
-from transformers.testing_utils import (
+from myTransformers import VitMatteConfig
+from myTransformers.testing_utils import (
     require_timm,
     require_torch,
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor
@@ -34,13 +34,13 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import VitDetConfig, VitMatteForImageMatting
+    from myTransformers import VitDetConfig, VitMatteForImageMatting
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import VitMatteImageProcessor
+    from myTransformers import VitMatteImageProcessor
 
 
 class VitMatteModelTester:

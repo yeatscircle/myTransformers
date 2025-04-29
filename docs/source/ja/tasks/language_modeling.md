@@ -44,7 +44,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -103,9 +103,9 @@ pip install transformers datasets evaluate
 次のステップは、`text`サブフィールドを処理するために DistilGPT2 トークナイザーをロードすることです。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 ```
 
 上の例からわかるように、`text`フィールドは実際には`answers`内にネストされています。つまり、次のことが必要になります。
@@ -191,10 +191,10 @@ Apply the `group_texts` function over the entire dataset:
 シーケンス終了トークンをパディング トークンとして使用し、`mlm=False` を設定します。これは、入力を 1 要素分右にシフトしたラベルとして使用します。
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 ```
 
 </pt>
@@ -202,9 +202,9 @@ Apply the `group_texts` function over the entire dataset:
 シーケンス終了トークンをパディング トークンとして使用し、`mlm=False` を設定します。これは、入力を 1 要素分右にシフトしたラベルとして使用します。
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 
 </tf>
@@ -223,11 +223,10 @@ Apply the `group_texts` function over the entire dataset:
 
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForCausalLM`] を使用して DistilGPT2 をロードします。
 
-
 ```py
->>> from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCausalLM, TrainingArguments, Trainer
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 この時点で残っている手順は次の 3 つだけです。
@@ -281,17 +280,17 @@ Keras を使用したモデルの微調整に慣れていない場合は、[基�
 TensorFlow でモデルを微調整するには、オプティマイザー関数、学習率スケジュール、およびいくつかのトレーニング ハイパーパラメーターをセットアップすることから始めます。
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 次に、[`TFAutoModelForCausalLM`] を使用して DistilGPT2 をロードできます。
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] を使用して、データセットを `tf.data.Dataset` 形式に変換します。
@@ -322,14 +321,14 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 
 これは、モデルとトークナイザーを [`~transformers.PushToHubCallback`] でプッシュする場所を指定することで実行できます。
 
-
-
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_clm-model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_clm-model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -366,13 +365,13 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用してテキスト生成用の`pipeline`をインスタンス化し、それにテキストを渡します。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline("text-generation", model="my_awesome_eli5_clm-model")
->>> generator(prompt)
-[{'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
+>> > generator = pipeline("text-generation", model="my_awesome_eli5_clm-model")
+>> > generator(prompt)
+[{
+     'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
 ```
 
 <frameworkcontent>
@@ -382,20 +381,20 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 テキストをトークン化し、「input_ids」を PyTorch テンソルとして返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="pt").input_ids
 ```
 
 [`~generation.GenerationMixin.generate`] メソッドを使用してテキストを生成します。
 さまざまなテキスト生成戦略と生成を制御するためのパラメーターの詳細については、[テキスト生成戦略](../generation_strategies) ページを参照してください。
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = AutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 生成されたトークン ID をデコードしてテキストに戻します。
@@ -411,19 +410,19 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 テキストをトークン化し、`input_ids`を TensorFlow テンソルとして返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="tf").input_ids
 ```
 
 [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] メソッドを使用して要約を作成します。さまざまなテキスト生成戦略と生成を制御するためのパラメーターの詳細については、[テキスト生成戦略](../generation_strategies) ページを参照してください。
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
->>> outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = TFAutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
+>> > outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 生成されたトークン ID をデコードしてテキストに戻します。

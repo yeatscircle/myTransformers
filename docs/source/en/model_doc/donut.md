@@ -38,7 +38,7 @@ The examples below demonstrate how to perform document understanding tasks using
 ```py
 # pip install datasets
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 from PIL import Image
 
 pipeline = pipeline(
@@ -60,7 +60,7 @@ pipeline(image=image, question="What time is the coffee break?")
 # pip install datasets
 import torch
 from datasets import load_dataset
-from transformers import AutoProcessor, AutoModelForVision2Seq
+from myTransformers import AutoProcessor, AutoModelForVision2Seq
 
 processor = AutoProcessor.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa")
 model = AutoModelForVision2Seq.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa")
@@ -91,11 +91,12 @@ The example below uses [torchao](../quantization/torchao) to only quantize the w
 # pip install datasets torchao
 import torch
 from datasets import load_dataset
-from transformers import TorchAoConfig, AutoProcessor, AutoModelForVision2Seq
+from myTransformers import TorchAoConfig, AutoProcessor, AutoModelForVision2Seq
 
 quantization_config = TorchAoConfig("int4_weight_only", group_size=128)
 processor = AutoProcessor.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa")
-model = AutoModelForVision2Seq.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa", quantization_config=quantization_config)
+model = AutoModelForVision2Seq.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa",
+                                               quantization_config=quantization_config)
 
 dataset = load_dataset("hf-internal-testing/example-documents", split="test")
 image = dataset[0]["image"]
@@ -118,7 +119,7 @@ print(answer)
 
     ```py
     >>> import re
-    >>> from transformers import DonutProcessor, VisionEncoderDecoderModel
+    >>> from myTransformers import DonutProcessor, VisionEncoderDecoderModel
     >>> from datasets import load_dataset
     >>> import torch
 
@@ -160,7 +161,7 @@ print(answer)
 
     ```py
     >>> import re
-    >>> from transformers import DonutProcessor, VisionEncoderDecoderModel
+    >>> from myTransformers import DonutProcessor, VisionEncoderDecoderModel
     >>> from datasets import load_dataset
     >>> import torch
 

@@ -17,8 +17,8 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import require_torch, require_torchvision, require_vision
-from transformers.utils import is_torch_available, is_torchvision_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_torchvision, require_vision
+from myTransformers.utils import is_torch_available, is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -32,7 +32,7 @@ if is_torchvision_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import IdeficsImageProcessor
+    from myTransformers import IdeficsImageProcessor
 
 
 class IdeficsImageProcessingTester:
@@ -152,7 +152,7 @@ class IdeficsImageProcessingTest(ImageProcessingTestMixin, unittest.TestCase):
 
     @require_torchvision
     def test_torchvision_numpy_transforms_equivalency(self):
-        # as we had to reimplement the torchvision transforms using transformers utils we must check
+        # as we had to reimplement the torchvision transforms using myTransformers utils we must check
         # they both do the same
 
         image_inputs = self.image_processor_tester.prepare_image_inputs(equal_resolution=False)

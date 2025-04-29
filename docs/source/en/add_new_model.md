@@ -113,8 +113,8 @@ In addition to learning more about your model, use the tips below to help you ad
 Click on the **Fork** button on the [Transformers](https://github.com/huggingface/transformers) repository to create your own copy to work on. Clone the repository to your local disk and add the base repository as the remote.
 
 ```bash
-git clone https://github.com/[your Github handle]/transformers.git
-cd transformers
+git clone https://github.com/[your Github handle]/myTransformers.git
+cd myTransformers
 git remote add upstream https://github.com/huggingface/transformers.git
 ```
 
@@ -143,7 +143,7 @@ pip install -e .
 Return to your clone of Transformers to begin porting BrandNewLlama.
 
 ```bash
-cd transformers
+cd myTransformers
 ```
 
 There are two possible debugging environments for running the original model, a notebook ([Google Colab](https://colab.research.google.com/notebooks/intro.ipynb) or [Jupyter](https://jupyter.org/)) or a local Python script.
@@ -161,7 +161,7 @@ The downside is that if you aren't used to them, it may take some time to get us
 Run the command below to start and complete the questionnaire with some basic information about the new model. This command jumpstarts the process by automatically generating some model code that you'll need to adapt.
 
 ```bash
-transformers-cli add-new-model-like
+myTransformers-cli add-new-model-like
 ```
 
 ## Create a pull request
@@ -304,7 +304,8 @@ The automatically generated code in the `modeling.py` file has the same architec
 At this point, your code doesn't have to be clean or even fully correct, It is more efficient to quickly create a first draft and then iteratively improve on it. The most important thing is that your model can be instantiated from Transformers. The command below creates a model from the configuration with random weights, verifying that the `__init__` method works.
 
 ```py
-from transformers import BrandNewLlama, BrandNewLlamaConfig
+from myTransformers import BrandNewLlama, BrandNewLlamaConfig
+
 model = BrandNewLlama(BrandNewLlamaConfig())
 ```
 
@@ -532,7 +533,7 @@ input_ids = model.tokenize(input_str)
 You may need to search the original repository to find the correct tokenizer function or modify the existing tokenizer in your clone of the original repository to only return the `input_ids`. The script for your tokenizer should look similar to the following.
 
 ```py
-from transformers import BrandNewLlamaTokenizer
+from myTransformers import BrandNewLlamaTokenizer
 
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 tokenizer = BrandNewLlamaTokenizer.from_pretrained("/path/to/tokenizer/folder/")
@@ -554,7 +555,7 @@ If you do need to implement a new image processor, refer to an existing image pr
 Run the following command (only if you haven't already created the fast image processor with the `transformers-cli add-new-model-like` command) to generate the necessary imports and to create a prefilled template for the fast image processor. Modify the template to fit your model.
 
 ```bash
-transformers-cli add-fast-image-processor --model-name your_model_name
+myTransformers-cli add-fast-image-processor --model-name your_model_name
 ```
 
 This command will generate the necessary imports and provide a pre-filled template for the fast image processor. You can then modify it to fit your model's needs.

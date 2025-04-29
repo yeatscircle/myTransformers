@@ -164,7 +164,7 @@ The resulting model can be seen here: https://huggingface.co/nielsr/segformer-fi
 This means that after training, you can easily load your trained model as follows:
 
 ```python
-from transformers import AutoImageProcessor, AutoModelForSemanticSegmentation
+from myTransformers import AutoImageProcessor, AutoModelForSemanticSegmentation
 
 model_name = "name_of_repo_on_the_hub_or_path_to_local_folder"
 

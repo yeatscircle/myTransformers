@@ -187,8 +187,8 @@ seiner Aufmerksamkeitsebene usw. Wir werden Ihnen gerne weiterhelfen.
 2. Klonen Sie Ihren `transformers` Fork auf Ihre lokale Festplatte und fügen Sie das Basis-Repository als Remote hinzu:
 
 ```bash
-git clone https://github.com/[your Github handle]/transformers.git
-cd transformers
+git clone https://github.com/[your Github handle]/myTransformers.git
+cd myTransformers
 git remote add upstream https://github.com/huggingface/transformers.git
 ```
 
@@ -391,7 +391,7 @@ Im folgenden Abschnitt finden Sie genauere Details/Tipps, wie Sie dies für *bra
 Als nächstes können Sie endlich damit beginnen, neuen Code zu 🤗 Transformers hinzuzufügen. Gehen Sie in den Klon Ihres 🤗 Transformers Forks:
 
 ```bash
-cd transformers
+cd myTransformers
 ```
 
 In dem speziellen Fall, dass Sie ein Modell hinzufügen, dessen Architektur genau mit der Modellarchitektur eines
@@ -402,7 +402,7 @@ Andernfalls beginnen wir mit der Erstellung eines neuen Modells. Wir empfehlen d
 ein bestehendes Modell:
 
 ```bash
-transformers-cli add-new-model-like
+myTransformers-cli add-new-model-like
 ```
 
 Sie werden mit einem Fragebogen aufgefordert, die grundlegenden Informationen Ihres Modells einzugeben.
@@ -492,7 +492,7 @@ zu diesem Zeitpunkt funktionieren muss, ist, dass Sie die 🤗 Transformers-Impl
 folgende Befehl sollte funktionieren:
 
 ```python
-from transformers import BrandNewBertModel, BrandNewBertConfig
+from myTransformers import BrandNewBertModel, BrandNewBertConfig
 
 model = BrandNewBertModel(BrandNewBertConfig())
 ```
@@ -786,7 +786,7 @@ ein funktionierendes Tokenisierungsskript geschrieben, das das ursprüngliche Re
 erstellt werden. Es sollte ähnlich wie dieses aussehen:
 
 ```python
-from transformers import BrandNewBertTokenizer
+from myTransformers import BrandNewBertTokenizer
 
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 

@@ -95,10 +95,10 @@ rendered properly in your Markdown viewer.
 예를 들어, [`~transformers.BertTokenizer`]는 `"I have a new GPU!"` 라는 문장을 아래와 같이 토큰화합니다:
 
 ```py
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> tokenizer.tokenize("I have a new GPU!")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer.tokenize("I have a new GPU!")
 ["i", "have", "a", "new", "gp", "##u", "!"]
 ```
 
@@ -108,11 +108,12 @@ rendered properly in your Markdown viewer.
 `"##"`은 토큰의 나머지 부분이 공백 없이 이전 토큰에 연결되어야(attach) 함을 의미합니다(토큰화 디코딩 또는 역전을 위해).
 
 또 다른 예로, [`~transformers.XLNetTokenizer`]는 이전에 예시 문장을 다음과 같이 토큰화합니다:
-```py
->>> from transformers import XLNetTokenizer
 
->>> tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
->>> tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
+```py
+>> > from myTransformers import XLNetTokenizer
+
+>> > tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
+>> > tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
 ["▁Don", "'", "t", "▁you", "▁love", "▁", "🤗", "▁", "Transform", "ers", "?", "▁We", "▁sure", "▁do", "."]
 ```
 

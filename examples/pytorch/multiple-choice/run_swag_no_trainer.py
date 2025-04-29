@@ -37,8 +37,8 @@ from huggingface_hub import HfApi
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -49,7 +49,7 @@ from transformers import (
     default_data_collator,
     get_scheduler,
 )
-from transformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils import check_min_version, send_example_telemetry
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -62,7 +62,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Finetune a transformers model on a multiple choice task")
+    parser = argparse.ArgumentParser(description="Finetune a myTransformers model on a multiple choice task")
     parser.add_argument(
         "--dataset_name",
         type=str,
@@ -250,10 +250,10 @@ def main():
     logger.info(accelerator.state, main_process_only=False)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

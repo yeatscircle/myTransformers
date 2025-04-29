@@ -42,7 +42,7 @@ Check the [Depth Estimation](https://huggingface.co/tasks/depth-estimation) task
 Before we begin, we need to install the latest version of Transformers:
 
 ```bash
-pip install -q -U transformers
+pip install -q -U myTransformers
 ```
 
 ## Depth estimation pipeline
@@ -51,13 +51,13 @@ The simplest way to try out inference with a model supporting depth estimation i
 Instantiate a pipeline from a [checkpoint on the Hugging Face Hub](https://huggingface.co/models?pipeline_tag=depth-estimation&sort=downloads):
 
 ```py
->>> from transformers import pipeline
->>> import torch
->>> from accelerate.test_utils.testing import get_backend
+>> > from myTransformers import pipeline
+>> > import torch
+>> > from accelerate.test_utils.testing import get_backend
 # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
->>> device, _, _ = get_backend()
->>> checkpoint = "depth-anything/Depth-Anything-V2-base-hf"
->>> pipe = pipeline("depth-estimation", model=checkpoint, device=device)
+>> > device, _, _ = get_backend()
+>> > checkpoint = "depth-anything/Depth-Anything-V2-base-hf"
+>> > pipe = pipeline("depth-estimation", model=checkpoint, device=device)
 ```
 
 Next, choose an image to analyze:
@@ -103,12 +103,12 @@ Start by loading the model and associated processor from a [checkpoint on the Hu
 Here we'll use the same checkpoint as before:
 
 ```py
->>> from transformers import AutoImageProcessor, AutoModelForDepthEstimation
+>> > from myTransformers import AutoImageProcessor, AutoModelForDepthEstimation
 
->>> checkpoint = "Intel/zoedepth-nyu-kitti"
+>> > checkpoint = "Intel/zoedepth-nyu-kitti"
 
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
->>> model = AutoModelForDepthEstimation.from_pretrained(checkpoint).to(device)
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForDepthEstimation.from_pretrained(checkpoint).to(device)
 ```
 
 Prepare the image input for the model using the `image_processor` that will take care of the necessary image transformations

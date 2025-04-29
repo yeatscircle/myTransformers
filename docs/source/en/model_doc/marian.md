@@ -75,22 +75,23 @@ New multi-lingual models from the [Tatoeba-Challenge repo](https://github.com/He
 require 3 character language codes:
 
 ```python
->>> from transformers import MarianMTModel, MarianTokenizer
+>> > from myTransformers import MarianMTModel, MarianTokenizer
 
->>> src_text = [
-...     ">>fra<< this is a sentence in english that we want to translate to french",
-...     ">>por<< This should go to portuguese",
-...     ">>esp<< And this to Spanish",
-... ]
+>> > src_text = [
+    ...     ">>fra<< this is a sentence in english that we want to translate to french",
+    ...     ">>por<< This should go to portuguese",
+    ...     ">>esp<< And this to Spanish",
+    ...]
 
->>> model_name = "Helsinki-NLP/opus-mt-en-roa"
->>> tokenizer = MarianTokenizer.from_pretrained(model_name)
->>> print(tokenizer.supported_language_codes)
-['>>zlm_Latn<<', '>>mfe<<', '>>hat<<', '>>pap<<', '>>ast<<', '>>cat<<', '>>ind<<', '>>glg<<', '>>wln<<', '>>spa<<', '>>fra<<', '>>ron<<', '>>por<<', '>>ita<<', '>>oci<<', '>>arg<<', '>>min<<']
+>> > model_name = "Helsinki-NLP/opus-mt-en-roa"
+>> > tokenizer = MarianTokenizer.from_pretrained(model_name)
+>> > print(tokenizer.supported_language_codes)
+['>>zlm_Latn<<', '>>mfe<<', '>>hat<<', '>>pap<<', '>>ast<<', '>>cat<<', '>>ind<<', '>>glg<<', '>>wln<<', '>>spa<<',
+ '>>fra<<', '>>ron<<', '>>por<<', '>>ita<<', '>>oci<<', '>>arg<<', '>>min<<']
 
->>> model = MarianMTModel.from_pretrained(model_name)
->>> translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
->>> [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+>> > model = MarianMTModel.from_pretrained(model_name)
+>> > translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
+>> > [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
 ["c'est une phrase en anglais que nous voulons traduire en français",
  'Isto deve ir para o português.',
  'Y esto al español']
@@ -139,23 +140,22 @@ GROUP_MEMBERS = {
 
 Example of translating english to many romance languages, using old-style 2 character language codes
 
-
 ```python
->>> from transformers import MarianMTModel, MarianTokenizer
+>> > from myTransformers import MarianMTModel, MarianTokenizer
 
->>> src_text = [
-...     ">>fr<< this is a sentence in english that we want to translate to french",
-...     ">>pt<< This should go to portuguese",
-...     ">>es<< And this to Spanish",
-... ]
+>> > src_text = [
+    ...     ">>fr<< this is a sentence in english that we want to translate to french",
+    ...     ">>pt<< This should go to portuguese",
+    ...     ">>es<< And this to Spanish",
+    ...]
 
->>> model_name = "Helsinki-NLP/opus-mt-en-ROMANCE"
->>> tokenizer = MarianTokenizer.from_pretrained(model_name)
+>> > model_name = "Helsinki-NLP/opus-mt-en-ROMANCE"
+>> > tokenizer = MarianTokenizer.from_pretrained(model_name)
 
->>> model = MarianMTModel.from_pretrained(model_name)
->>> translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
->>> tgt_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
-["c'est une phrase en anglais que nous voulons traduire en français", 
+>> > model = MarianMTModel.from_pretrained(model_name)
+>> > translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
+>> > tgt_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+["c'est une phrase en anglais que nous voulons traduire en français",
  'Isto deve ir para o português.',
  'Y esto al español']
 ```

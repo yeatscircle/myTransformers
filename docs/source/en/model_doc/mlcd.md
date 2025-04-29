@@ -50,7 +50,7 @@ Result:
 ```python
 import requests
 from PIL import Image
-from transformers import AutoProcessor, MLCDVisionModel
+from myTransformers import AutoProcessor, MLCDVisionModel
 
 # Load model and processor
 model = MLCDVisionModel.from_pretrained("DeepGlint-AI/mlcd-vit-bigG-patch14-448")

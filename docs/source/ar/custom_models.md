@@ -20,7 +20,7 @@
 في مثالنا، سنعدّل بعض الوسائط في فئة ResNet التي قد نرغب في ضبطها. ستعطينا التكوينات المختلفة أنواع ResNets المختلفة الممكنة. سنقوم بتخزين هذه الوسائط بعد التحقق من صحته.
 
 ```python
-from transformers import PretrainedConfig
+from myTransformers import PretrainedConfig
 from typing import List
 
 
@@ -28,17 +28,17 @@ class ResnetConfig(PretrainedConfig):
     model_type = "resnet"
 
     def __init__(
-        self,
-        block_type="bottleneck",
-        layers: List[int] = [3, 4, 6, 3],
-        num_classes: int = 1000,
-        input_channels: int = 3,
-        cardinality: int = 1,
-        base_width: int = 64,
-        stem_width: int = 64,
-        stem_type: str = "",
-        avg_down: bool = False,
-        **kwargs,
+            self,
+            block_type="bottleneck",
+            layers: List[int] = [3, 4, 6, 3],
+            num_classes: int = 1000,
+            input_channels: int = 3,
+            cardinality: int = 1,
+            base_width: int = 64,
+            stem_width: int = 64,
+            stem_type: str = "",
+            avg_down: bool = False,
+            **kwargs,
     ):
         if block_type not in ["basic", "bottleneck"]:
             raise ValueError(f"`block_type` must be 'basic' or bottleneck', got {block_type}.")
@@ -91,10 +91,9 @@ resnet50d_config = ResnetConfig.from_pretrained("custom-resnet")
  كما ذكرنا سابقًا، سنقوم ببناء نموذج مبسط لتسهيل الفهم في هذا المثال. الخطوة الوحيدة المطلوبة قبل كتابة هذه الفئة هي لربط أنواع وحدات البناء بفئات ذات وحدات بناء فعلية. بعد ذلك، يُعرّف النموذج من خلال التكوين عبر تمرير كل شيء إلى فئة `ResNet`:
 
 ```py
-from transformers import PreTrainedModel
+from myTransformers import PreTrainedModel
 from timm.models.resnet import BasicBlock, Bottleneck, ResNet
 from .configuration_resnet import ResnetConfig
-
 
 BLOCK_MAPPING = {"basic": BasicBlock, "bottleneck": Bottleneck}
 
@@ -191,7 +190,7 @@ resnet50d.model.load_state_dict(pretrained_model.state_dict())
 ما دام تكوينك يحتوي على معامل  `model_type` مختلفة عن أنواع النماذج الحالية، وأن فئات نماذجك لديك لديها الخصائص الصحيحة `config_class`، فيمكنك ببساطة إضافتها إلى الفئات التلقائية مثل هذا:
 
 ```py
-from transformers import AutoConfig, AutoModel, AutoModelForImageClassification
+from myTransformers import AutoConfig, AutoModel, AutoModelForImageClassification
 
 AutoConfig.register("resnet", ResnetConfig)
 AutoModel.register(ResnetConfig, ResnetModel)
@@ -306,7 +305,7 @@ resnet50d.push_to_hub("custom-resnet50d")
 يمكنك استخدام أي تكوين أو نموذج أو مقسم لغوي مع ملفات برمجة مخصصة في مستودعه باستخدام الفئات التلقائية و دالة `from_pretrained`.تُفحص جميع الملفات والرموز المرفوع إلى Hub بحثًا عن البرامج الضارة (راجع وثائق [أمان Hub](https://huggingface.co/docs/hub/security#malware-scanning) لمزيد من المعلومات)، ولكن يجب عليك مراجعة كود النموذج والمؤلف لتجنب تنفيذ التعليمات البرمجية الضارة على جهازك. لتفعيل نموذج يحتوي على شفرة برمجية مخصصة،  عيّن `trust_remote_code=True`:
 
 ```py
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("sgugger/custom-resnet50d", trust_remote_code=True)
 ```

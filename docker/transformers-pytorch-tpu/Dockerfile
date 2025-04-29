@@ -46,14 +46,14 @@ RUN pip uninstall -y torch && \
 ENV LD_LIBRARY_PATH=root/miniconda3/envs/container/lib
 
 
-# Install huggingface/transformers at the current PR, plus dependencies.
+# Install huggingface/myTransformers at the current PR, plus dependencies.
 RUN git clone https://github.com/huggingface/transformers.git && \
-    cd transformers && \
+    cd myTransformers && \
     git fetch origin $GITHUB_REF:CI && \
     git checkout CI && \
     cd .. && \
-    pip install ./transformers && \
-    pip install -r ./transformers/examples/pytorch/_test_requirements.txt && \
+    pip install ./myTransformers && \
+    pip install -r ./myTransformers/examples/pytorch/_test_requirements.txt && \
     pip install pytest
 
 RUN python -c "import torch_xla; print(torch_xla.__version__)"

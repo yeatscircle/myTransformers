@@ -28,8 +28,8 @@ from libcst import ClassDef, CSTVisitor
 from libcst import matchers as m
 from libcst.metadata import MetadataWrapper, ParentNodeProvider, PositionProvider, ScopeProvider
 
-from transformers import logging
-from transformers.models.auto.configuration_auto import CONFIG_MAPPING_NAMES
+from myTransformers import logging
+from myTransformers.models.auto.configuration_auto import CONFIG_MAPPING_NAMES
 
 
 logger = logging.get_logger(__name__)
@@ -1242,14 +1242,14 @@ class ModularFileMapper(ModuleMapper):
         # fmt: off
         self.model_name = new_name  # name of the model being defined. Should be in the format of `llama` or `layout_xlm` or `phi3`
 
-        self.model_specific_imported_objects: Dict[str, str] = {}  # e.g. {"LlamaModel": "transformers.models.llama.modeling_llama"}
-        self.model_specific_modules: Dict[str, cst.Module] = {}  # e.g. {"transformers.models.llama.modeling_llama": cst.Module}
+        self.model_specific_imported_objects: Dict[str, str] = {}  # e.g. {"LlamaModel": "myTransformers.models.llama.modeling_llama"}
+        self.model_specific_modules: Dict[str, cst.Module] = {}  # e.g. {"myTransformers.models.llama.modeling_llama": cst.Module}
 
         self.all_all_to_add = {}
         # fmt: on
 
     def visit_ImportFrom(self, node: cst.ImportFrom) -> None:
-        """When visiting imports from modeling files (i.e. `transformers.models.xxx`) we get the code, parse it,
+        """When visiting imports from modeling files (i.e. `myTransformers.models.xxx`) we get the code, parse it,
         and save it in `self.model_specific_modules` to later visit. The imported objects are saved in `self.model_specific_imported_objects`.
         """
         import_module = self.python_module.code_for_node(node.module)
@@ -1259,7 +1259,7 @@ class ModularFileMapper(ModuleMapper):
         if m.matches(node.module, m.Attribute()):
             for imported_ in node.names:
                 _import = re.search(
-                    rf"(?:transformers\.models\.)|(?:\.\.)\w+\.({self.match_patterns})_.*", import_statement
+                    rf"(?:myTransformers\.models\.)|(?:\.\.)\w+\.({self.match_patterns})_.*", import_statement
                 )
                 if _import:
                     source = _import.group(1)
@@ -1270,15 +1270,15 @@ class ModularFileMapper(ModuleMapper):
                     if import_module not in self.model_specific_modules:
                         if "models" not in import_module:
                             import_module = "models." + import_module
-                        if "transformers" not in import_module:
-                            import_module = "transformers." + import_module
+                        if "myTransformers" not in import_module:
+                            import_module = "myTransformers." + import_module
                         source_code = get_module_source_from_name(import_module)
                         tree = cst.parse_module(source_code)
                         self.model_specific_modules[import_module] = tree
                     imported_object = self.python_module.code_for_node(imported_.name)
                     self.model_specific_imported_objects[imported_object] = import_module
         if m.matches(node.module, m.Name()):
-            if "transformers" == import_module:
+            if "myTransformers" == import_module:
                 raise ValueError(
                     f"You are importing from {import_module} directly using global imports. Import from the correct local path"
                 )
@@ -1298,7 +1298,7 @@ class ModularFileMapper(ModuleMapper):
                 import_module = self.python_module.code_for_node(node.body[0].module)
                 import_statement = "." * len(node.body[0].relative) + import_module
                 if not (
-                    re.search(rf"(?:transformers\.models\.)|(?:\.\.)\w+\.({self.match_patterns})_.*", import_statement)
+                    re.search(rf"(?:myTransformers\.models\.)|(?:\.\.)\w+\.({self.match_patterns})_.*", import_statement)
                     and not any(import_to_skip in import_statement for import_to_skip in IMPORTS_TO_SKIP_IN_MODULAR)
                 ):
                     self.imports.append(node)
@@ -1352,7 +1352,7 @@ class ModularFileMapper(ModuleMapper):
         # Note that we may visit several of the same file types, thus we save them per file type, not file
         self.imported_objects_per_file = defaultdict(set)
         for file, mapper in self.visited_modules.items():
-            file_type = re.search(rf"^transformers\.models\.\w+\.({self.match_patterns})_.*", file).group(1)
+            file_type = re.search(rf"^myTransformers\.models\.\w+\.({self.match_patterns})_.*", file).group(1)
             self.imported_objects_per_file[file_type].update(mapper.objects_imported_from_modeling)
 
     def merge_model_specific_imports(self, visited_modules):
@@ -1583,7 +1583,7 @@ def get_class_node_and_dependencies(
     # This is used to avoid adding objects to the dependencies graph if they will be imported already
     imported_objects = modular_mapper.imported_objects_per_file[file_type]
 
-    # We need to replace the class node with the transformers (modeling file) super class node
+    # We need to replace the class node with the myTransformers (modeling file) super class node
     if super_class is not None:
         super_file_name = modular_mapper.model_specific_imported_objects[super_class]
 
@@ -1617,7 +1617,7 @@ def get_class_node_and_dependencies(
             dep: (relative_dependency_order[dep], mapper.global_nodes[dep]) for dep in all_dependencies_to_add
         }
 
-    # No transformers (modeling file) super class, just check functions and assignments dependencies
+    # No myTransformers (modeling file) super class, just check functions and assignments dependencies
     else:
         updated_node = node
         # The node was NOT modified -> no need to look recursively for other class dependencies. Indeed, even if they are not
@@ -1712,9 +1712,9 @@ def convert_modular_file(modular_file):
         wrapper.visit(cst_transformers)
         for file, module in create_modules(cst_transformers).items():
             if module != {}:
-                # Get relative path starting from src/transformers/
+                # Get relative path starting from src/myTransformers/
                 relative_path = re.search(
-                    r"(src/transformers/.*|examples/.*)", os.path.abspath(modular_file).replace("\\", "/")
+                    r"(src/myTransformers/.*|examples/.*)", os.path.abspath(modular_file).replace("\\", "/")
                 ).group(1)
 
                 header = AUTO_GENERATED_MESSAGE.format(
@@ -1762,16 +1762,16 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     if args.files_to_parse == ["all"]:
-        args.files_to_parse = glob.glob("src/transformers/models/**/modular_*.py", recursive=True)
+        args.files_to_parse = glob.glob("src/myTransformers/models/**/modular_*.py", recursive=True)
     if args.files_to_parse == ["examples"]:
         args.files_to_parse = glob.glob("examples/**/modular_*.py", recursive=True)
     else:
         for i, model_name in enumerate(args.files_to_parse):
             if os.sep not in model_name:
-                full_path = os.path.join("src", "transformers", "models", model_name, f"modular_{model_name}.py")
+                full_path = os.path.join("src", "myTransformers", "models", model_name, f"modular_{model_name}.py")
                 # If it does not exist, try in the examples section
                 if not os.path.isfile(full_path):
-                    full_path = os.path.join("examples", "modular-transformers", f"modular_{model_name}.py")
+                    full_path = os.path.join("examples", "modular-myTransformers", f"modular_{model_name}.py")
                 # We did not find it anywhere
                 if not os.path.isfile(full_path):
                     raise ValueError(f"Cannot find a modular file for {model_name}. Please provide the full path.")

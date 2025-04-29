@@ -54,25 +54,25 @@ Load the AWQ-quantized model with [`~PreTrainedModel.from_pretrained`]. This aut
 If the model is loaded on the CPU, use the `device_map` parameter to move it to a GPU.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 model = AutoModelForCausalLM.from_pretrained(
-  "TheBloke/zephyr-7B-alpha-AWQ",
-  torch_dtype=torch.float32,
-  device_map="cuda:0"
+    "TheBloke/zephyr-7B-alpha-AWQ",
+    torch_dtype=torch.float32,
+    device_map="cuda:0"
 )
 ```
 
 Use `attn_implementation` to enable [FlashAttention2](../perf_infer_gpu_one#flashattention-2) to further accelerate inference.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model = AutoModelForCausalLM.from_pretrained(
-  "TheBloke/zephyr-7B-alpha-AWQ",
-  attn_implementation="flash_attention_2",
-  device_map="cuda:0"
+    "TheBloke/zephyr-7B-alpha-AWQ",
+    attn_implementation="flash_attention_2",
+    device_map="cuda:0"
 )
 ```
 
@@ -92,7 +92,7 @@ The example below fuses the AWQ modules of the [TheBloke/Mistral-7B-OpenOrca-AWQ
 
 ```python
 import torch
-from transformers import AwqConfig, AutoModelForCausalLM
+from myTransformers import AwqConfig, AutoModelForCausalLM
 
 quantization_config = AwqConfig(
     bits=4,
@@ -100,8 +100,8 @@ quantization_config = AwqConfig(
     do_fuse=True,
 )
 model = AutoModelForCausalLM.from_pretrained(
-  "TheBloke/Mistral-7B-OpenOrca-AWQ",
-  quantization_config=quantization_config
+    "TheBloke/Mistral-7B-OpenOrca-AWQ",
+    quantization_config=quantization_config
 ).to(0)
 ```
 
@@ -153,7 +153,7 @@ The example below fuses the AWQ modules of the [TheBloke/Yi-34B-AWQ](https://hug
 
 ```python
 import torch
-from transformers import AwqConfig, AutoModelForCausalLM
+from myTransformers import AwqConfig, AutoModelForCausalLM
 
 quantization_config = AwqConfig(
     bits=4,
@@ -170,8 +170,8 @@ quantization_config = AwqConfig(
 )
 
 model = AutoModelForCausalLM.from_pretrained(
-  "TheBloke/Yi-34B-AWQ",
-  quantization_config=quantization_config
+    "TheBloke/Yi-34B-AWQ",
+    quantization_config=quantization_config
 ).to(0)
 ```
 
@@ -210,7 +210,7 @@ Set `version="exllama"` in [`AwqConfig`] to enable ExLlamaV2 kernels.
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
 
 quantization_config = AwqConfig(version="exllama")
 
@@ -234,9 +234,9 @@ Set `version="ipex"` in [`AwqConfig`] to enable ExLlamaV2 kernels.
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
 
-device = "cpu" # set to "xpu" for Intel GPU
+device = "cpu"  # set to "xpu" for Intel GPU
 quantization_config = AwqConfig(version="ipex")
 
 model = AutoModelForCausalLM.from_pretrained(

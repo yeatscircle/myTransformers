@@ -51,7 +51,7 @@ La clase [`Trainer`] abstrae todo este código para que no tengas que preocupart
 Si deseas especificar opciones de entrenamiento o hiperparámetros, puedes encontrarlos en la clase [`TrainingArguments`]. Por ejemplo, vamos a definir dónde guardar el modelo en output_dir y subir el modelo al Hub después del entrenamiento con `push_to_hub=True`.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="your-model",
@@ -72,7 +72,7 @@ Pase `training_args` al [`Trainer`] con un modelo, un conjunto de datos o algo p
 Finalmente, llame [`~Trainer.train`] para empezar entrenamiento!
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -126,7 +126,8 @@ Por ejemplo, si deseas personalizar el método [`~Trainer.compute_loss`] para us
 
 ```py
 from torch import nn
-from transformers import Trainer
+from myTransformers import Trainer
+
 
 class CustomTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
@@ -146,7 +147,8 @@ Otra opción para personalizar el [`Trainer`] es utilizar [callbacks](callbacks)
 Por ejemplo, si deseas agregar un callback de detención anticipada al bucle de entrenamiento después de 10 pasos.
 
 ```py
-from transformers import TrainerCallback
+from myTransformers import TrainerCallback
+
 
 class EarlyStoppingCallback(TrainerCallback):
     def __init__(self, num_steps=10):
@@ -162,7 +164,7 @@ class EarlyStoppingCallback(TrainerCallback):
 Luego, pásalo al parámetro `callback` del [`Trainer`]:
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -241,7 +243,7 @@ my_app.py ... --log_level error --log_level_replica error --log_on_each_node 0
 [NEFTune](https://hf.co/papers/2310.05914) es una técnica que puede mejorar el rendimiento al agregar ruido a los vectores de incrustación durante el entrenamiento. Para habilitarlo en [`Trainer`], establece el parámetro `neftune_noise_alpha` en [`TrainingArguments`] para controlar cuánto ruido se agrega.
 
 ```py
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(..., neftune_noise_alpha=0.1)
 trainer = Trainer(..., args=training_args)

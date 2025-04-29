@@ -18,7 +18,7 @@ import os
 import tempfile
 import unittest
 
-from transformers.modelcard import ModelCard, TrainingSummary
+from myTransformers.modelcard import ModelCard, TrainingSummary
 
 
 class ModelCardTester(unittest.TestCase):
@@ -85,4 +85,4 @@ class ModelCardTester(unittest.TestCase):
     def test_model_summary_modelcard_base_metadata(self):
         metadata = TrainingSummary("Model name").create_metadata()
         self.assertTrue("library_name" in metadata)
-        self.assertTrue(metadata["library_name"] == "transformers")
+        self.assertTrue(metadata["library_name"] == "myTransformers")

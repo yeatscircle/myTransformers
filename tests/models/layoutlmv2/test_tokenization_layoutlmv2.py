@@ -21,7 +21,7 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AddedToken,
     LayoutLMv2TokenizerFast,
     SpecialTokensMixin,
@@ -29,7 +29,7 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.models.layoutlmv2.tokenization_layoutlmv2 import (
+from myTransformers.models.layoutlmv2.tokenization_layoutlmv2 import (
     VOCAB_FILES_NAMES,
     BasicTokenizer,
     LayoutLMv2Tokenizer,
@@ -38,7 +38,7 @@ from transformers.models.layoutlmv2.tokenization_layoutlmv2 import (
     _is_punctuation,
     _is_whitespace,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_detectron2,
     require_pandas,
     require_tokenizers,
@@ -833,7 +833,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
             boxes=boxes,
         )
 
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             tokenizer_fast.pad(encoding_fast)
         self.assertEqual(len(cm.records), 1)
         self.assertIn(
@@ -1290,7 +1290,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -1942,7 +1942,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 question_1, seq_2, boxes=boxes_2, padding=padding_state, truncation=False
                             )
@@ -1957,7 +1957,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 [question_1], [seq_2], boxes=[boxes_2], padding=padding_state, truncation=False
                             )
@@ -2259,7 +2259,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, boxes=boxes_1, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                             self.assertNotEqual(len(output["bbox"]), model_max_length)
@@ -2272,7 +2272,7 @@ class LayoutLMv2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], boxes=[boxes_1], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                             self.assertNotEqual(len(output["bbox"][0]), model_max_length)

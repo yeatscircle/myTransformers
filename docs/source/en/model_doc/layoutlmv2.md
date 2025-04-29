@@ -161,7 +161,7 @@ for a multi-modal model like LayoutLMv2. Note that you can still use both separa
 modality.
 
 ```python
-from transformers import LayoutLMv2ImageProcessor, LayoutLMv2TokenizerFast, LayoutLMv2Processor
+from myTransformers import LayoutLMv2ImageProcessor, LayoutLMv2TokenizerFast, LayoutLMv2Processor
 
 image_processor = LayoutLMv2ImageProcessor()  # apply_ocr is set to True by default
 tokenizer = LayoutLMv2TokenizerFast.from_pretrained("microsoft/layoutlmv2-base-uncased")
@@ -192,7 +192,7 @@ This is the simplest case, in which the processor (actually the image processor)
 the words and normalized bounding boxes.
 
 ```python
-from transformers import LayoutLMv2Processor
+from myTransformers import LayoutLMv2Processor
 from PIL import Image
 
 processor = LayoutLMv2Processor.from_pretrained("microsoft/layoutlmv2-base-uncased")
@@ -214,7 +214,7 @@ In case one wants to do OCR themselves, one can initialize the image processor w
 the processor.
 
 ```python
-from transformers import LayoutLMv2Processor
+from myTransformers import LayoutLMv2Processor
 from PIL import Image
 
 processor = LayoutLMv2Processor.from_pretrained("microsoft/layoutlmv2-base-uncased", revision="no_ocr")
@@ -238,7 +238,7 @@ will only label the first wordpiece of a word, and label the remaining wordpiece
 initialize the tokenizer with `only_label_first_subword` set to `False`.
 
 ```python
-from transformers import LayoutLMv2Processor
+from myTransformers import LayoutLMv2Processor
 from PIL import Image
 
 processor = LayoutLMv2Processor.from_pretrained("microsoft/layoutlmv2-base-uncased", revision="no_ocr")
@@ -260,7 +260,7 @@ For visual question answering tasks (such as DocVQA), you can provide a question
 processor will apply OCR on the image, and create [CLS] question tokens [SEP] word tokens [SEP].
 
 ```python
-from transformers import LayoutLMv2Processor
+from myTransformers import LayoutLMv2Processor
 from PIL import Image
 
 processor = LayoutLMv2Processor.from_pretrained("microsoft/layoutlmv2-base-uncased")
@@ -280,7 +280,7 @@ For visual question answering tasks (such as DocVQA), you can provide a question
 perform OCR yourself, you can provide your own words and (normalized) bounding boxes to the processor.
 
 ```python
-from transformers import LayoutLMv2Processor
+from myTransformers import LayoutLMv2Processor
 from PIL import Image
 
 processor = LayoutLMv2Processor.from_pretrained("microsoft/layoutlmv2-base-uncased", revision="no_ocr")

@@ -72,25 +72,25 @@ We use the [Auto API](auto), which will automatically instantiate the appropriat
 based on the configuration file of the checkpoint on the hub.
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
->>> import pandas as pd
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > import pandas as pd
 
->>> tokenizer = AutoTokenizer.from_pretrained("microsoft/tapex-large-finetuned-wtq")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("microsoft/tapex-large-finetuned-wtq")
+>> > tokenizer = AutoTokenizer.from_pretrained("microsoft/tapex-large-finetuned-wtq")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("microsoft/tapex-large-finetuned-wtq")
 
->>> # prepare table + question
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> table = pd.DataFrame.from_dict(data)
->>> question = "how many movies does Leonardo Di Caprio have?"
+>> >  # prepare table + question
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > table = pd.DataFrame.from_dict(data)
+>> > question = "how many movies does Leonardo Di Caprio have?"
 
->>> encoding = tokenizer(table, question, return_tensors="pt")
+>> > encoding = tokenizer(table, question, return_tensors="pt")
 
->>> # let the model generate an answer autoregressively
->>> outputs = model.generate(**encoding)
+>> >  # let the model generate an answer autoregressively
+>> > outputs = model.generate(**encoding)
 
->>> # decode back to text
->>> predicted_answer = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
->>> print(predicted_answer)
+>> >  # decode back to text
+>> > predicted_answer = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
+>> > print(predicted_answer)
 53
 ```
 
@@ -121,24 +121,24 @@ of a table), one can instantiate a [`BartForSequenceClassification`] model. TAPE
 benchmark for table fact checking (it achieves 84% accuracy). The code example below again leverages the [Auto API](auto).
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> tokenizer = AutoTokenizer.from_pretrained("microsoft/tapex-large-finetuned-tabfact")
->>> model = AutoModelForSequenceClassification.from_pretrained("microsoft/tapex-large-finetuned-tabfact")
+>> > tokenizer = AutoTokenizer.from_pretrained("microsoft/tapex-large-finetuned-tabfact")
+>> > model = AutoModelForSequenceClassification.from_pretrained("microsoft/tapex-large-finetuned-tabfact")
 
->>> # prepare table + sentence
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> table = pd.DataFrame.from_dict(data)
->>> sentence = "George Clooney has 30 movies"
+>> >  # prepare table + sentence
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > table = pd.DataFrame.from_dict(data)
+>> > sentence = "George Clooney has 30 movies"
 
->>> encoding = tokenizer(table, sentence, return_tensors="pt")
+>> > encoding = tokenizer(table, sentence, return_tensors="pt")
 
->>> # forward pass
->>> outputs = model(**encoding)
+>> >  # forward pass
+>> > outputs = model(**encoding)
 
->>> # print prediction
->>> predicted_class_idx = outputs.logits[0].argmax(dim=0).item()
->>> print(model.config.id2label[predicted_class_idx])
+>> >  # print prediction
+>> > predicted_class_idx = outputs.logits[0].argmax(dim=0).item()
+>> > print(model.config.id2label[predicted_class_idx])
 Refused
 ```
 

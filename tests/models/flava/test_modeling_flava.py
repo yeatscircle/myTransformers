@@ -22,15 +22,15 @@ import unittest
 import numpy as np
 import requests
 
-from transformers import (
+from myTransformers import (
     FlavaConfig,
     FlavaImageCodebookConfig,
     FlavaImageConfig,
     FlavaMultimodalConfig,
     FlavaTextConfig,
 )
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -47,7 +47,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         FlavaForPreTraining,
         FlavaImageCodebook,
         FlavaImageModel,
@@ -64,7 +64,7 @@ else:
 if is_vision_available():
     from PIL import Image
 
-    from transformers import FlavaProcessor
+    from myTransformers import FlavaProcessor
 
 
 class FlavaImageModelTester:

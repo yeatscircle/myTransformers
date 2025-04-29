@@ -26,7 +26,7 @@ from typing import Optional
 import tqdm
 from filelock import FileLock
 
-from transformers import PreTrainedTokenizer, is_tf_available, is_torch_available
+from myTransformers import PreTrainedTokenizer, is_tf_available, is_torch_available
 
 
 logger = logging.getLogger(__name__)

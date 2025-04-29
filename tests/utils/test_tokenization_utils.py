@@ -23,7 +23,7 @@ from huggingface_hub import HfFolder
 from huggingface_hub.file_download import http_get
 from requests.exceptions import HTTPError
 
-from transformers import (
+from myTransformers import (
     AlbertTokenizer,
     AutoTokenizer,
     BertTokenizer,
@@ -31,8 +31,8 @@ from transformers import (
     GPT2TokenizerFast,
     is_tokenizers_available,
 )
-from transformers.testing_utils import TOKEN, TemporaryHubRepo, is_staging_test, require_tokenizers
-from transformers.tokenization_utils import ExtensionsTrie, Trie
+from myTransformers.testing_utils import TOKEN, TemporaryHubRepo, is_staging_test, require_tokenizers
+from myTransformers.tokenization_utils import ExtensionsTrie, Trie
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "utils"))

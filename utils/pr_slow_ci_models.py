@@ -98,7 +98,7 @@ def get_new_python_files(diff_with_last_commit=False) -> List[str]:
 
 def get_new_model(diff_with_last_commit=False):
     new_files = get_new_python_files(diff_with_last_commit)
-    reg = re.compile(r"src/transformers/models/(.*)/modeling_.*\.py")
+    reg = re.compile(r"src/myTransformers/models/(.*)/modeling_.*\.py")
 
     new_model = ""
     for x in new_files:

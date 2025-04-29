@@ -22,7 +22,7 @@ This guide will show you how to use these optimizers with [`Trainer`] using [`Tr
 
 ```py
 import torch
-from transformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM, Trainer
+from myTransformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM, Trainer
 
 args = TrainingArguments(
     output_dir="./test-optimizer",
@@ -83,7 +83,7 @@ For additional training options, use `optim_args` to define hyperparameters like
 The example below enables the APOLLO-Mini optimizer.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     output_dir="./test-apollo_mini",

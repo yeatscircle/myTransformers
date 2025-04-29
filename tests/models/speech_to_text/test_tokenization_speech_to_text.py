@@ -16,10 +16,10 @@ import unittest
 from pathlib import Path
 from shutil import copyfile
 
-from transformers import SPIECE_UNDERLINE, is_sentencepiece_available
-from transformers.models.speech_to_text import Speech2TextTokenizer
-from transformers.models.speech_to_text.tokenization_speech_to_text import VOCAB_FILES_NAMES, save_json
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
+from myTransformers import SPIECE_UNDERLINE, is_sentencepiece_available
+from myTransformers.models.speech_to_text import Speech2TextTokenizer
+from myTransformers.models.speech_to_text.tokenization_speech_to_text import VOCAB_FILES_NAMES, save_json
+from myTransformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

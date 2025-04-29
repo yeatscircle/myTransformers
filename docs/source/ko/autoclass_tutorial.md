@@ -39,9 +39,9 @@ rendered properly in your Markdown viewer.
 [`AutoTokenizer.from_pretrained`]로 토크나이저를 로드합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 그리고 아래와 같이 입력을 토큰화합니다:
@@ -59,9 +59,9 @@ rendered properly in your Markdown viewer.
 비전 작업의 경우 이미지 프로세서가 이미지를 올바른 입력 형식으로 처리합니다.
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 
@@ -72,10 +72,11 @@ rendered properly in your Markdown viewer.
 [`AutoFeatureExtractor.from_pretrained`]로 특징 추출기를 로드합니다:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained(
-...     "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained(
+    ...
+"ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -86,9 +87,9 @@ rendered properly in your Markdown viewer.
 [`AutoProcessor.from_pretrained()`]로 프로세서를 로드합니다:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
+>> > processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
 ```
 
 ## AutoModel[[automodel]]
@@ -98,17 +99,17 @@ rendered properly in your Markdown viewer.
 마지막으로 AutoModelFor클래스를 사용하면 주어진 작업에 대해 미리 학습된 모델을 로드할 수 있습니다 (사용 가능한 작업의 전체 목록은 [여기](model_doc/auto)를 참조하세요). 예를 들어, [`AutoModelForSequenceClassification.from_pretrained`]를 사용하여 시퀀스 분류용 모델을 로드할 수 있습니다:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 동일한 체크포인트를 쉽게 재사용하여 다른 작업에 아키텍처를 로드할 수 있습니다:
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip warning={true}>
@@ -126,17 +127,17 @@ PyTorch모델의 경우 `from_pretrained()` 메서드는 내부적으로 피클�
 마지막으로 `TFAutoModelFor` 클래스를 사용하면 주어진 작업에 대해 사전 훈련된 모델을 로드할 수 있습니다. (사용 가능한 작업의 전체 목록은 [여기](model_doc/auto)를 참조하세요. 예를 들어, [`TFAutoModelForSequenceClassification.from_pretrained`]로 시퀀스 분류를 위한 모델을 로드합니다:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 쉽게 동일한 체크포인트를 재사용하여 다른 작업에 아키텍처를 로드할 수 있습니다:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 일반적으로, `AutoTokenizer`클래스와 `TFAutoModelFor` 클래스를 사용하여 미리 학습된 모델 인스턴스를 로드하는 것이 좋습니다. 이렇게 하면 매번 올바른 아키텍처를 로드할 수 있습니다. 다음 [튜토리얼](preprocessing)에서는 새롭게 로드한 토크나이저, 이미지 프로세서, 특징 추출기를 사용하여 미세 튜닝용 데이터 세트를 전처리하는 방법에 대해 알아봅니다.

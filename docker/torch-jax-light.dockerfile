@@ -10,7 +10,7 @@ RUN uv pip install --no-cache-dir 'torch' 'torchvision' 'torchaudio' --index-url
 RUN uv pip install --no-cache-dir "scipy<1.13" "git+https://github.com/huggingface/transformers.git@${REF}#egg=transformers[flax,audio,sklearn,sentencepiece,vision,testing]"
 
 
-# RUN pip install --no-cache-dir "scipy<1.13" "transformers[flax,testing,sentencepiece,flax-speech,vision]"
+# RUN pip install --no-cache-dir "scipy<1.13" "myTransformers[flax,testing,sentencepiece,flax-speech,vision]"
 
-RUN uv pip uninstall transformers
+RUN uv pip uninstall myTransformers
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* && apt-get autoremove && apt-get autoclean

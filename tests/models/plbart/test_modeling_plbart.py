@@ -17,8 +17,8 @@ import copy
 import tempfile
 import unittest
 
-from transformers import PLBartConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import PLBartConfig, is_torch_available
+from myTransformers.testing_utils import (
     require_sentencepiece,
     require_tokenizers,
     require_torch,
@@ -26,7 +26,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -37,14 +37,14 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         PLBartForCausalLM,
         PLBartForConditionalGeneration,
         PLBartForSequenceClassification,
         PLBartModel,
     )
-    from transformers.models.plbart.modeling_plbart import PLBartDecoder, PLBartEncoder
+    from myTransformers.models.plbart.modeling_plbart import PLBartDecoder, PLBartEncoder
 
 
 def prepare_plbart_inputs_dict(

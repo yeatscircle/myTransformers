@@ -40,8 +40,8 @@ from flax.training.common_utils import get_metrics, onehot, shard
 from huggingface_hub import HfApi
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoTokenizer,
     FlaxAutoModelForSequenceClassification,
@@ -50,7 +50,7 @@ from transformers import (
     TrainingArguments,
     is_tensorboard_available,
 )
-from transformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils import check_min_version, send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -361,10 +361,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # Handle the repository creation
     if training_args.push_to_hub:

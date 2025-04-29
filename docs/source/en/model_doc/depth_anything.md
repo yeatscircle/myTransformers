@@ -36,7 +36,7 @@ The example below demonstrates how to obtain a depth map with [`Pipeline`] or th
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(task="depth-estimation", model="LiheYoung/depth-anything-base-hf", torch_dtype=torch.bfloat16, device=0)
 pipe("http://images.cocodataset.org/val2017/000000039769.jpg")["depth"]
@@ -50,7 +50,7 @@ import torch
 import requests
 import numpy as np
 from PIL import Image
-from transformers import AutoImageProcessor, AutoModelForDepthEstimation
+from myTransformers import AutoImageProcessor, AutoModelForDepthEstimation
 
 image_processor = AutoImageProcessor.from_pretrained("LiheYoung/depth-anything-base-hf")
 model = AutoModelForDepthEstimation.from_pretrained("LiheYoung/depth-anything-base-hf", torch_dtype=torch.bfloat16)

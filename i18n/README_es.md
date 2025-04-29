@@ -112,11 +112,11 @@ En tareas multimodales:
 Para usar inmediatamente un modelo en una entrada determinada (texto, imagen, audio, ...), proporcionamos la API de `pipeline`. Los pipelines agrupan un modelo previamente entrenado con el preprocesamiento que se usó durante el entrenamiento de ese modelo. Aquí se explica cómo usar rápidamente un pipeline para clasificar textos positivos frente a negativos:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Allocate a pipeline for sentiment-analysis
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -164,25 +164,27 @@ Aquí obtenemos una lista de objetos detectados en la imagen, con un cuadro que 
 Puedes obtener más información sobre las tareas admitidas por la API de `pipeline` en [este tutorial](https://huggingface.co/docs/transformers/task_summary).
 
 Además de `pipeline`, para descargar y usar cualquiera de los modelos previamente entrenados en su tarea dada, todo lo que necesita son tres líneas de código. Aquí está la versión de PyTorch:
+
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 Y aquí está el código equivalente para TensorFlow:
+
 ```python
->>> from transformers import AutoTokenizer, TFAutoModel
+>> > from myTransformers import AutoTokenizer, TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="tf")
+>> > outputs = model(**inputs)
 ```
 
 El tokenizador es responsable de todo el preprocesamiento que espera el modelo preentrenado y se puede llamar directamente en una sola cadena (como en los ejemplos anteriores) o en una lista. Este dará como resultado un diccionario que puedes usar en el código descendente o simplemente pasarlo directamente a su modelo usando el operador de desempaquetado de argumento **.
@@ -234,7 +236,7 @@ Por favor, ve a la [página de instalación de TensorFlow](https://www.tensorflo
 Cuando se ha instalado uno de esos backends, los 🤗 Transformers se pueden instalar usando pip de la siguiente manera:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 Si deseas jugar con los ejemplos o necesitas la última versión del código y no puedes esperar a una nueva versión, tienes que [instalar la librería de la fuente](https://huggingface.co/docs/transformers/installation#installing-from-source).
@@ -244,7 +246,7 @@ Si deseas jugar con los ejemplos o necesitas la última versión del código y n
 🤗 Transformers se puede instalar usando conda de la siguiente manera:
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_NOTA:_** Instalar `transformers` desde el canal `huggingface` está obsoleto.

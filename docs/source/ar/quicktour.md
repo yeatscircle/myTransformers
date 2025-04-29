@@ -7,7 +7,7 @@
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-!pip install transformers datasets evaluate accelerate
+!pip install myTransformers datasets evaluate accelerate
 ```
 
 ستحتاج أيضًا إلى تثبيت إطار عمل التعلم الآلي المفضل لديك:
@@ -59,9 +59,9 @@ pip install tensorflow
 ابدأ بإنشاء مثيل من [`pipeline`] وتحديد المهمة التي تريد استخدامه لها. في هذا الدليل، ستستخدم خط الأنابيب للتحليل النصي كنموذج:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis")
+>> > classifier = pipeline("sentiment-analysis")
 ```
 
 يقوم [`pipeline`] بتنزيل وتخزين نسخة احتياطية من نموذج افتراضي [مُدرب مسبقًا](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) ومعالج للتحليل النصي. الآن يمكنك استخدام `classifier` على النص المستهدف:
@@ -83,10 +83,10 @@ label: NEGATIVE, with score: 0.5309
 يمكن لخط الأنابيب أيضًا أن يتنقل خلال مجموعة بيانات كاملة لأي مهمة تريدها. كمثال على ذلك، دعنا نختار التعرف على الكلام التلقائي كمهمة لنا:
 
 ```py
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+>> > speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
 ```
 
 قم بتحميل مجموعة بيانات صوتية (راجع دليل البدء السريع لـ 🤗 Datasets [Quick Start](https://huggingface.co/docs/datasets/quickstart#audio) للحصول على مزيد من التفاصيل) التي تريد التنقل خلالها. على سبيل المثال، قم بتحميل مجموعة بيانات [MInDS-14](https://huggingface.co/datasets/PolyAI/minds14):
@@ -127,20 +127,20 @@ label: NEGATIVE, with score: 0.5309
 استخدم [`AutoModelForSequenceClassification`] و [`AutoTokenizer`] لتحميل النموذج المُدرب مسبقًا ومعالجته المرتبط به (مزيد من المعلومات حول `AutoClass` في القسم التالي):
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </pt>
 <tf>
 استخدم [`TFAutoModelForSequenceClassification`] و [`AutoTokenizer`] لتحميل النموذج المُدرب مسبقًا ومعالجته المرتبط به (مزيد من المعلومات حول `TFAutoClass` في القسم التالي):
 
 ```py
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -169,10 +169,10 @@ label: NEGATIVE, with score: 0.5309
 قم بتحميل المجزئ باستخدام [`AutoTokenizer`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 مرر نصك إلى المجزئ:
@@ -232,10 +232,10 @@ label: NEGATIVE, with score: 0.5309
 تقدم مكتبة 🤗 Transformers طريقة بسيطة وموحدة لتحميل نماذج مدربة مسبقًا. وهذا يعني أنه يمكنك تحميل [`AutoModel`] كما لو كنت تقوم بتحميل [`AutoTokenizer`]. الفرق الوحيد هو اختيار فئة [`AutoModel`] المناسبة للمهمة. بالنسبة لتصنيف النص (أو التسلسل)، يجب عليك تحميل [`AutoModelForSequenceClassification`]:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -269,10 +269,10 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 يوفر 🤗 Transformers طريقة بسيطة وموحدة لتحميل مثيلات مُدربة مسبقًا. وهذا يعني أنه يمكنك تحميل [`TFAutoModel`] مثل تحميل [`AutoTokenizer`]. والفرق الوحيد هو تحديد [`TFAutoModel`] الصحيح للمهمة. للتصنيف النصي (أو التسلسلي)، يجب تحميل [`TFAutoModelForSequenceClassification`]:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -345,19 +345,19 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>
@@ -370,9 +370,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 ابدأ باستيراد [`AutoConfig`]. ثم قم بتحميل النموذج المُدرب مسبقًا الذي تريد تعديله. ضمن [`AutoConfig.from_pretrained`]. يمكنك تحديد السمة التي تريد تغييرها، مثل عدد رؤوس الاهتمام:
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
+>> > my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
 ```
 
 <frameworkcontent>
@@ -380,18 +380,18 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 قم بإنشاء نموذج من تكوينك المخصص باستخدام [`AutoModel.from_config`]:
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> my_model = AutoModel.from_config(my_config)
+>> > my_model = AutoModel.from_config(my_config)
 ```
 </pt>
 <tf>
 قم بإنشاء نموذج من تكوينك المخصص باستخدام [`TFAutoModel.from_config`]:
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> my_model = TFAutoModel.from_config(my_config)
+>> > my_model = TFAutoModel.from_config(my_config)
 ```
 </tf>
 </frameworkcontent>
@@ -407,7 +407,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. ستبدأ بـ [`PreTrainedModel`] أو [`torch.nn.Module`](https://pytorch.org/docs/stable/nn.html#torch.nn.Module):
 
    ```py
-   >>> from transformers import AutoModelForSequenceClassification
+   >>> from myTransformers import AutoModelForSequenceClassification
 
    >>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -415,7 +415,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. تحتوي [`TrainingArguments`] على فرط معلمات النموذج التي يمكنك تغييرها مثل معدل التعلم، وحجم الدفعة، وعدد العصور التي يجب التدريب عليها. يتم استخدام القيم الافتراضية إذا لم تحدد أي حجج تدريب:
 
    ```py
-   >>> from transformers import TrainingArguments
+   >>> from myTransformers import TrainingArguments
 
    >>> training_args = TrainingArguments(
    ...     output_dir="path/to/save/folder/",
@@ -429,7 +429,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 3. قم بتحميل فئة معالجة مسبقة مثل برنامج الترميز، أو معالج الصور، أو مستخرج الميزات، أو المعالج:
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -458,7 +458,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 6. [`DataCollatorWithPadding`] لإنشاء دفعة من الأمثلة من مجموعة البيانات الخاصة بك:
 
    ```py
-   >>> from transformers import DataCollatorWithPadding
+   >>> from myTransformers import DataCollatorWithPadding
 
    >>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
    ```
@@ -466,15 +466,21 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 الآن قم بتجميع جميع هذه الفئات في [`Trainer`]:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     tokenizer=tokenizer,
-...     data_collator=data_collator,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+tokenizer = tokenizer,
+...
+data_collator = data_collator,
 ... )  # doctest: +SKIP
 ```
 عندما تكون مستعدًا، استدعِ [`~Trainer.train`] لبدء التدريب:
@@ -500,7 +506,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. ستبدأ بـ [`TFPreTrainedModel`] أو [`tf.keras.Model`](https://www.tensorflow.org/api_docs/python/tf/keras/Model):
 
    ```py
-   >>> from transformers import TFAutoModelForSequenceClassification
+   >>> from myTransformers import TFAutoModelForSequenceClassification
 
    >>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -508,7 +514,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. قم بتحميل فئة معالجة مسبقة مثل برنامج الترميز، أو معالج الصور، أو مستخرج الميزات، أو المعالج:
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```

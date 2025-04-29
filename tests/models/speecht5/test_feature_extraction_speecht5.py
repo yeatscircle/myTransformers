@@ -19,9 +19,9 @@ import unittest
 
 import numpy as np
 
-from transformers import BatchFeature, SpeechT5FeatureExtractor
-from transformers.testing_utils import require_torch
-from transformers.utils.import_utils import is_torch_available
+from myTransformers import BatchFeature, SpeechT5FeatureExtractor
+from myTransformers.testing_utils import require_torch
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 

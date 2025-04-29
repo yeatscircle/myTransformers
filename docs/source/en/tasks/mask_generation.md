@@ -41,7 +41,7 @@ In this guide, you will learn how to:
 First, let's install `transformers`:
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## Mask Generation Pipeline
@@ -49,10 +49,10 @@ pip install -q transformers
 The easiest way to infer mask generation models is to use the `mask-generation` pipeline.
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "facebook/sam-vit-base"
->>> mask_generator = pipeline(model=checkpoint, task="mask-generation")
+>> > checkpoint = "facebook/sam-vit-base"
+>> > mask_generator = pipeline(model=checkpoint, task="mask-generation")
 ```
 
 Let's see the image.
@@ -123,9 +123,10 @@ You can also use the model without the pipeline. To do so, initialize the model 
 the processor.
 
 ```python
-from transformers import SamModel, SamProcessor
+from myTransformers import SamModel, SamProcessor
 import torch
 from accelerate.test_utils.testing import get_backend
+
 # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 device, _, _ = get_backend()
 model = SamModel.from_pretrained("facebook/sam-vit-base").to(device)

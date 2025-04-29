@@ -19,7 +19,7 @@ import pytest
 import requests
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     BitsAndBytesConfig,
     MllamaConfig,
@@ -28,9 +28,9 @@ from transformers import (
     is_torch_available,
     is_vision_available,
 )
-from transformers.cache_utils import Cache
-from transformers.models.mllama.configuration_mllama import MllamaTextConfig
-from transformers.testing_utils import (
+from myTransformers.cache_utils import Cache
+from myTransformers.models.mllama.configuration_mllama import MllamaTextConfig
+from myTransformers.testing_utils import (
     Expectations,
     cleanup,
     require_bitsandbytes,

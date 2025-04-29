@@ -40,7 +40,7 @@ OWL-ViT 모델의 저자들은 CLIP 모델을 처음부터 학습(scratch learni
 
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## 제로샷(zero-shot) 객체 탐지 파이프라인[[zeroshot-object-detection-pipeline]]
@@ -49,10 +49,10 @@ pip install -q transformers
 [Hugging Face Hub에 업로드된 체크포인트](https://huggingface.co/models?pipeline_tag=zero-shot-image-classification&sort=downloads)에서 제로샷(zero-shot) 객체 탐지용 파이프라인을 인스턴스화합니다:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "google/owlvit-base-patch32"
->>> detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
+>> > checkpoint = "google/owlvit-base-patch32"
+>> > detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
 ```
 
 다음으로, 객체를 탐지하고 싶은 이미지를 선택하세요.
@@ -135,10 +135,10 @@ candidate_labels는 이 예시처럼 간단한 단어일 수도 있고 좀 더 �
 여기서는 이전과 동일한 체크포인트를 사용하겠습니다:
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
+>> > from myTransformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 
->>> model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 ```
 
 다른 이미지를 사용해 보겠습니다:

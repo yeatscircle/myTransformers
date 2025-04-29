@@ -32,21 +32,26 @@ rendered properly in your Markdown viewer.
 MeCab과 WordPiece 토큰화를 사용하는 모델 예시:
 
 ```python
->>> import torch
->>> from transformers import AutoModel, AutoTokenizer
+>> > import torch
+>> > from myTransformers import AutoModel, AutoTokenizer
 
->>> bertjapanese = AutoModel.from_pretrained("cl-tohoku/bert-base-japanese")
->>> tokenizer = AutoTokenizer.from_pretrained("cl-tohoku/bert-base-japanese")
+>> > bertjapanese = AutoModel.from_pretrained("cl-tohoku/bert-base-japanese")
+>> > tokenizer = AutoTokenizer.from_pretrained("cl-tohoku/bert-base-japanese")
 
->>> ## Input Japanese Text
->>> line = "吾輩は猫である。"
+>> >  ## Input Japanese Text
+>> > line = "吾輩は猫である。"
 
->>> inputs = tokenizer(line, return_tensors="pt")
+>> > inputs = tokenizer(line, return_tensors="pt")
 
->>> print(tokenizer.decode(inputs["input_ids"][0]))
-[CLS] 吾輩 は 猫 で ある 。 [SEP]
+>> > print(tokenizer.decode(inputs["input_ids"][0]))
+[CLS]
+吾輩
+は
+猫
+で
+ある 。 [SEP]
 
->>> outputs = bertjapanese(**inputs)
+>> > outputs = bertjapanese(**inputs)
 ```
 
 문자 토큰화를 사용하는 모델 예시:

@@ -18,8 +18,8 @@ import unittest
 from pathlib import Path
 from typing import Union
 
-import transformers
-from transformers.testing_utils import require_tf, require_torch, slow
+import myTransformers
+from myTransformers.testing_utils import require_tf, require_torch, slow
 
 
 logger = logging.getLogger()
@@ -72,7 +72,7 @@ class TestCodeExamples(unittest.TestCase):
             if only_modules:
                 module_identifier = file.split(".")[0]
                 try:
-                    module_identifier = getattr(transformers, module_identifier)
+                    module_identifier = getattr(myTransformers, module_identifier)
                     suite = doctest.DocTestSuite(module_identifier)
                     result = unittest.TextTestRunner().run(suite)
                     self.assertIs(len(result.failures), 0)
@@ -83,7 +83,7 @@ class TestCodeExamples(unittest.TestCase):
                 self.assertIs(result.failed, 0)
 
     def test_modeling_examples(self):
-        transformers_directory = Path("src/transformers")
+        transformers_directory = Path("src/myTransformers")
         files = "modeling"
         ignore_files = [
             "modeling_ctrl.py",
@@ -92,17 +92,17 @@ class TestCodeExamples(unittest.TestCase):
         self.analyze_directory(transformers_directory, identifier=files, ignore_files=ignore_files)
 
     def test_tokenization_examples(self):
-        transformers_directory = Path("src/transformers")
+        transformers_directory = Path("src/myTransformers")
         files = "tokenization"
         self.analyze_directory(transformers_directory, identifier=files)
 
     def test_configuration_examples(self):
-        transformers_directory = Path("src/transformers")
+        transformers_directory = Path("src/myTransformers")
         files = "configuration"
         self.analyze_directory(transformers_directory, identifier=files)
 
     def test_remaining_examples(self):
-        transformers_directory = Path("src/transformers")
+        transformers_directory = Path("src/myTransformers")
         n_identifiers = ["configuration", "modeling", "tokenization"]
         self.analyze_directory(transformers_directory, n_identifier=n_identifiers)
 

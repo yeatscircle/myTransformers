@@ -66,7 +66,7 @@ token-level inputs of the model (`input_ids` etc.). Note that you can still use 
 if you only want to handle one of the two tasks.
 
 ```python
-from transformers import MarkupLMFeatureExtractor, MarkupLMTokenizerFast, MarkupLMProcessor
+from myTransformers import MarkupLMFeatureExtractor, MarkupLMTokenizerFast, MarkupLMProcessor
 
 feature_extractor = MarkupLMFeatureExtractor()
 tokenizer = MarkupLMTokenizerFast.from_pretrained("microsoft/markuplm-base")
@@ -92,11 +92,11 @@ use cases work for both batched and non-batched inputs (we illustrate them for n
 This is the simplest case, in which the processor will use the feature extractor to get all nodes and xpaths from the HTML.
 
 ```python
->>> from transformers import MarkupLMProcessor
+>> > from myTransformers import MarkupLMProcessor
 
->>> processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+>> > processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
 
->>> html_string = """
+>> > html_string = """
 ...  <!DOCTYPE html>
 ...  <html>
 ...  <head>
@@ -108,9 +108,9 @@ This is the simplest case, in which the processor will use the feature extractor
 ...  </body>
 ...  </html>"""
 
->>> # note that you can also add provide all tokenizer parameters here such as padding, truncation
->>> encoding = processor(html_string, return_tensors="pt")
->>> print(encoding.keys())
+>> >  # note that you can also add provide all tokenizer parameters here such as padding, truncation
+>> > encoding = processor(html_string, return_tensors="pt")
+>> > print(encoding.keys())
 dict_keys(['input_ids', 'token_type_ids', 'attention_mask', 'xpath_tags_seq', 'xpath_subs_seq'])
 ```
 
@@ -120,15 +120,15 @@ In case one already has obtained all nodes and xpaths, one doesn't need the feat
 provide the nodes and corresponding xpaths themselves to the processor, and make sure to set `parse_html` to `False`.
 
 ```python
->>> from transformers import MarkupLMProcessor
+>> > from myTransformers import MarkupLMProcessor
 
->>> processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
->>> processor.parse_html = False
+>> > processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+>> > processor.parse_html = False
 
->>> nodes = ["hello", "world", "how", "are"]
->>> xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
->>> encoding = processor(nodes=nodes, xpaths=xpaths, return_tensors="pt")
->>> print(encoding.keys())
+>> > nodes = ["hello", "world", "how", "are"]
+>> > xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
+>> > encoding = processor(nodes=nodes, xpaths=xpaths, return_tensors="pt")
+>> > print(encoding.keys())
 dict_keys(['input_ids', 'token_type_ids', 'attention_mask', 'xpath_tags_seq', 'xpath_subs_seq'])
 ```
 
@@ -141,16 +141,16 @@ By default, it will only label the first wordpiece of a word, and label the rema
 initialize the tokenizer with `only_label_first_subword` set to `False`.
 
 ```python
->>> from transformers import MarkupLMProcessor
+>> > from myTransformers import MarkupLMProcessor
 
->>> processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
->>> processor.parse_html = False
+>> > processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+>> > processor.parse_html = False
 
->>> nodes = ["hello", "world", "how", "are"]
->>> xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
->>> node_labels = [1, 2, 2, 1]
->>> encoding = processor(nodes=nodes, xpaths=xpaths, node_labels=node_labels, return_tensors="pt")
->>> print(encoding.keys())
+>> > nodes = ["hello", "world", "how", "are"]
+>> > xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
+>> > node_labels = [1, 2, 2, 1]
+>> > encoding = processor(nodes=nodes, xpaths=xpaths, node_labels=node_labels, return_tensors="pt")
+>> > print(encoding.keys())
 dict_keys(['input_ids', 'token_type_ids', 'attention_mask', 'xpath_tags_seq', 'xpath_subs_seq', 'labels'])
 ```
 
@@ -160,11 +160,11 @@ For question answering tasks on web pages, you can provide a question to the pro
 processor will use the feature extractor to get all nodes and xpaths, and create [CLS] question tokens [SEP] word tokens [SEP].
 
 ```python
->>> from transformers import MarkupLMProcessor
+>> > from myTransformers import MarkupLMProcessor
 
->>> processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+>> > processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
 
->>> html_string = """
+>> > html_string = """
 ...  <!DOCTYPE html>
 ...  <html>
 ...  <head>
@@ -176,9 +176,9 @@ processor will use the feature extractor to get all nodes and xpaths, and create
 ...  </body>
 ...  </html>"""
 
->>> question = "What's his name?"
->>> encoding = processor(html_string, questions=question, return_tensors="pt")
->>> print(encoding.keys())
+>> > question = "What's his name?"
+>> > encoding = processor(html_string, questions=question, return_tensors="pt")
+>> > print(encoding.keys())
 dict_keys(['input_ids', 'token_type_ids', 'attention_mask', 'xpath_tags_seq', 'xpath_subs_seq'])
 ```
 
@@ -188,16 +188,16 @@ For question answering tasks (such as WebSRC), you can provide a question to the
 all nodes and xpaths yourself, you can provide them directly to the processor. Make sure to set `parse_html` to `False`.
 
 ```python
->>> from transformers import MarkupLMProcessor
+>> > from myTransformers import MarkupLMProcessor
 
->>> processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
->>> processor.parse_html = False
+>> > processor = MarkupLMProcessor.from_pretrained("microsoft/markuplm-base")
+>> > processor.parse_html = False
 
->>> nodes = ["hello", "world", "how", "are"]
->>> xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
->>> question = "What's his name?"
->>> encoding = processor(nodes=nodes, xpaths=xpaths, questions=question, return_tensors="pt")
->>> print(encoding.keys())
+>> > nodes = ["hello", "world", "how", "are"]
+>> > xpaths = ["/html/body/div/li[1]/div/span", "/html/body/div/li[1]/div/span", "html/body", "html/body/div"]
+>> > question = "What's his name?"
+>> > encoding = processor(nodes=nodes, xpaths=xpaths, questions=question, return_tensors="pt")
+>> > print(encoding.keys())
 dict_keys(['input_ids', 'token_type_ids', 'attention_mask', 'xpath_tags_seq', 'xpath_subs_seq'])
 ```
 

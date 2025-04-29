@@ -33,7 +33,7 @@ rendered properly in your Markdown viewer.
 
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 または編集可能なインストールの場合：
@@ -47,7 +47,7 @@ pip install -e .[dev]
 
 
 ```bash
-pip install transformers[quality]
+pip install myTransformers[quality]
 ```
 
 または編集可能なインストールの場合：
@@ -166,14 +166,14 @@ Transformersライブラリは、モデルコードに関して非常に意見�
 
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from myTransformers.models.bert.modeling_bert.BertSelfOutput
 ```
 
 注意点として、これをクラス全体に適用する代わりに、コピー元の関連メソッドに適用できます。たとえば、[こちら](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L598)では、`RobertaPreTrainedModel._init_weights` が `BertPreTrainedModel` からコピーされており、以下のコメントがあります：
 
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
+# Copied from myTransformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
 ```
 
 注：矢印の周りにはスペースが含まれていてはいけません（もちろん、そのスペースが置換パターンの一部である場合を除きます）。
@@ -182,7 +182,7 @@ Transformersライブラリは、モデルコードに関して非常に意見�
 
 
 ```py
-# Copied from transformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
+# Copied from myTransformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
 ```
 
 
@@ -198,7 +198,7 @@ Transformersライブラリは、モデルコードに関して非常に意見�
 
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
+# Copied from myTransformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
 ```
 
 この場合、コードは「BertForSequenceClassification」からコピーされ、次のように置換されます：

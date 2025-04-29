@@ -52,20 +52,20 @@ Activez l'environnement virtuel sur Windows :
 Maintenant, 🤗 Transformers peut être installé avec la commande suivante :
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 Pour une utilisation avec CPU seulement, 🤗 Transformers et la librairie d'apprentissage profond de votre choix peuvent être installés en une seule ligne.
 Par exemple, installez 🤗 Transformers et PyTorch avec la commande suivante :
 
 ```bash
-pip install 'transformers[torch]'
+pip install 'myTransformers[torch]'
 ```
 
 🤗 Transformers et TensorFlow 2.0 :
 
 ```bash
-pip install 'transformers[tf-cpu]'
+pip install 'myTransformers[tf-cpu]'
 ```
 
 <Tip warning={true}>
@@ -84,7 +84,7 @@ brew install pkg-config
 🤗 Transformers et Flax :
 
 ```bash
-pip install 'transformers[flax]'
+pip install 'myTransformers[flax]'
 ```
 
 Vérifiez que 🤗 Transformers a bien été installé avec la commande suivante. La commande va télécharger un modèle pré-entraîné :
@@ -126,7 +126,7 @@ Clonez le projet et installez 🤗 Transformers avec les commandes suivantes :
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -141,7 +141,7 @@ Vous devez garder le dossier `transformers` si vous voulez continuer d'utiliser 
 Maintenant, vous pouvez facilement mettre à jour votre clone avec la dernière version de 🤗 Transformers en utilisant la commande suivante :
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -152,7 +152,7 @@ Votre environnement Python utilisera la version de la branche `main` lors de la 
 Installation via le canal `conda-forge` de conda :
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## Configuration du cache
@@ -189,7 +189,7 @@ Le script devrait maintenant s'exécuter sans rester en attente ou attendre une 
 Vous pouvez aussi éviter de télécharger un modèle à chaque appel de la fonction [`~PreTrainedModel.from_pretrained`] en utilisant le paramètre [local_files_only]. Seuls les fichiers locaux sont chargés lorsque ce paramètre est activé (c.-à-d. `local_files_only=True`) :
 
 ```py
-from transformers import T5Model
+from myTransformers import T5Model
 
 model = T5Model.from_pretrained("./path/to/local/directory", local_files_only=True)
 ```
@@ -207,7 +207,7 @@ Une autre option pour utiliser 🤗 Transformers hors ligne est de télécharger
     1. Téléchargez vos fichiers à l'avance avec [`PreTrainedModel.from_pretrained`]:
 
     ```py
-    >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    >>> from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
     >>> tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     >>> model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
@@ -246,9 +246,9 @@ Une autre option pour utiliser 🤗 Transformers hors ligne est de télécharger
 Une fois que votre fichier est téléchargé et caché localement, spécifiez son chemin local pour le charger et l'utiliser :
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
+>> > config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
 ```
 
 <Tip>

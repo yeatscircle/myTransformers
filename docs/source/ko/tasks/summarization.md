@@ -41,7 +41,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate rouge_score
+pip install myTransformers datasets evaluate rouge_score
 ```
 
 Hugging Face 계정에 로그인하면 모델을 업로드하고 커뮤니티에 공유할 수 있습니다.
@@ -88,10 +88,10 @@ Hugging Face 계정에 로그인하면 모델을 업로드하고 커뮤니티에
 다음으로 `text`와 `summary`를 처리하기 위한 T5 토크나이저를 가져옵니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 생성하려는 전처리 함수는 아래 조건을 만족해야 합니다:
@@ -189,9 +189,9 @@ Hugging Face 계정에 로그인하면 모델을 업로드하고 커뮤니티에
 이제 모델 학습을 시작할 준비가 되었습니다! [`AutoModelForSeq2SeqLM`]로 T5를 가져오세요:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 이제 세 단계만 남았습니다:
@@ -246,17 +246,17 @@ Keras로 모델 파인튜닝을 하는 것이 익숙하지 않다면, [여기](.
 TensorFlow에서 모델을 파인튜닝하려면, 먼저 옵티마이저, 학습률 스케줄 그리고 몇 가지 학습 하이퍼파라미터를 설정하세요:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 그런 다음 [`TFAutoModelForSeq2SeqLM`]을 사용하여 T5를 가져오세요:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]을 사용하여 데이터셋을 `tf.data.Dataset` 형식으로 변환하세요:
@@ -291,19 +291,21 @@ TensorFlow에서 모델을 파인튜닝하려면, 먼저 옵티마이저, 학습
 [`~transformers.KerasMetricCallback`]에 `compute_metrics` 함수를 전달하세요:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 [`~transformers.PushToHubCallback`]에서 모델과 토크나이저를 푸시할 위치를 지정하세요:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_billsum_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_billsum_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -345,11 +347,12 @@ TensorFlow에서 모델을 파인튜닝하려면, 먼저 옵티마이저, 학습
 모델을 사용하여 요약을 수행할 [`pipeline`]을 인스턴스화하고 텍스트를 전달하세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline("summarization", model="stevhliu/my_awesome_billsum_model")
->>> summarizer(text)
-[{"summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
+>> > summarizer = pipeline("summarization", model="stevhliu/my_awesome_billsum_model")
+>> > summarizer(text)
+[{
+     "summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
 ```
 
 원한다면 수동으로 다음과 같은 작업을 수행하여 [`pipeline`]의 결과와 동일한 결과를 얻을 수 있습니다:
@@ -360,20 +363,20 @@ TensorFlow에서 모델을 파인튜닝하려면, 먼저 옵티마이저, 학습
 텍스트를 토크나이즈하고 `input_ids`를 PyTorch 텐서로 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 요약문을 생성하려면 [`~generation.GenerationMixin.generate`] 메소드를 사용하세요.
 텍스트 생성에 대한 다양한 전략과 생성을 제어하기 위한 매개변수에 대한 자세한 내용은 [텍스트 생성](../main_classes/text_generation) API를 참조하세요.
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 생성된 토큰 ID를 텍스트로 디코딩합니다:
@@ -387,20 +390,20 @@ TensorFlow에서 모델을 파인튜닝하려면, 먼저 옵티마이저, 학습
 텍스트를 토크나이즈하고 `input_ids`를 TensorFlow 텐서로 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 요약문을 생성하려면 [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] 메소드를 사용하세요.
 텍스트 생성에 대한 다양한 전략과 생성을 제어하기 위한 매개변수에 대한 자세한 내용은 [텍스트 생성](../main_classes/text_generation) API를 참조하세요.
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 생성된 토큰 ID를 텍스트로 디코딩합니다:

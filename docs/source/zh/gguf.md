@@ -81,7 +81,7 @@ GGUF文件格式用于存储模型，以便通过[GGML](https://github.com/ggerg
 为了在`transformers`中加载`gguf`文件，你需要在 `from_pretrained`方法中为分词器和模型指定 `gguf_file`参数。下面是从同一个文件中加载分词器和模型的示例：
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
 filename = "tinyllama-1.1b-chat-v1.0.Q6_K.gguf"

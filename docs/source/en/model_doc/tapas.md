@@ -81,58 +81,58 @@ To summarize:
 Initializing a model with a pre-trained base and randomly initialized classification heads from the hub can be done as shown below.
 
 ```py
->>> from transformers import TapasConfig, TapasForQuestionAnswering
+>> > from myTransformers import TapasConfig, TapasForQuestionAnswering
 
->>> # for example, the base sized model with default SQA configuration
->>> model = TapasForQuestionAnswering.from_pretrained("google/tapas-base")
+>> >  # for example, the base sized model with default SQA configuration
+>> > model = TapasForQuestionAnswering.from_pretrained("google/tapas-base")
 
->>> # or, the base sized model with WTQ configuration
->>> config = TapasConfig.from_pretrained("google/tapas-base-finetuned-wtq")
->>> model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # or, the base sized model with WTQ configuration
+>> > config = TapasConfig.from_pretrained("google/tapas-base-finetuned-wtq")
+>> > model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 
->>> # or, the base sized model with WikiSQL configuration
->>> config = TapasConfig("google-base-finetuned-wikisql-supervised")
->>> model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # or, the base sized model with WikiSQL configuration
+>> > config = TapasConfig("google-base-finetuned-wikisql-supervised")
+>> > model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 ```
 
 Of course, you don't necessarily have to follow one of these three ways in which TAPAS was fine-tuned. You can also experiment by defining any hyperparameters you want when initializing [`TapasConfig`], and then create a [`TapasForQuestionAnswering`] based on that configuration. For example, if you have a dataset that has both conversational questions and questions that might involve aggregation, then you can do it this way. Here's an example:
 
 ```py
->>> from transformers import TapasConfig, TapasForQuestionAnswering
+>> > from myTransformers import TapasConfig, TapasForQuestionAnswering
 
->>> # you can initialize the classification heads any way you want (see docs of TapasConfig)
->>> config = TapasConfig(num_aggregation_labels=3, average_logits_per_cell=True)
->>> # initializing the pre-trained base sized model with our custom classification heads
->>> model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # you can initialize the classification heads any way you want (see docs of TapasConfig)
+>> > config = TapasConfig(num_aggregation_labels=3, average_logits_per_cell=True)
+>> >  # initializing the pre-trained base sized model with our custom classification heads
+>> > model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 ```
 </pt>
 <tf>
 Initializing a model with a pre-trained base and randomly initialized classification heads from the hub can be done as shown below. Be sure to have installed the [tensorflow_probability](https://github.com/tensorflow/probability) dependency:
 
 ```py
->>> from transformers import TapasConfig, TFTapasForQuestionAnswering
+>> > from myTransformers import TapasConfig, TFTapasForQuestionAnswering
 
->>> # for example, the base sized model with default SQA configuration
->>> model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base")
+>> >  # for example, the base sized model with default SQA configuration
+>> > model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base")
 
->>> # or, the base sized model with WTQ configuration
->>> config = TapasConfig.from_pretrained("google/tapas-base-finetuned-wtq")
->>> model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # or, the base sized model with WTQ configuration
+>> > config = TapasConfig.from_pretrained("google/tapas-base-finetuned-wtq")
+>> > model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 
->>> # or, the base sized model with WikiSQL configuration
->>> config = TapasConfig("google-base-finetuned-wikisql-supervised")
->>> model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # or, the base sized model with WikiSQL configuration
+>> > config = TapasConfig("google-base-finetuned-wikisql-supervised")
+>> > model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 ```
 
 Of course, you don't necessarily have to follow one of these three ways in which TAPAS was fine-tuned. You can also experiment by defining any hyperparameters you want when initializing [`TapasConfig`], and then create a [`TFTapasForQuestionAnswering`] based on that configuration. For example, if you have a dataset that has both conversational questions and questions that might involve aggregation, then you can do it this way. Here's an example:
 
 ```py
->>> from transformers import TapasConfig, TFTapasForQuestionAnswering
+>> > from myTransformers import TapasConfig, TFTapasForQuestionAnswering
 
->>> # you can initialize the classification heads any way you want (see docs of TapasConfig)
->>> config = TapasConfig(num_aggregation_labels=3, average_logits_per_cell=True)
->>> # initializing the pre-trained base sized model with our custom classification heads
->>> model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> >  # you can initialize the classification heads any way you want (see docs of TapasConfig)
+>> > config = TapasConfig(num_aggregation_labels=3, average_logits_per_cell=True)
+>> >  # initializing the pre-trained base sized model with our custom classification heads
+>> > model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 ```
 </tf>
 </frameworkcontent>
@@ -173,32 +173,38 @@ inputs to be fine-tuned:
 [`TapasTokenizer`] creates the `labels`, `numeric_values` and `numeric_values_scale` based on the `answer_coordinates` and `answer_text` columns of the TSV file. The `float_answer` and `aggregation_labels` are already in the TSV file of step 2. Here's an example:
 
 ```py
->>> from transformers import TapasTokenizer
->>> import pandas as pd
+>> > from myTransformers import TapasTokenizer
+>> > import pandas as pd
 
->>> model_name = "google/tapas-base"
->>> tokenizer = TapasTokenizer.from_pretrained(model_name)
+>> > model_name = "google/tapas-base"
+>> > tokenizer = TapasTokenizer.from_pretrained(model_name)
 
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> queries = [
-...     "What is the name of the first actor?",
-...     "How many movies has George Clooney played in?",
-...     "What is the total number of movies?",
-... ]
->>> answer_coordinates = [[(0, 0)], [(2, 1)], [(0, 1), (1, 1), (2, 1)]]
->>> answer_text = [["Brad Pitt"], ["69"], ["209"]]
->>> table = pd.DataFrame.from_dict(data)
->>> inputs = tokenizer(
-...     table=table,
-...     queries=queries,
-...     answer_coordinates=answer_coordinates,
-...     answer_text=answer_text,
-...     padding="max_length",
-...     return_tensors="pt",
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > queries = [
+    ...     "What is the name of the first actor?",
+    ...     "How many movies has George Clooney played in?",
+    ...     "What is the total number of movies?",
+    ...]
+>> > answer_coordinates = [[(0, 0)], [(2, 1)], [(0, 1), (1, 1), (2, 1)]]
+>> > answer_text = [["Brad Pitt"], ["69"], ["209"]]
+>> > table = pd.DataFrame.from_dict(data)
+>> > inputs = tokenizer(
+    ...
+table = table,
+...
+queries = queries,
+...
+answer_coordinates = answer_coordinates,
+...
+answer_text = answer_text,
+...
+padding = "max_length",
+...
+return_tensors = "pt",
 ... )
->>> inputs
-{'input_ids': tensor([[ ... ]]), 'attention_mask': tensor([[...]]), 'token_type_ids': tensor([[[...]]]),
-'numeric_values': tensor([[ ... ]]), 'numeric_values_scale: tensor([[ ... ]]), labels: tensor([[ ... ]])}
+>> > inputs
+{'input_ids': tensor([[...]]), 'attention_mask': tensor([[...]]), 'token_type_ids': tensor([[[...]]]),
+ 'numeric_values': tensor([[...]]), 'numeric_values_scale: tensor([[ ... ]]), labels: tensor([[ ... ]])}
 ```
 
 Note that [`TapasTokenizer`] expects the data of the table to be **text-only**. You can use `.astype(str)` on a dataframe to turn it into text-only data.
@@ -259,32 +265,38 @@ inputs to be fine-tuned:
 [`TapasTokenizer`] creates the `labels`, `numeric_values` and `numeric_values_scale` based on the `answer_coordinates` and `answer_text` columns of the TSV file. The `float_answer` and `aggregation_labels` are already in the TSV file of step 2. Here's an example:
 
 ```py
->>> from transformers import TapasTokenizer
->>> import pandas as pd
+>> > from myTransformers import TapasTokenizer
+>> > import pandas as pd
 
->>> model_name = "google/tapas-base"
->>> tokenizer = TapasTokenizer.from_pretrained(model_name)
+>> > model_name = "google/tapas-base"
+>> > tokenizer = TapasTokenizer.from_pretrained(model_name)
 
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> queries = [
-...     "What is the name of the first actor?",
-...     "How many movies has George Clooney played in?",
-...     "What is the total number of movies?",
-... ]
->>> answer_coordinates = [[(0, 0)], [(2, 1)], [(0, 1), (1, 1), (2, 1)]]
->>> answer_text = [["Brad Pitt"], ["69"], ["209"]]
->>> table = pd.DataFrame.from_dict(data)
->>> inputs = tokenizer(
-...     table=table,
-...     queries=queries,
-...     answer_coordinates=answer_coordinates,
-...     answer_text=answer_text,
-...     padding="max_length",
-...     return_tensors="tf",
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > queries = [
+    ...     "What is the name of the first actor?",
+    ...     "How many movies has George Clooney played in?",
+    ...     "What is the total number of movies?",
+    ...]
+>> > answer_coordinates = [[(0, 0)], [(2, 1)], [(0, 1), (1, 1), (2, 1)]]
+>> > answer_text = [["Brad Pitt"], ["69"], ["209"]]
+>> > table = pd.DataFrame.from_dict(data)
+>> > inputs = tokenizer(
+    ...
+table = table,
+...
+queries = queries,
+...
+answer_coordinates = answer_coordinates,
+...
+answer_text = answer_text,
+...
+padding = "max_length",
+...
+return_tensors = "tf",
 ... )
->>> inputs
-{'input_ids': tensor([[ ... ]]), 'attention_mask': tensor([[...]]), 'token_type_ids': tensor([[[...]]]),
-'numeric_values': tensor([[ ... ]]), 'numeric_values_scale: tensor([[ ... ]]), labels: tensor([[ ... ]])}
+>> > inputs
+{'input_ids': tensor([[...]]), 'attention_mask': tensor([[...]]), 'token_type_ids': tensor([[[...]]]),
+ 'numeric_values': tensor([[...]]), 'numeric_values_scale: tensor([[ ... ]]), labels: tensor([[ ... ]])}
 ```
 
 Note that [`TapasTokenizer`] expects the data of the table to be **text-only**. You can use `.astype(str)` on a dataframe to turn it into text-only data.
@@ -356,101 +368,158 @@ index) and batch encode each table with its questions. This will make sure that 
 You can then fine-tune [`TapasForQuestionAnswering`] as follows (shown here for the weak supervision for aggregation case):
 
 ```py
->>> from transformers import TapasConfig, TapasForQuestionAnswering, AdamW
+>> > from myTransformers import TapasConfig, TapasForQuestionAnswering, AdamW
 
->>> # this is the default WTQ configuration
->>> config = TapasConfig(
-...     num_aggregation_labels=4,
-...     use_answer_as_supervision=True,
-...     answer_loss_cutoff=0.664694,
-...     cell_selection_preference=0.207951,
-...     huber_loss_delta=0.121194,
-...     init_cell_selection_weights_to_zero=True,
-...     select_one_column=True,
-...     allow_empty_column_selection=False,
-...     temperature=0.0352513,
+>> >  # this is the default WTQ configuration
+>> > config = TapasConfig(
+    ...
+num_aggregation_labels = 4,
+...
+use_answer_as_supervision = True,
+...
+answer_loss_cutoff = 0.664694,
+...
+cell_selection_preference = 0.207951,
+...
+huber_loss_delta = 0.121194,
+...
+init_cell_selection_weights_to_zero = True,
+...
+select_one_column = True,
+...
+allow_empty_column_selection = False,
+...
+temperature = 0.0352513,
 ... )
->>> model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> > model = TapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 
->>> optimizer = AdamW(model.parameters(), lr=5e-5)
+>> > optimizer = AdamW(model.parameters(), lr=5e-5)
 
->>> model.train()
->>> for epoch in range(2):  # loop over the dataset multiple times
-...     for batch in train_dataloader:
-...         # get the inputs;
-...         input_ids = batch["input_ids"]
-...         attention_mask = batch["attention_mask"]
-...         token_type_ids = batch["token_type_ids"]
-...         labels = batch["labels"]
-...         numeric_values = batch["numeric_values"]
-...         numeric_values_scale = batch["numeric_values_scale"]
-...         float_answer = batch["float_answer"]
+>> > model.train()
+>> > for epoch in range(2):  # loop over the dataset multiple times
+    ...
+for batch in train_dataloader:
+    ...  # get the inputs;
+...
+input_ids = batch["input_ids"]
+...
+attention_mask = batch["attention_mask"]
+...
+token_type_ids = batch["token_type_ids"]
+...
+labels = batch["labels"]
+...
+numeric_values = batch["numeric_values"]
+...
+numeric_values_scale = batch["numeric_values_scale"]
+...
+float_answer = batch["float_answer"]
 
-...         # zero the parameter gradients
-...         optimizer.zero_grad()
+...  # zero the parameter gradients
+...
+optimizer.zero_grad()
 
-...         # forward + backward + optimize
-...         outputs = model(
-...             input_ids=input_ids,
-...             attention_mask=attention_mask,
-...             token_type_ids=token_type_ids,
-...             labels=labels,
-...             numeric_values=numeric_values,
-...             numeric_values_scale=numeric_values_scale,
-...             float_answer=float_answer,
+...  # forward + backward + optimize
+...
+outputs = model(
+    ...
+input_ids = input_ids,
+...
+attention_mask = attention_mask,
+...
+token_type_ids = token_type_ids,
+...
+labels = labels,
+...
+numeric_values = numeric_values,
+...
+numeric_values_scale = numeric_values_scale,
+...
+float_answer = float_answer,
 ...         )
-...         loss = outputs.loss
-...         loss.backward()
-...         optimizer.step()
+...
+loss = outputs.loss
+...
+loss.backward()
+...
+optimizer.step()
 ```
 </pt>
 <tf>
 You can then fine-tune [`TFTapasForQuestionAnswering`] as follows (shown here for the weak supervision for aggregation case):
 
 ```py
->>> import tensorflow as tf
->>> from transformers import TapasConfig, TFTapasForQuestionAnswering
+>> > import tensorflow as tf
+>> > from myTransformers import TapasConfig, TFTapasForQuestionAnswering
 
->>> # this is the default WTQ configuration
->>> config = TapasConfig(
-...     num_aggregation_labels=4,
-...     use_answer_as_supervision=True,
-...     answer_loss_cutoff=0.664694,
-...     cell_selection_preference=0.207951,
-...     huber_loss_delta=0.121194,
-...     init_cell_selection_weights_to_zero=True,
-...     select_one_column=True,
-...     allow_empty_column_selection=False,
-...     temperature=0.0352513,
+>> >  # this is the default WTQ configuration
+>> > config = TapasConfig(
+    ...
+num_aggregation_labels = 4,
+...
+use_answer_as_supervision = True,
+...
+answer_loss_cutoff = 0.664694,
+...
+cell_selection_preference = 0.207951,
+...
+huber_loss_delta = 0.121194,
+...
+init_cell_selection_weights_to_zero = True,
+...
+select_one_column = True,
+...
+allow_empty_column_selection = False,
+...
+temperature = 0.0352513,
 ... )
->>> model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
+>> > model = TFTapasForQuestionAnswering.from_pretrained("google/tapas-base", config=config)
 
->>> optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
+>> > optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
 
->>> for epoch in range(2):  # loop over the dataset multiple times
-...     for batch in train_dataloader:
-...         # get the inputs;
-...         input_ids = batch[0]
-...         attention_mask = batch[1]
-...         token_type_ids = batch[4]
-...         labels = batch[-1]
-...         numeric_values = batch[2]
-...         numeric_values_scale = batch[3]
-...         float_answer = batch[6]
+>> > for epoch in range(2):  # loop over the dataset multiple times
+    ...
+for batch in train_dataloader:
+    ...  # get the inputs;
+...
+input_ids = batch[0]
+...
+attention_mask = batch[1]
+...
+token_type_ids = batch[4]
+...
+labels = batch[-1]
+...
+numeric_values = batch[2]
+...
+numeric_values_scale = batch[3]
+...
+float_answer = batch[6]
 
-...         # forward + backward + optimize
-...         with tf.GradientTape() as tape:
-...             outputs = model(
-...                 input_ids=input_ids,
-...                 attention_mask=attention_mask,
-...                 token_type_ids=token_type_ids,
-...                 labels=labels,
-...                 numeric_values=numeric_values,
-...                 numeric_values_scale=numeric_values_scale,
-...                 float_answer=float_answer,
+...  # forward + backward + optimize
+...
+with tf.GradientTape() as tape:
+    ...
+outputs = model(
+    ...
+input_ids = input_ids,
+...
+attention_mask = attention_mask,
+...
+token_type_ids = token_type_ids,
+...
+labels = labels,
+...
+numeric_values = numeric_values,
+...
+numeric_values_scale = numeric_values_scale,
+...
+float_answer = float_answer,
 ...             )
-...         grads = tape.gradient(outputs.loss, model.trainable_weights)
-...         optimizer.apply_gradients(zip(grads, model.trainable_weights))
+...
+grads = tape.gradient(outputs.loss, model.trainable_weights)
+...
+optimizer.apply_gradients(zip(grads, model.trainable_weights))
 ```
 </tf>
 </frameworkcontent>
@@ -464,56 +533,86 @@ Here we explain how you can use [`TapasForQuestionAnswering`] or [`TFTapasForQue
 However, note that inference is **different** depending on whether or not the setup is conversational. In a non-conversational set-up, inference can be done in parallel on all table-question pairs of a batch. Here's an example of that:
 
 ```py
->>> from transformers import TapasTokenizer, TapasForQuestionAnswering
->>> import pandas as pd
+>> > from myTransformers import TapasTokenizer, TapasForQuestionAnswering
+>> > import pandas as pd
 
->>> model_name = "google/tapas-base-finetuned-wtq"
->>> model = TapasForQuestionAnswering.from_pretrained(model_name)
->>> tokenizer = TapasTokenizer.from_pretrained(model_name)
+>> > model_name = "google/tapas-base-finetuned-wtq"
+>> > model = TapasForQuestionAnswering.from_pretrained(model_name)
+>> > tokenizer = TapasTokenizer.from_pretrained(model_name)
 
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> queries = [
-...     "What is the name of the first actor?",
-...     "How many movies has George Clooney played in?",
-...     "What is the total number of movies?",
-... ]
->>> table = pd.DataFrame.from_dict(data)
->>> inputs = tokenizer(table=table, queries=queries, padding="max_length", return_tensors="pt")
->>> outputs = model(**inputs)
->>> predicted_answer_coordinates, predicted_aggregation_indices = tokenizer.convert_logits_to_predictions(
-...     inputs, outputs.logits.detach(), outputs.logits_aggregation.detach()
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > queries = [
+    ...     "What is the name of the first actor?",
+    ...     "How many movies has George Clooney played in?",
+    ...     "What is the total number of movies?",
+    ...]
+>> > table = pd.DataFrame.from_dict(data)
+>> > inputs = tokenizer(table=table, queries=queries, padding="max_length", return_tensors="pt")
+>> > outputs = model(**inputs)
+>> > predicted_answer_coordinates, predicted_aggregation_indices = tokenizer.convert_logits_to_predictions(
+    ...
+inputs, outputs.logits.detach(), outputs.logits_aggregation.detach()
 ... )
 
->>> # let's print out the results:
->>> id2aggregation = {0: "NONE", 1: "SUM", 2: "AVERAGE", 3: "COUNT"}
->>> aggregation_predictions_string = [id2aggregation[x] for x in predicted_aggregation_indices]
+>> >  # let's print out the results:
+>> > id2aggregation = {0: "NONE", 1: "SUM", 2: "AVERAGE", 3: "COUNT"}
+>> > aggregation_predictions_string = [id2aggregation[x] for x in predicted_aggregation_indices]
 
->>> answers = []
->>> for coordinates in predicted_answer_coordinates:
-...     if len(coordinates) == 1:
-...         # only a single cell:
-...         answers.append(table.iat[coordinates[0]])
-...     else:
-...         # multiple cells
-...         cell_values = []
-...         for coordinate in coordinates:
-...             cell_values.append(table.iat[coordinate])
-...         answers.append(", ".join(cell_values))
+>> > answers = []
+>> > for coordinates in predicted_answer_coordinates:
+    ...
+if len(coordinates) == 1:
+    ...  # only a single cell:
+...
+answers.append(table.iat[coordinates[0]])
+... else:
+...  # multiple cells
+...
+cell_values = []
+...
+for coordinate in coordinates:
+    ...
+cell_values.append(table.iat[coordinate])
+...
+answers.append(", ".join(cell_values))
 
->>> display(table)
->>> print("")
->>> for query, answer, predicted_agg in zip(queries, answers, aggregation_predictions_string):
-...     print(query)
-...     if predicted_agg == "NONE":
-...         print("Predicted answer: " + answer)
-...     else:
-...         print("Predicted answer: " + predicted_agg + " > " + answer)
-What is the name of the first actor?
-Predicted answer: Brad Pitt
-How many movies has George Clooney played in?
-Predicted answer: COUNT > 69
-What is the total number of movies?
-Predicted answer: SUM > 87, 53, 69
+>> > display(table)
+>> > print("")
+>> > for query, answer, predicted_agg in zip(queries, answers, aggregation_predictions_string):
+    ...
+print(query)
+...
+if predicted_agg == "NONE":
+    ...
+print("Predicted answer: " + answer)
+... else:
+...
+print("Predicted answer: " + predicted_agg + " > " + answer)
+What is the
+name
+of
+the
+first
+actor?
+Predicted
+answer: Brad
+Pitt
+How
+many
+movies
+has
+George
+Clooney
+played in?
+Predicted
+answer: COUNT > 69
+What is the
+total
+number
+of
+movies?
+Predicted
+answer: SUM > 87, 53, 69
 ```
 </pt>
 <tf>
@@ -522,56 +621,86 @@ Here we explain how you can use [`TFTapasForQuestionAnswering`] for inference (i
 However, note that inference is **different** depending on whether or not the setup is conversational. In a non-conversational set-up, inference can be done in parallel on all table-question pairs of a batch. Here's an example of that:
 
 ```py
->>> from transformers import TapasTokenizer, TFTapasForQuestionAnswering
->>> import pandas as pd
+>> > from myTransformers import TapasTokenizer, TFTapasForQuestionAnswering
+>> > import pandas as pd
 
->>> model_name = "google/tapas-base-finetuned-wtq"
->>> model = TFTapasForQuestionAnswering.from_pretrained(model_name)
->>> tokenizer = TapasTokenizer.from_pretrained(model_name)
+>> > model_name = "google/tapas-base-finetuned-wtq"
+>> > model = TFTapasForQuestionAnswering.from_pretrained(model_name)
+>> > tokenizer = TapasTokenizer.from_pretrained(model_name)
 
->>> data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
->>> queries = [
-...     "What is the name of the first actor?",
-...     "How many movies has George Clooney played in?",
-...     "What is the total number of movies?",
-... ]
->>> table = pd.DataFrame.from_dict(data)
->>> inputs = tokenizer(table=table, queries=queries, padding="max_length", return_tensors="tf")
->>> outputs = model(**inputs)
->>> predicted_answer_coordinates, predicted_aggregation_indices = tokenizer.convert_logits_to_predictions(
-...     inputs, outputs.logits, outputs.logits_aggregation
+>> > data = {"Actors": ["Brad Pitt", "Leonardo Di Caprio", "George Clooney"], "Number of movies": ["87", "53", "69"]}
+>> > queries = [
+    ...     "What is the name of the first actor?",
+    ...     "How many movies has George Clooney played in?",
+    ...     "What is the total number of movies?",
+    ...]
+>> > table = pd.DataFrame.from_dict(data)
+>> > inputs = tokenizer(table=table, queries=queries, padding="max_length", return_tensors="tf")
+>> > outputs = model(**inputs)
+>> > predicted_answer_coordinates, predicted_aggregation_indices = tokenizer.convert_logits_to_predictions(
+    ...
+inputs, outputs.logits, outputs.logits_aggregation
 ... )
 
->>> # let's print out the results:
->>> id2aggregation = {0: "NONE", 1: "SUM", 2: "AVERAGE", 3: "COUNT"}
->>> aggregation_predictions_string = [id2aggregation[x] for x in predicted_aggregation_indices]
+>> >  # let's print out the results:
+>> > id2aggregation = {0: "NONE", 1: "SUM", 2: "AVERAGE", 3: "COUNT"}
+>> > aggregation_predictions_string = [id2aggregation[x] for x in predicted_aggregation_indices]
 
->>> answers = []
->>> for coordinates in predicted_answer_coordinates:
-...     if len(coordinates) == 1:
-...         # only a single cell:
-...         answers.append(table.iat[coordinates[0]])
-...     else:
-...         # multiple cells
-...         cell_values = []
-...         for coordinate in coordinates:
-...             cell_values.append(table.iat[coordinate])
-...         answers.append(", ".join(cell_values))
+>> > answers = []
+>> > for coordinates in predicted_answer_coordinates:
+    ...
+if len(coordinates) == 1:
+    ...  # only a single cell:
+...
+answers.append(table.iat[coordinates[0]])
+... else:
+...  # multiple cells
+...
+cell_values = []
+...
+for coordinate in coordinates:
+    ...
+cell_values.append(table.iat[coordinate])
+...
+answers.append(", ".join(cell_values))
 
->>> display(table)
->>> print("")
->>> for query, answer, predicted_agg in zip(queries, answers, aggregation_predictions_string):
-...     print(query)
-...     if predicted_agg == "NONE":
-...         print("Predicted answer: " + answer)
-...     else:
-...         print("Predicted answer: " + predicted_agg + " > " + answer)
-What is the name of the first actor?
-Predicted answer: Brad Pitt
-How many movies has George Clooney played in?
-Predicted answer: COUNT > 69
-What is the total number of movies?
-Predicted answer: SUM > 87, 53, 69
+>> > display(table)
+>> > print("")
+>> > for query, answer, predicted_agg in zip(queries, answers, aggregation_predictions_string):
+    ...
+print(query)
+...
+if predicted_agg == "NONE":
+    ...
+print("Predicted answer: " + answer)
+... else:
+...
+print("Predicted answer: " + predicted_agg + " > " + answer)
+What is the
+name
+of
+the
+first
+actor?
+Predicted
+answer: Brad
+Pitt
+How
+many
+movies
+has
+George
+Clooney
+played in?
+Predicted
+answer: COUNT > 69
+What is the
+total
+number
+of
+movies?
+Predicted
+answer: SUM > 87, 53, 69
 ```
 </tf>
 </frameworkcontent>

@@ -45,14 +45,14 @@ Llama2 모델은 Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Al
 - 양식을 작성하고 모델 체크포인트 접근 권한을 얻은 후에는 이미 변환된 체크포인트를 사용할 수 있습니다. 그렇지 않고 자신의 모델을 직접 변환하려는 경우, [변환 스크립트](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)를 자유롭게 사용하세요. 스크립트는 다음과 같은 예시의 명령어로 호출할 수 있습니다:
 
 ```bash
-python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+python src/myTransformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
 ```
 
 - 변환 후 모델과 토크나이저는 다음과 같이 로드할 수 있습니다:
 
 ```python
-from transformers import LlamaForCausalLM, LlamaTokenizer
+from myTransformers import LlamaForCausalLM, LlamaTokenizer
 
 tokenizer = LlamaTokenizer.from_pretrained("/output/path")
 model = LlamaForCausalLM.from_pretrained("/output/path")

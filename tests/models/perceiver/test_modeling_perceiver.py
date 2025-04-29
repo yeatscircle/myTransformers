@@ -23,8 +23,8 @@ import warnings
 import numpy as np
 from datasets import load_dataset
 
-from transformers import PerceiverConfig
-from transformers.testing_utils import (
+from myTransformers import PerceiverConfig
+from myTransformers.testing_utils import (
     IS_ROCM_SYSTEM,
     require_torch,
     require_torch_multi_gpu,
@@ -32,7 +32,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -43,7 +43,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         PerceiverForImageClassificationConvProcessing,
         PerceiverForImageClassificationFourier,
         PerceiverForImageClassificationLearned,
@@ -54,7 +54,7 @@ if is_torch_available():
         PerceiverModel,
         PerceiverTokenizer,
     )
-    from transformers.models.auto.modeling_auto import (
+    from myTransformers.models.auto.modeling_auto import (
         MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING_NAMES,
         MODEL_FOR_MASKED_LM_MAPPING_NAMES,
         MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES,
@@ -66,7 +66,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import PerceiverImageProcessor
+    from myTransformers import PerceiverImageProcessor
 
 
 class PerceiverModelTester:

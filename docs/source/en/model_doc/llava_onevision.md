@@ -68,7 +68,7 @@ Here’s an example of how to structure your input.
 We will use [llava-onevision-qwen2-7b-si-hf](https://huggingface.co/llava-hf/llava-onevision-qwen2-7b-si-hf) and a conversation history of text and image. Each content field has to be a list of dicts, as follows:
 
 ```python
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-si-hf")
 
@@ -82,7 +82,7 @@ conversation = [
     },
     {
         "role": "assistant",
-        "content": [{"type": "text", "text": "This image shows a red stop sign."},]
+        "content": [{"type": "text", "text": "This image shows a red stop sign."}, ]
     },
     {
 
@@ -114,10 +114,10 @@ The original code can be found [here](https://github.com/LLaVA-VL/LLaVA-NeXT/tre
 Here's how to load the model and perform inference in half-precision (`torch.float16`):
 
 ```python
-from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 import torch
 
-processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf") 
+processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf")
 model = LlavaOnevisionForConditionalGeneration.from_pretrained(
     "llava-hf/llava-onevision-qwen2-7b-ov-hf",
     torch_dtype=torch.float16,
@@ -136,7 +136,8 @@ conversation = [
         ],
     },
 ]
-inputs = processor.apply_chat_template(conversation, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt")
+inputs = processor.apply_chat_template(conversation, add_generation_prompt=True, tokenize=True, return_dict=True,
+                                       return_tensors="pt")
 inputs = inputs.to("cuda:0", torch.float16)
 
 # autoregressively complete prompt
@@ -153,10 +154,11 @@ LLaVa-OneVision can perform inference with multiple images as input, where image
 import requests
 from PIL import Image
 import torch
-from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 # Load the model in half-precision
-model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf", torch_dtype=torch.float16, device_map="auto")
+model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf",
+                                                               torch_dtype=torch.float16, device_map="auto")
 processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf")
 
 # Prepare a batch of two prompts, where the first one is a multi-turn conversation and the second is not
@@ -166,20 +168,20 @@ conversation_1 = [
         "content": [
             {"type": "image", "url": "https://www.ilankelman.org/stopsigns/australia.jpg"},
             {"type": "text", "text": "What is shown in this image?"},
-            ],
+        ],
     },
     {
         "role": "assistant",
         "content": [
             {"type": "text", "text": "There is a red stop sign in the image."},
-            ],
+        ],
     },
     {
         "role": "user",
         "content": [
             {"type": "image", "url": "http://images.cocodataset.org/val2017/000000039769.jpg"},
             {"type": "text", "text": "What about this image? How many cats do you see?"},
-            ],
+        ],
     },
 ]
 
@@ -189,7 +191,7 @@ conversation_2 = [
         "content": [
             {"type": "image", "url": "https://huggingface.co/microsoft/kosmos-2-patch14-224/resolve/main/snowman.jpg"},
             {"type": "text", "text": "What is shown in this image?"},
-            ],
+        ],
     },
 ]
 
@@ -205,7 +207,9 @@ inputs = processor.apply_chat_template(
 # Generate
 generate_ids = model.generate(**inputs, max_new_tokens=30)
 processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-['user\n\nWhat is shown in this image?\nassistant\nThere is a red stop sign in the image.\nuser\n\nWhat about this image? How many cats do you see?\nassistant\ntwo', 'user\n\nWhat is shown in this image?\nassistant\n']
+[
+    'user\n\nWhat is shown in this image?\nassistant\nThere is a red stop sign in the image.\nuser\n\nWhat about this image? How many cats do you see?\nassistant\ntwo',
+    'user\n\nWhat is shown in this image?\nassistant\n']
 ```
 
 ### Video inference
@@ -215,13 +219,15 @@ LLaVa-OneVision also can perform inference with videos as input, where video fra
 ```python
 from huggingface_hub import hf_hub_download
 import torch
-from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 # Load the model in half-precision
-model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf", torch_dtype=torch.float16, device_map="auto")
+model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf",
+                                                               torch_dtype=torch.float16, device_map="auto")
 processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf")
 
-video_path = hf_hub_download(repo_id="raushan-testing-hf/videos-test", filename="sample_demo_1.mp4", repo_type="dataset")
+video_path = hf_hub_download(repo_id="raushan-testing-hf/videos-test", filename="sample_demo_1.mp4",
+                             repo_type="dataset")
 conversation = [
     {
 
@@ -229,22 +235,23 @@ conversation = [
         "content": [
             {"type": "video", "path": video_path},
             {"type": "text", "text": "Why is this video funny?"},
-            ],
+        ],
     },
 ]
 
 inputs = processor.apply_chat_template(
     conversation,
     num_frames=8
-    add_generation_prompt=True,
-    tokenize=True,
-    return_dict=True,
-    return_tensors="pt"
+add_generation_prompt = True,
+tokenize = True,
+return_dict = True,
+return_tensors = "pt"
 ).to(model.device, torch.float16)
 
 out = model.generate(**inputs, max_new_tokens=60)
 processor.batch_decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-["user\n\nWhy is this video funny?\nassistant\nThe video appears to be humorous because it shows a young child, who is wearing glasses and holding a book, seemingly reading with a serious and focused expression. The child's glasses are a bit oversized for their face, which adds a comical touch, as it's a common trope to see children wearing"]
+[
+    "user\n\nWhy is this video funny?\nassistant\nThe video appears to be humorous because it shows a young child, who is wearing glasses and holding a book, seemingly reading with a serious and focused expression. The child's glasses are a bit oversized for their face, which adds a comical touch, as it's a common trope to see children wearing"]
 ```
 
 ## Model optimization
@@ -264,7 +271,7 @@ We value your feedback to help identify bugs before the full release! Check out 
 Simply change the snippet above with:
 
 ```python
-from transformers import LlavaOnevisionForConditionalGeneration, BitsAndBytesConfig
+from myTransformers import LlavaOnevisionForConditionalGeneration, BitsAndBytesConfig
 
 # specify how to quantize the model
 quantization_config = BitsAndBytesConfig(
@@ -273,7 +280,8 @@ quantization_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 
-model = LlavaOnevisionForConditionalGeneration.from_pretrained(model_id, quantization_config=quantization_config, device_map="auto")
+model = LlavaOnevisionForConditionalGeneration.from_pretrained(model_id, quantization_config=quantization_config,
+                                                               device_map="auto")
 ```
 
 ### Use Flash-Attention 2 to further speed-up generation
@@ -281,7 +289,7 @@ model = LlavaOnevisionForConditionalGeneration.from_pretrained(model_id, quantiz
 First make sure to install flash-attn. Refer to the [original repository of Flash Attention](https://github.com/Dao-AILab/flash-attention) regarding that package installation. Simply change the snippet above with:
 
 ```python
-from transformers import LlavaOnevisionForConditionalGeneration
+from myTransformers import LlavaOnevisionForConditionalGeneration
 
 model = LlavaOnevisionForConditionalGeneration.from_pretrained(
     model_id,

@@ -15,9 +15,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_models_gpu
-      slack_report_channel: "#transformers-ci-daily-models"
+      slack_report_channel: "#myTransformers-ci-daily-models"
       runner: daily-ci
-      docker: huggingface/transformers-all-latest-gpu
+      docker: huggingface/myTransformers-all-latest-gpu
       ci_event: Daily CI
     secrets: inherit
 
@@ -26,9 +26,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_pipelines_torch_gpu
-      slack_report_channel: "#transformers-ci-daily-pipeline-torch"
+      slack_report_channel: "#myTransformers-ci-daily-pipeline-torch"
       runner: daily-ci
-      docker: huggingface/transformers-pytorch-gpu
+      docker: huggingface/myTransformers-pytorch-gpu
       ci_event: Daily CI
     secrets: inherit
 
@@ -37,9 +37,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_pipelines_tf_gpu
-      slack_report_channel: "#transformers-ci-daily-pipeline-tf"
+      slack_report_channel: "#myTransformers-ci-daily-pipeline-tf"
       runner: daily-ci
-      docker: huggingface/transformers-tensorflow-gpu
+      docker: huggingface/myTransformers-tensorflow-gpu
       ci_event: Daily CI
     secrets: inherit
 
@@ -48,9 +48,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_examples_gpu
-      slack_report_channel: "#transformers-ci-daily-examples"
+      slack_report_channel: "#myTransformers-ci-daily-examples"
       runner: daily-ci
-      docker: huggingface/transformers-all-latest-gpu
+      docker: huggingface/myTransformers-all-latest-gpu
       ci_event: Daily CI
     secrets: inherit
 
@@ -59,9 +59,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_trainer_and_fsdp_gpu
-      slack_report_channel: "#transformers-ci-daily-training"
+      slack_report_channel: "#myTransformers-ci-daily-training"
       runner: daily-ci
-      docker: huggingface/transformers-all-latest-gpu
+      docker: huggingface/myTransformers-all-latest-gpu
       ci_event: Daily CI
     secrets: inherit
 
@@ -70,9 +70,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_torch_cuda_extensions_gpu
-      slack_report_channel: "#transformers-ci-daily-training"
+      slack_report_channel: "#myTransformers-ci-daily-training"
       runner: daily-ci
-      docker: huggingface/transformers-pytorch-deepspeed-latest-gpu
+      docker: huggingface/myTransformers-pytorch-deepspeed-latest-gpu
       ci_event: Daily CI
       working-directory-prefix: /workspace
     secrets: inherit
@@ -82,8 +82,8 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_quantization_torch_gpu
-      slack_report_channel: "#transformers-ci-daily-quantization"
+      slack_report_channel: "#myTransformers-ci-daily-quantization"
       runner: daily-ci
-      docker: huggingface/transformers-quantization-latest-gpu
+      docker: huggingface/myTransformers-quantization-latest-gpu
       ci_event: Daily CI
     secrets: inherit

@@ -31,7 +31,7 @@ En este documento, intentaremos explicar cuáles son esas diferentes verificacio
 Recuerda que todas las verificaciones requieren que tengas una instalación de desarrollo:
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 o una instalación editable:

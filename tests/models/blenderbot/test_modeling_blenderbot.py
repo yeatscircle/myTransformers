@@ -16,8 +16,8 @@
 import tempfile
 import unittest
 
-from transformers import BlenderbotConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import BlenderbotConfig, is_torch_available
+from myTransformers.testing_utils import (
     backend_empty_cache,
     require_sentencepiece,
     require_tokenizers,
@@ -26,7 +26,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -37,8 +37,8 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import BlenderbotForConditionalGeneration, BlenderbotModel, BlenderbotTokenizer
-    from transformers.models.blenderbot.modeling_blenderbot import (
+    from myTransformers import BlenderbotForConditionalGeneration, BlenderbotModel, BlenderbotTokenizer
+    from myTransformers.models.blenderbot.modeling_blenderbot import (
         BlenderbotDecoder,
         BlenderbotEncoder,
         BlenderbotForCausalLM,

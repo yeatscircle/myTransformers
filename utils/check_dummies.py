@@ -15,7 +15,7 @@
 """
 This script is responsible for making sure the dummies in utils/dummies_xxx.py are up to date with the main init.
 
-Why dummies? This is to make sure that a user can always import all objects from `transformers`, even if they don't
+Why dummies? This is to make sure that a user can always import all objects from `myTransformers`, even if they don't
 have the necessary extra libs installed. Those objects will then raise helpful error message whenever the user tries
 to access one of their methods.
 
@@ -42,7 +42,7 @@ from typing import Dict, List, Optional
 
 # All paths are set with the intent you should run this script from the root of the repo with the command
 # python utils/check_dummies.py
-PATH_TO_TRANSFORMERS = "src/transformers"
+PATH_TO_TRANSFORMERS = "src/myTransformers"
 
 # Matches is_xxx_available()
 _re_backend = re.compile(r"is\_([a-z_]*)_available()")
@@ -216,7 +216,7 @@ def check_dummies(overwrite: bool = False):
         if dummy_files[backend] != actual_dummies[backend]:
             if overwrite:
                 print(
-                    f"Updating transformers.utils.dummy_{short_names.get(backend, backend)}_objects.py as the main "
+                    f"Updating myTransformers.utils.dummy_{short_names.get(backend, backend)}_objects.py as the main "
                     "__init__ has new objects."
                 )
                 with open(dummy_file_paths[backend], "w", encoding="utf-8", newline="\n") as f:
@@ -239,7 +239,7 @@ def check_dummies(overwrite: bool = False):
 
                 raise ValueError(
                     "The main __init__ has objects that are not present in "
-                    f"transformers.utils.dummy_{short_names.get(backend, backend)}_objects.py.\n"
+                    f"myTransformers.utils.dummy_{short_names.get(backend, backend)}_objects.py.\n"
                     f" It is likely the following objects are responsible, see these excerpts: \n"
                     f"---------------------------------- Actual -------------------------------------\n"
                     f" \n {actual_broken} \n"

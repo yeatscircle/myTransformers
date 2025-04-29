@@ -31,7 +31,7 @@ rendered properly in your Markdown viewer.
 قبل أن تبدأ، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate accelerate
+pip install myTransformers datasets evaluate accelerate
 ```
 
 نحن نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل ومشاركة نموذجك مع المجتمع. عند المطالبة، أدخل رمزك لتسجيل الدخول:
@@ -72,9 +72,9 @@ pip install transformers datasets evaluate accelerate
 الخطوة التالية هي تحميل المُجزِّئ النص DistilBERT لتهيئة لحقل `text`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 أنشئ دالة لتهيئة حقل `text` وتقصير السلاسل النصية بحيث لا يتجاوز طولها الحد الأقصى لإدخالات DistilBERT:
@@ -96,17 +96,17 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 <pt>
 
 ```py
->>> from transformers import DataCollatorWithPadding
+>> > from myTransformers import DataCollatorWithPadding
 
->>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+>> > data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import DataCollatorWithPadding
+>> > from myTransformers import DataCollatorWithPadding
 
->>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer, return_tensors="tf")
+>> > data_collator = DataCollatorWithPadding(tokenizer=tokenizer, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -154,10 +154,11 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 أنت مستعد الآن لبدء تدريب نموذجك! قم بتحميل DistilBERT مع [`AutoModelForSequenceClassification`] جنبًا إلى جنب مع عدد التصنيفات المتوقعة، وتصنيفات الخرائط:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = AutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -215,23 +216,24 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 لضبط نموذج في TensorFlow، ابدأ بإعداد دالة المحسن، وجدول معدل التعلم، وبعض معلمات التدريب:
 
 ```py
->>> from transformers import create_optimizer
->>> import tensorflow as tf
+>> > from myTransformers import create_optimizer
+>> > import tensorflow as tf
 
->>> batch_size = 16
->>> num_epochs = 5
->>> batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
->>> total_train_steps = int(batches_per_epoch * num_epochs)
->>> optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
+>> > total_train_steps = int(batches_per_epoch * num_epochs)
+>> > optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 ثم يمكنك تحميل DistilBERT مع [`TFAutoModelForSequenceClassification`] بالإضافة إلى عدد التصنيفات المتوقعة، وتعيينات التسميات:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -266,19 +268,21 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 قم بتمرير دالة `compute_metrics` الخاصة بك إلى [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 حدد مكان دفع نموذجك والمجزئ اللغوي في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -319,10 +323,10 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 أسهل طريقة لتجربة النموذج المضبوط للاستدلال هي استخدامه ضمن [`pipeline`]. قم بإنشاء `pipeline` لتحليل المشاعر مع نموذجك، ومرر نصك إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
->>> classifier(text)
+>> > classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
+>> > classifier(text)
 [{'label': 'POSITIVE', 'score': 0.9994940757751465}]
 ```
 
@@ -333,20 +337,21 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 قم يتجزئة النص وإرجاع تنسورات PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 مرر المدخلات إلى النموذج واسترجع `logits`:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأعلى، واستخدم `id2label` لتحويلها إلى تصنيف نصي:
@@ -361,19 +366,19 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 قم بتحليل النص وإرجاع تنسيقات TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 قم بتمرير مدخلاتك إلى النموذج وإرجاع `logits`:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > logits = model(**inputs).logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأعلى، واستخدم `id2label` لتحويلها إلى تصنيف نصي:

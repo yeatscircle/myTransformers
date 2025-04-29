@@ -22,8 +22,8 @@ import numpy as np
 from datasets import Audio, load_dataset
 from pytest import mark
 
-from transformers import AutoFeatureExtractor, MimiConfig
-from transformers.testing_utils import (
+from myTransformers import AutoFeatureExtractor, MimiConfig
+from myTransformers.testing_utils import (
     is_flaky,
     is_torch_available,
     require_flash_attn,
@@ -40,10 +40,10 @@ from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_
 if is_torch_available():
     import torch
 
-    from transformers import MimiModel
+    from myTransformers import MimiModel
 
 
-# Copied from transformers.tests.encodec.test_modeling_encodec.prepare_inputs_dict
+# Copied from myTransformers.tests.encodec.test_modeling_encodec.prepare_inputs_dict
 def prepare_inputs_dict(
     config,
     input_ids=None,
@@ -217,7 +217,7 @@ class MimiModelTest(ModelTesterMixin, unittest.TestCase):
     def test_torchscript_output_hidden_state(self):
         pass
 
-    # Copied from transformers.tests.encodec.test_modeling_encodec.MimiModelTest._create_and_check_torchscript
+    # Copied from myTransformers.tests.encodec.test_modeling_encodec.MimiModelTest._create_and_check_torchscript
     def _create_and_check_torchscript(self, config, inputs_dict):
         if not self.test_torchscript:
             self.skipTest(reason="test_torchscript is set to False")
@@ -316,7 +316,7 @@ class MimiModelTest(ModelTesterMixin, unittest.TestCase):
     def test_hidden_states_output(self):
         pass
 
-    # Copied from transformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_determinism
+    # Copied from myTransformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_determinism
     def test_determinism(self):
         config, inputs_dict = self.model_tester.prepare_config_and_inputs_for_common()
 
@@ -343,7 +343,7 @@ class MimiModelTest(ModelTesterMixin, unittest.TestCase):
             else:
                 check_determinism(first, second)
 
-    # Copied from transformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_model_outputs_equivalence
+    # Copied from myTransformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_model_outputs_equivalence
     def test_model_outputs_equivalence(self):
         config, inputs_dict = self.model_tester.prepare_config_and_inputs_for_common()
 
@@ -396,7 +396,7 @@ class MimiModelTest(ModelTesterMixin, unittest.TestCase):
                             msg=f"Parameter {name} of model {model_class} seems not properly initialized",
                         )
 
-    # Copied from transformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_identity_shortcut
+    # Copied from myTransformers.tests.encodec.test_modeling_encodec.MimiModelTest.test_identity_shortcut
     def test_identity_shortcut(self):
         config, inputs_dict = self.model_tester.prepare_config_and_inputs()
         config.use_conv_shortcut = False
@@ -443,14 +443,14 @@ class MimiModelTest(ModelTesterMixin, unittest.TestCase):
         pass
 
 
-# Copied from transformers.tests.encodec.test_modeling_encodec.normalize
+# Copied from myTransformers.tests.encodec.test_modeling_encodec.normalize
 def normalize(arr):
     norm = np.linalg.norm(arr)
     normalized_arr = arr / norm
     return normalized_arr
 
 
-# Copied from transformers.tests.encodec.test_modeling_encodec.compute_rmse
+# Copied from myTransformers.tests.encodec.test_modeling_encodec.compute_rmse
 def compute_rmse(arr1, arr2):
     arr1_normalized = normalize(arr1)
     arr2_normalized = normalize(arr2)

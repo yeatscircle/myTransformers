@@ -16,14 +16,14 @@
 
 ```bash
 git clone https://github.com/huggingface/transformers
-cd transformers
+cd myTransformers
 pip install .
 ```
 
 بالنسبة للإصدارات الأقدم من النصوص البرمجية التوضيحية، انقر فوق الزر أدناه:
 ```bash
 git clone https://github.com/huggingface/transformers
-cd transformers
+cd myTransformers
 pip install .
 ```
 

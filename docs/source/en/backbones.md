@@ -25,7 +25,7 @@ Higher-level computer visions tasks, such as object detection or image segmentat
 Load a backbone with [`~PretrainedConfig.from_pretrained`] and use the `out_indices` parameter to determine which layer, given by the index, to extract a feature map from.
 
 ```py
-from transformers import AutoBackbone
+from myTransformers import AutoBackbone
 
 model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
 ```
@@ -57,7 +57,7 @@ When `out_indices` or `out_features` isn't used, the backbone returns the featur
 </div>
 
 ```py
-from transformers import AutoImageProcessor, AutoBackbone
+from myTransformers import AutoImageProcessor, AutoBackbone
 
 model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
 ```
@@ -72,7 +72,7 @@ The example below loads a [ResNet](./model_doc/resnet) backbone and neck for use
 Set `backbone` to a pretrained model and  `use_pretrained_backbone=True` to use pretrained weights instead of randomly initialized weights.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
 config = MaskFormerConfig(backbone="microsoft/resnet-50", use_pretrained_backbone=True)
 model = MaskFormerForInstanceSegmentation(config)
@@ -81,7 +81,7 @@ model = MaskFormerForInstanceSegmentation(config)
 Another option is to separately load the backbone configuration and then pass it to `backbone_config` in the model configuration.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation, ResNetConfig
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation, ResNetConfig
 
 # instantiate backbone configuration
 backbone_config = ResNetConfig()
@@ -101,7 +101,7 @@ model = MaskFormerForInstanceSegmentation(config)
 Set `use_timm_backbone=True` to load pretrained timm weights, and `use_pretrained_backbone` to use pretrained or randomly initialized weights.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
 config = MaskFormerConfig(backbone="resnet50", use_timm_backbone=True, use_pretrained_backbone=True)
 model = MaskFormerForInstanceSegmentation(config)
@@ -110,7 +110,7 @@ model = MaskFormerForInstanceSegmentation(config)
 You could also explicitly call the [`TimmBackboneConfig`] class to load and create a pretrained timm backbone.
 
 ```py
-from transformers import TimmBackboneConfig
+from myTransformers import TimmBackboneConfig
 
 backbone_config = TimmBackboneConfig("resnet50", use_pretrained_backbone=True)
 ```
@@ -118,7 +118,7 @@ backbone_config = TimmBackboneConfig("resnet50", use_pretrained_backbone=True)
 Pass the backbone configuration to the model configuration and instantiate the model head, [`MaskFormerForInstanceSegmentation`], with the backbone.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
 config = MaskFormerConfig(backbone_config=backbone_config)
 model = MaskFormerForInstanceSegmentation(config)
@@ -131,7 +131,7 @@ The backbone is used to extract image features. Pass an image through the backbo
 Load and preprocess an image and pass it to the backbone. The example below extracts the feature maps from the first layer.
 
 ```py
-from transformers import AutoImageProcessor, AutoBackbone
+from myTransformers import AutoImageProcessor, AutoBackbone
 import torch
 from PIL import Image
 import requests

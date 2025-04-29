@@ -14,8 +14,8 @@
 
 import unittest
 
-from transformers import XLMConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
+from myTransformers import XLMConfig, is_torch_available
+from myTransformers.testing_utils import require_torch, slow, torch_device
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -26,7 +26,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         XLMForMultipleChoice,
         XLMForQuestionAnswering,
         XLMForQuestionAnsweringSimple,
@@ -35,7 +35,7 @@ if is_torch_available():
         XLMModel,
         XLMWithLMHeadModel,
     )
-    from transformers.models.xlm.modeling_xlm import create_sinusoidal_embeddings
+    from myTransformers.models.xlm.modeling_xlm import create_sinusoidal_embeddings
 
 
 class XLMModelTester:

@@ -16,7 +16,7 @@ limitations under the License.
 
 <!---
 A useful guide for English-Traditional Chinese translation of Hugging Face documentation
-- Add space around English words and numbers when they appear between Chinese characters. E.g., 共 100 多種語言; 使用 transformers 函式庫。
+- Add space around English words and numbers when they appear between Chinese characters. E.g., 共 100 多種語言; 使用 myTransformers 函式庫。
 - Use square quotes, e.g.,「引用」
 - Some of terms in the file can be found at National Academy for Educational Research (https://terms.naer.edu.tw/), an official website providing bilingual translations between English and Traditional Chinese.
 
@@ -125,11 +125,11 @@ user: 使用者
 我們為快速使用模型提供了 `pipeline` API。 Pipeline 包含了預訓練模型和對應的文本預處理。下面是一個快速使用 pipeline 去判斷正負面情緒的例子：
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # 使用情緒分析 pipeline
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -153,24 +153,26 @@ user: 使用者
 除了提供問題解答，預訓練模型還提供了對應的信賴度分數以及解答在 tokenized 後的文本中開始和結束的位置。你可以從[這個教學](https://huggingface.co/docs/transformers/task_summary)了解更多 `pipeline` API支援的任務。
 
 要在你的任務中下載和使用任何預訓練模型很簡單，只需三行程式碼。這裡是 PyTorch 版的範例：
+
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 這裡是對應的 TensorFlow 程式碼：
+
 ```python
->>> from transformers import AutoTokenizer, TFAutoModel
+>> > from myTransformers import AutoTokenizer, TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="tf")
+>> > outputs = model(**inputs)
 ```
 
 Tokenizer 為所有的預訓練模型提供了預處理，並可以直接轉換單一字串（比如上面的例子）或串列 (list)。它會輸出一個的字典 (dict) 讓你可以在下游程式碼裡使用或直接藉由 `**` 運算式傳給模型。
@@ -221,7 +223,7 @@ Tokenizer 為所有的預訓練模型提供了預處理，並可以直接轉換�
 當其中一個後端安裝成功後，🤗 Transformers 可依此安裝：
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 如果你想要試試範例或者想在正式發布前使用最新開發中的程式碼，你必須[從原始碼安裝](https://huggingface.co/docs/transformers/installation#installing-from-source)。
@@ -231,7 +233,7 @@ pip install transformers
 🤗 Transformers 可以藉由 conda 依此安裝：
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_筆記:_** 從 `huggingface` 頻道安裝 `transformers` 已被淘汰。

@@ -28,19 +28,19 @@ import torch
 from datasets import load_dataset
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoImageProcessor,
     AutoModelForUniversalSegmentation,
     HfArgumentParser,
     Trainer,
     TrainingArguments,
 )
-from transformers.image_processing_utils import BatchFeature
-from transformers.trainer import EvalPrediction
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.image_processing_utils import BatchFeature
+from myTransformers.trainer import EvalPrediction
+from myTransformers.trainer_utils import get_last_checkpoint
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 logger = logging.getLogger(__name__)
@@ -308,13 +308,13 @@ def setup_logging(training_args: TrainingArguments) -> None:
 
     if training_args.should_log:
         # The default of training_args.log_level is passive, so we set log level at info here to have that default.
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
 
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.set_verbosity(log_level)
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
 
 
 def find_last_checkpoint(training_args: TrainingArguments) -> Optional[str]:

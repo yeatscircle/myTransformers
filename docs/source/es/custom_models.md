@@ -38,7 +38,7 @@ configuraciones nos darán los diferentes tipos de ResNet que son posibles. Lueg
 después de verificar la validez de algunos de ellos.
 
 ```python
-from transformers import PretrainedConfig
+from myTransformers import PretrainedConfig
 from typing import List
 
 
@@ -46,17 +46,17 @@ class ResnetConfig(PretrainedConfig):
     model_type = "resnet"
 
     def __init__(
-        self,
-        block_type="bottleneck",
-        layers: List[int] = [3, 4, 6, 3],
-        num_classes: int = 1000,
-        input_channels: int = 3,
-        cardinality: int = 1,
-        base_width: int = 64,
-        stem_width: int = 64,
-        stem_type: str = "",
-        avg_down: bool = False,
-        **kwargs,
+            self,
+            block_type="bottleneck",
+            layers: List[int] = [3, 4, 6, 3],
+            num_classes: int = 1000,
+            input_channels: int = 3,
+            cardinality: int = 1,
+            base_width: int = 64,
+            stem_width: int = 64,
+            stem_type: str = "",
+            avg_down: bool = False,
+            **kwargs,
     ):
         if block_type not in ["basic", "bottleneck"]:
             raise ValueError(f"`block_type` must be 'basic' or bottleneck', got {block_type}.")
@@ -116,10 +116,9 @@ hacer antes de escribir esta clase es un mapeo entre los tipos de bloques y las 
 modelo desde la configuración pasando todo a la clase `ResNet`:
 
 ```py
-from transformers import PreTrainedModel
+from myTransformers import PreTrainedModel
 from timm.models.resnet import BasicBlock, Bottleneck, ResNet
 from .configuration_resnet import ResnetConfig
-
 
 BLOCK_MAPPING = {"basic": BasicBlock, "bottleneck": Bottleneck}
 
@@ -317,7 +316,7 @@ obtener más información), pero aún debes revisar el código del modelo y el a
 en tu computadora. Configura `trust_remote_code=True` para usar un modelo con código personalizado:
 
 ```py
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("sgugger/custom-resnet50d", trust_remote_code=True)
 ```
@@ -346,7 +345,7 @@ Siempre que tu configuración tenga un atributo `model_type` que sea diferente d
 clases modelo tengan los atributos `config_class` correctos, puedes agregarlos a las clases automáticas de la siguiente manera:
 
 ```py
-from transformers import AutoConfig, AutoModel, AutoModelForImageClassification
+from myTransformers import AutoConfig, AutoModel, AutoModelForImageClassification
 
 AutoConfig.register("resnet", ResnetConfig)
 AutoModel.register(ResnetConfig, ResnetModel)

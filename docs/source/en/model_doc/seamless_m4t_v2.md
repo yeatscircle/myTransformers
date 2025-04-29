@@ -43,10 +43,10 @@ In the following example, we'll load an Arabic audio sample and an English text 
 First, load the processor and a checkpoint of the model:
 
 ```python
->>> from transformers import AutoProcessor, SeamlessM4Tv2Model
+>> > from myTransformers import AutoProcessor, SeamlessM4Tv2Model
 
->>> processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
->>> model = SeamlessM4Tv2Model.from_pretrained("facebook/seamless-m4t-v2-large")
+>> > processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
+>> > model = SeamlessM4Tv2Model.from_pretrained("facebook/seamless-m4t-v2-large")
 ```
 
 You can seamlessly use this model on text or on audio, to generated either translated text or translated audio.
@@ -99,18 +99,18 @@ This time, let's translate to French.
 #### 1. Use dedicated models
 
 [`SeamlessM4Tv2Model`] is transformers top level model to generate speech and text, but you can also use dedicated models that perform the task without additional components, thus reducing the memory footprint.
-For example, you can replace the audio-to-audio generation snippet with the model dedicated to the S2ST task, the rest is exactly the same code: 
+For example, you can replace the audio-to-audio generation snippet with the model dedicated to the S2ST task, the rest is exactly the same code:
 
 ```python
->>> from transformers import SeamlessM4Tv2ForSpeechToSpeech
->>> model = SeamlessM4Tv2ForSpeechToSpeech.from_pretrained("facebook/seamless-m4t-v2-large")
+>> > from myTransformers import SeamlessM4Tv2ForSpeechToSpeech
+>> > model = SeamlessM4Tv2ForSpeechToSpeech.from_pretrained("facebook/seamless-m4t-v2-large")
 ```
 
 Or you can replace the text-to-text generation snippet with the model dedicated to the T2TT task, you only have to remove `generate_speech=False`.
 
 ```python
->>> from transformers import SeamlessM4Tv2ForTextToText
->>> model = SeamlessM4Tv2ForTextToText.from_pretrained("facebook/seamless-m4t-v2-large")
+>> > from myTransformers import SeamlessM4Tv2ForTextToText
+>> > model = SeamlessM4Tv2ForTextToText.from_pretrained("facebook/seamless-m4t-v2-large")
 ```
 
 Feel free to try out [`SeamlessM4Tv2ForSpeechToText`] and [`SeamlessM4Tv2ForTextToSpeech`] as well.

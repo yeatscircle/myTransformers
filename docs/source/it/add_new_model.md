@@ -176,8 +176,8 @@ Una volta che senti che hai avuto una bella overview dell'architettura del model
 2. Clona il tuo fork `transfomers` sul tuo dico locale, e aggiungi la repository base come remota:
 
 ```bash
-git clone https://github.com/[your Github handle]/transformers.git
-cd transformers
+git clone https://github.com/[your Github handle]/myTransformers.git
+cd myTransformers
 git remote add upstream https://github.com/huggingface/transformers.git
 ```
 
@@ -344,7 +344,7 @@ Allora cominciamo ad aggiungere un nuovo codice in 🤗 Transformers. Andate nel
 
 
 ```bash 
-cd transformers
+cd myTransformers
 ```
 
 Nel caso speciale in cui stiate aggiungendo un modello, la cui architettura sia identica a una di un modello già esistente,
@@ -355,7 +355,7 @@ Se questo non é il caso, cominciamo con il generare un nuovo modello. Ti consig
 un modello esistente:
 
 ```bash
-transformers-cli add-new-model-like
+myTransformers-cli add-new-model-like
 ```
 
 Ti verrà richiesto con un questionario di compilare le informazioni di base del tuo modello.
@@ -440,10 +440,10 @@ un'idea migliore su come implementare il modello.
 codice poco pulito, con copia-incolla del codice originale in `src/transformers/models/brand_new_bert/modeling_brand_new_bert.py` 
 fino a che non avrete tutto il codice necessario. In base alla nostra esperienza, é molto meglio aggiungere una prima bozza 
 del codice richiesto e poi correggere e migliorare iterativamente. L'unica cosa essenziale che deve funzionare qui é la seguente 
-instanza: 
+instanza:
 
 ```python
-from transformers import BrandNewBertModel, BrandNewBertConfig
+from myTransformers import BrandNewBertModel, BrandNewBertConfig
 
 model = BrandNewBertModel(BrandNewBertConfig())
 ```
@@ -678,7 +678,7 @@ A volte capita di dover riscrivere il tokenizer nella repo originaria, di modo d
 A quel punto uno script analogo é necessario in 🤗 Transformers:
 
 ```python
-from transformers import BrandNewBertTokenizer
+from myTransformers import BrandNewBertTokenizer
 
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 

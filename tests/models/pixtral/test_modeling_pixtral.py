@@ -15,12 +15,12 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     PixtralVisionConfig,
     PixtralVisionModel,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_torch,
     torch_device,
 )

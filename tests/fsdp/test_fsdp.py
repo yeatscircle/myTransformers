@@ -23,8 +23,8 @@ from parameterized import parameterized
 
 import tests.trainer.test_trainer
 from tests.trainer.test_trainer import TrainerIntegrationCommon  # noqa
-from transformers import is_torch_available
-from transformers.testing_utils import (
+from myTransformers import is_torch_available
+from myTransformers.testing_utils import (
     TestCasePlus,
     backend_device_count,
     execute_subprocess_async,
@@ -37,9 +37,9 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.trainer_callback import TrainerState
-from transformers.trainer_utils import FSDPOption, set_seed
-from transformers.utils import (
+from myTransformers.trainer_callback import TrainerState
+from myTransformers.trainer_utils import FSDPOption, set_seed
+from myTransformers.utils import (
     is_accelerate_available,
     is_torch_bf16_available_on_device,
     is_torch_fp16_available_on_device,
@@ -47,7 +47,7 @@ from transformers.utils import (
 
 
 if is_torch_available():
-    from transformers.trainer import FSDP_MODEL_NAME
+    from myTransformers.trainer import FSDP_MODEL_NAME
 
 # default torch.distributed port
 DEFAULT_MASTER_PORT = "10999"

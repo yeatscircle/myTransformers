@@ -21,19 +21,19 @@ from collections.abc import Mapping
 
 from parameterized import parameterized
 
-from transformers import GemmaTokenizer, ShieldGemma2Processor
-from transformers.testing_utils import get_tests_dir, require_vision
-from transformers.utils import is_vision_available
+from myTransformers import GemmaTokenizer, ShieldGemma2Processor
+from myTransformers.testing_utils import get_tests_dir, require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import Gemma3ImageProcessor
+    from myTransformers import Gemma3ImageProcessor
 
 SAMPLE_VOCAB = get_tests_dir("fixtures/test_sentencepiece.model")
 
-# Copied from _CHAT_TEMPLATE in src/transformers/models/shieldgemma2/convert_shieldgemma2_weights_orbax_to_hf.py
+# Copied from _CHAT_TEMPLATE in src/myTransformers/models/shieldgemma2/convert_shieldgemma2_weights_orbax_to_hf.py
 _CHAT_TEMPLATE = """{{ bos_token }}
 {%- for message in messages -%}
     {%- if message['content'] is iterable -%}
@@ -60,7 +60,7 @@ _CHAT_TEMPLATE = """{{ bos_token }}
 {%- endfor -%}
 """
 
-# Simplified from _SHIELDGEMMA2_POLICIES in src/transformers/models/shieldgemma2/convert_shieldgemma2_weights_orbax_to_hf.py
+# Simplified from _SHIELDGEMMA2_POLICIES in src/myTransformers/models/shieldgemma2/convert_shieldgemma2_weights_orbax_to_hf.py
 _SHIELDGEMMA2_POLICIES: Mapping[str, str] = {
     "dangerous": "Test policy related to dangerous content.",
     "sexual": "Test policy related to sexually explicit content.",

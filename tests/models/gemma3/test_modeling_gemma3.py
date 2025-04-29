@@ -20,7 +20,7 @@ import unittest
 import pytest
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     Gemma3Config,
@@ -28,7 +28,7 @@ from transformers import (
     GenerationConfig,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     cleanup,
     require_flash_attn,
     require_read_token,
@@ -47,13 +47,13 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Gemma3ForCausalLM,
         Gemma3ForConditionalGeneration,
         Gemma3Processor,
         Gemma3TextModel,
     )
-    from transformers.pytorch_utils import is_torch_greater_or_equal
+    from myTransformers.pytorch_utils import is_torch_greater_or_equal
 
 
 class Gemma3ModelTester(GemmaModelTester):
@@ -671,7 +671,7 @@ class Gemma3IntegrationTest(unittest.TestCase):
         if not is_torch_greater_or_equal("2.6.0"):
             self.skipTest(reason="This test requires torch >= 2.6 to run.")
 
-        from transformers.integrations.executorch import TorchExportableModuleForDecoderOnlyLM
+        from myTransformers.integrations.executorch import TorchExportableModuleForDecoderOnlyLM
 
         model_id = "google/gemma-3-1b-it"
         model = AutoModelForCausalLM.from_pretrained(model_id)

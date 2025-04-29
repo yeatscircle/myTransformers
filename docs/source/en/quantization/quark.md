@@ -58,7 +58,7 @@ Although Quark also supports [models using `quant_method="fp8"`](https://hugging
 Here is an example of how one can load a Quark model in Transformers:
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "EmbeddedLLM/Llama-3.1-8B-Instruct-w_fp8_per_channel_sym"
 model = AutoModelForCausalLM.from_pretrained(model_id)

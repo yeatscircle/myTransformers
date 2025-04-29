@@ -19,14 +19,14 @@ import unittest
 
 from packaging import version
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, TorchAoConfig
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, TorchAoConfig
+from myTransformers.testing_utils import (
     require_torch_gpu,
     require_torch_multi_gpu,
     require_torchao,
     require_torchao_version_greater_or_equal,
 )
-from transformers.utils import is_torch_available, is_torchao_available
+from myTransformers.utils import is_torch_available, is_torchao_available
 
 
 if is_torch_available():

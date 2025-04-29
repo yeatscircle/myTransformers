@@ -14,7 +14,7 @@
 
 # fmt: off
 
-from transformers.utils.import_utils import requires
+from myTransformers.utils.import_utils import requires
 
 
 @requires(backends=("random_item_that_should_not_exist",))

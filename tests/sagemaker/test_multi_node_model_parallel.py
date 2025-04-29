@@ -17,7 +17,7 @@ if is_sagemaker_available():
 
 @pytest.mark.skipif(
     literal_eval(os.getenv("TEST_SAGEMAKER", "False")) is not True,
-    reason="Skipping test because should only be run when releasing minor transformers version",
+    reason="Skipping test because should only be run when releasing minor myTransformers version",
 )
 @pytest.mark.usefixtures("sm_env")
 @parameterized_class(

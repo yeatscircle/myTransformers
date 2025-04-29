@@ -19,8 +19,8 @@ import unittest
 import requests
 from parameterized import parameterized
 
-from transformers import ChameleonConfig, is_torch_available, is_vision_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import ChameleonConfig, is_torch_available, is_vision_available, set_seed
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_read_token,
     require_torch,
@@ -40,7 +40,7 @@ if is_vision_available():
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         ChameleonForConditionalGeneration,
         ChameleonModel,
         ChameleonProcessor,

@@ -51,7 +51,7 @@ Below is an example on how to run mask generation given an image and a 2D point:
 import torch
 from PIL import Image
 import requests
-from transformers import SamModel, SamProcessor
+from myTransformers import SamModel, SamProcessor
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = SamModel.from_pretrained("facebook/sam-vit-huge").to(device)
@@ -77,7 +77,7 @@ You can also process your own masks alongside the input images in the processor 
 import torch
 from PIL import Image
 import requests
-from transformers import SamModel, SamProcessor
+from myTransformers import SamModel, SamProcessor
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = SamModel.from_pretrained("facebook/sam-vit-huge").to(device)
@@ -89,7 +89,8 @@ mask_url = "https://huggingface.co/ybelkada/segment-anything/resolve/main/assets
 segmentation_map = Image.open(requests.get(mask_url, stream=True).raw).convert("1")
 input_points = [[[450, 600]]]  # 2D location of a window in the image
 
-inputs = processor(raw_image, input_points=input_points, segmentation_maps=segmentation_map, return_tensors="pt").to(device)
+inputs = processor(raw_image, input_points=input_points, segmentation_maps=segmentation_map, return_tensors="pt").to(
+    device)
 with torch.no_grad():
     outputs = model(**inputs)
 

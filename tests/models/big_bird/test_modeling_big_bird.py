@@ -15,10 +15,10 @@
 
 import unittest
 
-from transformers import BigBirdConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.models.big_bird.tokenization_big_bird import BigBirdTokenizer
-from transformers.testing_utils import require_torch, slow, torch_device
+from myTransformers import BigBirdConfig, is_torch_available
+from myTransformers.models.auto import get_values
+from myTransformers.models.big_bird.tokenization_big_bird import BigBirdTokenizer
+from myTransformers.testing_utils import require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -28,7 +28,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MODEL_FOR_PRETRAINING_MAPPING,
         BigBirdForCausalLM,
         BigBirdForMaskedLM,
@@ -809,7 +809,7 @@ class BigBirdModelIntegrationTest(unittest.TestCase):
             " Longformer with an attention mechanism that scales linearly with sequence length, making it easy to"
             " process documents of thousands of tokens or longer. Longformer’s attention mechanism is a drop-in"
             " replacement for the standard self-attention and combines a local windowed attention with a task"
-            " motivated global attention. Following prior work on long-sequence transformers, we evaluate Longformer"
+            " motivated global attention. Following prior work on long-sequence myTransformers, we evaluate Longformer"
             " on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In"
             " contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream"
             " tasks. Our pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new"

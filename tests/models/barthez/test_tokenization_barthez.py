@@ -14,8 +14,8 @@
 
 import unittest
 
-from transformers import BarthezTokenizer, BarthezTokenizerFast, BatchEncoding
-from transformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow
+from myTransformers import BarthezTokenizer, BarthezTokenizerFast, BatchEncoding
+from myTransformers.testing_utils import require_sentencepiece, require_tokenizers, require_torch, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

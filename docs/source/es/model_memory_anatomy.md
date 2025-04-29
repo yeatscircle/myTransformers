@@ -21,7 +21,7 @@ Para entender las técnicas de optimización del rendimiento que se pueden aplic
 Empecemos explorando un ejemplo enfocado en la utilización de la GPU y la ejecución del entrenamiento de un modelo. Para la demostración, necesitaremos instalar algunas bibliotecas:
 
 ```bash
-pip install transformers datasets accelerate nvidia-ml-py3
+pip install myTransformers datasets accelerate nvidia-ml-py3
 ```
 
 La biblioteca `nvidia-ml-py3` nos permite monitorear la utilización de memoria de los modelos desde Python. Es posible que estés familiarizado con el comando `nvidia-smi` en la terminal, esta biblioteca nos permite acceder a la misma información en Python directamente.
@@ -87,12 +87,14 @@ Vemos que los kernels solos ocupan 1,3GB de memoria de la GPU. Ahora, veamos cu�
 Primero, cargamos el modelo `google-bert/bert-large-uncased`. Los pesos del modelo son cargados directamente en la GPU para que podamos verificar cuánto espacio ocupan solo los pesos.
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
-
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
->>> print_gpu_utilization()
-GPU memory occupied: 2631 MB.
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
+>> > print_gpu_utilization()
+GPU
+memory
+occupied: 2631
+MB.
 ```
 
 Podemos ver que los pesos del modelo solos ocupan 1,3 GB de memoria de la GPU. El número exacto depende de la GPU específica que estés utilizando. Ten en cuenta que en GPUs más modernas, un modelo puede ocupar más espacio ya que los pesos se cargan de manera optimizada lo cual acelera el uso del modelo. Ahora también podemos verificar rápidamente si obtenemos el mismo resultado que con la CLI de `nvidia-smi`:
@@ -147,15 +149,14 @@ Si planeas ejecutar varias pruebas, reinicie el kernel de Python entre cada prue
 Vamos a utilizar el [`Trainer`](https://huggingface.co/docs/transformers/en/main_classes/trainer#transformers.Trainer) y entrenar el modelo sin utilizar ninguna técnica de optimización del rendimiento de la GPU y un tamaño de lote de 4:
 
 ```py
->>> from transformers import TrainingArguments, Trainer, logging
+>> > from myTransformers import TrainingArguments, Trainer, logging
 
->>> logging.set_verbosity_error()
+>> > logging.set_verbosity_error()
 
-
->>> training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
->>> trainer = Trainer(model=model, args=training_args, train_dataset=ds)
->>> result = trainer.train()
->>> print_summary(result)
+>> > training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
+>> > trainer = Trainer(model=model, args=training_args, train_dataset=ds)
+>> > result = trainer.train()
+>> > print_summary(result)
 ```
 
 ```

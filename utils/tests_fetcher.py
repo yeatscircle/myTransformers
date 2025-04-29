@@ -66,7 +66,7 @@ from git import Repo
 
 PATH_TO_REPO = Path(__file__).parent.parent.resolve()
 PATH_TO_EXAMPLES = PATH_TO_REPO / "examples"
-PATH_TO_TRANFORMERS = PATH_TO_REPO / "src/transformers"
+PATH_TO_TRANFORMERS = PATH_TO_REPO / "src/myTransformers"
 PATH_TO_TESTS = PATH_TO_REPO / "tests"
 
 # The value is just a heuristic to determine if we `guess` all models are impacted.
@@ -326,7 +326,7 @@ def get_impacted_files_from_tiny_model_summary(diff_with_last_commit: bool = Fal
         # get the module where the model classes are defined. We want to use the main `__init__` file, but it requires
         # all the framework being installed, which is not ideal for a simple script like test fetcher.
         # So we create a temporary and modified main `__init__` and access its `_import_structure`.
-        with open(folder / "src/transformers/__init__.py") as fp:
+        with open(folder / "src/myTransformers/__init__.py") as fp:
             lines = fp.readlines()
             new_lines = []
             # Get all the code related to `_import_structure`
@@ -373,7 +373,7 @@ def get_impacted_files_from_tiny_model_summary(diff_with_last_commit: bool = Fal
                     else f"modeling_{framework}_{module.split('.')[-1]}.py"
                 )
                 files.add(
-                    f"src.transformers.{module}.{fn}".replace(".", os.path.sep).replace(f"{os.path.sep}py", ".py")
+                    f"src.myTransformers.{module}.{fn}".replace(".", os.path.sep).replace(f"{os.path.sep}py", ".py")
                 )
 
     return sorted(files)
@@ -507,7 +507,7 @@ def get_all_doctest_files() -> List[str]:
     test_files_to_run = py_files + md_files
     # change to use "/" as path separator
     test_files_to_run = ["/".join(Path(x).parts) for x in test_files_to_run]
-    # don't run doctest for files in `src/transformers/models/deprecated`
+    # don't run doctest for files in `src/myTransformers/models/deprecated`
     test_files_to_run = [x for x in test_files_to_run if "models/deprecated" not in x]
 
     # only include files in `src` or `docs/source/en/`
@@ -610,15 +610,15 @@ _re_single_line_relative_imports = re.compile(r"(?:^|\n)\s*from\s+(\.+\S+)\s+imp
 # yyy will take multiple lines otherwise there wouldn't be parenthesis.
 _re_multi_line_relative_imports = re.compile(r"(?:^|\n)\s*from\s+(\.+\S+)\s+import\s+\(([^\)]+)\)")
 # (:?^|\n) -> Non-catching group for the beginning of the doc or a new line.
-# \s*from\s+transformers(\S*)\s+import\s+([^\n]+) -> Line only contains from transformers.xxx import yyy and we catch
+# \s*from\s+myTransformers(\S*)\s+import\s+([^\n]+) -> Line only contains from myTransformers.xxx import yyy and we catch
 #           .xxx and yyy
 # (?=\n) -> Look-ahead to a new line. We can't just put \n here or using find_all on this re will only catch every
 #           other import.
-_re_single_line_direct_imports = re.compile(r"(?:^|\n)\s*from\s+transformers(\S*)\s+import\s+([^\n]+)(?=\n)")
+_re_single_line_direct_imports = re.compile(r"(?:^|\n)\s*from\s+myTransformers(\S*)\s+import\s+([^\n]+)(?=\n)")
 # (:?^|\n) -> Non-catching group for the beginning of the doc or a new line.
-# \s*from\s+transformers(\S*)\s+import\s+\(([^\)]+)\) -> Line continues with from transformers.xxx import (yyy) and we
+# \s*from\s+myTransformers(\S*)\s+import\s+\(([^\)]+)\) -> Line continues with from myTransformers.xxx import (yyy) and we
 # catch .xxx and yyy. yyy will take multiple lines otherwise there wouldn't be parenthesis.
-_re_multi_line_direct_imports = re.compile(r"(?:^|\n)\s*from\s+transformers(\S*)\s+import\s+\(([^\)]+)\)")
+_re_multi_line_direct_imports = re.compile(r"(?:^|\n)\s*from\s+myTransformers(\S*)\s+import\s+\(([^\)]+)\)")
 
 
 def extract_imports(module_fname: str, cache: Optional[Dict[str, List[str]]] = None) -> List[str]:
@@ -682,7 +682,7 @@ def extract_imports(module_fname: str, cache: Optional[Dict[str, List[str]]] = N
     # We need to find the relative path of those imports.
     for module, imports in direct_imports:
         import_parts = module.split(".")[1:]  # ignore the name of the repo since we add it below.
-        dep_parts = ["src", "transformers"] + import_parts
+        dep_parts = ["src", "myTransformers"] + import_parts
         imported_module = os.path.sep.join(dep_parts)
         imported_modules.append((imported_module, [imp.strip() for imp in imports.split(",")]))
 
@@ -739,7 +739,7 @@ def get_module_dependencies(module_fname: str, cache: Optional[Dict[str, List[st
                 new_imported_modules = dict(extract_imports(module, cache=cache))
 
                 # Add imports via `define_import_structure` after the #35167 as we remove explicit import in `__init__.py`
-                from transformers.utils.import_utils import define_import_structure
+                from myTransformers.utils.import_utils import define_import_structure
 
                 new_imported_modules_from_import_structure = define_import_structure(PATH_TO_REPO / module)
 

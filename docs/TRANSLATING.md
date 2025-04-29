@@ -31,7 +31,7 @@ To copy the English version to your new language directory:
 1. Navigate to your fork of the repository:
 
     ```bash
-    cd ~/path/to/transformers/docs
+    cd ~/path/to/myTransformers/docs
     ```
 
    Replace `~/path/to` with your actual path.

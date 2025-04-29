@@ -14,16 +14,16 @@
 
 import unittest
 
-from transformers import RTDetrResNetConfig
-from transformers.testing_utils import require_torch
-from transformers.utils.import_utils import is_torch_available
+from myTransformers import RTDetrResNetConfig
+from myTransformers.testing_utils import require_torch
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_backbone_common import BackboneTesterMixin
 from ...test_modeling_common import floats_tensor, ids_tensor
 
 
 if is_torch_available():
-    from transformers import RTDetrResNetBackbone
+    from myTransformers import RTDetrResNetBackbone
 
 
 class RTDetrResNetModelTester:

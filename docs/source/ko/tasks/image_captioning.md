@@ -31,7 +31,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate -q
+pip install myTransformers datasets evaluate -q
 pip install jiwer -q
 ```
 
@@ -118,10 +118,10 @@ plot_images(sample_images_to_visualize, sample_captions)
 
 데이터세트에는 이미지와 텍스트라는 두 가지 양식이 있기 때문에, 전처리 파이프라인에서 이미지와 캡션을 모두 전처리합니다.
 
-전처리 작업을 위해, 파인튜닝하려는 모델에 연결된 프로세서 클래스를 가져옵니다. 
+전처리 작업을 위해, 파인튜닝하려는 모델에 연결된 프로세서 클래스를 가져옵니다.
 
 ```python
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 checkpoint = "microsoft/git-base"
 processor = AutoProcessor.from_pretrained(checkpoint)
@@ -148,9 +148,8 @@ test_ds.set_transform(transforms)
 
 ["microsoft/git-base"](https://huggingface.co/microsoft/git-base)를 [`AutoModelForCausalLM`](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForCausalLM) 객체로 가져옵니다.
 
-
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(checkpoint)
 ```
@@ -186,9 +185,8 @@ def compute_metrics(eval_pred):
 
 먼저, [`TrainingArguments`]를 사용하여 학습 인수를 정의합니다.
 
-
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 model_name = checkpoint.split("/")[1]
 

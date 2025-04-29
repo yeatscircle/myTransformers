@@ -83,7 +83,7 @@ Reach a wider audience by making a model available in PyTorch, TensorFlow, and F
 Set `from_tf=True` to convert a checkpoint from TensorFlow to PyTorch and then save it.
 
 ```py
-from transformers import DistilBertForSequenceClassification
+from myTransformers import DistilBertForSequenceClassification
 
 pt_model = DistilBertForSequenceClassification.from_pretrained("path/to/awesome-name-you-picked", from_tf=True)
 pt_model.save_pretrained("path/to/awesome-name-you-picked")
@@ -95,7 +95,7 @@ pt_model.save_pretrained("path/to/awesome-name-you-picked")
 Set `from_pt=True` to convert a checkpoint from PyTorch to TensorFlow and then save it.
 
 ```py
-from transformers import TFDistilBertForSequenceClassification
+from myTransformers import TFDistilBertForSequenceClassification
 
 tf_model = TFDistilBertForSequenceClassification.from_pretrained("path/to/awesome-name-you-picked", from_pt=True)
 tf_model.save_pretrained("path/to/awesome-name-you-picked")
@@ -107,7 +107,8 @@ tf_model.save_pretrained("path/to/awesome-name-you-picked")
 Set `from_pt=True` to convert a checkpoint from PyTorch to Flax and then save it.
 
 ```py
-from transformers import FlaxDistilBertForSequenceClassification
+from myTransformers import FlaxDistilBertForSequenceClassification
+
 flax_model = FlaxDistilBertForSequenceClassification.from_pretrained(
     "path/to/awesome-name-you-picked", from_pt=True
 )
@@ -130,7 +131,7 @@ There are several ways to upload a model to the Hub depending on your workflow p
 [`~transformers.Trainer.push_to_hub`] automatically adds useful information like training hyperparameters and results to the model card.
 
 ```py
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(output_dir="my-awesome-model", push_to_hub=True)
 trainer = Trainer(
@@ -148,7 +149,7 @@ trainer.push_to_hub()
 For TensorFlow models, add the [`PushToHubCallback`] to the [fit](https://keras.io/api/models/model_training_apis/#fit-method) method.
 
 ```py
-from transformers import PushToHubCallback
+from myTransformers import PushToHubCallback
 
 push_to_hub_callback = PushToHubCallback(
     output_dir="./your_model_save_path", tokenizer=tokenizer, hub_model_id="your-username/my-awesome-model"

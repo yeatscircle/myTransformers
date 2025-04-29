@@ -18,8 +18,8 @@ import inspect
 import tempfile
 import unittest
 
-from transformers import SpeechT5Config, SpeechT5HifiGanConfig
-from transformers.testing_utils import (
+from myTransformers import SpeechT5Config, SpeechT5HifiGanConfig
+from myTransformers.testing_utils import (
     is_flaky,
     is_torch_available,
     require_deterministic_for_xpu,
@@ -29,8 +29,8 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.trainer_utils import set_seed
-from transformers.utils import cached_property
+from myTransformers.trainer_utils import set_seed
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -47,7 +47,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         SpeechT5ForSpeechToSpeech,
         SpeechT5ForSpeechToText,
         SpeechT5ForTextToSpeech,

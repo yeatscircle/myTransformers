@@ -16,8 +16,8 @@ import gc
 import tempfile
 import unittest
 
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, FbgemmFp8Config, OPTForCausalLM
-from transformers.testing_utils import (
+from myTransformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, FbgemmFp8Config, OPTForCausalLM
+from myTransformers.testing_utils import (
     require_accelerate,
     require_fbgemm_gpu,
     require_read_token,
@@ -26,7 +26,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_accelerate_available, is_torch_available
+from myTransformers.utils import is_accelerate_available, is_torch_available
 
 
 if is_torch_available():
@@ -134,7 +134,7 @@ class FbgemmFp8Test(unittest.TestCase):
         Simple test that checks if the quantized model has been converted properly
         """
 
-        from transformers.integrations import FbgemmFp8Linear, replace_with_fbgemm_fp8_linear
+        from myTransformers.integrations import FbgemmFp8Linear, replace_with_fbgemm_fp8_linear
 
         model_id = "facebook/opt-350m"
         config = AutoConfig.from_pretrained(model_id, revision="cb32f77e905cccbca1d970436fb0f5e6b58ee3c5")
@@ -277,7 +277,7 @@ class FbgemmFp8LinearTest(unittest.TestCase):
         """
         Test that FbgemmFp8Linear preserves shape when in_features == out_features.
         """
-        from transformers.integrations import FbgemmFp8Linear
+        from myTransformers.integrations import FbgemmFp8Linear
 
         with init_empty_weights(include_buffers=True):
             linear = FbgemmFp8Linear(1024, 1024, True)
@@ -290,7 +290,7 @@ class FbgemmFp8LinearTest(unittest.TestCase):
         """
         Test that FbgemmFp8Linear generates the correct shape when in_features != out_features.
         """
-        from transformers.integrations import FbgemmFp8Linear
+        from myTransformers.integrations import FbgemmFp8Linear
 
         with init_empty_weights(include_buffers=True):
             linear = FbgemmFp8Linear(1024, 2048, True)

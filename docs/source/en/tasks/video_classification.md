@@ -34,7 +34,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install -q pytorchvideo transformers evaluate
+pip install -q pytorchvideo myTransformers evaluate
 ```
 
 You will use [PyTorchVideo](https://pytorchvideo.org/) (dubbed `pytorchvideo`) to process and prepare the videos.
@@ -167,15 +167,19 @@ There are 10 unique classes. For each class, there are 30 videos in the training
 Instantiate a video classification model from a pretrained checkpoint and its associated image processor. The model's encoder comes with pre-trained parameters, and the classification head is randomly initialized. The image processor will come in handy when writing the preprocessing pipeline for our dataset.
 
 ```py
->>> from transformers import VideoMAEImageProcessor, VideoMAEForVideoClassification
+>> > from myTransformers import VideoMAEImageProcessor, VideoMAEForVideoClassification
 
->>> model_ckpt = "MCG-NJU/videomae-base"
->>> image_processor = VideoMAEImageProcessor.from_pretrained(model_ckpt)
->>> model = VideoMAEForVideoClassification.from_pretrained(
-...     model_ckpt,
-...     label2id=label2id,
-...     id2label=id2label,
-...     ignore_mismatched_sizes=True,  # provide this in case you're planning to fine-tune an already fine-tuned checkpoint
+>> > model_ckpt = "MCG-NJU/videomae-base"
+>> > image_processor = VideoMAEImageProcessor.from_pretrained(model_ckpt)
+>> > model = VideoMAEForVideoClassification.from_pretrained(
+    ...
+model_ckpt,
+...
+label2id = label2id,
+...
+id2label = id2label,
+...
+ignore_mismatched_sizes = True,  # provide this in case you're planning to fine-tune an already fine-tuned checkpoint
 ... )
 ```
 
@@ -363,28 +367,40 @@ Leverage [`Trainer`](https://huggingface.co/docs/transformers/main_classes/train
 
 Most of the training arguments are self-explanatory, but one that is quite important here is `remove_unused_columns=False`. This one will drop any features not used by the model's call function. By default it's `True` because usually it's ideal to drop unused feature columns, making it easier to unpack inputs into the model's call function. But, in this case, you need the unused features ('video' in particular) in order to create `pixel_values` (which is a mandatory key our model expects in its inputs).
 
-
 ```py
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> model_name = model_ckpt.split("/")[-1]
->>> new_model_name = f"{model_name}-finetuned-ucf101-subset"
->>> num_epochs = 4
+>> > model_name = model_ckpt.split("/")[-1]
+>> > new_model_name = f"{model_name}-finetuned-ucf101-subset"
+>> > num_epochs = 4
 
->>> args = TrainingArguments(
-...     new_model_name,
-...     remove_unused_columns=False,
-...     eval_strategy="epoch",
-...     save_strategy="epoch",
-...     learning_rate=5e-5,
-...     per_device_train_batch_size=batch_size,
-...     per_device_eval_batch_size=batch_size,
-...     warmup_ratio=0.1,
-...     logging_steps=10,
-...     load_best_model_at_end=True,
-...     metric_for_best_model="accuracy",
-...     push_to_hub=True,
-...     max_steps=(train_dataset.num_videos // batch_size) * num_epochs,
+>> > args = TrainingArguments(
+    ...
+new_model_name,
+...
+remove_unused_columns = False,
+...
+eval_strategy = "epoch",
+...
+save_strategy = "epoch",
+...
+learning_rate = 5e-5,
+...
+per_device_train_batch_size = batch_size,
+...
+per_device_eval_batch_size = batch_size,
+...
+warmup_ratio = 0.1,
+...
+logging_steps = 10,
+...
+load_best_model_at_end = True,
+...
+metric_for_best_model = "accuracy",
+...
+push_to_hub = True,
+...
+max_steps = (train_dataset.num_videos // batch_size) * num_epochs,
 ... )
 ```
 
@@ -464,10 +480,10 @@ Load a video for inference:
 The simplest way to try out your fine-tuned model for inference is to use it in a [`pipeline`](https://huggingface.co/docs/transformers/main/en/main_classes/pipelines#transformers.VideoClassificationPipeline). Instantiate a `pipeline` for video classification with your model, and pass your video to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> video_cls = pipeline(model="my_awesome_video_cls_model")
->>> video_cls("https://huggingface.co/datasets/sayakpaul/ucf101-subset/resolve/main/v_BasketballDunk_g14_c06.avi")
+>> > video_cls = pipeline(model="my_awesome_video_cls_model")
+>> > video_cls("https://huggingface.co/datasets/sayakpaul/ucf101-subset/resolve/main/v_BasketballDunk_g14_c06.avi")
 [{'score': 0.9272987842559814, 'label': 'BasketballDunk'},
  {'score': 0.017777055501937866, 'label': 'BabyCrawling'},
  {'score': 0.01663011871278286, 'label': 'BalanceBeam'},

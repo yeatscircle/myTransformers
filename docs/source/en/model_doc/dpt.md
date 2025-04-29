@@ -43,11 +43,13 @@ This model was contributed by [nielsr](https://huggingface.co/nielsr). The origi
 DPT is compatible with the [`AutoBackbone`] class. This allows to use the DPT framework with various computer vision backbones available in the library, such as [`VitDetBackbone`] or [`Dinov2Backbone`]. One can create it as follows:
 
 ```python
-from transformers import Dinov2Config, DPTConfig, DPTForDepthEstimation
+from myTransformers import Dinov2Config, DPTConfig, DPTForDepthEstimation
 
 # initialize with a Transformer-based backbone such as DINOv2
 # in that case, we also specify `reshape_hidden_states=False` to get feature maps of shape (batch_size, num_channels, height, width)
-backbone_config = Dinov2Config.from_pretrained("facebook/dinov2-base", out_features=["stage1", "stage2", "stage3", "stage4"], reshape_hidden_states=False)
+backbone_config = Dinov2Config.from_pretrained("facebook/dinov2-base",
+                                               out_features=["stage1", "stage2", "stage3", "stage4"],
+                                               reshape_hidden_states=False)
 
 config = DPTConfig(backbone_config=backbone_config)
 model = DPTForDepthEstimation(config=config)

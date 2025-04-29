@@ -64,7 +64,7 @@ to the vocabulary of the specified language.
 Similarly, the processor should be loaded with the same target language
 
 ```py
-from transformers import Wav2Vec2ForCTC, AutoProcessor
+from myTransformers import Wav2Vec2ForCTC, AutoProcessor
 
 model_id = "facebook/mms-1b-all"
 target_lang = "fra"
@@ -89,7 +89,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 If you want to use the ASR pipeline, you can load your chosen target language as such:
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 model_id = "facebook/mms-1b-all"
 target_lang = "fra"
@@ -119,7 +119,7 @@ fr_sample = next(iter(stream_data))["audio"]["array"]
 Next, we load the model and processor
 
 ```py
-from transformers import Wav2Vec2ForCTC, AutoProcessor
+from myTransformers import Wav2Vec2ForCTC, AutoProcessor
 import torch
 
 model_id = "facebook/mms-1b-all"
@@ -182,7 +182,7 @@ documentation under [VITS](https://huggingface.co/docs/transformers/main/en/mode
 To use the MMS model, first update to the latest version of the Transformers library:
 
 ```bash
-pip install --upgrade transformers accelerate
+pip install --upgrade myTransformers accelerate
 ```
 
 Since the flow-based model in VITS is non-deterministic, it is good practice to set a seed to ensure reproducibility of 
@@ -193,7 +193,7 @@ pre-process the text inputs. The following code example runs a forward pass usin
 
 ```python
 import torch
-from transformers import VitsTokenizer, VitsModel, set_seed
+from myTransformers import VitsTokenizer, VitsModel, set_seed
 
 tokenizer = VitsTokenizer.from_pretrained("facebook/mms-tts-eng")
 model = VitsModel.from_pretrained("facebook/mms-tts-eng")
@@ -203,7 +203,7 @@ inputs = tokenizer(text="Hello - my dog is cute", return_tensors="pt")
 set_seed(555)  # make deterministic
 
 with torch.no_grad():
-   outputs = model(**inputs)
+    outputs = model(**inputs)
 
 waveform = outputs.waveform[0]
 ```
@@ -231,7 +231,7 @@ You can check whether you require the `uroman` package for your language by insp
 the pre-trained `tokenizer`:
 
 ```python
-from transformers import VitsTokenizer
+from myTransformers import VitsTokenizer
 
 tokenizer = VitsTokenizer.from_pretrained("facebook/mms-tts-eng")
 print(tokenizer.is_uroman)
@@ -253,12 +253,13 @@ You can then pre-process the text input using the following code snippet. You ca
 
 ```python
 import torch
-from transformers import VitsTokenizer, VitsModel, set_seed
+from myTransformers import VitsTokenizer, VitsModel, set_seed
 import os
 import subprocess
 
 tokenizer = VitsTokenizer.from_pretrained("facebook/mms-tts-kor")
 model = VitsModel.from_pretrained("facebook/mms-tts-kor")
+
 
 def uromanize(input_string, uroman_path):
     """Convert non-Roman strings to Roman using the `uroman` perl package."""
@@ -276,6 +277,7 @@ def uromanize(input_string, uroman_path):
     # Return the output as a string and skip the new-line character at the end
     return stdout.decode()[:-1]
 
+
 text = "이봐 무슨 일이야"
 uromanized_text = uromanize(text, uroman_path=os.environ["UROMAN"])
 
@@ -283,7 +285,7 @@ inputs = tokenizer(text=uromanized_text, return_tensors="pt")
 
 set_seed(555)  # make deterministic
 with torch.no_grad():
-   outputs = model(inputs["input_ids"])
+    outputs = model(inputs["input_ids"])
 
 waveform = outputs.waveform[0]
 ```
@@ -295,7 +297,7 @@ waveform = outputs.waveform[0]
 
 ```python
 import torch
-from transformers import VitsTokenizer, VitsModel, set_seed
+from myTransformers import VitsTokenizer, VitsModel, set_seed
 
 tokenizer = VitsTokenizer.from_pretrained("facebook/mms-tts-eng")
 model = VitsModel.from_pretrained("facebook/mms-tts-eng")
@@ -303,14 +305,14 @@ model = VitsModel.from_pretrained("facebook/mms-tts-eng")
 inputs = tokenizer(text="Hello - my dog is cute", return_tensors="pt")
 
 # make deterministic
-set_seed(555)  
+set_seed(555)
 
 # make speech faster and more noisy
 model.speaking_rate = 1.5
 model.noise_scale = 0.8
 
 with torch.no_grad():
-   outputs = model(**inputs)
+    outputs = model(**inputs)
 ```
 
 ### Language Identification (LID)
@@ -322,7 +324,7 @@ First, we install transformers and some other libraries
 
 ```bash
 pip install torch accelerate datasets[audio]
-pip install --upgrade transformers
+pip install --upgrade myTransformers
 ````
 
 Next, we load a couple of audio samples via `datasets`. Make sure that the audio data is sampled to 16000 kHz.
@@ -344,7 +346,7 @@ ar_sample = next(iter(stream_data))["audio"]["array"]
 Next, we load the model and processor
 
 ```py
-from transformers import Wav2Vec2ForSequenceClassification, AutoFeatureExtractor
+from myTransformers import Wav2Vec2ForSequenceClassification, AutoFeatureExtractor
 import torch
 
 model_id = "facebook/mms-lid-126"

@@ -37,7 +37,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 다음 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install quanto accelerate transformers
+pip install quanto accelerate myTransformers
 ```
 
 이제 [`~PreTrainedModel.from_pretrained`] 메소드에 [`QuantoConfig`] 객체를 전달하여 모델을 양자화할 수 있습니다. 이 방식은 `torch.nn.Linear` 레이어를 포함하는 모든 모달리티의 모든 모델에서 잘 작동합니다.
@@ -45,12 +45,13 @@ pip install quanto accelerate transformers
 허깅페이스의 transformers 라이브러리는 개발자 편의를 위해 quanto의 인터페이스를 일부 통합하여 지원하고 있으며, 이 방식으로는 가중치 양자화만 지원합니다. 활성화 양자화, 캘리브레이션, QAT 같은 더 복잡한 기능을 수행하기 위해서는 [quanto](https://github.com/huggingface/optimum-quanto) 라이브러리의 해당 함수를 직접 호출해야 합니다.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, QuantoConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, QuantoConfig
 
 model_id = "facebook/opt-125m"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 quantization_config = QuantoConfig(weights="int8")
-quantized_model = AutoModelForCausalLM.from_pretrained(model_id, device_map="cuda:0", quantization_config=quantization_config)
+quantized_model = AutoModelForCausalLM.from_pretrained(model_id, device_map="cuda:0",
+                                                       quantization_config=quantization_config)
 ```
 
 참고로, transformers에서는 아직 직렬화가 지원되지 않지만 곧 지원될 예정입니다! 

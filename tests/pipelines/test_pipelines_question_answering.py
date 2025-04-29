@@ -16,15 +16,15 @@ import unittest
 
 from huggingface_hub import QuestionAnsweringOutputElement
 
-from transformers import (
+from myTransformers import (
     MODEL_FOR_QUESTION_ANSWERING_MAPPING,
     TF_MODEL_FOR_QUESTION_ANSWERING_MAPPING,
     LxmertConfig,
     QuestionAnsweringPipeline,
 )
-from transformers.data.processors.squad import SquadExample
-from transformers.pipelines import QuestionAnsweringArgumentHandler, pipeline
-from transformers.testing_utils import (
+from myTransformers.data.processors.squad import SquadExample
+from myTransformers.pipelines import QuestionAnsweringArgumentHandler, pipeline
+from myTransformers.testing_utils import (
     compare_pipeline_output_to_hub_spec,
     is_pipeline_test,
     is_torch_available,
@@ -370,7 +370,7 @@ Its aim is to make cutting-edge NLP easier to use for everyone.
 then share them with the community on our model hub. At the same time, each python module defining an architecture is fully standalone and
 can be modified to enable quick research experiments.
 
-Why should I use transformers?
+Why should I use myTransformers?
 
 1. Easy-to-use state-of-the-art models:
   - High performance on NLU and NLG tasks.

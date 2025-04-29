@@ -19,9 +19,9 @@ import re
 import unittest
 from functools import lru_cache
 
-from transformers import CodeGenTokenizer, CodeGenTokenizerFast
-from transformers.models.codegen.tokenization_codegen import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_tokenizers, slow
+from myTransformers import CodeGenTokenizer, CodeGenTokenizerFast
+from myTransformers.models.codegen.tokenization_codegen import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 
@@ -281,7 +281,7 @@ class CodeGenTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         # Custom test since this tokenizer takes return_token_type_ids as an init argument for backward compatibility.
 
         sequences = [
-            "Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides "
+            "Transformers (formerly known as pytorch-myTransformers and pytorch-pretrained-bert) provides "
             "general-purpose architectures (BERT, GPT-2, RoBERTa, XLM, DistilBert, XLNet...) for Natural "
             "Language Understanding (NLU) and Natural Language Generation (NLG) with over 32+ pretrained "
             "models in 100+ languages and deep interoperability between Jax, PyTorch and TensorFlow.",

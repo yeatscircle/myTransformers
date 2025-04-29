@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## Depth estimation pipeline
@@ -47,12 +47,11 @@ pip install -q transformers
 深度推定をサポートするモデルで推論を試す最も簡単な方法は、対応する [`pipeline`] を使用することです。
 [Hugging Face Hub のチェックポイント](https://huggingface.co/models?pipeline_tag=Depth-estimation&sort=downloads) からパイプラインをインスタンス化します。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "vinvino02/glpn-nyu"
->>> depth_estimator = pipeline("depth-estimation", model=checkpoint)
+>> > checkpoint = "vinvino02/glpn-nyu"
+>> > depth_estimator = pipeline("depth-estimation", model=checkpoint)
 ```
 
 次に、分析する画像を選択します。
@@ -97,14 +96,13 @@ pip install -q transformers
 まず、[Hugging Face Hub のチェックポイント](https://huggingface.co/models?pipeline_tag=Depth-estimation&sort=downloads) からモデルと関連プロセッサをロードします。
 ここでは、前と同じチェックポイントを使用します。
 
-
 ```py
->>> from transformers import AutoImageProcessor, AutoModelForDepthEstimation
+>> > from myTransformers import AutoImageProcessor, AutoModelForDepthEstimation
 
->>> checkpoint = "vinvino02/glpn-nyu"
+>> > checkpoint = "vinvino02/glpn-nyu"
 
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
->>> model = AutoModelForDepthEstimation.from_pretrained(checkpoint)
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForDepthEstimation.from_pretrained(checkpoint)
 ```
 
 必要な画像変換を処理する`image_processor`を使用して、モデルの画像入力を準備します。

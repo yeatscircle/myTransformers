@@ -28,7 +28,8 @@ In this guide, we will show how to extract keypoints from images.
 For this tutorial, we will use [SuperPoint](./model_doc/superpoint.md), a foundation model for keypoint detection.
 
 ```python
-from transformers import AutoImageProcessor, SuperPointForKeypointDetection
+from myTransformers import AutoImageProcessor, SuperPointForKeypointDetection
+
 processor = AutoImageProcessor.from_pretrained("magic-leap-community/superpoint")
 model = SuperPointForKeypointDetection.from_pretrained("magic-leap-community/superpoint")
 ```

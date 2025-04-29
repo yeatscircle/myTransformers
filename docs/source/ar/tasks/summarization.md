@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate rouge_score
+pip install myTransformers datasets evaluate rouge_score
 ```
 
 نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل نموذجك ومشاركته مع المجتمع. عند المطالبة، أدخل الرمز المميز لتسجيل الدخول:
@@ -85,10 +85,10 @@ pip install transformers datasets evaluate rouge_score
 الخطوة التالية هي تحميل مجزء النصوص T5 لمعالجة `text` و `summary`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 وظيفة المعالجة المسبقة التي تريد إنشاءها تحتاج إلى:
@@ -122,17 +122,17 @@ pip install transformers datasets evaluate rouge_score
 <pt>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -182,9 +182,9 @@ pip install transformers datasets evaluate rouge_score
 أنت جاهز لبدء تدريب نموذجك الآن! قم بتحميل T5 باستخدام [`AutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 في هذه المرحلة، لم يتبق سوى ثلاث خطوات:
@@ -236,17 +236,17 @@ pip install transformers datasets evaluate rouge_score
 لضبط نموذج في TensorFlow، ابدأ بإعداد دالة مُحسِّن وجدول معدل التعلم وبعض معلمات التدريب:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 ثم يمكنك تحميل T5 باستخدام [`TFAutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 حوّل مجموعات البيانات الخاصة بك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -280,19 +280,21 @@ pip install transformers datasets evaluate rouge_score
 مرر دالة `compute_metrics` الخاصة بك إلى [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
 ```
 
 حدد مكان دفع نموذجك ومُحلِّلك اللغوي في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_billsum_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_billsum_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -332,11 +334,12 @@ pip install transformers datasets evaluate rouge_score
 أبسط طريقة لتجربة نموذجك المضبوط للاستدلال هي استخدامه في [`pipeline`]. استخدم `pipeline` للتلخيص باستخدام نموذجك، ومرر نصك إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline("summarization", model="username/my_awesome_billsum_model")
->>> summarizer(text)
-[{"summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
+>> > summarizer = pipeline("summarization", model="username/my_awesome_billsum_model")
+>> > summarizer(text)
+[{
+     "summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
 ```
 
 يمكنك أيضًا تكرار نتائج `pipeline` يدويًا إذا أردت:
@@ -346,19 +349,19 @@ pip install transformers datasets evaluate rouge_score
 قسم النص وإرجع `input_ids` كتنسورات PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 استخدم طريقة [`~generation.GenerationMixin.generate`] لإنشاء التلخيص. لمزيد من التفاصيل حول استراتيجيات توليد النص المختلفة والمعلمات للتحكم في التوليد، راجع واجهة برمجة تطبيقات [توليد النص](../main_classes/text_generation).
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 فك تشفير معرفات الرموز المولدة مرة أخرى إلى نص:
@@ -372,19 +375,19 @@ pip install transformers datasets evaluate rouge_score
 قسم النص وإرجع `input_ids` كتنسورات TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 استخدم طريقة [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] لإنشاء التلخيص. لمزيد من التفاصيل حول استراتيجيات توليد النص المختلفة والمعلمات للتحكم في التوليد، راجع واجهة برمجة تطبيقات [توليد النص](../main_classes/text_generation).
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 فك تشفير معرفات الرموز المولدة مرة أخرى إلى نص:

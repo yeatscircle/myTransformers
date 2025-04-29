@@ -17,14 +17,14 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     FalconConfig,
     is_torch_available,
     set_seed,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_torch,
     require_torch_sdpa,
@@ -41,14 +41,14 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         FalconForCausalLM,
         FalconForQuestionAnswering,
         FalconForSequenceClassification,
         FalconForTokenClassification,
         FalconModel,
     )
-    from transformers.models.falcon.modeling_falcon import (
+    from myTransformers.models.falcon.modeling_falcon import (
         FalconRotaryEmbedding,
     )
 

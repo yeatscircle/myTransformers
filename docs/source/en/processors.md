@@ -23,7 +23,7 @@ For example, [PaliGemma](./model_doc/paligemma) is a vision-language model that 
 Call [`~ProcessorMixin.from_pretrained`] to load a processor. Pass the input type to the processor to generate the expected model inputs, input ids and pixel values.
 
 ```py
-from transformers import AutoProcessor, PaliGemmaForConditionalGeneration
+from myTransformers import AutoProcessor, PaliGemmaForConditionalGeneration
 from PIL import Image
 import requests
 
@@ -53,7 +53,7 @@ The [AutoClass](./model_doc/auto) API provides a simple interface to load proces
 Use [`~AutoProcessor.from_pretrained`] to load a processor.
 
 ```py
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 processor = AutoProcessor.from_pretrained("google/paligemma-3b-pt-224")
 ```
@@ -64,7 +64,7 @@ processor = AutoProcessor.from_pretrained("google/paligemma-3b-pt-224")
 Processors are also associated with a specific pretrained multimodal model class. You can load a processor directly from the model class with [`~ProcessorMixin.from_pretrained`].
 
 ```py
-from transformers import WhisperProcessor
+from myTransformers import WhisperProcessor
 
 processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
 ```
@@ -72,7 +72,7 @@ processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
 You could also separately load the two preprocessor types, [`WhisperTokenizerFast`] and [`WhisperFeatureExtractor`].
 
 ```py
-from transformers import WhisperTokenizerFast, WhisperFeatureExtractor, WhisperProcessor
+from myTransformers import WhisperTokenizerFast, WhisperFeatureExtractor, WhisperProcessor
 
 tokenizer = WhisperTokenizerFast.from_pretrained("openai/whisper-tiny")
 feature_extractor = WhisperFeatureExtractor.from_pretrained("openai/whisper-tiny")
@@ -112,9 +112,10 @@ dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 Load a processor and pass the audio `array` and `text` columns to it.
 
 ```py
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 processor = AutoProcessor.from_pretrained("openai/whisper-tiny")
+
 
 def prepare_dataset(example):
     audio = example["audio"]

@@ -38,7 +38,7 @@ Siri 和 Alexa 这类虚拟助手使用 ASR 模型来帮助用户日常生活，
 在开始之前，请确保您已安装所有必要的库：
 
 ```bash
-pip install transformers datasets evaluate jiwer
+pip install myTransformers datasets evaluate jiwer
 ```
 
 我们鼓励您登录自己的 Hugging Face 账户，这样您就可以上传并与社区分享您的模型。
@@ -112,9 +112,9 @@ DatasetDict({
 下一步是加载一个 Wav2Vec2 处理器来处理音频信号：
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 MInDS-14 数据集的采样率为 8000kHz（您可以在其[数据集卡片](https://huggingface.co/datasets/PolyAI/minds14)中找到此信息），
@@ -254,12 +254,15 @@ Wav2Vec2 分词器仅训练了大写字符，因此您需要确保文本与分�
 使用 `ctc_loss_reduction` 参数指定要应用的减少方式。通常最好使用平均值而不是默认的求和：
 
 ```py
->>> from transformers import AutoModelForCTC, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCTC, TrainingArguments, Trainer
 
->>> model = AutoModelForCTC.from_pretrained(
-...     "facebook/wav2vec2-base",
-...     ctc_loss_reduction="mean",
-...     pad_token_id=processor.tokenizer.pad_token_id,
+>> > model = AutoModelForCTC.from_pretrained(
+    ...
+"facebook/wav2vec2-base",
+...
+ctc_loss_reduction = "mean",
+...
+pad_token_id = processor.tokenizer.pad_token_id,
 )
 ```
 
@@ -341,10 +344,10 @@ Wav2Vec2 分词器仅训练了大写字符，因此您需要确保文本与分�
 使用您的模型实例化一个用于自动语音识别的 `pipeline`，并将您的音频文件传递给它：
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
->>> transcriber(audio_file)
+>> > transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
+>> > transcriber(audio_file)
 {'text': 'I WOUD LIKE O SET UP JOINT ACOUNT WTH Y PARTNER'}
 ```
 
@@ -362,20 +365,21 @@ Wav2Vec2 分词器仅训练了大写字符，因此您需要确保文本与分�
 加载一个处理器来预处理音频文件和转录，并将 `input` 返回为 PyTorch 张量：
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 将您的输入传递给模型并返回 logits：
 
 ```py
->>> from transformers import AutoModelForCTC
+>> > from myTransformers import AutoModelForCTC
 
->>> model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 获取具有最高概率的预测 `input_ids`，并使用处理器将预测的 `input_ids` 解码回文本：

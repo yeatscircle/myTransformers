@@ -27,7 +27,7 @@ jobs:
           auto-update-conda: true
           auto-activate-base: false
           python-version: 3.8
-          activate-environment: "build-transformers"
+          activate-environment: "build-myTransformers"
           channels: huggingface
 
       - name: Setup conda env

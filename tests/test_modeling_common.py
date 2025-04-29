@@ -30,7 +30,7 @@ from packaging import version
 from parameterized import parameterized
 from pytest import mark
 
-from transformers import (
+from myTransformers import (
     AutoModel,
     AutoModelForCausalLM,
     AutoModelForSequenceClassification,
@@ -41,14 +41,14 @@ from transformers import (
     logging,
     set_seed,
 )
-from transformers.integrations import HfDeepSpeedConfig
-from transformers.integrations.deepspeed import (
+from myTransformers.integrations import HfDeepSpeedConfig
+from myTransformers.integrations.deepspeed import (
     is_deepspeed_available,
     is_deepspeed_zero3_enabled,
     unset_hf_deepspeed_config,
 )
-from transformers.models.auto import get_values
-from transformers.models.auto.modeling_auto import (
+from myTransformers.models.auto import get_values
+from myTransformers.models.auto.modeling_auto import (
     MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING_NAMES,
     MODEL_FOR_AUDIO_XVECTOR_MAPPING_NAMES,
     MODEL_FOR_BACKBONE_MAPPING_NAMES,
@@ -71,7 +71,7 @@ from transformers.models.auto.modeling_auto import (
     MODEL_FOR_VISION_2_SEQ_MAPPING_NAMES,
     MODEL_MAPPING_NAMES,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     CaptureLogger,
     get_device_properties,
     hub_retry,
@@ -96,7 +96,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     CONFIG_NAME,
     GENERATION_CONFIG_NAME,
     SAFE_WEIGHTS_NAME,
@@ -105,7 +105,7 @@ from transformers.utils import (
     is_torch_fp16_available_on_device,
     is_torch_sdpa_available,
 )
-from transformers.utils.generic import ContextManagers
+from myTransformers.utils.generic import ContextManagers
 
 from .generation.test_utils import GenerationTesterMixin
 
@@ -121,12 +121,12 @@ if is_torch_available():
     from safetensors.torch import save_file as safe_save_file
     from torch import nn
 
-    from transformers import MODEL_MAPPING
-    from transformers.cache_utils import Cache, DynamicCache
-    from transformers.modeling_utils import load_state_dict, no_init_weights
-    from transformers.pytorch_utils import id_tensor_storage
+    from myTransformers import MODEL_MAPPING
+    from myTransformers.cache_utils import Cache, DynamicCache
+    from myTransformers.modeling_utils import load_state_dict, no_init_weights
+    from myTransformers.pytorch_utils import id_tensor_storage
 
-from transformers.utils.fx import _FX_SUPPORTED_MODELS_WITH_KV_CACHE, symbolic_trace
+from myTransformers.utils.fx import _FX_SUPPORTED_MODELS_WITH_KV_CACHE, symbolic_trace
 
 
 if is_deepspeed_available():
@@ -173,9 +173,9 @@ def _mock_all_init_weights(self):
     if self.config.pruned_heads:
         self.prune_heads(self.config.pruned_heads)
 
-    import transformers.modeling_utils
+    import myTransformers.modeling_utils
 
-    if transformers.modeling_utils._init_weights:
+    if myTransformers.modeling_utils._init_weights:
         for module in self.modules():
             module._is_hf_initialized = False
         # Initialize weights
@@ -2976,7 +2976,7 @@ class ModelTesterMixin:
                     with self.assertRaises(RuntimeError):
                         new_model_without_prefix = AutoModel.from_pretrained(tmp_dir, vocab_size=10)
 
-                    logger = logging.get_logger("transformers.modeling_utils")
+                    logger = logging.get_logger("myTransformers.modeling_utils")
 
                     with CaptureLogger(logger) as cl:
                         new_model = AutoModelForSequenceClassification.from_pretrained(
@@ -3065,7 +3065,7 @@ class ModelTesterMixin:
                 r"^sew_d\.",
                 r"^swiftformer\.",
                 r"^swinv2\.",
-                r"^transformers\.models\.swiftformer\.",
+                r"^myTransformers\.models\.swiftformer\.",
                 r"^timm_model\.",
                 r"^unispeech\.",
                 r"^unispeech_sat\.",
@@ -3085,7 +3085,7 @@ class ModelTesterMixin:
                     with self.assertRaises(RuntimeError):
                         new_model = model_class.from_pretrained(tmp_dir, num_labels=42)
 
-                    logger = logging.get_logger("transformers.modeling_utils")
+                    logger = logging.get_logger("myTransformers.modeling_utils")
 
                     with CaptureLogger(logger) as cl:
                         new_model = model_class.from_pretrained(tmp_dir, num_labels=42, ignore_mismatched_sizes=True)
@@ -3851,10 +3851,10 @@ class ModelTesterMixin:
             inputs_dict = self._prepare_for_class(inputs_dict, model_class)
             if config.model_type in ["paligemma"]:
                 self.skipTest(
-                    "PaliGemma-like models currently (transformers==4.41.0) requires an attention_mask input"
+                    "PaliGemma-like models currently (myTransformers==4.41.0) requires an attention_mask input"
                 )
             if config.model_type in ["idefics", "idefics2", "idefics3"]:
-                self.skipTest(reason="Idefics currently (transformers==4.39.1) requires an image_attention_mask input")
+                self.skipTest(reason="Idefics currently (myTransformers==4.39.1) requires an image_attention_mask input")
             if config.model_type in ["sam"]:
                 self.skipTest(reason="SAM requires an attention_mask input for relative positional embeddings")
             model = model_class(config)
@@ -3900,7 +3900,7 @@ class ModelTesterMixin:
             inputs_dict = self._prepare_for_class(inputs_dict, model_class)
             if config.model_type in ["dbrx"]:
                 self.skipTest(
-                    "DBRX (transformers==4.40) requires a modification to support dynamic shapes with compile."
+                    "DBRX (myTransformers==4.40) requires a modification to support dynamic shapes with compile."
                 )
             model = model_class(config)
 

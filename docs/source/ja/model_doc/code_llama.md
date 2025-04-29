@@ -48,7 +48,7 @@ Code Llama のベースとなる`Llama2`ファミリー モデルは、`bfloat16
 使用例は次のとおりです。
 
 ```bash
-python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+python src/myTransformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
 ```
 
@@ -58,19 +58,21 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 変換後、モデルとトークナイザーは次の方法でロードできます。
 
 ```python
->>> from transformers import LlamaForCausalLM, CodeLlamaTokenizer
+>> > from myTransformers import LlamaForCausalLM, CodeLlamaTokenizer
 
->>> tokenizer = CodeLlamaTokenizer.from_pretrained("meta-llama/CodeLlama-7b-hf")
->>> model = LlamaForCausalLM.from_pretrained("meta-llama/CodeLlama-7b-hf")
->>> PROMPT = '''def remove_non_ascii(s: str) -> str:
+>> > tokenizer = CodeLlamaTokenizer.from_pretrained("meta-llama/CodeLlama-7b-hf")
+>> > model = LlamaForCausalLM.from_pretrained("meta-llama/CodeLlama-7b-hf")
+>> > PROMPT = '''def remove_non_ascii(s: str) -> str:
     """ <FILL_ME>
     return result
 '''
->>> input_ids = tokenizer(PROMPT, return_tensors="pt")["input_ids"]
->>> generated_ids = model.generate(input_ids, max_new_tokens=128)
+>> > input_ids = tokenizer(PROMPT, return_tensors="pt")["input_ids"]
+>> > generated_ids = model.generate(input_ids, max_new_tokens=128)
 
->>> filling = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:], skip_special_tokens = True)[0]
->>> print(PROMPT.replace("<FILL_ME>", filling))
+>> > filling = tokenizer.batch_decode(generated_ids[:, input_ids.shape[1]:], skip_special_tokens=True)[0]
+>> > print(PROMPT.replace("<FILL_ME>", filling))
+
+
 def remove_non_ascii(s: str) -> str:
     """ Remove non-ASCII characters from a string.
 
@@ -90,12 +92,14 @@ def remove_non_ascii(s: str) -> str:
 塗りつぶされた部分だけが必要な場合:
 
 ```python
->>> from transformers import pipeline
->>> import torch
+>> > from myTransformers import pipeline
+>> > import torch
 
->>> generator = pipeline("text-generation",model="meta-llama/CodeLlama-7b-hf",torch_dtype=torch.float16, device_map="auto")
->>> generator('def remove_non_ascii(s: str) -> str:\n    """ <FILL_ME>\n    return result', max_new_tokens = 128)
-[{'generated_text': 'def remove_non_ascii(s: str) -> str:\n    """ <FILL_ME>\n    return resultRemove non-ASCII characters from a string. """\n    result = ""\n    for c in s:\n        if ord(c) < 128:\n            result += c'}]
+>> > generator = pipeline("text-generation", model="meta-llama/CodeLlama-7b-hf", torch_dtype=torch.float16,
+                          device_map="auto")
+>> > generator('def remove_non_ascii(s: str) -> str:\n    """ <FILL_ME>\n    return result', max_new_tokens=128)
+[{
+     'generated_text': 'def remove_non_ascii(s: str) -> str:\n    """ <FILL_ME>\n    return resultRemove non-ASCII characters from a string. """\n    result = ""\n    for c in s:\n        if ord(c) < 128:\n            result += c'}]
 ```
 
 内部では、トークナイザーが [`<FILL_ME>` によって自動的に分割](https://huggingface.co/docs/transformers/main/model_doc/code_llama#transformers.CodeLlamaTokenizer.fill_token) して、[ に続く書式設定された入力文字列を作成します。オリジナルのトレーニング パターン](https://github.com/facebookresearch/codellama/blob/cb51c14ec761370ba2e2bc351374a79265d0465e/llama/generation.py#L402)。これは、パターンを自分で準備するよりも堅牢です。トークンの接着など、デバッグが非常に難しい落とし穴を回避できます。このモデルまたは他のモデルに必要な CPU および GPU メモリの量を確認するには、その値を決定するのに役立つ [この計算ツール](https://huggingface.co/spaces/hf-accelerate/model-memory-usage) を試してください。

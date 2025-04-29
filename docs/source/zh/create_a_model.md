@@ -32,27 +32,28 @@ rendered properly in your Markdown viewer.
 访问 [`DistilBertConfig`] 以更近一步了解 [DistilBERT](model_doc/distilbert)，检查它的属性：
 
 ```py
->>> from transformers import DistilBertConfig
+>> > from myTransformers import DistilBertConfig
 
->>> config = DistilBertConfig()
->>> print(config)
-DistilBertConfig {
-  "activation": "gelu",
-  "attention_dropout": 0.1,
-  "dim": 768,
-  "dropout": 0.1,
-  "hidden_dim": 3072,
-  "initializer_range": 0.02,
-  "max_position_embeddings": 512,
-  "model_type": "distilbert",
-  "n_heads": 12,
-  "n_layers": 6,
-  "pad_token_id": 0,
-  "qa_dropout": 0.1,
-  "seq_classif_dropout": 0.2,
-  "sinusoidal_pos_embds": false,
-  "transformers_version": "4.16.2",
-  "vocab_size": 30522
+>> > config = DistilBertConfig()
+>> > print(config)
+DistilBertConfig
+{
+    "activation": "gelu",
+    "attention_dropout": 0.1,
+    "dim": 768,
+    "dropout": 0.1,
+    "hidden_dim": 3072,
+    "initializer_range": 0.02,
+    "max_position_embeddings": 512,
+    "model_type": "distilbert",
+    "n_heads": 12,
+    "n_layers": 6,
+    "pad_token_id": 0,
+    "qa_dropout": 0.1,
+    "seq_classif_dropout": 0.2,
+    "sinusoidal_pos_embds": false,
+    "transformers_version": "4.16.2",
+    "vocab_size": 30522
 }
 ```
 
@@ -117,10 +118,10 @@ DistilBertConfig {
 将自定义配置属性加载到模型中：
 
 ```py
->>> from transformers import DistilBertModel
+>> > from myTransformers import DistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
->>> model = DistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
+>> > model = DistilBertModel(my_config)
 ```
 
 这段代码创建了一个具有随机参数而不是预训练权重的模型。在训练该模型之前，您还无法将该模型用于任何用途。训练是一项昂贵且耗时的过程。通常来说，最好使用预训练模型来更快地获得更好的结果，同时仅使用训练所需资源的一小部分。
@@ -141,10 +142,10 @@ DistilBertConfig {
 将自定义配置属性加载到模型中：
 
 ```py
->>> from transformers import TFDistilBertModel
+>> > from myTransformers import TFDistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
->>> tf_model = TFDistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
+>> > tf_model = TFDistilBertModel(my_config)
 ```
 
 这段代码创建了一个具有随机参数而不是预训练权重的模型。在训练该模型之前，您还无法将该模型用于任何用途。训练是一项昂贵且耗时的过程。通常来说，最好使用预训练模型来更快地获得更好的结果，同时仅使用训练所需资源的一小部分。
@@ -172,34 +173,34 @@ DistilBertConfig {
 例如，[`DistilBertForSequenceClassification`] 是一个带有序列分类头（sequence classification head）的基础 DistilBERT 模型。序列分类头是池化输出之上的线性层。
 
 ```py
->>> from transformers import DistilBertForSequenceClassification
+>> > from myTransformers import DistilBertForSequenceClassification
 
->>> model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 通过切换到不同的模型头，可以轻松地将此检查点重复用于其他任务。对于问答任务，你可以使用 [`DistilBertForQuestionAnswering`] 模型头。问答头（question answering head）与序列分类头类似，不同点在于它是隐藏状态输出之上的线性层。
 
 ```py
->>> from transformers import DistilBertForQuestionAnswering
+>> > from myTransformers import DistilBertForQuestionAnswering
 
->>> model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </pt>
 <tf>
 例如，[`TFDistilBertForSequenceClassification`] 是一个带有序列分类头（sequence classification head）的基础 DistilBERT 模型。序列分类头是池化输出之上的线性层。
 
 ```py
->>> from transformers import TFDistilBertForSequenceClassification
+>> > from myTransformers import TFDistilBertForSequenceClassification
 
->>> tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 通过切换到不同的模型头,可以轻松地将此检查点重复用于其他任务。对于问答任务，你可以使用 [`TFDistilBertForQuestionAnswering`] 模型头。问答头（question answering head）与序列分类头类似，不同点在于它是隐藏状态输出之上的线性层。
 
 ```py
->>> from transformers import TFDistilBertForQuestionAnswering
+>> > from myTransformers import TFDistilBertForQuestionAnswering
 
->>> tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </tf>
 </frameworkcontent>
@@ -222,25 +223,25 @@ DistilBertConfig {
 如果您训练了自己的分词器，则可以从*词表*文件创建一个分词器：
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt", do_lower_case=False, padding_side="left")
+>> > my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt", do_lower_case=False, padding_side="left")
 ```
 
 请务必记住，自定义分词器生成的词表与预训练模型分词器生成的词表是不同的。如果使用预训练模型，则需要使用预训练模型的词表，否则输入将没有意义。 使用 [`DistilBertTokenizer`] 类创建具有预训练模型词表的分词器：
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 使用 [`DistilBertTokenizerFast`] 类创建快速分词器：
 
 ```py
->>> from transformers import DistilBertTokenizerFast
+>> > from myTransformers import DistilBertTokenizerFast
 
->>> fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
+>> > fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip>
@@ -256,26 +257,27 @@ DistilBertConfig {
 要使用它，需要创建一个与你使用的模型关联的图像处理器。例如，如果你使用 [ViT](model_doc/vit) 进行图像分类，可以创建一个默认的 [`ViTImageProcessor`]：
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> vit_extractor = ViTImageProcessor()
->>> print(vit_extractor)
-ViTImageProcessor {
-  "do_normalize": true,
-  "do_resize": true,
-  "image_processor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": 2,
-  "size": 224
+>> > vit_extractor = ViTImageProcessor()
+>> > print(vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": true,
+    "do_resize": true,
+    "image_processor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": 2,
+    "size": 224
 }
 ```
 
@@ -288,26 +290,27 @@ ViTImageProcessor {
 修改任何 [`ViTImageProcessor`] 参数以创建自定义图像处理器：
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
->>> print(my_vit_extractor)
-ViTImageProcessor {
-  "do_normalize": false,
-  "do_resize": true,
-  "image_processor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.3,
-    0.3,
-    0.3
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": "PIL.Image.BOX",
-  "size": 224
+>> > my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
+>> > print(my_vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": false,
+    "do_resize": true,
+    "image_processor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.3,
+        0.3,
+        0.3
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": "PIL.Image.BOX",
+    "size": 224
 }
 ```
 
@@ -318,18 +321,19 @@ ViTImageProcessor {
 要使用它，创建一个与你使用的模型关联的特征提取器。例如，如果你使用 [Wav2Vec2](model_doc/wav2vec2) 进行音频分类，可以创建一个默认的 [`Wav2Vec2FeatureExtractor`]：
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor()
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": true,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor",
-  "feature_size": 1,
-  "padding_side": "right",
-  "padding_value": 0.0,
-  "return_attention_mask": false,
-  "sampling_rate": 16000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor()
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": true,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor",
+    "feature_size": 1,
+    "padding_side": "right",
+    "padding_value": 0.0,
+    "return_attention_mask": false,
+    "sampling_rate": 16000
 }
 ```
 
@@ -342,18 +346,19 @@ Wav2Vec2FeatureExtractor {
 修改任何 [`Wav2Vec2FeatureExtractor`] 参数以创建自定义特征提取器：
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000, do_normalize=False)
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": false,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor",
-  "feature_size": 1,
-  "padding_side": "right",
-  "padding_value": 0.0,
-  "return_attention_mask": false,
-  "sampling_rate": 8000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000, do_normalize=False)
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": false,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor",
+    "feature_size": 1,
+    "padding_side": "right",
+    "padding_value": 0.0,
+    "return_attention_mask": false,
+    "sampling_rate": 8000
 }
 ```
 
@@ -365,25 +370,25 @@ Wav2Vec2FeatureExtractor {
 创建一个特征提取器来处理音频输入：
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
+>> > feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
 ```
 
 创建一个分词器来处理文本输入：
 
 ```py
->>> from transformers import Wav2Vec2CTCTokenizer
+>> > from myTransformers import Wav2Vec2CTCTokenizer
 
->>> tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
+>> > tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
 ```
 
 将特征提取器和分词器合并到 [`Wav2Vec2Processor`] 中：
 
 ```py
->>> from transformers import Wav2Vec2Processor
+>> > from myTransformers import Wav2Vec2Processor
 
->>> processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
+>> > processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
 ```
 
 通过两个基类 - 配置类和模型类 - 以及一个附加的预处理类（分词器、图像处理器、特征提取器或处理器），你可以创建 🤗 Transformers 支持的任何模型。 每个基类都是可配置的，允许你使用所需的特定属性。 你可以轻松设置模型进行训练或修改现有的预训练模型进行微调。

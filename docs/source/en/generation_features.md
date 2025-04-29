@@ -34,7 +34,7 @@ Streaming starts returning text as soon as it is generated so you don't have to 
 Create an instance of [`TextStreamer`] with the tokenizer. Pass [`TextStreamer`] to the `streamer` parameter in [`~GenerationMixin.generate`] to stream the output one word at a time.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2")
 model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2")
@@ -58,7 +58,7 @@ Create a [`WatermarkingConfig`] with the bias value to add to the logits and wat
 > The [`WatermarkDetector`] class detects the proportion of green tokens in generated text, which is why it is recommended to strip the prompt text, if it is much longer than the generated text. Padding can also have an effect on [`WatermarkDetector`].
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, WatermarkDetector, WatermarkingConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, WatermarkDetector, WatermarkingConfig
 
 model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2")
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2")

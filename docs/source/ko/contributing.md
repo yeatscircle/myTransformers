@@ -63,13 +63,13 @@ limitations under the License.
 운영체제와 소프트웨어 버전을 자동으로 가져오려면 다음 명령을 실행하세요:
 
 ```bash
-transformers-cli env
+myTransformers-cli env
 ```
 
 저장소의 루트 디렉터리에서도 같은 명령을 실행할 수 있습니다:
 
 ```bash
-python src/transformers/commands/transformers_cli.py env
+python src/myTransformers/commands/transformers_cli.py env
 ```
 
 
@@ -120,8 +120,8 @@ python src/transformers/commands/transformers_cli.py env
 2. 포크한 저장소를 로컬 디스크로 클론하고, 기본 저장소를 원격(remote)으로 추가하세요:
 
    ```bash
-   git clone git@github.com:<your Github handle>/transformers.git
-   cd transformers
+   git clone git@github.com:<your Github handle>/myTransformers.git
+   cd myTransformers
    git remote add upstream https://github.com/huggingface/transformers.git
    ```
 
@@ -196,7 +196,7 @@ python src/transformers/commands/transformers_cli.py env
    저장소의 루트 디렉터리에서 다음 명령을 실행하세요:
 
    ```bash
-   doc-builder build transformers docs/source/en --build_dir ~/tmp/test-build
+   doc-builder build myTransformers docs/source/en --build_dir ~/tmp/test-build
    ```
 
    이 명령은 `~/tmp/test-build` 폴더에 문서를 빌드하며, 생성된 Markdown 파일을 선호하는 편집기로 확인할 수 있습니다. Pull Request를 열 때 GitHub에서 문서를 미리 볼 수도 있습니다.

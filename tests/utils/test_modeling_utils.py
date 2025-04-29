@@ -33,7 +33,7 @@ from parameterized import parameterized
 from pytest import mark
 from requests.exceptions import HTTPError
 
-from transformers import (
+from myTransformers import (
     AutoConfig,
     AutoModel,
     AutoModelForImageClassification,
@@ -47,8 +47,8 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.modeling_flash_attention_utils import is_flash_attn_available
-from transformers.testing_utils import (
+from myTransformers.modeling_flash_attention_utils import is_flash_attn_available
+from myTransformers.testing_utils import (
     TOKEN,
     CaptureLogger,
     LoggingLevel,
@@ -69,14 +69,14 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     SAFE_WEIGHTS_INDEX_NAME,
     SAFE_WEIGHTS_NAME,
     WEIGHTS_INDEX_NAME,
     WEIGHTS_NAME,
     check_torch_load_is_safe,
 )
-from transformers.utils.import_utils import (
+from myTransformers.utils.import_utils import (
     is_flash_attn_2_available,
     is_flax_available,
     is_tf_available,
@@ -95,7 +95,7 @@ if is_torch_available():
     from test_module.custom_modeling import CustomModel, NoSuperInitModel
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         AutoModelForCausalLM,
         AutoTokenizer,
         BertConfig,
@@ -106,17 +106,17 @@ if is_torch_available():
         T5Config,
         T5ForConditionalGeneration,
     )
-    from transformers.modeling_attn_mask_utils import (
+    from myTransformers.modeling_attn_mask_utils import (
         AttentionMaskConverter,
         _create_4d_causal_attention_mask,
         _prepare_4d_attention_mask,
         _prepare_4d_causal_attention_mask,
     )
-    from transformers.modeling_utils import (
+    from myTransformers.modeling_utils import (
         _find_disjoint,
         _find_identical,
     )
-    from transformers.pytorch_utils import isin_mps_friendly
+    from myTransformers.pytorch_utils import isin_mps_friendly
 
     # Fake pretrained models for tests
     class BaseModel(PreTrainedModel):
@@ -211,7 +211,7 @@ if is_torch_available():
             # Ugly setup with monkeypatches, amending env vars here is too late as libs have already been imported
             from huggingface_hub import constants
 
-            from transformers.utils import hub
+            from myTransformers.utils import hub
 
             offlfine_env = hub._is_offline_mode
             hub_cache_env = constants.HF_HUB_CACHE
@@ -259,7 +259,7 @@ if is_torch_available():
             # Ugly setup with monkeypatches, amending env vars here is too late as libs have already been imported
             from huggingface_hub import constants
 
-            from transformers.utils import hub
+            from myTransformers.utils import hub
 
             hub_cache_env = constants.HF_HUB_CACHE
             hub_cache_env1 = constants.HUGGINGFACE_HUB_CACHE
@@ -299,10 +299,10 @@ if is_torch_available():
 
 
 if is_flax_available():
-    from transformers import FlaxBertModel
+    from myTransformers import FlaxBertModel
 
 if is_tf_available():
-    from transformers import TFBertModel
+    from myTransformers import TFBertModel
 
 
 TINY_T5 = "patrickvonplaten/t5-tiny-random"
@@ -445,7 +445,7 @@ class ModelUtilsTest(TestCasePlus):
         model = T5ForConditionalGeneration.from_pretrained(TINY_T5)
         self.assertIsNotNone(model)
 
-        logger = logging.get_logger("transformers.configuration_utils")
+        logger = logging.get_logger("myTransformers.configuration_utils")
         with LoggingLevel(logging.WARNING):
             with CaptureLogger(logger) as cl:
                 BertModel.from_pretrained(TINY_T5)
@@ -1007,7 +1007,7 @@ class ModelUtilsTest(TestCasePlus):
 
         mname = "HuggingFaceTB/SmolLM-135M"
 
-        preamble = "from transformers import AutoModel"
+        preamble = "from myTransformers import AutoModel"
         one_liner_str = f'{preamble}; AutoModel.from_pretrained("{mname}", low_cpu_mem_usage=False)'
         # Save this output as `max_rss_normal` if testing memory results
         max_rss_normal = self.python_one_liner_max_rss(one_liner_str)
@@ -1377,7 +1377,7 @@ class ModelUtilsTest(TestCasePlus):
 
     def test_unexpected_keys_warnings(self):
         model = ModelWithHead(PretrainedConfig())
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
         with tempfile.TemporaryDirectory() as tmp_dir:
             model.save_pretrained(tmp_dir)
 
@@ -1402,7 +1402,7 @@ class ModelUtilsTest(TestCasePlus):
             self.assertEqual(loading_info["unexpected_keys"], ["added_key"])
 
     def test_warn_if_padding_and_no_attention_mask(self):
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
 
         with self.subTest("Ensure no warnings when pad_token_id is None."):
             logger.warning_once.cache_clear()
@@ -1647,7 +1647,7 @@ class ModelUtilsTest(TestCasePlus):
             def forward(self):
                 return self.LayerNorm()
 
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
         config = PretrainedConfig()
         warning_msg_gamma = "`LayerNorm.gamma` -> `LayerNorm.weight`"
         warning_msg_beta = "`LayerNorm.beta` -> `LayerNorm.bias`"
@@ -1694,7 +1694,7 @@ class ModelUtilsTest(TestCasePlus):
 
     def test_can_generate(self):
         """Tests the behavior of `PreTrainedModel.can_generate` method."""
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
         logger.warning_once.cache_clear()
 
         # 1 - By default, a model CAN'T generate
@@ -1837,7 +1837,7 @@ class ModelUtilsTest(TestCasePlus):
             raise RuntimeError
 
         with mock.patch(
-            "transformers.models.mistral.modeling_mistral.MistralForCausalLM._set_default_torch_dtype",
+            "myTransformers.models.mistral.modeling_mistral.MistralForCausalLM._set_default_torch_dtype",
             side_effect=debug,
         ):
             with self.assertRaises(RuntimeError):
@@ -1868,7 +1868,7 @@ class ModelUtilsTest(TestCasePlus):
             raise RuntimeError
 
         with mock.patch(
-            "transformers.models.mistral.modeling_mistral.MistralForCausalLM._set_default_torch_dtype",
+            "myTransformers.models.mistral.modeling_mistral.MistralForCausalLM._set_default_torch_dtype",
             side_effect=debug,
         ):
             with self.assertRaises(RuntimeError):
@@ -1888,7 +1888,7 @@ class ModelUtilsTest(TestCasePlus):
             model = BertModel(config)
             config.quantization_config = {"quant_method": "unknown"}
             model.save_pretrained(tmpdir)
-            with self.assertLogs("transformers", level="WARNING") as cm:
+            with self.assertLogs("myTransformers", level="WARNING") as cm:
                 BertModel.from_pretrained(tmpdir)
             self.assertEqual(len(cm.records), 1)
             self.assertTrue(cm.records[0].message.startswith("Unknown quantization type, got"))
@@ -1912,7 +1912,7 @@ class ModelUtilsTest(TestCasePlus):
             import torch
             import time
             import argparse
-            from transformers import AutoModelForCausalLM
+            from myTransformers import AutoModelForCausalLM
 
             parser = argparse.ArgumentParser()
             parser.add_argument("model_id", type=str)
@@ -2235,7 +2235,7 @@ class ModelPushToHubTester(unittest.TestCase):
             COMMIT_DESCRIPTION = """
 The commit description supports markdown synthax see:
 ```python
->>> form transformers import AutoConfig
+>>> form myTransformers import AutoConfig
 >>> config = AutoConfig.from_pretrained("google-bert/bert-base-uncased")
 ```
 """

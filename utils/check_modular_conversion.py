@@ -105,7 +105,7 @@ def guaranteed_no_diff(modular_file_path, dependencies, models_in_diff):
     if model_name in models_in_diff:
         return False
     for dep in dependencies[modular_file_path]:
-        # two possible patterns: `transformers.models.model_name.(...)` or `model_name.(...)`
+        # two possible patterns: `myTransformers.models.model_name.(...)` or `model_name.(...)`
         dependency_model_name = dep.split(".")[-2]
         if dependency_model_name in models_in_diff:
             return False
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     if args.files == ["all"]:
-        args.files = glob.glob("src/transformers/models/**/modular_*.py", recursive=True)
+        args.files = glob.glob("src/myTransformers/models/**/modular_*.py", recursive=True)
 
     # Assuming there is a topological sort on the dependency mapping: if the file being checked and its dependencies
     # are not in the diff, then there it is guaranteed to have no differences. If no models are in the diff, then this

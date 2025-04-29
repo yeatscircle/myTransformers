@@ -43,7 +43,7 @@ ViLT 모델은 비전 트랜스포머(ViT)에 텍스트 임베딩을 넣어 비�
 시작하기 전 필요한 모든 라이브러리를 설치했는지 확인하세요.
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 
 커뮤니티에 모델을 공유하는 것을 권장 드립니다. Hugging Face 계정에 로그인하여 🤗 Hub에 업로드할 수 있습니다.
@@ -163,9 +163,9 @@ Dataset({
 [`ViltProcessor`]는 BERT 토크나이저와 ViLT 이미지 프로세서를 편리하게 하나의 프로세서로 묶습니다:
 
 ```py
->>> from transformers import ViltProcessor
+>> > from myTransformers import ViltProcessor
 
->>> processor = ViltProcessor.from_pretrained(model_checkpoint)
+>> > processor = ViltProcessor.from_pretrained(model_checkpoint)
 ```
 
 데이터를 전처리하려면 이미지와 질문을 [`ViltProcessor`]로 인코딩해야 합니다. 프로세서는 [`BertTokenizerFast`]로 텍스트를 토크나이즈하고 텍스트 데이터를 위해 `input_ids`, `attention_mask` 및 `token_type_ids`를 생성합니다.
@@ -217,9 +217,9 @@ Dataset({
 마지막 단계로, [`DefaultDataCollator`]를 사용하여 예제로 쓸 배치를 생성하세요:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 ## 모델 훈련 [[train-the-model]]
@@ -227,9 +227,10 @@ Dataset({
 이제 모델을 훈련하기 위해 준비되었습니다! [`ViltForQuestionAnswering`]으로 ViLT를 가져올 차례입니다. 레이블의 수와 레이블 매핑을 지정하세요:
 
 ```py
->>> from transformers import ViltForQuestionAnswering
+>> > from myTransformers import ViltForQuestionAnswering
 
->>> model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label, label2id=label2id)
+>> > model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label,
+                                                      label2id=label2id)
 ```
 
 이 시점에서는 다음 세 단계만 남았습니다:
@@ -237,34 +238,48 @@ Dataset({
 1. [`TrainingArguments`]에서 훈련 하이퍼파라미터를 정의하세요:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> repo_id = "MariaK/vilt_finetuned_200"
+>> > repo_id = "MariaK/vilt_finetuned_200"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 2. 모델, 데이터세트, 프로세서, 데이터 콜레이터와 함께 훈련 인수를 [`Trainer`]에 전달하세요:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=processed_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = processed_dataset,
+...
+processing_class = processor,
 ... )
 ```
 
@@ -285,9 +300,9 @@ Dataset({
 ViLT 모델을 미세 조정하고 🤗 Hub에 업로드했다면 추론에 사용할 수 있습니다. 미세 조정된 모델을 추론에 사용해보는 가장 간단한 방법은 [`Pipeline`]에서 사용하는 것입니다.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
+>> > pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
 ```
 
 이 가이드의 모델은 200개의 예제에서만 훈련되었으므로 그다지 많은 것을 기대할 수는 없습니다. 데이터세트의 첫 번째 예제를 사용하여 추론 결과를 설명해보겠습니다:
@@ -338,13 +353,13 @@ Predicted answer: down
 이 모델을 어떻게 VQA에 사용할 수 있는지 설명해 보겠습니다. 먼저 모델을 가져와 보겠습니다. 여기서 GPU가 사용 가능한 경우 모델을 명시적으로 GPU로 전송할 것입니다. 이전에는 훈련할 때 쓰지 않은 이유는 [`Trainer`]가 이 부분을 자동으로 처리하기 때문입니다:
 
 ```py
->>> from transformers import AutoProcessor, Blip2ForConditionalGeneration
->>> import torch
+>> > from myTransformers import AutoProcessor, Blip2ForConditionalGeneration
+>> > import torch
 
->>> processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
->>> model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
->>> device = "cuda" if torch.cuda.is_available() else "cpu"
->>> model.to(device)
+>> > processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
+>> > model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
+>> > device = "cuda" if torch.cuda.is_available() else "cpu"
+>> > model.to(device)
 ```
 
 모델은 이미지와 텍스트를 입력으로 받으므로, VQA 데이터세트의 첫 번째 예제에서와 동일한 이미지/질문 쌍을 사용해 보겠습니다:

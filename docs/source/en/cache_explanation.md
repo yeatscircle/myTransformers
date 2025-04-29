@@ -43,7 +43,7 @@ The example below demonstrates how to create a generation loop with [`DynamicCac
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
 
 model_id = "meta-llama/Llama-2-7b-chat-hf"
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="cuda:0")
@@ -51,7 +51,8 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 
 past_key_values = DynamicCache()
 messages = [{"role": "user", "content": "Hello, what's your name."}]
-inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt", return_dict=True).to("cuda:0")
+inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt", return_dict=True).to(
+    "cuda:0")
 
 generated_ids = inputs.input_ids
 cache_position = torch.arange(inputs.input_ids.shape[1], dtype=torch.int64, device="cuda:0")
@@ -67,7 +68,7 @@ for _ in range(max_new_tokens):
     attention_mask = inputs["attention_mask"]
     attention_mask = torch.cat([attention_mask, attention_mask.new_ones((attention_mask.shape[0], 1))], dim=-1)
     inputs = {"input_ids": next_token_ids, "attention_mask": attention_mask}
-    cache_position = cache_position[-1:] + 1 # add one more position for the next token
+    cache_position = cache_position[-1:] + 1  # add one more position for the next token
 
 print(tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0])
 "[INST] Hello, what's your name. [/INST]  Hello! My name is LLaMA,"
@@ -81,10 +82,11 @@ If your project depends on this legacy format, you can convert between [`Dynamic
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16,
+                                             device_map="auto")
 inputs = tokenizer("Hello, my name is", return_tensors="pt").to(model.device)
 
 # `return_dict_in_generate=True` is required to return the cache and `return_legacy_cache` forces the returned cache

@@ -42,8 +42,9 @@ Let's see the pipeline in action. First, initialize the pipeline. If you don't p
 
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 from accelerate.test_utils.testing import get_backend
+
 # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 DEVICE, _, _ = get_backend()
 pipe = pipeline(task="image-feature-extraction", model_name="google/vit-base-patch16-384", device=DEVICE, pool=True)
@@ -100,7 +101,7 @@ print(np.array(outputs).shape)
 We can also use `AutoModel` class of transformers to get the features. `AutoModel` loads any transformers model with no task-specific head, and we can use this to get the features.
 
 ```python
-from transformers import AutoImageProcessor, AutoModel
+from myTransformers import AutoImageProcessor, AutoModel
 
 processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 model = AutoModel.from_pretrained("google/vit-base-patch16-224").to(DEVICE)

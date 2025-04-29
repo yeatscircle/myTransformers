@@ -35,9 +35,9 @@ rendered properly in your Markdown viewer.
 1. 首先，创建一个[`pipeline`]并指定推理任务：
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline(task="automatic-speech-recognition")
+>> > transcriber = pipeline(task="automatic-speech-recognition")
 ```
 
 2. 将您的输入传递给[`pipeline`]。对于语音识别，这通常是一个音频输入文件：
@@ -187,10 +187,9 @@ for out in pipe(data()):
 
 迭代数据集的最简单方法就是从🤗 [Datasets](https://github.com/huggingface/datasets/) 中加载数据集：
 
-
 ```py
 # KeyDataset is a util that will just output the item we're interested in.
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers.pipelines.pt_utils import KeyDataset
 from datasets import load_dataset
 
 pipe = pipeline(model="hf-internal-testing/tiny-random-wav2vec2", device=0)
@@ -216,34 +215,41 @@ for out in pipe(KeyDataset(dataset, "audio")):
 指定您的任务并将图像传递给分类器。图像可以是链接、本地路径或base64编码的图像。例如，下面显示的是哪种品种的猫？
 
 ![pipeline-cat-chonk](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg)
-```py
->>> from transformers import pipeline
 
->>> vision_classifier = pipeline(model="google/vit-base-patch16-224")
->>> preds = vision_classifier(
-...     images="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+```py
+>> > from myTransformers import pipeline
+
+>> > vision_classifier = pipeline(model="google/vit-base-patch16-224")
+>> > preds = vision_classifier(
+    ...
+images = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
-[{'score': 0.4335, 'label': 'lynx, catamount'}, {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}, {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'}, {'score': 0.0229, 'label': 'tiger cat'}]
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
+[{'score': 0.4335, 'label': 'lynx, catamount'},
+ {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'},
+ {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'},
+ {'score': 0.0229, 'label': 'tiger cat'}]
 ```
 
 ## 文本流水线
 
 对于NLP任务，使用[`pipeline`] 几乎是相同的。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> # This model is a `zero-shot-classification` model.
->>> # It will classify text, except you are free to choose any label you might imagine
->>> classifier = pipeline(model="facebook/bart-large-mnli")
->>> classifier(
-...     "I have a problem with my iphone that needs to be resolved asap!!",
-...     candidate_labels=["urgent", "not urgent", "phone", "tablet", "computer"],
+>> >  # This model is a `zero-shot-classification` model.
+>> >  # It will classify text, except you are free to choose any label you might imagine
+>> > classifier = pipeline(model="facebook/bart-large-mnli")
+>> > classifier(
+    ...
+"I have a problem with my iphone that needs to be resolved asap!!",
+...
+candidate_labels = ["urgent", "not urgent", "phone", "tablet", "computer"],
 ... )
-{'sequence': 'I have a problem with my iphone that needs to be resolved asap!!', 'labels': ['urgent', 'phone', 'computer', 'not urgent', 'tablet'], 'scores': [0.504, 0.479, 0.013, 0.003, 0.002]}
+{'sequence': 'I have a problem with my iphone that needs to be resolved asap!!',
+ 'labels': ['urgent', 'phone', 'computer', 'not urgent', 'tablet'], 'scores': [0.504, 0.479, 0.013, 0.003, 0.002]}
 ```
 
 ## 多模态流水线
@@ -252,17 +258,18 @@ for out in pipe(KeyDataset(dataset, "audio")):
 
 例如，如果您使用这个[invoice image](https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png)：
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vqa = pipeline(model="impira/layoutlm-document-qa")
->>> output = vqa(
-...     image="https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png",
-...     question="What is the invoice number?",
+>> > vqa = pipeline(model="impira/layoutlm-document-qa")
+>> > output = vqa(
+    ...
+image = "https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png",
+...
+question = "What is the invoice number?",
 ... )
->>> output[0]["score"] = round(output[0]["score"], 3)
->>> output
+>> > output[0]["score"] = round(output[0]["score"], 3)
+>> > output
 [{'score': 0.425, 'answer': 'us-001', 'start': 16, 'end': 16}]
 ```
 
@@ -284,11 +291,10 @@ pip install pytesseract
 
 首先使用 `device_map="auto"` 加载您的模型！我们将在示例中使用 `facebook/opt-1.3b`。
 
-
 ```py
 # pip install accelerate
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(model="facebook/opt-1.3b", torch_dtype=torch.bfloat16, device_map="auto")
 output = pipe("This is a cool example!", do_sample=True, top_p=0.95)
@@ -296,11 +302,10 @@ output = pipe("This is a cool example!", do_sample=True, top_p=0.95)
 
 如果安装 `bitsandbytes` 并添加参数 `load_in_8bit=True`，您还可以传递8位加载的模型。
 
-
 ```py
 # pip install accelerate bitsandbytes
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(model="facebook/opt-1.3b", device_map="auto", model_kwargs={"load_in_8bit": True})
 output = pipe("This is a cool example!", do_sample=True, top_p=0.95)

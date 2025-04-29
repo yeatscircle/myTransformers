@@ -35,24 +35,28 @@ Development of the model was led by [Shinya Otani](https://github.com/SO0529), [
 The `generate()` method can be used to generate text using GPT NeoX Japanese model.
 
 ```python
->>> from transformers import GPTNeoXJapaneseForCausalLM, GPTNeoXJapaneseTokenizer
+>> > from myTransformers import GPTNeoXJapaneseForCausalLM, GPTNeoXJapaneseTokenizer
 
->>> model = GPTNeoXJapaneseForCausalLM.from_pretrained("abeja/gpt-neox-japanese-2.7b")
->>> tokenizer = GPTNeoXJapaneseTokenizer.from_pretrained("abeja/gpt-neox-japanese-2.7b")
+>> > model = GPTNeoXJapaneseForCausalLM.from_pretrained("abeja/gpt-neox-japanese-2.7b")
+>> > tokenizer = GPTNeoXJapaneseTokenizer.from_pretrained("abeja/gpt-neox-japanese-2.7b")
 
->>> prompt = "人とAIが協調するためには、"
+>> > prompt = "人とAIが協調するためには、"
 
->>> input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+>> > input_ids = tokenizer(prompt, return_tensors="pt").input_ids
 
->>> gen_tokens = model.generate(
-...     input_ids,
-...     do_sample=True,
-...     temperature=0.9,
-...     max_length=100,
+>> > gen_tokens = model.generate(
+    ...
+input_ids,
+...
+do_sample = True,
+...
+temperature = 0.9,
+...
+max_length = 100,
 ... )
->>> gen_text = tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)[0]
+>> > gen_text = tokenizer.batch_decode(gen_tokens, skip_special_tokens=True)[0]
 
->>> print(gen_text)
+>> > print(gen_text)
 人とAIが協調するためには、AIと人が共存し、AIを正しく理解する必要があります。
 ```
 

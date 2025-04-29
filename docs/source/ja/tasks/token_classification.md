@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate seqeval
+pip install myTransformers datasets evaluate seqeval
 ```
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
 
@@ -101,9 +101,9 @@ pip install transformers datasets evaluate seqeval
 次のステップでは、DistilBERT トークナイザーをロードして`tokens`フィールドを前処理します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 上の `tokens`フィールドの例で見たように、入力はすでにトークン化されているようです。しかし、実際には入力はまだトークン化されていないため、単語をサブワードにトークン化するには`is_split_into_words=True` を設定する必要があります。例えば：
@@ -159,17 +159,17 @@ pip install transformers datasets evaluate seqeval
 <pt>
 
 ```py
->>> from transformers import DataCollatorForTokenClassification
+>> > from myTransformers import DataCollatorForTokenClassification
 
->>> data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
+>> > data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import DataCollatorForTokenClassification
+>> > from myTransformers import DataCollatorForTokenClassification
 
->>> data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer, return_tensors="tf")
+>> > data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -263,10 +263,11 @@ pip install transformers datasets evaluate seqeval
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForTokenClassification`] を使用して、予期されるラベルの数とラベル マッピングを指定して DistilBERT を読み込みます。
 
 ```py
->>> from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = AutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -318,25 +319,30 @@ Keras を使用したモデルの微調整に慣れていない場合は、[こ�
 TensorFlow でモデルを微調整するには、オプティマイザー関数、学習率スケジュール、およびいくつかのトレーニング ハイパーパラメーターをセットアップすることから始めます。
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 3
->>> num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=0.01,
-...     num_warmup_steps=0,
+>> > batch_size = 16
+>> > num_train_epochs = 3
+>> > num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = 0.01,
+...
+num_warmup_steps = 0,
 ... )
 ```
 次に、[`TFAutoModelForTokenClassification`] を使用して、予期されるラベルの数とラベル マッピングを指定して DistilBERT をロードできます。
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] を使用して、データセットを `tf.data.Dataset` 形式に変換します。
@@ -369,21 +375,22 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 
 `compute_metrics` 関数を [`~transformers.KerasMetricCallback`] に渡します。
 
-
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 [`~transformers.PushToHubCallback`] でモデルとトークナイザーをプッシュする場所を指定します。
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_wnut_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_wnut_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -427,10 +434,10 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用して NER の`pipeline`をインスタンス化し、テキストをそれに渡します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
->>> classifier(text)
+>> > classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
+>> > classifier(text)
 [{'entity': 'B-location',
   'score': 0.42658573,
   'index': 2,
@@ -470,20 +477,21 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 テキストをトークン化して PyTorch テンソルを返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 入力をモデルに渡し、`logits`を返します。
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 最も高い確率でクラスを取得し、モデルの `id2label` マッピングを使用してそれをテキスト ラベルに変換します。
@@ -517,20 +525,19 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 テキストをトークン化し、TensorFlow テンソルを返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 入力をモデルに渡し、`logits`を返します。
 
-
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > logits = model(**inputs).logits
 ```
 
 最も高い確率でクラスを取得し、モデルの `id2label` マッピングを使用してそれをテキスト ラベルに変換します。

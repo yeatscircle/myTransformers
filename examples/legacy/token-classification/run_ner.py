@@ -26,8 +26,8 @@ from seqeval.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from torch import nn
 from utils_ner import Split, TokenClassificationDataset, TokenClassificationTask
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoModelForTokenClassification,
     AutoTokenizer,
@@ -38,7 +38,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from transformers.trainer_utils import is_main_process
+from myTransformers.trainer_utils import is_main_process
 
 
 logger = logging.getLogger(__name__)
@@ -99,7 +99,7 @@ class DataTrainingArguments:
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -148,9 +148,9 @@ def main():
     )
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
-        transformers.utils.logging.enable_default_handler()
-        transformers.utils.logging.enable_explicit_format()
+        myTransformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.enable_default_handler()
+        myTransformers.utils.logging.enable_explicit_format()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed

@@ -32,13 +32,13 @@ This guide focuses on inference with an instruction-tuned model.
 Let's begin installing the dependencies.
 
 ```bash
-pip install -q transformers accelerate flash_attn
+pip install -q myTransformers accelerate flash_attn
 ```
 
 Let's initialize the model and the processor.
 
 ```python
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 import torch
 
 device = torch.device("cuda")
@@ -125,7 +125,8 @@ print(generated_texts)
 The fastest way to get started is to use the [`Pipeline`] API. Specify the `"image-text-to-text"` task and the model you want to use.
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
+
 pipe = pipeline("image-text-to-text", model="llava-hf/llava-interleave-qwen-0.5b-hf")
 ```
 
@@ -207,17 +208,17 @@ We can use [text streaming](./generation_strategies#streaming) for a better gene
 
 Assume we have an application that keeps chat history and takes in the new user input. We will preprocess the inputs as usual and initialize [`TextIteratorStreamer`] to handle the generation in a separate thread. This allows you to stream the generated text tokens in real-time. Any generation arguments can be passed to [`TextIteratorStreamer`].
 
-
 ```python
 import time
-from transformers import TextIteratorStreamer
+from myTransformers import TextIteratorStreamer
 from threading import Thread
 
+
 def model_inference(
-    user_prompt,
-    chat_history,
-    max_new_tokens,
-    images
+        user_prompt,
+        chat_history,
+        max_new_tokens,
+        images
 ):
     user_prompt = {
         "role": "user",
@@ -296,7 +297,7 @@ pip install -U quanto bitsandbytes
 To quantize a model during loading, we need to first create [`QuantoConfig`]. Then load the model as usual, but pass `quantization_config` during model initialization.
 
 ```python
-from transformers import AutoModelForImageTextToText, QuantoConfig
+from myTransformers import AutoModelForImageTextToText, QuantoConfig
 
 model_id = "HuggingFaceM4/idefics2-8b"
 quantization_config = QuantoConfig(weights="int8")

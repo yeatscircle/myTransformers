@@ -18,8 +18,8 @@ import unittest
 import pytest
 from parameterized import parameterized
 
-from transformers import StableLmConfig, is_torch_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import StableLmConfig, is_torch_available, set_seed
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_flash_attn,
     require_torch,
@@ -36,17 +36,17 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         StableLmForCausalLM,
         StableLmForSequenceClassification,
         StableLmForTokenClassification,
         StableLmModel,
     )
-    from transformers.models.stablelm.modeling_stablelm import StableLmRotaryEmbedding
+    from myTransformers.models.stablelm.modeling_stablelm import StableLmRotaryEmbedding
 
 
-# Copied from transformers.tests.models.persimmon.test_modeling_persimmon.PersimmonModelTester with Persimmon -> StableLm
+# Copied from myTransformers.tests.models.persimmon.test_modeling_persimmon.PersimmonModelTester with Persimmon -> StableLm
 class StableLmModelTester:
     # Ignore copy
     def __init__(
@@ -168,7 +168,7 @@ class StableLmModelTester:
 
 
 @require_torch
-# Copied from transformers.tests.persimmon.test_modeling_persimmon.PersimmonModelTest with Persimmon -> StableLm
+# Copied from myTransformers.tests.persimmon.test_modeling_persimmon.PersimmonModelTest with Persimmon -> StableLm
 class StableLmModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixin, unittest.TestCase):
     all_model_classes = (
         (StableLmModel, StableLmForCausalLM, StableLmForSequenceClassification, StableLmForTokenClassification)

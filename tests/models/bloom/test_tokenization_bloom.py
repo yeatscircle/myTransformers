@@ -18,8 +18,8 @@ from functools import lru_cache
 
 from datasets import load_dataset
 
-from transformers import BloomTokenizerFast
-from transformers.testing_utils import require_jinja, require_tokenizers
+from myTransformers import BloomTokenizerFast
+from myTransformers.testing_utils import require_jinja, require_tokenizers
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 

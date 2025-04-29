@@ -52,19 +52,19 @@ source .env/bin/activate
 现在你可以使用以下命令安装 🤗 Transformers：
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 若仅需 CPU 支持，可以使用单行命令方便地安装 🤗 Transformers 和深度学习库。例如，使用以下命令安装 🤗 Transformers 和 PyTorch：
 
 ```bash
-pip install 'transformers[torch]'
+pip install 'myTransformers[torch]'
 ```
 
 🤗 Transformers 和 TensorFlow 2.0：
 
 ```bash
-pip install 'transformers[tf-cpu]'
+pip install 'myTransformers[tf-cpu]'
 ```
 
 <Tip warning={true}>
@@ -82,7 +82,7 @@ brew install pkg-config
 🤗 Transformers 和 Flax:
 
 ```bash
-pip install 'transformers[flax]'
+pip install 'myTransformers[flax]'
 ```
 
 最后，运行以下命令以检查 🤗 Transformers 是否已被正确安装。该命令将下载一个预训练模型：
@@ -124,7 +124,7 @@ python -c "from transformers import pipeline; print(pipeline('sentiment-analysis
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -139,7 +139,7 @@ pip install -e .
 现在，你可以使用以下命令，将你克隆的 🤗 Transformers 库轻松更新至最新版本：
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -150,7 +150,7 @@ git pull
 从 conda 的 `conda-forge` 频道安装：
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## 缓存设置
@@ -205,7 +205,7 @@ python examples/pytorch/translation/run_translation.py --model_name_or_path goog
     1. 预先使用 [`PreTrainedModel.from_pretrained`] 下载文件：
 
     ```py
-    >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    >>> from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
     >>> tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     >>> model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
@@ -244,9 +244,9 @@ python examples/pytorch/translation/run_translation.py --model_name_or_path goog
 下载完文件并在本地缓存后，指定其本地路径以加载和使用该模型：
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
+>> > config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
 ```
 
 <Tip>

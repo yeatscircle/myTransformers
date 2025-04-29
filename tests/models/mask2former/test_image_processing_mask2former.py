@@ -19,9 +19,9 @@ import numpy as np
 from datasets import load_dataset
 from huggingface_hub import hf_hub_download
 
-from transformers.image_utils import ChannelDimension
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.image_utils import ChannelDimension
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -30,9 +30,9 @@ if is_torch_available():
     import torch
 
     if is_vision_available():
-        from transformers import Mask2FormerImageProcessor
-        from transformers.models.mask2former.image_processing_mask2former import binary_mask_to_rle
-        from transformers.models.mask2former.modeling_mask2former import Mask2FormerForUniversalSegmentationOutput
+        from myTransformers import Mask2FormerImageProcessor
+        from myTransformers.models.mask2former.image_processing_mask2former import binary_mask_to_rle
+        from myTransformers.models.mask2former.modeling_mask2former import Mask2FormerForUniversalSegmentationOutput
 
 if is_vision_available():
     from PIL import Image

@@ -28,7 +28,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 모델을 업로드하고 커뮤니티와 공유할 수 있도록 허깅페이스 계정에 로그인하는 것이 좋습니다. 메시지가 표시되면 토큰을 입력하여 로그인합니다:
@@ -77,9 +77,9 @@ pip install transformers datasets evaluate
 다음 단계는 문장의 시작과 네 가지 가능한 구절을 처리하기 위해 BERT 토크나이저를 불러옵니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 생성하려는 전처리 함수는 다음과 같아야 합니다:
@@ -113,9 +113,10 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 ```
 
 [`DataCollatorForMultipleChoice`]는 모든 모델 입력을 평탄화하고 패딩을 적용하며 그 결과를 결과를 다차원화합니다:
+
 ```py
->>> from transformers import DataCollatorForMultipleChoice
->>> collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
+>> > from myTransformers import DataCollatorForMultipleChoice
+>> > collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
 ```
 
 ## 평가 하기[[evaluate]]
@@ -155,9 +156,9 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 이제 모델 훈련을 시작할 준비가 되었습니다! [`AutoModelForMultipleChoice`]로 BERT를 로드합니다:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
 
->>> model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 이제 세 단계만 남았습니다:
@@ -208,20 +209,20 @@ Keras로 모델을 미세 조정하는 데 익숙하지 않다면 기본 튜토�
 TensorFlow에서 모델을 미세 조정하려면 최적화 함수, 학습률 스케쥴 및 몇 가지 학습 하이퍼파라미터를 설정하는 것부터 시작하세요:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 2
->>> total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
->>> optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_train_epochs = 2
+>> > total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
+>> > optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 그리고 [`TFAutoModelForMultipleChoice`]로 BERT를 가져올 수 있습니다:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]을 사용하여 데이터 세트를 `tf.data.Dataset` 형식으로 변환합니다:
@@ -254,19 +255,21 @@ TensorFlow에서 모델을 미세 조정하려면 최적화 함수, 학습률 �
 `compute_metrics`함수를 [`~transformers.KerasMetricCallback`]에 전달하세요:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 모델과 토크나이저를 업로드할 위치를 [`~transformers.PushToHubCallback`]에서 지정하세요:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -312,21 +315,21 @@ TensorFlow에서 모델을 미세 조정하려면 최적화 함수, 학습률 �
 각 프롬프트와 후보 답변 쌍을 토큰화하여 PyTorch 텐서를 반환합니다. 또한 `labels`을 생성해야 합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
->>> labels = torch.tensor(0).unsqueeze(0)
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
+>> > labels = torch.tensor(0).unsqueeze(0)
 ```
 
 입력과 레이블을 모델에 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice
+>> > from myTransformers import AutoModelForMultipleChoice
 
->>> model = AutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
->>> outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
->>> logits = outputs.logits
+>> > model = AutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
+>> > outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
+>> > logits = outputs.logits
 ```
 
 가장 높은 확률을 가진 클래스를 가져옵니다:
@@ -341,21 +344,21 @@ TensorFlow에서 모델을 미세 조정하려면 최적화 함수, 학습률 �
 각 프롬프트와 후보 답안 쌍을 토큰화하여 텐서플로 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
 ```
 
 모델에 입력을 전달하고 `logits`를 반환합니다:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
->>> inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
->>> outputs = model(inputs)
->>> logits = outputs.logits
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
+>> > inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
+>> > outputs = model(inputs)
+>> > logits = outputs.logits
 ```
 
 가장 높은 확률을 가진 클래스를 가져옵니다:

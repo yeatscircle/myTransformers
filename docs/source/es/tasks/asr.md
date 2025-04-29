@@ -34,7 +34,7 @@ Revisa la [página de la tarea](https://huggingface.co/tasks/automatic-speech-re
 Antes de comenzar, asegúrate de haber instalado todas las librerías necesarias:
 
 ```bash
-pip install transformers datasets evaluate jiwer
+pip install myTransformers datasets evaluate jiwer
 ```
 
 Te aconsejamos iniciar sesión con tu cuenta de Hugging Face para que puedas subir tu modelo y comartirlo con la comunidad. Cuando te sea solicitado, ingresa tu token para iniciar sesión:
@@ -104,9 +104,9 @@ Hay dos campos:
 El siguiente paso es cargar un procesador Wav2Vec2 para procesar la señal de audio:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 ```
 El dataset MInDS-14 tiene una tasa de muestreo de 8000kHz (puedes encontrar esta información en su [tarjeta de dataset](https://huggingface.co/datasets/PolyAI/minds14)), lo que significa que tendrás que re-muestrear el dataset a 16000kHz para poder usar el modelo Wav2Vec2 pre-entrenado:
 
@@ -235,12 +235,15 @@ Si no tienes experiencia haciéndole fine-tuning a un modelo con el [`Trainer`],
 ¡Ya puedes empezar a entrenar tu modelo! Para ello, carga Wav2Vec2 con [`AutoModelForCTC`]. Especifica la reducción que quieres aplicar con el parámetro `ctc_loss_reduction`. A menudo, es mejor usar el promedio en lugar de la sumatoria que se hace por defecto.
 
 ```py
->>> from transformers import AutoModelForCTC, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCTC, TrainingArguments, Trainer
 
->>> model = AutoModelForCTC.from_pretrained(
-...     "facebook/wav2vec2-base",
-...     ctc_loss_reduction="mean",
-...     pad_token_id=processor.tokenizer.pad_token_id,
+>> > model = AutoModelForCTC.from_pretrained(
+    ...
+"facebook/wav2vec2-base",
+...
+ctc_loss_reduction = "mean",
+...
+pad_token_id = processor.tokenizer.pad_token_id,
 ... )
 ```
 En este punto, solo quedan tres pasos:
@@ -316,10 +319,10 @@ Carga el archivo de audio sobre el cual quieras correr la inferencia. ¡Recuerda
 La manera más simple de probar tu modelo para hacer inferencia es usarlo en un [`pipeline`]. Puedes instanciar un `pipeline` para reconocimiento automático del habla con tu modelo y pasarle tu archivo de audio:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
->>> transcriber(audio_file)
+>> > transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
+>> > transcriber(audio_file)
 {'text': 'I WOUD LIKE O SET UP JOINT ACOUNT WTH Y PARTNER'}
 ```
 
@@ -336,20 +339,21 @@ También puedes replicar de forma manual los resultados del `pipeline` si lo des
 Carga un procesador para preprocesar el archivo de audio y la transcripción y devuelve el `input` como un tensor de PyTorch:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 Pásale tus entradas al modelo y devuelve los logits:
 
 ```py
->>> from transformers import AutoModelForCTC
+>> > from myTransformers import AutoModelForCTC
 
->>> model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 Obtén los identificadores de los tokens con mayor probabilidad en las predicciones y usa el procesador para decodificarlos y transformarlos en texto:

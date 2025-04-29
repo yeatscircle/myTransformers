@@ -30,7 +30,7 @@ Esta guía te mostrará cómo:
 Antes de comenzar, asegúrate de tener todas las bibliotecas necesarias instaladas:
 
 ```bash
-pip install transformers datasets evaluate -q
+pip install myTransformers datasets evaluate -q
 pip install jiwer -q
 ```
 
@@ -113,7 +113,7 @@ Dado que el conjunto de datos tiene dos modalidades (imagen y texto), el proceso
 Para hacerlo, carga la clase de procesador asociada con el modelo que estás a punto de ajustar.
 
 ```python
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 checkpoint = "microsoft/git-base"
 processor = AutoProcessor.from_pretrained(checkpoint)
@@ -141,7 +141,7 @@ Con el conjunto de datos listo, ahora puedes configurar el modelo para el ajuste
 Carga ["microsoft/git-base"](https://huggingface.co/microsoft/git-base) en un objeto [`AutoModelForCausalLM`](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForCausalLM).
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(checkpoint)
 ```
@@ -175,7 +175,7 @@ Ahora, estás listo para comenzar a ajustar el modelo. Utilizarás el 🤗 [`Tra
 Primero, define los argumentos de entrenamiento usando [`TrainingArguments`].
 
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 model_name = checkpoint.split("/")[1]
 

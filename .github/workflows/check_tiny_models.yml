@@ -16,7 +16,7 @@ jobs:
     name: Check tiny models
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout transformers
+      - name: Checkout myTransformers
         uses: actions/checkout@v4
         with:
           fetch-depth: 2

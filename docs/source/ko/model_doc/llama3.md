@@ -58,14 +58,14 @@ pipeline("Hey how are you doing today?")
 - 원본 체크포인트는 이 [변환 스크립트](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)를 이용해서 변환 가능합니다. 스크립트는 다음 명령어로 호출할 수 있습니다:
     
     ```bash
-    python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+    python src/myTransformers/models/llama/convert_llama_weights_to_hf.py \
         --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path --llama_version 3
     ```
 
 - 변환 후, 모델과 토크나이저는 다음을 통해 로드된다.
 
     ```python
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from myTransformers import AutoModelForCausalLM, AutoTokenizer
     
     tokenizer = AutoTokenizer.from_pretrained("/output/path")
     model = AutoModelForCausalLM.from_pretrained("/output/path")

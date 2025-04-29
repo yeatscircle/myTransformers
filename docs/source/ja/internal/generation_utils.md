@@ -27,7 +27,7 @@ rendered properly in your Markdown viewer.
 以下に例を示します。
 
 ```python
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from myTransformers import GPT2Tokenizer, GPT2LMHeadModel
 
 tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
 model = GPT2LMHeadModel.from_pretrained("openai-community/gpt2")

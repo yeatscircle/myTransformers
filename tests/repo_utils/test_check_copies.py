@@ -72,18 +72,18 @@ class BertModel(BertPreTrainedModel):
 
 MOCK_BERT_COPY_CODE = """from ...modeling_utils import PreTrainedModel
 
-# Copied from transformers.models.bert.modeling_bert.bert_function
+# Copied from myTransformers.models.bert.modeling_bert.bert_function
 def bert_copy_function(x):
     return x
 
 
-# Copied from transformers.models.bert.modeling_bert.BertAttention
+# Copied from myTransformers.models.bert.modeling_bert.BertAttention
 class BertCopyAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
 
 
-# Copied from transformers.models.bert.modeling_bert.BertModel with Bert->BertCopy all-casing
+# Copied from myTransformers.models.bert.modeling_bert.BertModel with Bert->BertCopy all-casing
 class BertCopyModel(BertCopyPreTrainedModel):
     def __init__(self, config):
         super().__init__()
@@ -104,7 +104,7 @@ class BertDummyModel:
         self.a = a
         self.b = b
 
-    # Copied from transformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
+    # Copied from myTransformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
     def forward(self, c):
         return 1
 
@@ -117,7 +117,7 @@ class BertDummyModel:
 
 
 MOCK_DUMMY_ROBERTA_CODE_MATCH = """
-# Copied from transformers.models.dummy_bert_match.modeling_dummy_bert_match.BertDummyModel with BertDummy->RobertaBertDummy
+# Copied from myTransformers.models.dummy_bert_match.modeling_dummy_bert_match.BertDummyModel with BertDummy->RobertaBertDummy
 class RobertaBertDummyModel:
 
     attr_1 = 1
@@ -131,7 +131,7 @@ class RobertaBertDummyModel:
     def only_in_roberta_to_be_ignored(self, c):
         return 3
 
-    # Copied from transformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
+    # Copied from myTransformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
     def forward(self, c):
         return 1
 
@@ -153,7 +153,7 @@ class BertDummyModel:
         self.a = a
         self.b = b
 
-    # Copied from transformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
+    # Copied from myTransformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
     def forward(self, c):
         return 1
 
@@ -172,7 +172,7 @@ class BertDummyModel:
 
 
 MOCK_DUMMY_ROBERTA_CODE_NO_MATCH = """
-# Copied from transformers.models.dummy_bert_no_match.modeling_dummy_bert_no_match.BertDummyModel with BertDummy->RobertaBertDummy
+# Copied from myTransformers.models.dummy_bert_no_match.modeling_dummy_bert_no_match.BertDummyModel with BertDummy->RobertaBertDummy
 class RobertaBertDummyModel:
 
     attr_1 = 1
@@ -186,7 +186,7 @@ class RobertaBertDummyModel:
     def only_in_roberta_to_be_ignored(self, c):
         return 3
 
-    # Copied from transformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
+    # Copied from myTransformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
     def forward(self, c):
         return 1
 
@@ -206,7 +206,7 @@ class RobertaBertDummyModel:
 
 
 EXPECTED_REPLACED_CODE = """
-# Copied from transformers.models.dummy_bert_no_match.modeling_dummy_bert_no_match.BertDummyModel with BertDummy->RobertaBertDummy
+# Copied from myTransformers.models.dummy_bert_no_match.modeling_dummy_bert_no_match.BertDummyModel with BertDummy->RobertaBertDummy
 class RobertaBertDummyModel:
     attr_1 = 1
     attr_2 = 2
@@ -215,7 +215,7 @@ class RobertaBertDummyModel:
         self.a = a
         self.b = b
 
-    # Copied from transformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
+    # Copied from myTransformers.models.dummy_gpt2.modeling_dummy_gpt2.GPT2DummyModel.forward
     def forward(self, c):
         return 1
 
@@ -257,7 +257,7 @@ def create_tmp_repo(tmp_dir):
         shutil.rmtree(tmp_dir)
     tmp_dir.mkdir(exist_ok=True)
 
-    model_dir = tmp_dir / "src" / "transformers" / "models"
+    model_dir = tmp_dir / "src" / "myTransformers" / "models"
     model_dir.mkdir(parents=True, exist_ok=True)
 
     models = {
@@ -286,7 +286,7 @@ def patch_transformer_repo_path(new_folder):
     repo_path = Path(new_folder).resolve()
     check_copies.REPO_PATH = str(repo_path)
     check_copies.PATH_TO_DOCS = str(repo_path / "docs" / "source" / "en")
-    check_copies.TRANSFORMERS_PATH = str(repo_path / "src" / "transformers")
+    check_copies.TRANSFORMERS_PATH = str(repo_path / "src" / "myTransformers")
     try:
         yield
     finally:
@@ -308,7 +308,7 @@ class CopyCheckTester(unittest.TestCase):
         self.assertEqual(code, reference_code)
 
     def test_is_copy_consistent(self):
-        path_to_check = ["src", "transformers", "models", "bertcopy", "modeling_bertcopy.py"]
+        path_to_check = ["src", "myTransformers", "models", "bertcopy", "modeling_bertcopy.py"]
         with tempfile.TemporaryDirectory() as tmp_folder:
             # Base check
             create_tmp_repo(tmp_folder)
@@ -332,7 +332,7 @@ class CopyCheckTester(unittest.TestCase):
                     self.assertEqual(f.read(), MOCK_BERT_COPY_CODE)
 
     def test_is_copy_consistent_with_ignored_match(self):
-        path_to_check = ["src", "transformers", "models", "dummy_roberta_match", "modeling_dummy_roberta_match.py"]
+        path_to_check = ["src", "myTransformers", "models", "dummy_roberta_match", "modeling_dummy_roberta_match.py"]
         with tempfile.TemporaryDirectory() as tmp_folder:
             # Base check
             create_tmp_repo(tmp_folder)
@@ -344,7 +344,7 @@ class CopyCheckTester(unittest.TestCase):
     def test_is_copy_consistent_with_ignored_no_match(self):
         path_to_check = [
             "src",
-            "transformers",
+            "myTransformers",
             "models",
             "dummy_roberta_no_match",
             "modeling_dummy_roberta_no_match.py",

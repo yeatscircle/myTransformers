@@ -32,8 +32,8 @@ Hub에 업로드된 체크포인트들은 `torch_dtype = 'float16'`을 사용합
 모델과 토크나이저는 다음과 같이 로드할 수 있습니다:
 
 ```python
-# pip install transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM
+# pip install myTransformers
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "CohereForAI/c4ai-command-r-v01"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -45,11 +45,11 @@ input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generatio
 ## <BOS_TOKEN><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Hello, how are you?<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
 
 gen_tokens = model.generate(
-    input_ids, 
-    max_new_tokens=100, 
-    do_sample=True, 
+    input_ids,
+    max_new_tokens=100,
+    do_sample=True,
     temperature=0.3,
-    )
+)
 
 gen_text = tokenizer.decode(gen_tokens[0])
 print(gen_text)
@@ -65,9 +65,10 @@ Command-R을 시작하는 데 도움이 되는 Hugging Face와 community 자료 
 <PipelineTag pipeline="text-generation"/>
 
 FP16 모델 로딩
+
 ```python
-# pip install transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM
+# pip install myTransformers
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "CohereForAI/c4ai-command-r-v01"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -79,20 +80,21 @@ input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generatio
 ## <BOS_TOKEN><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Hello, how are you?<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>
 
 gen_tokens = model.generate(
-    input_ids, 
-    max_new_tokens=100, 
-    do_sample=True, 
+    input_ids,
+    max_new_tokens=100,
+    do_sample=True,
     temperature=0.3,
-    )
+)
 
 gen_text = tokenizer.decode(gen_tokens[0])
 print(gen_text)
 ```
 
 bitsandbytes 라이브러리를 이용해서 4bit 양자화된 모델 로딩
+
 ```python
-# pip install transformers bitsandbytes accelerate
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+# pip install myTransformers bitsandbytes accelerate
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 bnb_config = BitsAndBytesConfig(load_in_4bit=True)
 
@@ -101,11 +103,11 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=bnb_config)
 
 gen_tokens = model.generate(
-    input_ids, 
-    max_new_tokens=100, 
-    do_sample=True, 
+    input_ids,
+    max_new_tokens=100,
+    do_sample=True,
     temperature=0.3,
-    )
+)
 
 gen_text = tokenizer.decode(gen_tokens[0])
 print(gen_text)

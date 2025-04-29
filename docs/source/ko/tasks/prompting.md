@@ -55,16 +55,17 @@ Falcon, LLaMA 등의 대규모 언어 모델은 사전 훈련된 트랜스포머
 디코더 전용 모델로 추론을 실행하려면 `text-generation` 파이프라인을 사용하세요:
 
 ```python
->>> from transformers import pipeline
->>> import torch
+>> > from myTransformers import pipeline
+>> > import torch
 
->>> torch.manual_seed(0) # doctest: +IGNORE_RESULT
+>> > torch.manual_seed(0)  # doctest: +IGNORE_RESULT
 
->>> generator = pipeline('text-generation', model = 'openai-community/gpt2')
->>> prompt = "Hello, I'm a language model"
+>> > generator = pipeline('text-generation', model='openai-community/gpt2')
+>> > prompt = "Hello, I'm a language model"
 
->>> generator(prompt, max_length = 30)
-[{'generated_text': "Hello, I'm a language model programmer so you can use some of my stuff. But you also need some sort of a C program to run."}]
+>> > generator(prompt, max_length=30)
+[{
+     'generated_text': "Hello, I'm a language model programmer so you can use some of my stuff. But you also need some sort of a C program to run."}]
 ```
 
 인코더-디코더로 추론을 실행하려면 `text2text-generation` 파이프라인을 사용하세요:
@@ -90,25 +91,30 @@ Falcon, LLaMA 등의 대규모 언어 모델은 사전 훈련된 트랜스포머
 먼저, 환경을 설정해 보겠습니다:
 
 ```bash
-pip install -q transformers accelerate
+pip install -q myTransformers accelerate
 ```
 
 다음으로, 적절한 파이프라인("text-generation")을 사용하여 모델을 로드하겠습니다:
 
 ```python
->>> from transformers import pipeline, AutoTokenizer
->>> import torch
+>> > from myTransformers import pipeline, AutoTokenizer
+>> > import torch
 
->>> torch.manual_seed(0) # doctest: +IGNORE_RESULT
->>> model = "tiiuae/falcon-7b-instruct"
+>> > torch.manual_seed(0)  # doctest: +IGNORE_RESULT
+>> > model = "tiiuae/falcon-7b-instruct"
 
->>> tokenizer = AutoTokenizer.from_pretrained(model)
->>> pipe = pipeline(
-...     "text-generation",
-...     model=model,
-...     tokenizer=tokenizer,
-...     torch_dtype=torch.bfloat16,
-...     device_map="auto",
+>> > tokenizer = AutoTokenizer.from_pretrained(model)
+>> > pipe = pipeline(
+    ...
+"text-generation",
+...
+model = model,
+...
+tokenizer = tokenizer,
+...
+torch_dtype = torch.bfloat16,
+...
+device_map = "auto",
 ... )
 ```
 

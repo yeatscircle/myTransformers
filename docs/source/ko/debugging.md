@@ -75,10 +75,10 @@ NCCL_DEBUG=INFO python -m torch.distributed.run --nproc_per_node 2 --nnodes 1 to
 ```
 또는 [`TrainingArguments`] 객체를 생성할 때 `debug="underflow_overflow"`를 전달합니다.
 
-자체 훈련 루프나 다른 Trainer를 사용하는 경우, 다음과 같이 수행할 수 있습니다. 
+자체 훈련 루프나 다른 Trainer를 사용하는 경우, 다음과 같이 수행할 수 있습니다.
 
 ```python
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model)
 ```
@@ -247,7 +247,7 @@ class T5LayerFF(nn.Module):
 또한, 자체 코드에서 디버거를 인스턴스화하는 경우 기본값에서 출력되는 프레임 수를 조정할 수 있습니다. 예를 들어:
 
 ```python
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model, max_frames_to_save=100)
 ```

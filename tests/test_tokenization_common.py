@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING, Any, Optional, Union
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AlbertTokenizer,
     AlbertTokenizerFast,
     BertTokenizer,
@@ -48,7 +48,7 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     check_json_file_has_correct_format,
     get_tests_dir,
     require_jinja,
@@ -59,7 +59,7 @@ from transformers.testing_utils import (
     run_test_in_subprocess,
     slow,
 )
-from transformers.tokenization_utils import AddedToken
+from myTransformers.tokenization_utils import AddedToken
 
 
 if is_torch_available():
@@ -68,7 +68,7 @@ if is_torch_available():
 
 
 if TYPE_CHECKING:
-    from transformers import PretrainedConfig, PreTrainedModel, TFPreTrainedModel
+    from myTransformers import PretrainedConfig, PreTrainedModel, TFPreTrainedModel
 
 
 def use_cache_if_possible(func):
@@ -354,7 +354,7 @@ class TokenizerTesterMixin:
 
         if sequences is None:
             sequences = [
-                "Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides "
+                "Transformers (formerly known as pytorch-myTransformers and pytorch-pretrained-bert) provides "
                 "general-purpose architectures (BERT, GPT-2, RoBERTa, XLM, DistilBert, XLNet...) for Natural "
                 "Language Understanding (NLU) and Natural Language Generation (NLG) with over 32+ pretrained "
                 "models in 100+ languages and deep interoperability between Jax, PyTorch and TensorFlow.",
@@ -1814,7 +1814,7 @@ class TokenizerTesterMixin:
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                         self.assertEqual(len(cm.records), 1)
@@ -1826,7 +1826,7 @@ class TokenizerTesterMixin:
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                         self.assertEqual(len(cm.records), 1)
@@ -1942,7 +1942,7 @@ class TokenizerTesterMixin:
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, seq_2, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                         self.assertEqual(len(cm.records), 1)
@@ -1954,7 +1954,7 @@ class TokenizerTesterMixin:
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], [seq_2], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                         self.assertEqual(len(cm.records), 1)
@@ -2693,7 +2693,7 @@ class TokenizerTesterMixin:
 
         encoding_fast = tokenizer_fast(sequence)
 
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             tokenizer_fast.pad(encoding_fast)
         self.assertEqual(len(cm.records), 1)
         self.assertIn(
@@ -3095,7 +3095,7 @@ class TokenizerTesterMixin:
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -3144,7 +3144,7 @@ class TokenizerTesterMixin:
     @require_tf
     @slow
     def test_tf_encode_plus_sent_to_model(self):
-        from transformers import TF_MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import TF_MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(TF_MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -3179,7 +3179,7 @@ class TokenizerTesterMixin:
     @require_torch
     @slow
     def test_np_encode_plus_sent_to_model(self):
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -4529,7 +4529,7 @@ class TokenizerTesterMixin:
     def test_tokenizer_mismatch_warning(self):
         for tokenizer, pretrained_name, kwargs in self.tokenizers_list:
             with self.subTest(f"{tokenizer.__class__.__name__} ({pretrained_name})"):
-                with self.assertLogs("transformers", level="WARNING") as cm:
+                with self.assertLogs("myTransformers", level="WARNING") as cm:
                     try:
                         if self.tokenizer_class == BertTokenizer:
                             AlbertTokenizer.from_pretrained(pretrained_name)

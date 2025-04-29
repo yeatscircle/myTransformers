@@ -29,7 +29,7 @@ This guide will show you the basics of text generation with [`~GenerationMixin.g
 Before you begin, it's helpful to install [bitsandbytes](https://hf.co/docs/bitsandbytes/index) to quantize really large models to reduce their memory usage.
 
 ```bash
-!pip install -U transformers bitsandbytes
+!pip install -U myTransformers bitsandbytes
 ```
 Bitsandbytes supports multiple backends in addition to CUDA-based GPUs. Refer to the multi-backend installation [guide](https://huggingface.co/docs/bitsandbytes/main/en/installation#multi-backend) to learn more.
 
@@ -39,10 +39,11 @@ Load a LLM with [`~PreTrainedModel.from_pretrained`] and add the following two p
 - `quantization_config` is a configuration object that defines the quantization settings. This examples uses bitsandbytes as the quantization backend (see the [Quantization](./quantization/overview) section for more available backends) and it loads the model in [4-bits](./quantization/bitsandbytes).
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
-model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", device_map="auto", quantization_config=quantization_config)
+model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", device_map="auto",
+                                             quantization_config=quantization_config)
 ```
 
 Tokenize your input, and set the [`~PreTrainedTokenizer.padding_side`] parameter to `"left"` because a LLM is not trained to continue generation from padding tokens. The tokenizer returns the input ids and attention mask.
@@ -70,13 +71,14 @@ All generation settings are contained in [`GenerationConfig`]. In the example ab
 Inspect the configuration through the `generation_config` attribute. It only shows values that are different from the default configuration, in this case, the `bos_token_id` and `eos_token_id`.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", device_map="auto")
 model.generation_config
-GenerationConfig {
-  "bos_token_id": 1,
-  "eos_token_id": 2
+GenerationConfig
+{
+    "bos_token_id": 1,
+    "eos_token_id": 2
 }
 ```
 
@@ -96,7 +98,7 @@ Refer to the [Generation strategies](./generation_strategies) guide to learn mor
 Create an instance of [`GenerationConfig`] and specify the decoding parameters you want.
 
 ```py
-from transformers import AutoModelForCausalLM, GenerationConfig
+from myTransformers import AutoModelForCausalLM, GenerationConfig
 
 model = AutoModelForCausalLM.from_pretrained("my_account/my_model")
 generation_config = GenerationConfig(
@@ -113,7 +115,7 @@ generation_config.save_pretrained("my_account/my_model", push_to_hub=True)
 Leave the `config_file_name` parameter empty. This parameter should be used when storing multiple generation configurations in a single directory. It gives you a way to specify which generation configuration to load. You can create different configurations for different generative tasks (creative text generation with sampling, summarization with beam search) for use with a single model.
 
 ```py
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
+from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
 
 tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-small")
 model = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
@@ -126,7 +128,8 @@ translation_generation_config = GenerationConfig(
     pad_token=model.config.pad_token_id,
 )
 
-translation_generation_config.save_pretrained("/tmp", config_file_name="translation_generation_config.json", push_to_hub=True)
+translation_generation_config.save_pretrained("/tmp", config_file_name="translation_generation_config.json",
+                                              push_to_hub=True)
 
 generation_config = GenerationConfig.from_pretrained("/tmp", config_file_name="translation_generation_config.json")
 inputs = tokenizer("translate English to French: Configuration files are easy to use!", return_tensors="pt")
@@ -236,7 +239,7 @@ Some models and tasks expect a certain input prompt format, and if the format is
 For example, a chat model expects the input as a [chat template](./chat_templating). Your prompt should include a `role` and `content` to indicate who is participating in the conversation. If you try to pass your prompt as a single string, the model doesn't always return the expected output.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-alpha")
 model = AutoModelForCausalLM.from_pretrained(

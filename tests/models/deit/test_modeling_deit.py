@@ -16,8 +16,8 @@
 import unittest
 import warnings
 
-from transformers import DeiTConfig
-from transformers.testing_utils import (
+from myTransformers import DeiTConfig
+from myTransformers.testing_utils import (
     require_accelerate,
     require_torch,
     require_torch_accelerator,
@@ -26,7 +26,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from myTransformers.utils import cached_property, is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -37,13 +37,13 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         DeiTForImageClassification,
         DeiTForImageClassificationWithTeacher,
         DeiTForMaskedImageModeling,
         DeiTModel,
     )
-    from transformers.models.auto.modeling_auto import (
+    from myTransformers.models.auto.modeling_auto import (
         MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING_NAMES,
         MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES,
         MODEL_MAPPING_NAMES,
@@ -53,7 +53,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DeiTImageProcessor
+    from myTransformers import DeiTImageProcessor
 
 
 class DeiTModelTester:

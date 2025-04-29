@@ -40,7 +40,7 @@ Dalla versione 4.18.0, i checkpoints dei modelli che occupano più di 10GB di sp
 Puoi controllare la dimensione massima dopo la frammentazione con il parametro `max_shard_size`, nel prossimo esempio, useremo modelli di dimensioni normali con frammenti di piccoli dimensioni: prendiamo un modello BERT classico.
 
 ```py
-from transformers import AutoModel
+from myTransformers import AutoModel
 
 model = AutoModel.from_pretrained("google-bert/bert-base-cased")
 ```
@@ -109,11 +109,13 @@ La mappa dei pesi è la parte principale di questo indice, che mappa ogni nome d
 Se vuoi caricare direttamente un checkpoint frammentato in un modello senza usare [`~PreTrainedModel.from_pretrained`] (come si farebbe con `model.load_state_dict()` per un checkpoint completo) devi usare [`~modeling_utils.load_sharded_checkpoint`]:
 
 ```py
->>> from transformers.modeling_utils import load_sharded_checkpoint
+>> > from myTransformers.modeling_utils import load_sharded_checkpoint
 
->>> with tempfile.TemporaryDirectory() as tmp_dir:
-...     model.save_pretrained(tmp_dir, max_shard_size="200MB")
-...     load_sharded_checkpoint(model, tmp_dir)
+>> > with tempfile.TemporaryDirectory() as tmp_dir:
+    ...
+model.save_pretrained(tmp_dir, max_shard_size="200MB")
+...
+load_sharded_checkpoint(model, tmp_dir)
 ```
 
 ## Caricamento low memory

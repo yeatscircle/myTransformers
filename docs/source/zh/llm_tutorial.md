@@ -33,7 +33,7 @@ LLMs，即大语言模型，是文本生成背后的关键组成部分。简单�
 
 
 ```bash
-pip install transformers bitsandbytes>=0.39.0 -q
+pip install myTransformers bitsandbytes>=0.39.0 -q
 ```
 
 
@@ -79,10 +79,11 @@ pip install transformers bitsandbytes>=0.39.0 -q
 首先，您需要加载模型。
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -96,10 +97,10 @@ pip install transformers bitsandbytes>=0.39.0 -q
 接下来，你需要使用一个[tokenizer](tokenizer_summary)来预处理你的文本输入。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1", padding_side="left")
->>> model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1", padding_side="left")
+>> > model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
 ```
 
 `model_inputs`变量保存着分词后的文本输入以及注意力掩码。尽管[`~generation.GenerationMixin.generate`]在未传递注意力掩码时会尽其所能推断出注意力掩码，但建议尽可能传递它以获得最佳结果。
@@ -133,12 +134,13 @@ pip install transformers bitsandbytes>=0.39.0 -q
 有许多[生成策略](generation_strategies)，有时默认值可能不适合您的用例。如果您的输出与您期望的结果不匹配，我们已经创建了一个最常见的陷阱列表以及如何避免它们。
 
 ```py
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
->>> tokenizer.pad_token = tokenizer.eos_token  # Most LLMs don't have a pad token by default
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
+>> > tokenizer.pad_token = tokenizer.eos_token  # Most LLMs don't have a pad token by default
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -165,20 +167,20 @@ pip install transformers bitsandbytes>=0.39.0 -q
 默认情况下，除非在[`~generation.GenerationConfig`]文件中指定，否则`generate`会在每个迭代中选择最可能的token（贪婪解码）。对于您的任务，这可能是不理想的；像聊天机器人或写作文章这样的创造性任务受益于采样。另一方面，像音频转录或翻译这样的基于输入的任务受益于贪婪解码。通过将`do_sample=True`启用采样，您可以在这篇[博客文章](https://huggingface.co/blog/how-to-generate)中了解更多关于这个话题的信息。
 
 ```py
->>> # Set seed or reproducibility -- you don't need this unless you want full reproducibility
->>> from transformers import set_seed
->>> set_seed(42)
+>> >  # Set seed or reproducibility -- you don't need this unless you want full reproducibility
+>> > from myTransformers import set_seed
+>> > set_seed(42)
 
->>> model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
+>> > model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
 
->>> # LLM + greedy decoding = repetitive, boring output
->>> generated_ids = model.generate(**model_inputs)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # LLM + greedy decoding = repetitive, boring output
+>> > generated_ids = model.generate(**model_inputs)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat. I am a cat. I am a cat. I am a cat'
 
->>> # With sampling, the output becomes more creative!
->>> generated_ids = model.generate(**model_inputs, do_sample=True)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # With sampling, the output becomes more creative!
+>> > generated_ids = model.generate(**model_inputs, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat.  Specifically, I am an indoor-only cat.  I'
 ```
 

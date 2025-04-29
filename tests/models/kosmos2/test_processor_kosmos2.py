@@ -22,15 +22,15 @@ import numpy as np
 import pytest
 import requests
 
-from transformers.models.auto.processing_auto import processor_class_from_name
-from transformers.testing_utils import (
+from myTransformers.models.auto.processing_auto import processor_class_from_name
+from myTransformers.testing_utils import (
     get_tests_dir,
     require_sentencepiece,
     require_tokenizers,
     require_torch,
     require_vision,
 )
-from transformers.utils import is_vision_available
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -38,7 +38,7 @@ from ...test_processing_common import ProcessorTesterMixin
 if is_vision_available():
     from PIL import Image
 
-    from transformers import (
+    from myTransformers import (
         AutoProcessor,
         CLIPImageProcessor,
         Kosmos2Processor,

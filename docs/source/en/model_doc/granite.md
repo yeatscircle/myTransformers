@@ -39,7 +39,7 @@ Tips:
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_path = "ibm/PowerLM-3b"
 tokenizer = AutoTokenizer.from_pretrained(model_path)

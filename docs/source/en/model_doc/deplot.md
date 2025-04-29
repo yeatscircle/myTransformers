@@ -35,11 +35,10 @@ DePlot is a Visual Question Answering subset of `Pix2Struct` architecture. It re
 
 Currently one checkpoint is available for DePlot:
 
-- `google/deplot`: DePlot fine-tuned on ChartQA dataset 
-
+- `google/deplot`: DePlot fine-tuned on ChartQA dataset
 
 ```python
-from transformers import AutoProcessor, Pix2StructForConditionalGeneration
+from myTransformers import AutoProcessor, Pix2StructForConditionalGeneration
 import requests
 from PIL import Image
 
@@ -56,8 +55,9 @@ print(processor.decode(predictions[0], skip_special_tokens=True))
 ## Fine-tuning
 
 To fine-tune DePlot, refer to the pix2struct [fine-tuning notebook](https://github.com/huggingface/notebooks/blob/main/examples/image_captioning_pix2struct.ipynb). For `Pix2Struct` models, we have found out that fine-tuning the model with Adafactor and cosine learning rate scheduler leads to faster convergence:
+
 ```python
-from transformers.optimization import Adafactor, get_cosine_schedule_with_warmup
+from myTransformers.optimization import Adafactor, get_cosine_schedule_with_warmup
 
 optimizer = Adafactor(self.parameters(), scale_parameter=False, relative_step=False, lr=0.01, weight_decay=1e-05)
 scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=1000, num_training_steps=40000)

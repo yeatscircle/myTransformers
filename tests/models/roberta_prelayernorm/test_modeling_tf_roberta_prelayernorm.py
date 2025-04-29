@@ -17,8 +17,8 @@ from __future__ import annotations
 
 import unittest
 
-from transformers import RobertaPreLayerNormConfig, is_tf_available
-from transformers.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
+from myTransformers import RobertaPreLayerNormConfig, is_tf_available
+from myTransformers.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -29,7 +29,7 @@ if is_tf_available():
     import numpy
     import tensorflow as tf
 
-    from transformers.models.roberta_prelayernorm.modeling_tf_roberta_prelayernorm import (
+    from myTransformers.models.roberta_prelayernorm.modeling_tf_roberta_prelayernorm import (
         TFRobertaPreLayerNormForCausalLM,
         TFRobertaPreLayerNormForMaskedLM,
         TFRobertaPreLayerNormForMultipleChoice,

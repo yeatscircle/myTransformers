@@ -39,9 +39,9 @@ Quasiment toutes les tâches de traitement du langage (NLP) commencent avec un t
 Chargez un tokenizer avec [`AutoTokenizer.from_pretrained`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 Puis, transformez votre texte initial comme montré ci-dessous:
@@ -59,9 +59,9 @@ Puis, transformez votre texte initial comme montré ci-dessous:
 Pour les tâches de vision, un processeur d'image traite l'image pour la formater correctment.
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 ## AutoBackbone
@@ -86,18 +86,18 @@ Ces paramètres peuvent être utilisés de manière interchangeable, mais si vou
 Par exemple, dans le diagramme ci-dessus, pour renvoyer la carte de caractéristiques de la première étape du backbone Swin, vous pouvez définir `out_indices=(1,)` :
 
 ```py
->>> from transformers import AutoImageProcessor, AutoBackbone
->>> import torch
->>> from PIL import Image
->>> import requests
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
->>> processor = AutoImageProcessor.from_pretrained("microsoft/swin-tiny-patch4-window7-224")
->>> model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
+>> > from myTransformers import AutoImageProcessor, AutoBackbone
+>> > import torch
+>> > from PIL import Image
+>> > import requests
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
+>> > processor = AutoImageProcessor.from_pretrained("microsoft/swin-tiny-patch4-window7-224")
+>> > model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
 
->>> inputs = processor(image, return_tensors="pt")
->>> outputs = model(**inputs)
->>> feature_maps = outputs.feature_maps
+>> > inputs = processor(image, return_tensors="pt")
+>> > outputs = model(**inputs)
+>> > feature_maps = outputs.feature_maps
 ```
 
 Vous pouvez maintenant accéder à l'objet `feature_maps` de la première étape du backbone :
@@ -115,10 +115,11 @@ Pour les tâches audio, un extracteur de caractéristiques (aussi appelés "feat
 Chargez un extracteur de caractéristiques avec [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained(
-...     "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained(
+    ...
+"ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -129,9 +130,9 @@ Les tâches multimodales nécessitent un processeur qui combine deux types d'out
 Chargez un processeur avec [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
+>> > processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
 ```
 
 ## AutoModel
@@ -141,17 +142,17 @@ Chargez un processeur avec [`AutoProcessor.from_pretrained`]:
 Enfin, les classes `AutoModelFor` vous permettent de charger un modèle pré-entraîné pour une tâche donnée (voir [ici](model_doc/auto) pour une liste complète des tâches disponibles). Par exemple, chargez un modèle pour la classification de séquence avec [`AutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Réutilisez facilement le même ensemble de poids pour charger une architecture pour une tâche différente :
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip warning={true}>
@@ -168,17 +169,17 @@ En général, nous recommandons d'utiliser les classes `AutoTokenizer` et `AutoM
 Enfin, les classes `TFAutoModelFor` vous permettent de charger un modèle pré-entraîné pour une tâche donnée (voir [ici](model_doc/auto) pour une liste complète des tâches disponibles). Par exemple, chargez un modèle pour la classification de séquence avec [`TFAutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Réutilisez facilement le même ensemble de poids pour charger une architecture pour une tâche différente :
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 En général, nous recommandons d'utiliser les classes `AutoTokenizer` et `TFAutoModelFor` pour charger des instances pré-entraînées de tokenizers et modèles respectivement. Cela vous permettra de charger la bonne architecture à chaque fois. Dans le prochain [tutoriel](preprocessing), vous apprenez à utiliser un tokenizer, processeur d'image, extracteur de caractéristiques et processeur pour pré-traiter un jeu de données pour le fine-tuning.

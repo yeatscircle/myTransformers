@@ -15,14 +15,14 @@
 
 import unittest
 
-from transformers.testing_utils import require_bs4
-from transformers.utils import is_bs4_available
+from myTransformers.testing_utils import require_bs4
+from myTransformers.utils import is_bs4_available
 
 from ...test_feature_extraction_common import FeatureExtractionSavingTestMixin
 
 
 if is_bs4_available():
-    from transformers import MarkupLMFeatureExtractor
+    from myTransformers import MarkupLMFeatureExtractor
 
 
 class MarkupLMFeatureExtractionTester:

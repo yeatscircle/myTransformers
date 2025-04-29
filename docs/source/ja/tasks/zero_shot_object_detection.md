@@ -41,7 +41,7 @@ OWL-ViTは、マルチモーダル表現を利用してオープン語彙の検�
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## Zero-shot object detection pipeline
@@ -50,10 +50,10 @@ OWL-ViTによる推論を試す最も簡単な方法は、OWL-ViTを[`pipeline`]
 [Hugging Face Hub のチェックポイント](https://huggingface.co/models?other=owlvit) からのゼロショット オブジェクト検出の場合:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "google/owlvit-base-patch32"
->>> detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
+>> > checkpoint = "google/owlvit-base-patch32"
+>> > detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
 ```
 
 次に、物体を検出したい画像を選択します。ここでは、宇宙飛行士アイリーン・コリンズの画像を使用します。
@@ -136,10 +136,10 @@ OWL-ViTによる推論を試す最も簡単な方法は、OWL-ViTを[`pipeline`]
 ここでは、前と同じチェックポイントを使用します。
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
+>> > from myTransformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 
->>> model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 ```
 
 気分を変えて、別の画像を撮ってみましょう。

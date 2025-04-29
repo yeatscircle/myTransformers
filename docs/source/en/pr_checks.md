@@ -31,7 +31,7 @@ In this document, we will take a stab at explaining what those various checks ar
 Note that, ideally, they require you to have a dev install:
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 or for an editable install:
@@ -43,7 +43,7 @@ pip install -e .[dev]
 inside the Transformers repo. Since the number of optional dependencies of Transformers has grown a lot, it's possible you don't manage to get all of them. If the dev install fails, make sure to install the Deep Learning framework you are working with (PyTorch, TensorFlow and/or Flax) then do
 
 ```bash
-pip install transformers[quality]
+pip install myTransformers[quality]
 ```
 
 or for an editable install:
@@ -157,19 +157,19 @@ If a file is a full copy of another file, you should register it in the constant
 This mechanism relies on comments of the form `# Copied from xxx`. The `xxx` should contain the whole path to the class of function which is being copied below. For instance, `RobertaSelfOutput` is a direct copy of the `BertSelfOutput` class, so you can see [here](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L289) it has a comment:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from myTransformers.models.bert.modeling_bert.BertSelfOutput
 ```
 
 Note that instead of applying this to a whole class, you can apply it to the relevant methods that are copied from. For instance [here](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L598) you can see how `RobertaPreTrainedModel._init_weights` is copied from the same method in `BertPreTrainedModel` with the comment:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+# Copied from myTransformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
 ```
 
 Sometimes the copy is exactly the same except for names: for instance in `RobertaAttention`, we use `RobertaSelfAttention` instead of `BertSelfAttention` but other than that, the code is exactly the same. This is why `# Copied from` supports simple string replacements with the following syntax: `Copied from xxx with foo->bar`. This means the code is copied with all instances of `foo` being replaced by `bar`. You can see how it used [here](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L304C1-L304C86) in `RobertaAttention` with the comment:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
+# Copied from myTransformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
 ```
 
 Note that there shouldn't be any spaces around the arrow (unless that space is part of the pattern to replace of course).
@@ -177,7 +177,7 @@ Note that there shouldn't be any spaces around the arrow (unless that space is p
 You can add several patterns separated by a comma. For instance here `CamemberForMaskedLM` is a direct copy of `RobertaForMaskedLM` with two replacements: `Roberta` to `Camembert` and `ROBERTA` to `CAMEMBERT`. You can see [here](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/camembert/modeling_camembert.py#L929) this is done with the comment:
 
 ```py
-# Copied from transformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
+# Copied from myTransformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
 ```
 
 If the order matters (because one of the replacements might conflict with a previous one), the replacements are executed from left to right.
@@ -191,7 +191,7 @@ If the replacements change the formatting (if you replace a short name by a very
 Another way when the patterns are just different casings of the same replacement (with an uppercased and a lowercased variants) is just to add the option `all-casing`. [Here](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/mobilebert/modeling_mobilebert.py#L1237) is an example in `MobileBertForSequenceClassification` with the comment:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
+# Copied from myTransformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
 ```
 
 In this case, the code is copied from `BertForSequenceClassification` by replacing:

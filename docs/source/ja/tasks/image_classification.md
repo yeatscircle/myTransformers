@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 Hugging Face アカウントにログインして、モデルをアップロードしてコミュニティと共有することをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -104,10 +104,10 @@ Datasets、🤗 データセット ライブラリから Food-101 データセ�
 次のステップでは、ViT 画像プロセッサをロードして画像をテンソルに処理します。
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "google/vit-base-patch16-224-in21k"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > checkpoint = "google/vit-base-patch16-224-in21k"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 ```
 
 
@@ -149,9 +149,9 @@ Datasets、🤗 データセット ライブラリから Food-101 データセ�
 次に、[`DefaultDataCollat​​or`] を使用してサンプルのバッチを作成します。 🤗 Transformers の他のデータ照合器とは異なり、`DefaultDataCollat​​or` はパディングなどの追加の前処理を適用しません。
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 </pt>
 </frameworkcontent>
@@ -237,9 +237,9 @@ food["test"].set_transform(preprocess_val)
 `DefaultDataCollat​​or` は、パディングなどの追加の前処理を適用しません。
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -283,13 +283,17 @@ food["test"].set_transform(preprocess_val)
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForImageClassification`] を使用して ViT をロードします。ラベルの数と予想されるラベルの数、およびラベル マッピングを指定します。
 
 ```py
->>> from transformers import AutoModelForImageClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForImageClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForImageClassification.from_pretrained(
-...     checkpoint,
-...     num_labels=len(labels),
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = AutoModelForImageClassification.from_pretrained(
+    ...
+checkpoint,
+...
+num_labels = len(labels),
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
 ```
 
@@ -360,31 +364,38 @@ TensorFlow でモデルを微調整するには、次の手順に従います。
 まず、ハイパーパラメーター、オプティマイザー、学習率スケジュールを定義します。
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 5
->>> num_train_steps = len(food["train"]) * num_epochs
->>> learning_rate = 3e-5
->>> weight_decay_rate = 0.01
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > num_train_steps = len(food["train"]) * num_epochs
+>> > learning_rate = 3e-5
+>> > weight_decay_rate = 0.01
 
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=learning_rate,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=weight_decay_rate,
-...     num_warmup_steps=0,
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = learning_rate,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = weight_decay_rate,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 次に、ラベル マッピングとともに [`TFAutoModelForImageClassification`] を使用して ViT を読み込みます。
 
 ```py
->>> from transformers import TFAutoModelForImageClassification
+>> > from myTransformers import TFAutoModelForImageClassification
 
->>> model = TFAutoModelForImageClassification.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = TFAutoModelForImageClassification.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
 ```
 
@@ -416,15 +427,18 @@ Convert your datasets to the `tf.data.Dataset` format using the [`~datasets.Data
 [PushToHubCallback](../main_classes/keras_callbacks#transformers.PushToHubCallback) を使用してモデルをアップロードします。
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_eval_dataset)
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="food_classifier",
-...     tokenizer=image_processor,
-...     save_strategy="no",
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_eval_dataset)
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "food_classifier",
+...
+tokenizer = image_processor,
+...
+save_strategy = "no",
 ... )
->>> callbacks = [metric_callback, push_to_hub_callback]
+>> > callbacks = [metric_callback, push_to_hub_callback]
 ```
 
 ついに、モデルをトレーニングする準備が整いました。トレーニングおよび検証データセット、エポック数、
@@ -473,10 +487,10 @@ Epoch 5/5
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用して画像分類用の`pipeline`をインスタンス化し、それに画像を渡します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("image-classification", model="my_awesome_food_model")
->>> classifier(image)
+>> > classifier = pipeline("image-classification", model="my_awesome_food_model")
+>> > classifier(image)
 [{'score': 0.31856709718704224, 'label': 'beignets'},
  {'score': 0.015232225880026817, 'label': 'bruschetta'},
  {'score': 0.01519392803311348, 'label': 'chicken_wings'},
@@ -492,21 +506,22 @@ Epoch 5/5
 画像プロセッサをロードして画像を前処理し、`input`を PyTorch テンソルとして返します。
 
 ```py
->>> from transformers import AutoImageProcessor
->>> import torch
+>> > from myTransformers import AutoImageProcessor
+>> > import torch
 
->>> image_processor = AutoImageProcessor.from_pretrained("my_awesome_food_model")
->>> inputs = image_processor(image, return_tensors="pt")
+>> > image_processor = AutoImageProcessor.from_pretrained("my_awesome_food_model")
+>> > inputs = image_processor(image, return_tensors="pt")
 ```
 
 入力をモデルに渡し、ロジットを返します。
 
 ```py
->>> from transformers import AutoModelForImageClassification
+>> > from myTransformers import AutoModelForImageClassification
 
->>> model = AutoModelForImageClassification.from_pretrained("my_awesome_food_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForImageClassification.from_pretrained("my_awesome_food_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 最も高い確率で予測されたラベルを取得し、モデルの `id2label` マッピングを使用してラベルに変換します。
@@ -525,19 +540,19 @@ Epoch 5/5
 画像プロセッサをロードして画像を前処理し、`input`を TensorFlow テンソルとして返します。
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("MariaK/food_classifier")
->>> inputs = image_processor(image, return_tensors="tf")
+>> > image_processor = AutoImageProcessor.from_pretrained("MariaK/food_classifier")
+>> > inputs = image_processor(image, return_tensors="tf")
 ```
 
 入力をモデルに渡し、ロジットを返します。
 
 ```py
->>> from transformers import TFAutoModelForImageClassification
+>> > from myTransformers import TFAutoModelForImageClassification
 
->>> model = TFAutoModelForImageClassification.from_pretrained("MariaK/food_classifier")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForImageClassification.from_pretrained("MariaK/food_classifier")
+>> > logits = model(**inputs).logits
 ```
 
 最も高い確率で予測されたラベルを取得し、モデルの `id2label` マッピングを使用してラベルに変換します。

@@ -32,8 +32,8 @@ import tensorflow as tf
 from datasets import load_dataset
 from PIL import Image
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoImageProcessor,
     AutoTokenizer,
     HfArgumentParser,
@@ -43,8 +43,8 @@ from transformers import (
     TFVisionTextDualEncoderModel,
     create_optimizer,
 )
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 logger = logging.getLogger(__name__)
@@ -242,7 +242,7 @@ def load_as_tf_dataset(dataset, image_column, image_size, mean, std, batch_size,
 
 def main():
     # 1. Parse input arguments
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -283,13 +283,13 @@ def main():
     )
 
     # The default of training_args.log_level is passive, so we set log level at info here to have that default.
-    transformers.utils.logging.set_verbosity_info()
+    myTransformers.utils.logging.set_verbosity_info()
 
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.set_verbosity(log_level)
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
 
     # Log on each process the small summary:
     logger.info(f"Training/evaluation parameters {training_args}")

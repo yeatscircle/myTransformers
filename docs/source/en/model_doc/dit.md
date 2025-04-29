@@ -50,7 +50,7 @@ This model was contributed by [nielsr](https://huggingface.co/nielsr). The origi
 One can directly use the weights of DiT with the AutoModel API:
 
 ```python
-from transformers import AutoModel
+from myTransformers import AutoModel
 
 model = AutoModel.from_pretrained("microsoft/dit-base")
 ```
@@ -60,7 +60,7 @@ This will load the model pre-trained on masked image modeling. Note that this wo
 To include the head, you can load the weights into a `BeitForMaskedImageModeling` model, like so:
 
 ```python
-from transformers import BeitForMaskedImageModeling
+from myTransformers import BeitForMaskedImageModeling
 
 model = BeitForMaskedImageModeling.from_pretrained("microsoft/dit-base")
 ```
@@ -68,7 +68,7 @@ model = BeitForMaskedImageModeling.from_pretrained("microsoft/dit-base")
 You can also load a fine-tuned model from the [hub](https://huggingface.co/models?other=dit), like so:
 
 ```python
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("microsoft/dit-base-finetuned-rvlcdip")
 ```

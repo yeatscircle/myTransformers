@@ -199,14 +199,14 @@ class CircleCIJob:
 # JOBS
 torch_job = CircleCIJob(
     "torch",
-    docker_image=[{"image": "huggingface/transformers-torch-light"}],
+    docker_image=[{"image": "huggingface/myTransformers-torch-light"}],
     marker="not generate",
     parallelism=6,
 )
 
 generate_job = CircleCIJob(
     "generate",
-    docker_image=[{"image": "huggingface/transformers-torch-light"}],
+    docker_image=[{"image": "huggingface/myTransformers-torch-light"}],
     # networkx==3.3 (after #36957) cause some issues
     # TODO: remove this once it works directly
     install_steps=["uv venv && uv pip install . && uv pip install networkx==3.2.1"],
@@ -216,26 +216,26 @@ generate_job = CircleCIJob(
 
 tokenization_job = CircleCIJob(
     "tokenization",
-    docker_image=[{"image": "huggingface/transformers-torch-light"}],
+    docker_image=[{"image": "huggingface/myTransformers-torch-light"}],
     parallelism=8,
 )
 
 processor_job = CircleCIJob(
     "processors",
-    docker_image=[{"image": "huggingface/transformers-torch-light"}],
+    docker_image=[{"image": "huggingface/myTransformers-torch-light"}],
     parallelism=8,
 )
 
 tf_job = CircleCIJob(
     "tf",
-    docker_image=[{"image":"huggingface/transformers-tf-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-tf-light"}],
     parallelism=6,
 )
 
 
 flax_job = CircleCIJob(
     "flax",
-    docker_image=[{"image":"huggingface/transformers-jax-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-jax-light"}],
     parallelism=6,
     pytest_num_workers=16,
     resource_class="2xlarge",
@@ -245,7 +245,7 @@ flax_job = CircleCIJob(
 pipelines_torch_job = CircleCIJob(
     "pipelines_torch",
     additional_env={"RUN_PIPELINE_TESTS": True},
-    docker_image=[{"image":"huggingface/transformers-torch-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-torch-light"}],
     marker="is_pipeline_test",
     parallelism=4,
 )
@@ -254,7 +254,7 @@ pipelines_torch_job = CircleCIJob(
 pipelines_tf_job = CircleCIJob(
     "pipelines_tf",
     additional_env={"RUN_PIPELINE_TESTS": True},
-    docker_image=[{"image":"huggingface/transformers-tf-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-tf-light"}],
     marker="is_pipeline_test",
     parallelism=4,
 )
@@ -263,14 +263,14 @@ pipelines_tf_job = CircleCIJob(
 custom_tokenizers_job = CircleCIJob(
     "custom_tokenizers",
     additional_env={"RUN_CUSTOM_TOKENIZERS": True},
-    docker_image=[{"image": "huggingface/transformers-custom-tokenizers"}],
+    docker_image=[{"image": "huggingface/myTransformers-custom-tokenizers"}],
 )
 
 
 examples_torch_job = CircleCIJob(
     "examples_torch",
     additional_env={"OMP_NUM_THREADS": 8},
-    docker_image=[{"image":"huggingface/transformers-examples-torch"}],
+    docker_image=[{"image":"huggingface/myTransformers-examples-torch"}],
     # TODO @ArthurZucker remove this once docker is easier to build
     install_steps=["uv venv && uv pip install . && uv pip install -r examples/pytorch/_tests_requirements.txt"],
     pytest_num_workers=4,
@@ -280,7 +280,7 @@ examples_torch_job = CircleCIJob(
 examples_tensorflow_job = CircleCIJob(
     "examples_tensorflow",
     additional_env={"OMP_NUM_THREADS": 8},
-    docker_image=[{"image":"huggingface/transformers-examples-tf"}],
+    docker_image=[{"image":"huggingface/myTransformers-examples-tf"}],
     pytest_num_workers=2,
 )
 
@@ -288,7 +288,7 @@ examples_tensorflow_job = CircleCIJob(
 hub_job = CircleCIJob(
     "hub",
     additional_env={"HUGGINGFACE_CO_STAGING": True},
-    docker_image=[{"image":"huggingface/transformers-torch-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-torch-light"}],
     install_steps=[
         'uv venv && uv pip install .',
         'git config --global user.email "ci@dummy.com"',
@@ -302,7 +302,7 @@ hub_job = CircleCIJob(
 
 onnx_job = CircleCIJob(
     "onnx",
-    docker_image=[{"image":"huggingface/transformers-torch-tf-light"}],
+    docker_image=[{"image":"huggingface/myTransformers-torch-tf-light"}],
     install_steps=[
         "uv venv",
         "uv pip install .[torch,tf,testing,sentencepiece,onnxruntime,vision,rjieba]",
@@ -315,7 +315,7 @@ onnx_job = CircleCIJob(
 
 exotic_models_job = CircleCIJob(
     "exotic_models",
-    docker_image=[{"image":"huggingface/transformers-exotic-models"}],
+    docker_image=[{"image":"huggingface/myTransformers-exotic-models"}],
     parallelism=4,
     pytest_options={"durations": 100},
 )
@@ -323,7 +323,7 @@ exotic_models_job = CircleCIJob(
 
 repo_utils_job = CircleCIJob(
     "repo_utils",
-    docker_image=[{"image":"huggingface/transformers-consistency"}],
+    docker_image=[{"image":"huggingface/myTransformers-consistency"}],
     pytest_num_workers=4,
     resource_class="large",
 )
@@ -331,7 +331,7 @@ repo_utils_job = CircleCIJob(
 
 non_model_job = CircleCIJob(
     "non_model",
-    docker_image=[{"image": "huggingface/transformers-torch-light"}],
+    docker_image=[{"image": "huggingface/myTransformers-torch-light"}],
     # networkx==3.3 (after #36957) cause some issues
     # TODO: remove this once it works directly
     install_steps=["uv venv && uv pip install . && uv pip install networkx==3.2.1"],
@@ -348,7 +348,7 @@ py_command = f"$(python3 -c '{py_command}')"
 command = f'echo """{py_command}""" > pr_documentation_tests_temp.txt'
 doc_test_job = CircleCIJob(
     "pr_documentation_tests",
-    docker_image=[{"image":"huggingface/transformers-consistency"}],
+    docker_image=[{"image":"huggingface/myTransformers-consistency"}],
     additional_env={"TRANSFORMERS_VERBOSITY": "error", "DATASETS_VERBOSITY": "error", "SKIP_CUDA_DOCTEST": "1"},
     install_steps=[
         # Add an empty file to keep the test step running correctly even no file is selected to be tested.
@@ -403,7 +403,7 @@ def create_circleci_config(folder=None):
         # For private forked repo. (e.g. new model addition)
         config["workflows"] = {"version": 2, "run_tests": {"jobs": [{j.job_name: {"context": ["TRANSFORMERS_CONTEXT"]}} for j in jobs]}}
     else:
-        # For public repo. (e.g. `transformers`)
+        # For public repo. (e.g. `myTransformers`)
         config["workflows"] = {"version": 2, "run_tests": {"jobs": [j.job_name for j in jobs]}}
     with open(os.path.join(folder, "generated_config.yml"), "w") as f:
         f.write(yaml.dump(config, sort_keys=False, default_flow_style=False).replace("' << pipeline", " << pipeline").replace(">> '", " >>"))

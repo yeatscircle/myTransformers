@@ -35,7 +35,7 @@ from huggingface_hub import HfFolder, ModelCard, create_branch, list_repo_commit
 from packaging import version
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AutoFeatureExtractor,
     AutoImageProcessor,
     AutoProcessor,
@@ -52,8 +52,8 @@ from transformers import (
     logging,
     set_seed,
 )
-from transformers.hyperparameter_search import ALL_HYPERPARAMETER_SEARCH_BACKENDS
-from transformers.testing_utils import (
+from myTransformers.hyperparameter_search import ALL_HYPERPARAMETER_SEARCH_BACKENDS
+from myTransformers.testing_utils import (
     ENDPOINT_STAGING,
     TOKEN,
     USER,
@@ -106,9 +106,9 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR, HPSearchBackend, check_target_module_exists
-from transformers.training_args import OptimizerNames
-from transformers.utils import (
+from myTransformers.trainer_utils import PREFIX_CHECKPOINT_DIR, HPSearchBackend, check_target_module_exists
+from myTransformers.training_args import OptimizerNames
+from myTransformers.utils import (
     SAFE_WEIGHTS_INDEX_NAME,
     SAFE_WEIGHTS_NAME,
     WEIGHTS_INDEX_NAME,
@@ -121,7 +121,7 @@ from transformers.utils import (
     is_torchao_available,
     is_torchdistx_available,
 )
-from transformers.utils.hp_naming import TrialShortNamer
+from myTransformers.utils.hp_naming import TrialShortNamer
 
 
 if torch_device == "hpu":
@@ -136,8 +136,8 @@ if is_torch_available():
     from torch import nn
     from torch.utils.data import IterableDataset
 
-    import transformers.optimization
-    from transformers import (
+    import myTransformers.optimization
+    from myTransformers import (
         AutoModelForCausalLM,
         AutoModelForSequenceClassification,
         EarlyStoppingCallback,
@@ -152,7 +152,7 @@ if is_torch_available():
         Trainer,
         TrainerState,
     )
-    from transformers.trainer_pt_utils import AcceleratorConfig
+    from myTransformers.trainer_pt_utils import AcceleratorConfig
 
     if is_safetensors_available():
         import safetensors.torch
@@ -1210,7 +1210,7 @@ class TrainerIntegrationPrerunTest(TestCasePlus, TrainerIntegrationCommon):
     def test_adafactor_lr_none(self):
         # test the special case where lr=None, since Trainer can't not have lr_scheduler
 
-        from transformers.optimization import Adafactor, AdafactorSchedule
+        from myTransformers.optimization import Adafactor, AdafactorSchedule
 
         train_dataset = RegressionDataset()
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -1797,10 +1797,10 @@ class TrainerIntegrationTest(TestCasePlus, TrainerIntegrationCommon):
     @require_liger_kernel
     def test_use_liger_kernel_patching(self):
         # Ensure any monkey patching is cleaned up for subsequent tests
-        with patch("transformers.models.llama.modeling_llama"):
+        with patch("myTransformers.models.llama.modeling_llama"):
             from liger_kernel.transformers import LigerRMSNorm, liger_rotary_pos_emb
 
-            from transformers.models.llama import modeling_llama
+            from myTransformers.models.llama import modeling_llama
 
             config = LlamaConfig(vocab_size=100, hidden_size=32, num_hidden_layers=3, num_attention_heads=4)
             tiny_llama = LlamaForCausalLM(config)
@@ -5356,7 +5356,7 @@ if is_torch_available():
         ),
         (
             OptimizerNames.ADAFACTOR,
-            transformers.optimization.Adafactor,
+            myTransformers.optimization.Adafactor,
             {
                 "scale_parameter": False,
                 "relative_step": False,

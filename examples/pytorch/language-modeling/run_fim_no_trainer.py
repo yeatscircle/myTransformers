@@ -41,8 +41,8 @@ from huggingface_hub import Repository, create_repo
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -53,9 +53,9 @@ from transformers import (
     get_scheduler,
     is_torch_xla_available,
 )
-from transformers.integrations import is_deepspeed_zero3_enabled
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.integrations import is_deepspeed_zero3_enabled
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -71,7 +71,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Finetune a transformers model on a causal language modeling task using fill-in-the middle objective"
+        description="Finetune a myTransformers model on a causal language modeling task using fill-in-the middle objective"
     )
     parser.add_argument(
         "--dataset_name",
@@ -345,10 +345,10 @@ def main():
     logger.info(accelerator.state, main_process_only=False)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

@@ -16,9 +16,9 @@
 import collections
 import unittest
 
-from transformers import MaskFormerSwinConfig
-from transformers.testing_utils import require_torch, require_torch_multi_gpu, torch_device
-from transformers.utils import is_torch_available
+from myTransformers import MaskFormerSwinConfig
+from myTransformers.testing_utils import require_torch, require_torch_multi_gpu, torch_device
+from myTransformers.utils import is_torch_available
 
 from ...test_backbone_common import BackboneTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -30,8 +30,8 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import MaskFormerSwinBackbone
-    from transformers.models.maskformer import MaskFormerSwinModel
+    from myTransformers import MaskFormerSwinBackbone
+    from myTransformers.models.maskformer import MaskFormerSwinModel
 
 
 class MaskFormerSwinModelTester:

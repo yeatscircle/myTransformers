@@ -16,8 +16,8 @@
 import unittest
 from functools import lru_cache
 
-from transformers.models.mluke.tokenization_mluke import MLukeTokenizer
-from transformers.testing_utils import get_tests_dir, require_torch, slow
+from myTransformers.models.mluke.tokenization_mluke import MLukeTokenizer
+from myTransformers.testing_utils import get_tests_dir, require_torch, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 

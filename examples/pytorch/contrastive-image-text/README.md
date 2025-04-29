@@ -56,7 +56,7 @@ The `VisionTextDualEncoderModel` class lets you load any vision and text encoder
 Here is an example of how to load the model using pre-trained vision and text models.
 
 ```python3
-from transformers import (
+from myTransformers import (
     VisionTextDualEncoderModel,
     VisionTextDualEncoderProcessor,
     AutoTokenizer,

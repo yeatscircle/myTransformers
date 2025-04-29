@@ -44,19 +44,22 @@ CodeGen は、[The Pile](https://pile.eleuther.ai/)、BigQuery、BigPython で�
 ## Usage example
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> checkpoint = "Salesforce/codegen-350M-mono"
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "Salesforce/codegen-350M-mono"
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
->>> text = "def hello_world():"
+>> > text = "def hello_world():"
 
->>> completion = model.generate(**tokenizer(text, return_tensors="pt"))
+>> > completion = model.generate(**tokenizer(text, return_tensors="pt"))
 
->>> print(tokenizer.decode(completion[0]))
+>> > print(tokenizer.decode(completion[0]))
+
+
 def hello_world():
     print("Hello World")
+
 
 hello_world()
 ```

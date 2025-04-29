@@ -47,7 +47,7 @@ Semantic segmentation assigns a label or class to every single pixel in an image
 We can use transformers' image segmentation pipeline to quickly infer a semantic segmentation model. Let's take a look at the example image.
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 from PIL import Image
 import requests
 
@@ -313,10 +313,10 @@ As an example, take a look at this [example dataset](https://huggingface.co/data
 The next step is to load a SegFormer image processor to prepare the images and annotations for the model. Some datasets, like this one, use the zero-index as the background class. However, the background class isn't actually included in the 150 classes, so you'll need to set `do_reduce_labels=True` to subtract one from all the labels. The zero-index is replaced by `255` so it's ignored by SegFormer's loss function:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "nvidia/mit-b0"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint, do_reduce_labels=True)
+>> > checkpoint = "nvidia/mit-b0"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint, do_reduce_labels=True)
 ```
 
 <frameworkcontent>
@@ -512,9 +512,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load SegFormer with [`AutoModelForSemanticSegmentation`], and pass the model the mapping between label ids and label classes:
 
 ```py
->>> from transformers import AutoModelForSemanticSegmentation, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSemanticSegmentation, TrainingArguments, Trainer
 
->>> model = AutoModelForSemanticSegmentation.from_pretrained(checkpoint, id2label=id2label, label2id=label2id)
+>> > model = AutoModelForSemanticSegmentation.from_pretrained(checkpoint, id2label=id2label, label2id=label2id)
 ```
 
 At this point, only three steps remain:
@@ -579,19 +579,23 @@ To fine-tune a model in TensorFlow, follow these steps:
 Start by defining the hyperparameters, optimizer and learning rate schedule:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 2
->>> num_epochs = 50
->>> num_train_steps = len(train_ds) * num_epochs
->>> learning_rate = 6e-5
->>> weight_decay_rate = 0.01
+>> > batch_size = 2
+>> > num_epochs = 50
+>> > num_train_steps = len(train_ds) * num_epochs
+>> > learning_rate = 6e-5
+>> > weight_decay_rate = 0.01
 
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=learning_rate,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=weight_decay_rate,
-...     num_warmup_steps=0,
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = learning_rate,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = weight_decay_rate,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
@@ -599,35 +603,46 @@ Then, load SegFormer with [`TFAutoModelForSemanticSegmentation`] along with the 
 optimizer. Note that Transformers models all have a default task-relevant loss function, so you don't need to specify one unless you want to:
 
 ```py
->>> from transformers import TFAutoModelForSemanticSegmentation
+>> > from myTransformers import TFAutoModelForSemanticSegmentation
 
->>> model = TFAutoModelForSemanticSegmentation.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = TFAutoModelForSemanticSegmentation.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
->>> model.compile(optimizer=optimizer)  # No loss argument!
+>> > model.compile(optimizer=optimizer)  # No loss argument!
 ```
 
 Convert your datasets to the `tf.data.Dataset` format using the [`~datasets.Dataset.to_tf_dataset`] and the [`DefaultDataCollator`]:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 
->>> tf_train_dataset = train_ds.to_tf_dataset(
-...     columns=["pixel_values", "label"],
-...     shuffle=True,
-...     batch_size=batch_size,
-...     collate_fn=data_collator,
+>> > tf_train_dataset = train_ds.to_tf_dataset(
+    ...
+columns = ["pixel_values", "label"],
+...
+shuffle = True,
+...
+batch_size = batch_size,
+...
+collate_fn = data_collator,
 ... )
 
->>> tf_eval_dataset = test_ds.to_tf_dataset(
-...     columns=["pixel_values", "label"],
-...     shuffle=True,
-...     batch_size=batch_size,
-...     collate_fn=data_collator,
+>> > tf_eval_dataset = test_ds.to_tf_dataset(
+    ...
+columns = ["pixel_values", "label"],
+...
+shuffle = True,
+...
+batch_size = batch_size,
+...
+collate_fn = data_collator,
 ... )
 ```
 
@@ -636,15 +651,16 @@ Pass your `compute_metrics` function to [`KerasMetricCallback`],
 and use the [`PushToHubCallback`] to upload the model:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
 
->>> metric_callback = KerasMetricCallback(
-...     metric_fn=compute_metrics, eval_dataset=tf_eval_dataset, batch_size=batch_size, label_cols=["labels"]
+>> > metric_callback = KerasMetricCallback(
+    ...
+metric_fn = compute_metrics, eval_dataset = tf_eval_dataset, batch_size = batch_size, label_cols = ["labels"]
 ... )
 
->>> push_to_hub_callback = PushToHubCallback(output_dir="scene_segmentation", tokenizer=image_processor)
+>> > push_to_hub_callback = PushToHubCallback(output_dir="scene_segmentation", tokenizer=image_processor)
 
->>> callbacks = [metric_callback, push_to_hub_callback]
+>> > callbacks = [metric_callback, push_to_hub_callback]
 ```
 
 Finally, you are ready to train your model! Call `fit()` with your training and validation datasets, the number of epochs,
@@ -724,19 +740,19 @@ Next, rescale the logits to the original image size:
 Load an image processor to preprocess the image and return the input as TensorFlow tensors:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("MariaK/scene_segmentation")
->>> inputs = image_processor(image, return_tensors="tf")
+>> > image_processor = AutoImageProcessor.from_pretrained("MariaK/scene_segmentation")
+>> > inputs = image_processor(image, return_tensors="tf")
 ```
 
 Pass your input to the model and return the `logits`:
 
 ```py
->>> from transformers import TFAutoModelForSemanticSegmentation
+>> > from myTransformers import TFAutoModelForSemanticSegmentation
 
->>> model = TFAutoModelForSemanticSegmentation.from_pretrained("MariaK/scene_segmentation")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForSemanticSegmentation.from_pretrained("MariaK/scene_segmentation")
+>> > logits = model(**inputs).logits
 ```
 
 Next, rescale the logits to the original image size and apply argmax on the class dimension:

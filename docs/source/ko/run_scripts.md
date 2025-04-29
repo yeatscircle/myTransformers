@@ -37,7 +37,7 @@ rendered properly in your Markdown viewer.
 
 ```bash
 git clone https://github.com/huggingface/transformers
-cd transformers
+cd myTransformers
 pip install .
 ```
 

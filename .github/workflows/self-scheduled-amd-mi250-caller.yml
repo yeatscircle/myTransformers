@@ -17,7 +17,7 @@ jobs:
       job: run_models_gpu
       slack_report_channel: "#amd-hf-ci"
       runner: mi250
-      docker: huggingface/transformers-pytorch-amd-gpu
+      docker: huggingface/myTransformers-pytorch-amd-gpu
       ci_event: Scheduled CI (AMD) - mi250
     secrets: inherit
 
@@ -28,7 +28,7 @@ jobs:
       job: run_pipelines_torch_gpu
       slack_report_channel: "#amd-hf-ci"
       runner: mi250
-      docker: huggingface/transformers-pytorch-amd-gpu
+      docker: huggingface/myTransformers-pytorch-amd-gpu
       ci_event: Scheduled CI (AMD) - mi250
     secrets: inherit
 
@@ -39,7 +39,7 @@ jobs:
       job: run_examples_gpu
       slack_report_channel: "#amd-hf-ci"
       runner: mi250
-      docker: huggingface/transformers-pytorch-amd-gpu
+      docker: huggingface/myTransformers-pytorch-amd-gpu
       ci_event: Scheduled CI (AMD) - mi250
     secrets: inherit
 
@@ -50,6 +50,6 @@ jobs:
       job: run_torch_cuda_extensions_gpu
       slack_report_channel: "#amd-hf-ci"
       runner: mi250
-      docker: huggingface/transformers-pytorch-deepspeed-amd-gpu
+      docker: huggingface/myTransformers-pytorch-deepspeed-amd-gpu
       ci_event: Scheduled CI (AMD) - mi250
     secrets: inherit

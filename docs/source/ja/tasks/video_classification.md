@@ -34,7 +34,7 @@ rendered properly in your Markdown viewer.
 
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 ```bash
-pip install -q pytorchvideo transformers evaluate
+pip install -q pytorchvideo myTransformers evaluate
 ```
 
 [PyTorchVideo](https://pytorchvideo.org/) (`pytorchvideo` と呼ばれます) を使用してビデオを処理し、準備します。
@@ -144,15 +144,19 @@ UCF101_subset/
 事前トレーニングされたチェックポイントとそれに関連する画像プロセッサからビデオ分類モデルをインスタンス化します。モデルのエンコーダーには事前トレーニングされたパラメーターが付属しており、分類ヘッドはランダムに初期化されます。画像プロセッサは、データセットの前処理パイプラインを作成するときに役立ちます。
 
 ```py
->>> from transformers import VideoMAEImageProcessor, VideoMAEForVideoClassification
+>> > from myTransformers import VideoMAEImageProcessor, VideoMAEForVideoClassification
 
->>> model_ckpt = "MCG-NJU/videomae-base"
->>> image_processor = VideoMAEImageProcessor.from_pretrained(model_ckpt)
->>> model = VideoMAEForVideoClassification.from_pretrained(
-...     model_ckpt,
-...     label2id=label2id,
-...     id2label=id2label,
-...     ignore_mismatched_sizes=True,  # provide this in case you're planning to fine-tune an already fine-tuned checkpoint
+>> > model_ckpt = "MCG-NJU/videomae-base"
+>> > image_processor = VideoMAEImageProcessor.from_pretrained(model_ckpt)
+>> > model = VideoMAEForVideoClassification.from_pretrained(
+    ...
+model_ckpt,
+...
+label2id = label2id,
+...
+id2label = id2label,
+...
+ignore_mismatched_sizes = True,  # provide this in case you're planning to fine-tune an already fine-tuned checkpoint
 ... )
 ```
 
@@ -346,26 +350,39 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 トレーニング引数のほとんどは一目瞭然ですが、ここで非常に重要なのは`remove_unused_columns=False`です。これにより、モデルの呼び出し関数で使用されない機能が削除されます。デフォルトでは`True`です。これは、通常、未使用の特徴列を削除し、モデルの呼び出し関数への入力を解凍しやすくすることが理想的であるためです。ただし、この場合、`pixel_values` (モデルが入力で期待する必須キーです) を作成するには、未使用の機能 (特に`video`) が必要です。
 
 ```py
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> model_name = model_ckpt.split("/")[-1]
->>> new_model_name = f"{model_name}-finetuned-ucf101-subset"
->>> num_epochs = 4
+>> > model_name = model_ckpt.split("/")[-1]
+>> > new_model_name = f"{model_name}-finetuned-ucf101-subset"
+>> > num_epochs = 4
 
->>> args = TrainingArguments(
-...     new_model_name,
-...     remove_unused_columns=False,
-...     eval_strategy="epoch",
-...     save_strategy="epoch",
-...     learning_rate=5e-5,
-...     per_device_train_batch_size=batch_size,
-...     per_device_eval_batch_size=batch_size,
-...     warmup_ratio=0.1,
-...     logging_steps=10,
-...     load_best_model_at_end=True,
-...     metric_for_best_model="accuracy",
-...     push_to_hub=True,
-...     max_steps=(train_dataset.num_videos // batch_size) * num_epochs,
+>> > args = TrainingArguments(
+    ...
+new_model_name,
+...
+remove_unused_columns = False,
+...
+eval_strategy = "epoch",
+...
+save_strategy = "epoch",
+...
+learning_rate = 5e-5,
+...
+per_device_train_batch_size = batch_size,
+...
+per_device_eval_batch_size = batch_size,
+...
+warmup_ratio = 0.1,
+...
+logging_steps = 10,
+...
+load_best_model_at_end = True,
+...
+metric_for_best_model = "accuracy",
+...
+push_to_hub = True,
+...
+max_steps = (train_dataset.num_videos // batch_size) * num_epochs,
 ... )
 ```
 
@@ -445,12 +462,11 @@ def compute_metrics(eval_pred):
 
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`](https://huggingface.co/docs/transformers/main/en/main_classes/pipelines#transformers.VideoClassificationPipeline). で使用することです。モデルを使用してビデオ分類用の` pipeline`をインスタンス化し、それにビデオを渡します。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> video_cls = pipeline(model="my_awesome_video_cls_model")
->>> video_cls("https://huggingface.co/datasets/sayakpaul/ucf101-subset/resolve/main/v_BasketballDunk_g14_c06.avi")
+>> > video_cls = pipeline(model="my_awesome_video_cls_model")
+>> > video_cls("https://huggingface.co/datasets/sayakpaul/ucf101-subset/resolve/main/v_BasketballDunk_g14_c06.avi")
 [{'score': 0.9272987842559814, 'label': 'BasketballDunk'},
  {'score': 0.017777055501937866, 'label': 'BabyCrawling'},
  {'score': 0.01663011871278286, 'label': 'BalanceBeam'},

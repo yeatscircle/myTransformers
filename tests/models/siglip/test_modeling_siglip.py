@@ -23,8 +23,8 @@ import requests
 from parameterized import parameterized
 from pytest import mark
 
-from transformers import SiglipConfig, SiglipTextConfig, SiglipVisionConfig
-from transformers.testing_utils import (
+from myTransformers import SiglipConfig, SiglipTextConfig, SiglipVisionConfig
+from myTransformers.testing_utils import (
     is_flaky,
     require_flash_attn,
     require_torch,
@@ -33,7 +33,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     is_torch_available,
     is_vision_available,
 )
@@ -55,12 +55,12 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import SiglipForImageClassification, SiglipModel, SiglipTextModel, SiglipVisionModel
+    from myTransformers import SiglipForImageClassification, SiglipModel, SiglipTextModel, SiglipVisionModel
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import SiglipProcessor
+    from myTransformers import SiglipProcessor
 
 
 class SiglipModelTesterMixin(ModelTesterMixin):

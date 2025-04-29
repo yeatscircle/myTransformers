@@ -23,9 +23,9 @@ rendered properly in your Markdown viewer.
 출력 레벨을 변경하려면 직접적인 설정 메서드를 사용할 수 있습니다. 예를 들어, 출력 레벨을 INFO 수준으로 변경하는 방법은 다음과 같습니다.
 
 ```python
-import transformers
+import myTransformers
 
-transformers.logging.set_verbosity_info()
+myTransformers.logging.set_verbosity_info()
 ```
 
 환경 변수 `TRANSFORMERS_VERBOSITY`를 사용하여 기본 출력 레벨을 재정의할 수도 있습니다. 이를 `debug`, `info`, `warning`, `error`, `critical`, `fatal` 중 하나로 설정할 수 있습니다. 예를 들어 다음과 같습니다.
@@ -43,10 +43,10 @@ TRANSFORMERS_NO_ADVISORY_WARNINGS=1 ./myprogram.py
 다음은 라이브러리와 동일한 로거를 자신의 모듈이나 스크립트에서 사용하는 방법에 대한 예시입니다.
 
 ```python
-from transformers.utils import logging
+from myTransformers.utils import logging
 
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers")
+logger = logging.get_logger("myTransformers")
 logger.info("INFO")
 logger.warning("WARN")
 ```

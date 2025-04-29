@@ -44,15 +44,15 @@ from huggingface_hub import HfApi
 from PIL import Image
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoImageProcessor,
     AutoTokenizer,
     FlaxVisionEncoderDecoderModel,
     HfArgumentParser,
     is_tensorboard_available,
 )
-from transformers.utils import is_offline_mode, send_example_telemetry
+from myTransformers.utils import is_offline_mode, send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ except (LookupError, OSError):
         nltk.download("punkt", quiet=True)
 
 
-# Copied from transformers.models.bart.modeling_flax_bart.shift_tokens_right
+# Copied from myTransformers.models.bart.modeling_flax_bart.shift_tokens_right
 def shift_tokens_right(input_ids: np.ndarray, pad_token_id: int, decoder_start_token_id: int) -> np.ndarray:
     """
     Shift input ids one token to the right.
@@ -386,7 +386,7 @@ def create_learning_rate_fn(
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -423,10 +423,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     logger.info(f"Training/evaluation parameters {training_args}")

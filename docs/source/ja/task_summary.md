@@ -35,14 +35,13 @@ rendered properly in your Markdown viewer.
 - タギング：複数の音を含む音声にラベルを付ける（鳥の鳴き声、会議でのスピーカー識別）
 - 音楽分類：音楽にジャンルラベルを付ける（「メタル」、「ヒップホップ」、「カントリー」）
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
->>> preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
+>> > preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.4532, 'label': 'hap'},
  {'score': 0.3622, 'label': 'sad'},
  {'score': 0.0943, 'label': 'neu'},
@@ -55,12 +54,11 @@ rendered properly in your Markdown viewer.
 
 しかし、Transformerアーキテクチャが助けた主要な課題の一つは、低リソース言語におけるものです。大量の音声データで事前トレーニングし、低リソース言語でラベル付き音声データをわずか1時間だけでファインチューニングすることでも、以前のASRシステムと比較して高品質な結果を得ることができます。以前のASRシステムは100倍以上のラベル付きデータでトレーニングされていましたが、Transformerアーキテクチャはこの問題に貢献しました。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
->>> transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
+>> > transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
 {'text': ' I have a dream that one day this nation will rise up and live out the true meaning of its creed.'}
 ```
 
@@ -83,16 +81,16 @@ rendered properly in your Markdown viewer.
 * 農業：作物の健康を監視するための作物の画像や、土地利用の監視のための衛星画像にラベルを付ける
 * 生態学：野生動物の個体数を監視したり、絶滅危惧種を追跡するために動植物の種の画像にラベルを付ける
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="image-classification")
->>> preds = classifier(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > classifier = pipeline(task="image-classification")
+>> > preds = classifier(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.4335, 'label': 'lynx, catamount'}
 {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}
 {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}
@@ -108,16 +106,16 @@ rendered properly in your Markdown viewer.
 * リモートセンシング：災害モニタリング、都市計画、天候予測
 * 欠陥検出：建物のクラックや構造上の損傷、製造上の欠陥を検出
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> detector = pipeline(task="object-detection")
->>> preds = detector(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > detector = pipeline(task="object-detection")
+>> > preds = detector(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
->>> preds
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
+>> > preds
 [{'score': 0.9865,
   'label': 'cat',
   'box': {'xmin': 178, 'ymin': 154, 'xmax': 882, 'ymax': 598}}]
@@ -132,17 +130,16 @@ rendered properly in your Markdown viewer.
 
 セグメンテーションタスクは、自動運転車にとって、周囲の世界のピクセルレベルのマップを作成し、歩行者や他の車両を安全に回避できるようにするのに役立ちます。また、医療画像では、タスクの細かい粒度が異常な細胞や臓器の特徴を識別するのに役立ちます。画像セグメンテーションは、eコマースで衣類を仮想的に試着したり、カメラを通じて実世界にオブジェクトを重ねて拡張現実の体験を作成したりするためにも使用できます。
 
-
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> segmenter = pipeline(task="image-segmentation")
->>> preds = segmenter(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > segmenter = pipeline(task="image-segmentation")
+>> > preds = segmenter(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.9879, 'label': 'LABEL_184'}
 {'score': 0.9973, 'label': 'snow'}
 {'score': 0.9972, 'label': 'cat'}
@@ -157,13 +154,13 @@ rendered properly in your Markdown viewer.
 * ステレオ：深度は、わずかに異なる角度からの同じ画像の2つの画像を比較して推定されます。
 * モノキュラー：深度は単一の画像から推定されます。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> depth_estimator = pipeline(task="depth-estimation")
->>> preds = depth_estimator(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > depth_estimator = pipeline(task="depth-estimation")
+>> > preds = depth_estimator(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
 ```
 
@@ -179,14 +176,13 @@ NLPタスクは、テキストが私たちにとって自然なコミュニケ�
 * 感情分析：`positive`や`negative`のような極性に従ってテキストにラベルを付け、政治、金融、マーケティングなどの分野での意思決定をサポートします。
 * コンテンツ分類：テキストをトピックに従ってラベル付けし、ニュースやソーシャルメディアのフィード内の情報を整理し、フィルタリングするのに役立ちます（`天気`、`スポーツ`、`金融`など）。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="sentiment-analysis")
->>> preds = classifier("Hugging Face is the best thing since sliced bread!")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="sentiment-analysis")
+>> > preds = classifier("Hugging Face is the best thing since sliced bread!")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.9991, 'label': 'POSITIVE'}]
 ```
 
@@ -199,24 +195,29 @@ NLPタスクは、テキストが私たちにとって自然なコミュニケ�
 * 固有表現認識（NER）：組織、人物、場所、日付などのエンティティのカテゴリに従ってトークンにラベルを付けます。NERは特にバイオメディカル環境で人気であり、遺伝子、タンパク質、薬物名などをラベル付けできます。
 * 品詞タグ付け（POS）：名詞、動詞、形容詞などの品詞に従ってトークンにラベルを付けます。POSは、翻訳システムが同じ単語が文法的にどのように異なるかを理解するのに役立ちます（名詞としての「銀行」と動詞としての「銀行」など）。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="ner")
->>> preds = classifier("Hugging Face is a French company based in New York City.")
->>> preds = [
-...     {
-...         "entity": pred["entity"],
-...         "score": round(pred["score"], 4),
-...         "index": pred["index"],
-...         "word": pred["word"],
-...         "start": pred["start"],
-...         "end": pred["end"],
-...     }
-...     for pred in preds
-... ]
->>> print(*preds, sep="\n")
+>> > classifier = pipeline(task="ner")
+>> > preds = classifier("Hugging Face is a French company based in New York City.")
+>> > preds = [
+    ...     {
+        ...         "entity": pred["entity"],
+...
+"score": round(pred["score"], 4),
+...
+"index": pred["index"],
+...
+"word": pred["word"],
+...
+"start": pred["start"],
+...
+"end": pred["end"],
+...}
+...
+for pred in preds
+        ... ]
+>> > print(*preds, sep="\n")
 {'entity': 'I-ORG', 'score': 0.9968, 'index': 1, 'word': 'Hu', 'start': 0, 'end': 2}
 {'entity': 'I-ORG', 'score': 0.9293, 'index': 2, 'word': '##gging', 'start': 2, 'end': 7}
 {'entity': 'I-ORG', 'score': 0.9763, 'index': 3, 'word': 'Face', 'start': 8, 'end': 12}
@@ -235,19 +236,21 @@ NLPタスクは、テキストが私たちにとって自然なコミュニケ�
 * 抽出型：質問と一部のコンテキストが与えられた場合、モデルがコンテキストから抽出する必要のあるテキストのスパンが回答となります。
 * 抽象的：質問と一部のコンテキストが与えられた場合、回答はコンテキストから生成されます。このアプローチは、[`QuestionAnsweringPipeline`]ではなく[`Text2TextGenerationPipeline`]で処理されます。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline(task="question-answering")
->>> preds = question_answerer(
-...     question="What is the name of the repository?",
-...     context="The name of the repository is huggingface/transformers",
+>> > question_answerer = pipeline(task="question-answering")
+>> > preds = question_answerer(
+    ...
+question = "What is the name of the repository?",
+...
+context = "The name of the repository is huggingface/myTransformers",
 ... )
->>> print(
-...     f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
+>> > print(
+    ...
+f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
 ... )
-score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
+score: 0.9327, start: 30, end: 54, answer: huggingface / transformers
 ```
 
 ### Summarization
@@ -259,15 +262,16 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 * 抽出的要約：元のテキストから最も重要な文を識別して抽出します。
 * 抽象的要約：元のテキストからターゲットの要約（入力文書に含まれていない新しい単語を含むことがあります）を生成します。[`SummarizationPipeline`]は抽象的なアプローチを使用しています。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline(task="summarization")
->>> summarizer(
-...     "In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
+>> > summarizer = pipeline(task="summarization")
+>> > summarizer(
+    ...
+"In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
 ... )
-[{'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
+[{
+     'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
 ```
 
 ### Translation
@@ -276,13 +280,12 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 
 初期の翻訳モデルは主に単一言語でしたが、最近では多言語モデルに対する関心が高まり、多くの言語対で翻訳できるような多言語モデルに注目が集まっています。
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
->>> translator = pipeline(task="translation", model="google-t5/t5-small")
->>> translator(text)
+>> > text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
+>> > translator = pipeline(task="translation", model="google-t5/t5-small")
+>> > translator(text)
 [{'translation_text': "Hugging Face est une tribune communautaire de l'apprentissage des machines."}]
 ```
 
@@ -295,7 +298,7 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 * 因果的：モデルの目標は、シーケンス内の次のトークンを予測することであり、将来のトークンはマスクされます。
 
     ```py
-    >>> from transformers import pipeline
+    >>> from myTransformers import pipeline
 
     >>> prompt = "Hugging Face is a community-based open-source platform for machine learning."
     >>> generator = pipeline(task="text-generation")
@@ -334,21 +337,22 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 
 ドキュメント質問応答は、ドキュメントからの自然言語の質問に答えるタスクです。テキストを入力とするトークンレベルの質問応答タスクとは異なり、ドキュメント質問応答はドキュメントの画像とそのドキュメントに関する質問を受け取り、答えを返します。ドキュメント質問応答は構造化されたドキュメントを解析し、それから重要な情報を抽出するために使用できます。以下の例では、レシートから合計金額とお釣りを抽出することができます。
 
-
 ```py
->>> from transformers import pipeline
->>> from PIL import Image
->>> import requests
+>> > from myTransformers import pipeline
+>> > from PIL import Image
+>> > import requests
 
->>> url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
->>> preds = doc_question_answerer(
-...     question="What is the total amount?",
-...     image=image,
+>> > doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
+>> > preds = doc_question_answerer(
+    ...
+question = "What is the total amount?",
+...
+image = image,
 ... )
->>> preds
+>> > preds
 [{'score': 0.8531, 'answer': '17,000', 'start': 4, 'end': 4}]
 ```
 

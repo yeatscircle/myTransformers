@@ -31,7 +31,7 @@ rendered properly in your Markdown viewer.
 참고로, 이러한 검사를 사용하려면 개발 설치가 필요합니다:
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 또는 Transformers 저장소 내에 편집 가능한 설치가 필요합니다:
@@ -43,7 +43,7 @@ pip install -e .[dev]
 Transformers의 선택적 종속성 수가 많이 늘어났기 때문에 개발 설치를 실패할 수도 있습니다. 개발 설치가 실패하는 경우, 작업 중인 Deep Learning 프레임워크 (PyTorch, TensorFlow 및/또는 Flax)를 설치하고 다음 명령을 실행하세요.
 
 ```bash
-pip install transformers[quality]
+pip install myTransformers[quality]
 ```
 
 편집 가능한 설치의 경우는 다음 명령을 실행하세요.
@@ -157,19 +157,19 @@ Transformers 라이브러리는 모델 코드에 대해 매우 완고하며, 각
 
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from myTransformers.models.bert.modeling_bert.BertSelfOutput
 ```
 
 클래스 전체에 수정을 적용하는 대신에 복사본과 관련있는 메서드에 적용할 수도 있습니다. 예를 들어 [여기](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L598)에서 `RobertaPreTrainedModel._init_weights`가 `BertPreTrainedModel`의 동일한 메서드에서 복사된 것을 볼 수 있으며 해당 주석이 있습니다:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+# Copied from myTransformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
 ```
 
 복사본이 이름만 다른 경우가 있습니다: 예를 들어 `RobertaAttention`에서 `BertSelfAttention` 대신 `RobertaSelfAttention`을 사용하지만 그 외에는 코드가 완전히 동일합니다: 이 때 `# Copied from`은 `Copied from xxx with foo->bar`와 같은 간단한 문자열 대체를 지원합니다. 이는 모든 `foo` 인스턴스를 `bar`로 바꿔서 코드를 복사합니다. [여기](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L304C1-L304C86)에서 어떻게 사용되는지 볼 수 있습니다:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
+# Copied from myTransformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
 ```
 
 화살표 주변에는 공백이 없어야 합니다(공백이 대체 패턴의 일부인 경우는 예외입니다).
@@ -177,7 +177,7 @@ Transformers 라이브러리는 모델 코드에 대해 매우 완고하며, 각
 대체 패턴을 쉼표로 구분하여 여러 패턴을 추가할 수 있습니다. 예를 들어 `CamemberForMaskedLM`은 두 가지 대체 사항을 가진 `RobertaForMaskedLM`의 복사본입니다: `Roberta`를 `Camembert`로 대체하고 `ROBERTA`를 `CAMEMBERT`로 대체합니다. [여기](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/camembert/modeling_camembert.py#L929)에서 이것이 주석으로 어떻게 구현되었는지 확인할 수 있습니다:
 
 ```py
-# Copied from transformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
+# Copied from myTransformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
 ```
 
 순서가 중요한 경우(이전 수정과 충돌할 수 있는 경우) 수정은 왼쪽에서 오른쪽으로 실행됩니다.
@@ -191,7 +191,7 @@ Transformers 라이브러리는 모델 코드에 대해 매우 완고하며, 각
 패턴의 대소문자가 다른 경우(대문자와 소문자가 혼용된 대체 양식) `all-casing` 옵션을 추가하는 방법도 있습니다. [여기](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/mobilebert/modeling_mobilebert.py#L1237)에서 `MobileBertForSequenceClassification`에서 사용된 예시를 볼 수 있습니다:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
+# Copied from myTransformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
 ```
 
 이 경우, 코드는 다음과 같이 복사됩니다:

@@ -43,15 +43,15 @@ pip install git+https://github.com/huggingface/peft.git
 
 ```py
 from peft import LoraConfig, TaskType, get_peft_model
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 # create LoRA configuration object
 lora_config = LoraConfig(
-    task_type=TaskType.CAUSAL_LM, # type of task to train on
-    inference_mode=False, # set to False for training
-    r=8, # dimension of the smaller matrices
-    lora_alpha=32, # scaling factor
-    lora_dropout=0.1 # dropout of LoRA layers
+    task_type=TaskType.CAUSAL_LM,  # type of task to train on
+    inference_mode=False,  # set to False for training
+    r=8,  # dimension of the smaller matrices
+    lora_alpha=32,  # scaling factor
+    lora_dropout=0.1  # dropout of LoRA layers
 )
 ```
 
@@ -68,7 +68,7 @@ To add an additional trainable adapter on top of a model with an existing adapte
 For example, to train the `lm_head` module on top of a causal language model with a LoRA adapter attached, set `modules_to_save=["lm_head"]`. Add the adapter to the model as shown below, and then pass it to [`Trainer`].
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 from peft import LoraConfig
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2-2b")
@@ -93,7 +93,7 @@ To load an adapter with Transformers, the Hub repository or local directory must
 <hfoption id="from_pretrained">
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("klcsp/gemma7b-lora-alpaca-11-v1")
 ```
@@ -102,7 +102,7 @@ model = AutoModelForCausalLM.from_pretrained("klcsp/gemma7b-lora-alpaca-11-v1")
 <hfoption id="load_adapter">
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-7b")
 model.load_adapter("klcsp/gemma7b-lora-alpaca-11-v1")
@@ -116,7 +116,7 @@ For very large models, it is helpful to load a quantized version of the model in
 For multiple devices, add `device_map="auto"` to automatically distribute the model across your hardware.
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 model = AutoModelForCausalLM.from_pretrained(
     "klcsp/gemma7b-lora-alpaca-11-v1",

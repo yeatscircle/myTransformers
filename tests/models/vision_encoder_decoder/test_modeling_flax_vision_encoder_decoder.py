@@ -18,8 +18,8 @@ import unittest
 
 import numpy as np
 
-from transformers import is_flax_available, is_vision_available
-from transformers.testing_utils import require_flax, require_vision, slow
+from myTransformers import is_flax_available, is_vision_available
+from myTransformers.testing_utils import require_flax, require_vision, slow
 
 from ...test_modeling_flax_common import floats_tensor, ids_tensor
 from ..gpt2.test_modeling_flax_gpt2 import FlaxGPT2ModelTester
@@ -27,7 +27,7 @@ from ..vit.test_modeling_flax_vit import FlaxViTModelTester
 
 
 if is_flax_available():
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         FlaxGPT2LMHeadModel,
         FlaxVisionEncoderDecoderModel,
@@ -39,7 +39,7 @@ if is_flax_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ViTImageProcessor
+    from myTransformers import ViTImageProcessor
 
 
 @require_flax

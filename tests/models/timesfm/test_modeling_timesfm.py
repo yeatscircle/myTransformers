@@ -20,9 +20,9 @@ from typing import List
 import numpy as np
 import torch
 
-from transformers import TimesFmConfig, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
-from transformers.utils import is_torch_fx_available
+from myTransformers import TimesFmConfig, is_torch_available
+from myTransformers.testing_utils import require_torch, slow, torch_device
+from myTransformers.utils import is_torch_fx_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin
@@ -32,7 +32,7 @@ if is_torch_fx_available():
     pass
 
 if is_torch_available():
-    from transformers import TimesFmModelForPrediction
+    from myTransformers import TimesFmModelForPrediction
 
 TOLERANCE = 1e-4
 

@@ -16,8 +16,8 @@
 import tempfile
 import unittest
 
-from transformers import is_torch_available, logging
-from transformers.testing_utils import (
+from myTransformers import is_torch_available, logging
+from myTransformers.testing_utils import (
     CaptureLogger,
     Expectations,
     require_deterministic_for_xpu,
@@ -40,7 +40,7 @@ if is_torch_available():
     import numpy as np
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoConfig,
         AutoTokenizer,
         BartForCausalLM,
@@ -56,7 +56,7 @@ if is_torch_available():
         RobertaForCausalLM,
         RobertaModel,
     )
-    from transformers.modeling_outputs import BaseModelOutput
+    from myTransformers.modeling_outputs import BaseModelOutput
 
 
 @require_torch
@@ -871,7 +871,7 @@ class BertEncoderDecoderModelTest(EncoderDecoderMixin, unittest.TestCase):
             ]
         )
 
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
         logger.warning_once.cache_clear()
 
         with CaptureLogger(logger) as cl:

@@ -57,9 +57,9 @@ pip install datasets
 [`AutoTokenizer.from_pretrained`]メソッドを使用して事前学習済みトークナイザをロードして、開始しましょう。これにより、モデルが事前学習された*ボキャブ*がダウンロードされます：
 
 ```python
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 ```
 
 次に、テキストをトークナイザに渡します：
@@ -278,9 +278,9 @@ array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 [`AutoFeatureExtractor.from_pretrained`]を使用して特徴抽出器をロードします：
 
 ```python
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 オーディオ `array` を特徴抽出器に渡します。特徴抽出器で発生する可能性のある無音エラーをより良くデバッグするために、特徴抽出器に `sampling_rate` 引数を追加することをお勧めします。
@@ -376,9 +376,9 @@ array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 AutoImageProcessorを[`AutoImageProcessor.from_pretrained`]を使用してロードします：
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 1. まず、画像の拡張を追加しましょう。好きなライブラリを使用できますが、このチュートリアルではtorchvisionの[`transforms`](https://pytorch.org/vision/stable/transforms.html)モジュールを使用します。別のデータ拡張ライブラリを使用したい場合は、[Albumentations](https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/image_classification_albumentations.ipynb)または[Kornia notebooks](https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/image_classification_kornia.ipynb)で詳細を学ぶことができます。
@@ -510,9 +510,9 @@ ASR（自動音声認識）の場合、主に `audio` と `text` に焦点を当
 プロセッサを [`AutoProcessor.from_pretrained`] を使用してロードします：
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
 ```
 
 1. `array`内に含まれるオーディオデータを`input_values`に処理し、`text`を`labels`にトークン化する関数を作成します：

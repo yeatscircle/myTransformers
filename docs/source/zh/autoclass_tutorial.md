@@ -41,9 +41,9 @@ rendered properly in your Markdown viewer.
 使用[`AutoTokenizer.from_pretrained`]加载`tokenizer`：
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 然后按照如下方式对输入进行分词：
@@ -61,9 +61,9 @@ rendered properly in your Markdown viewer.
 对于视觉任务，`image processor`将图像处理成正确的输入格式。
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 
@@ -74,10 +74,11 @@ rendered properly in your Markdown viewer.
 使用[`AutoFeatureExtractor.from_pretrained`]加载`feature extractor`：
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained(
-...     "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained(
+    ...
+"ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -87,11 +88,10 @@ rendered properly in your Markdown viewer.
 
 使用[`AutoProcessor.from_pretrained`]加载`processor`：
 
-
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
+>> > processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
 ```
 
 ## AutoModel
@@ -102,18 +102,17 @@ rendered properly in your Markdown viewer.
 最后，`AutoModelFor`类让你可以加载给定任务的预训练模型（参见[这里](model_doc/auto)获取可用任务的完整列表）。例如，使用[`AutoModelForSequenceClassification.from_pretrained`]加载用于序列分类的模型：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 轻松地重复使用相同的checkpoint来为不同任务加载模型架构：
 
-
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip warning={true}>
@@ -131,17 +130,17 @@ TensorFlow和Flax的checkpoints不受影响，并且可以在PyTorch架构中使
 最后，`TFAutoModelFor`类允许您加载给定任务的预训练模型（请参阅[这里](model_doc/auto)获取可用任务的完整列表）。例如，使用[`TFAutoModelForSequenceClassification.from_pretrained`]加载用于序列分类的模型：
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 轻松地重复使用相同的checkpoint来为不同任务加载模型架构：
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 一般来说，我们推荐使用`AutoTokenizer`类和`TFAutoModelFor`类来加载模型的预训练实例。这样可以确保每次加载正确的架构。在下一个[教程](preprocessing)中，学习如何使用新加载的`tokenizer`, `image processor`, `feature extractor`和`processor`对数据集进行预处理以进行微调。
 

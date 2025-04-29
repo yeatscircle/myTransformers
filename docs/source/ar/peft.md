@@ -45,7 +45,7 @@ pip install git+https://github.com/huggingface/peft.git
 2. مرره إلى فئة [`AutoModelForCausalLM`]
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id)
@@ -60,7 +60,7 @@ model = AutoModelForCausalLM.from_pretrained(peft_model_id)
 يمكنك أيضًا تحميل محول PEFT عن طريق استدعاء طريقة `load_adapter`:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "facebook/opt-350m"
 peft_model_id = "ybelkada/opt-350m-lora"
@@ -80,7 +80,7 @@ model.load_adapter(peft_model_id)
 يدعم تكامل `bitsandbytes` أنواع بيانات الدقة 8 بت و4 بت، والتي تكون مفيدة لتحميل النماذج الكبيرة لأنها توفر  مساحة في الذاكرة (راجع دليل تكامل `bitsandbytes` [guide](./quantization#bitsandbytes-integration) لمعرفة المزيد). أضف المعلمات`load_in_8bit` أو `load_in_4bit` إلى [`~PreTrainedModel.from_pretrained`] وقم بتعيين `device_map="auto"` لتوزيع النموذج بشكل فعال على الأجهزة لديك:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
@@ -91,7 +91,7 @@ model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=
 يمكنك استخدام الدالة [`~peft.PeftModel.add_adapter`] لإضافة محوّل جديد إلى نموذج يحتوي بالفعل على محوّل آخر طالما أن المحول الجديد  مطابقًا للنوع الحالي. على سبيل المثال، إذا كان لديك محول LoRA موجود مرتبط بنموذج:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import LoraConfig
 
 model_id = "facebook/opt-350m"
@@ -131,7 +131,7 @@ print(tokenizer.decode(output_enabled[0], skip_special_tokens=True))
 بمجرد إضافة محول إلى نموذج، يمكنك تمكين أو تعطيل وحدة المحول. لتمكين وحدة المحول:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import PeftConfig
 
 model_id = "facebook/opt-350m"
@@ -214,7 +214,7 @@ model = AutoModelForCausalLM.from_pretrained(save_dir)
 يمكنك أيضًا إجراء تدريب دقيق لمحوّلات قابلة للتدريب إضافية فوق نموذج يحتوي بالفعل على محوّلات عن طريق تمرير معلم `modules_to_save` في تكوين PEFT الخاص بك. على سبيل المثال، إذا كنت تريد أيضًا ضبط دقيق لرأس النموذج اللغوي`lm_head` فوق نموذج بمحوّل LoRA:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import LoraConfig
 
 model_id = "facebook/opt-350m"

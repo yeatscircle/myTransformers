@@ -18,8 +18,8 @@ import unittest
 
 import pytest
 
-from transformers import AutoTokenizer, BambaConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, BambaConfig, is_torch_available
+from myTransformers.testing_utils import (
     Expectations,
     require_deterministic_for_xpu,
     require_torch,
@@ -37,11 +37,11 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         BambaForCausalLM,
         BambaModel,
     )
-    from transformers.models.bamba.modeling_bamba import (
+    from myTransformers.models.bamba.modeling_bamba import (
         HybridMambaAttentionDynamicCache,
     )
 

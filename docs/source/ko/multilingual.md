@@ -47,11 +47,11 @@ XLM에는 10가지 체크포인트(checkpoint)가 있는데, 이 중 하나만 �
 다음 예제에서는 `FacebookAI/xlm-clm-enfr-1024` 체크포인트(코잘 언어 모델링(causal language modeling), 영어-프랑스어)를 가져옵니다:
 
 ```py
->>> import torch
->>> from transformers import XLMTokenizer, XLMWithLMHeadModel
+>> > import torch
+>> > from myTransformers import XLMTokenizer, XLMWithLMHeadModel
 
->>> tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
->>> model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
 ```
 
 토크나이저의 `lang2id` 속성은 모델의 언어와 해당 ID를 표시합니다:
@@ -127,13 +127,13 @@ XLM-RoBERTa는 100개 국어에 대해 새로 생성되고 정제된 2.5TB 규�
 토크나이저에서 번역 대상 언어(source language)를 설정할 수 있습니다:
 
 ```py
->>> from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+>> > from myTransformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
 
->>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
->>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+>> > tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
+>> > model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 ```
 
 문장을 토큰화합니다:
@@ -165,13 +165,13 @@ M2M100은 번역을 진행하기 위해 첫 번째로 생성되는 토큰은 번
 토크나이저에서 번역 대상 언어(source language)를 설정할 수 있습니다:
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 ```
 
 문장을 토큰화합니다:

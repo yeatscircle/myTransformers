@@ -43,8 +43,9 @@ can be readily integrated into modern SfM or SLAM systems. The code and trained 
 Here is a quick example of using the model. Since this model is an image matching model, it requires pairs of images to be matched. 
 The raw outputs contain the list of keypoints detected by the keypoint detector as well as the list of matches with their corresponding 
 matching scores.
+
 ```python
-from transformers import AutoImageProcessor, AutoModel
+from myTransformers import AutoImageProcessor, AutoModel
 import torch
 from PIL import Image
 import requests

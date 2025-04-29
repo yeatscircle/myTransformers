@@ -18,8 +18,8 @@ import unittest
 import numpy as np
 from datasets import load_dataset
 
-from transformers.file_utils import is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_vision
+from myTransformers.file_utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -30,7 +30,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DPTImageProcessor
+    from myTransformers import DPTImageProcessor
 
 
 class DPTImageProcessingTester:
@@ -88,7 +88,7 @@ class DPTImageProcessingTester:
         )
 
 
-# Copied from transformers.tests.models.beit.test_image_processing_beit.prepare_semantic_single_inputs
+# Copied from myTransformers.tests.models.beit.test_image_processing_beit.prepare_semantic_single_inputs
 def prepare_semantic_single_inputs():
     dataset = load_dataset("hf-internal-testing/fixtures_ade20k", split="test", trust_remote_code=True)
 
@@ -98,7 +98,7 @@ def prepare_semantic_single_inputs():
     return image, map
 
 
-# Copied from transformers.tests.models.beit.test_image_processing_beit.prepare_semantic_batch_inputs
+# Copied from myTransformers.tests.models.beit.test_image_processing_beit.prepare_semantic_batch_inputs
 def prepare_semantic_batch_inputs():
     ds = load_dataset("hf-internal-testing/fixtures_ade20k", split="test", trust_remote_code=True)
 
@@ -169,7 +169,7 @@ class DPTImageProcessingTest(ImageProcessingTestMixin, unittest.TestCase):
 
         self.assertEqual(list(pixel_values.shape), [1, 3, 512, 672])
 
-    # Copied from transformers.tests.models.beit.test_image_processing_beit.BeitImageProcessingTest.test_call_segmentation_maps
+    # Copied from myTransformers.tests.models.beit.test_image_processing_beit.BeitImageProcessingTest.test_call_segmentation_maps
     def test_call_segmentation_maps(self):
         # Initialize image_processor
         image_processor = self.image_processing_class(**self.image_processor_dict)
@@ -276,7 +276,7 @@ class DPTImageProcessingTest(ImageProcessingTestMixin, unittest.TestCase):
         self.assertTrue(encoding["labels"].min().item() >= 0)
         self.assertTrue(encoding["labels"].max().item() <= 255)
 
-    # Copied from transformers.tests.models.beit.test_image_processing_beit.BeitImageProcessingTest.test_reduce_labels
+    # Copied from myTransformers.tests.models.beit.test_image_processing_beit.BeitImageProcessingTest.test_reduce_labels
     def test_reduce_labels(self):
         # Initialize image_processor
         image_processor = self.image_processing_class(**self.image_processor_dict)

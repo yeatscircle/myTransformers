@@ -41,26 +41,27 @@ This model was contributed by [dqnguyen](https://huggingface.co/dqnguyen). The o
 ## Usage example
 
 ```python
->>> import torch
->>> from transformers import AutoModel, AutoTokenizer
+>> > import torch
+>> > from myTransformers import AutoModel, AutoTokenizer
 
->>> bartpho = AutoModel.from_pretrained("vinai/bartpho-syllable")
+>> > bartpho = AutoModel.from_pretrained("vinai/bartpho-syllable")
 
->>> tokenizer = AutoTokenizer.from_pretrained("vinai/bartpho-syllable")
+>> > tokenizer = AutoTokenizer.from_pretrained("vinai/bartpho-syllable")
 
->>> line = "Chúng tôi là những nghiên cứu viên."
+>> > line = "Chúng tôi là những nghiên cứu viên."
 
->>> input_ids = tokenizer(line, return_tensors="pt")
+>> > input_ids = tokenizer(line, return_tensors="pt")
 
->>> with torch.no_grad():
-...     features = bartpho(**input_ids)  # Models outputs are now tuples
+>> > with torch.no_grad():
+    ...
+features = bartpho(**input_ids)  # Models outputs are now tuples
 
->>> # With TensorFlow 2.0+:
->>> from transformers import TFAutoModel
+>> >  # With TensorFlow 2.0+:
+>> > from myTransformers import TFAutoModel
 
->>> bartpho = TFAutoModel.from_pretrained("vinai/bartpho-syllable")
->>> input_ids = tokenizer(line, return_tensors="tf")
->>> features = bartpho(**input_ids)
+>> > bartpho = TFAutoModel.from_pretrained("vinai/bartpho-syllable")
+>> > input_ids = tokenizer(line, return_tensors="tf")
+>> > features = bartpho(**input_ids)
 ```
 
 ## Usage tips
@@ -71,16 +72,16 @@ This model was contributed by [dqnguyen](https://huggingface.co/dqnguyen). The o
   For example:
 
 ```python
->>> from transformers import MBartForConditionalGeneration
+>> > from myTransformers import MBartForConditionalGeneration
 
->>> bartpho = MBartForConditionalGeneration.from_pretrained("vinai/bartpho-syllable")
->>> TXT = "Chúng tôi là <mask> nghiên cứu viên."
->>> input_ids = tokenizer([TXT], return_tensors="pt")["input_ids"]
->>> logits = bartpho(input_ids).logits
->>> masked_index = (input_ids[0] == tokenizer.mask_token_id).nonzero().item()
->>> probs = logits[0, masked_index].softmax(dim=0)
->>> values, predictions = probs.topk(5)
->>> print(tokenizer.decode(predictions).split())
+>> > bartpho = MBartForConditionalGeneration.from_pretrained("vinai/bartpho-syllable")
+>> > TXT = "Chúng tôi là <mask> nghiên cứu viên."
+>> > input_ids = tokenizer([TXT], return_tensors="pt")["input_ids"]
+>> > logits = bartpho(input_ids).logits
+>> > masked_index = (input_ids[0] == tokenizer.mask_token_id).nonzero().item()
+>> > probs = logits[0, masked_index].softmax(dim=0)
+>> > values, predictions = probs.topk(5)
+>> > print(tokenizer.decode(predictions).split())
 ```
 
 - This implementation is only for tokenization: "monolingual_vocab_file" consists of Vietnamese-specialized types

@@ -15,8 +15,8 @@ import os
 import tempfile
 import unittest
 
-from transformers import FlaubertConfig, is_sacremoses_available, is_torch_available
-from transformers.testing_utils import require_torch, require_torch_accelerator, slow, torch_device
+from myTransformers import FlaubertConfig, is_sacremoses_available, is_torch_available
+from myTransformers.testing_utils import require_torch, require_torch_accelerator, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attention_mask
@@ -26,7 +26,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         FlaubertForMultipleChoice,
         FlaubertForQuestionAnswering,
         FlaubertForQuestionAnsweringSimple,
@@ -35,7 +35,7 @@ if is_torch_available():
         FlaubertModel,
         FlaubertWithLMHeadModel,
     )
-    from transformers.models.flaubert.modeling_flaubert import create_sinusoidal_embeddings
+    from myTransformers.models.flaubert.modeling_flaubert import create_sinusoidal_embeddings
 
 
 class FlaubertModelTester:

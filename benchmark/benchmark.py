@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """
-Run benchmark using the `optimum-benchmark` library with some customization in `transformers`.
+Run benchmark using the `optimum-benchmark` library with some customization in `myTransformers`.
 
-Assume we are under `transformers` root directory: (make sure the commits are valid commits)
+Assume we are under `myTransformers` root directory: (make sure the commits are valid commits)
 ```bash
 python benchmark/benchmark.py --config-dir benchmark/config --config-name generation --commit=9b9c7f03da625b13643e99205c691fe046461724 --metrics=decode.latency.mean,per_token.latency.mean,per_token.throughput.value backend.model=google/gemma-2b benchmark.input_shapes.sequence_length=5,7 benchmark.input_shapes.batch_size=1,2 --multirun
 ```

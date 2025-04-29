@@ -47,7 +47,7 @@ illustrate how to use them for zero-shot VQA inference.
 Before you begin, make sure you have all the necessary libraries installed.
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 
 We encourage you to share your model with the community. Log in to your Hugging Face account to upload it to the 🤗 Hub.
@@ -176,9 +176,9 @@ The next step is to load a ViLT processor to prepare the image and text data for
 [`ViltProcessor`] wraps a BERT tokenizer and ViLT image processor into a convenient single processor:
 
 ```py
->>> from transformers import ViltProcessor
+>> > from myTransformers import ViltProcessor
 
->>> processor = ViltProcessor.from_pretrained(model_checkpoint)
+>> > processor = ViltProcessor.from_pretrained(model_checkpoint)
 ```
 
 To preprocess the data we need to encode the images and questions using the [`ViltProcessor`]. The processor will use
@@ -234,9 +234,9 @@ Dataset({
 As a final step, create a batch of examples using [`DefaultDataCollator`]:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 ## Train the model
@@ -245,9 +245,10 @@ You’re ready to start training your model now! Load ViLT with [`ViltForQuestio
 along with the label mappings:
 
 ```py
->>> from transformers import ViltForQuestionAnswering
+>> > from myTransformers import ViltForQuestionAnswering
 
->>> model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label, label2id=label2id)
+>> > model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label,
+                                                      label2id=label2id)
 ```
 
 At this point, only three steps remain:
@@ -255,34 +256,48 @@ At this point, only three steps remain:
 1. Define your training hyperparameters in [`TrainingArguments`]:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> repo_id = "MariaK/vilt_finetuned_200"
+>> > repo_id = "MariaK/vilt_finetuned_200"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 2. Pass the training arguments to [`Trainer`] along with the model, dataset, processor, and data collator.
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=processed_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = processed_dataset,
+...
+processing_class = processor,
 ... )
 ```
 
@@ -304,9 +319,9 @@ Now that you have fine-tuned a ViLT model, and uploaded it to the 🤗 Hub, you 
 way to try out your fine-tuned model for inference is to use it in a [`Pipeline`].
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
+>> > pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
 ```
 
 The model in this guide has only been trained on 200 examples, so don't expect a lot from it. Let's see if it at least
@@ -361,14 +376,14 @@ Let's illustrate how you can use this model for VQA. First, let's load the model
 GPU, if available, which we didn't need to do earlier when training, as [`Trainer`] handles this automatically:
 
 ```py
->>> from transformers import AutoProcessor, Blip2ForConditionalGeneration
->>> import torch
->>> from accelerate.test_utils.testing import get_backend
+>> > from myTransformers import AutoProcessor, Blip2ForConditionalGeneration
+>> > import torch
+>> > from accelerate.test_utils.testing import get_backend
 
->>> processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
->>> model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
->>> device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
->>> model.to(device)
+>> > processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
+>> > model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
+>> > device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+>> > model.to(device)
 ```
 
 The model takes image and text as input, so let's use the exact same image/question pair from the first example in the VQA dataset:

@@ -39,13 +39,15 @@ Start by loading the [Yelp Reviews](https://hf.co/datasets/yelp_review_full) dat
 
 ```py
 from datasets import load_dataset
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 dataset = load_dataset("yelp_review_full")
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 
+
 def tokenize(examples):
     return tokenizer(examples["text"], padding="max_length", truncation=True)
+
 
 dataset = dataset.map(tokenize, batched=True)
 ```
@@ -66,7 +68,7 @@ dataset = dataset.map(tokenize, batched=True)
 Load a model and provide the number of expected labels (you can find this information on the Yelp Review [dataset card](https://huggingface.co/datasets/yelp_review_full#data-fields)).
 
 ```py
-from transformers import AutoModelForSequenceClassification
+from myTransformers import AutoModelForSequenceClassification
 
 model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 "Some weights of BertForSequenceClassification were not initialized from the model checkpoint at google-bert/bert-base-cased and are newly initialized: ['classifier.bias', 'classifier.weight']"
@@ -98,7 +100,7 @@ def compute_metrics(eval_pred):
 Set up [`TrainingArguments`] with where to save the model and when to compute accuracy during training. The example below sets it to `"epoch"`, which reports the accuracy at the end of each epoch. Add `push_to_hub=True` to upload the model to the Hub after training.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="yelp_review_classifier",
@@ -131,16 +133,18 @@ trainer.push_to_hub()
 [`Trainer`] is incompatible with Transformers TensorFlow models. Instead, fine-tune these models with [Keras](https://keras.io/) since they're implemented as a standard [tf.keras.Model](https://www.tensorflow.org/api_docs/python/tf/keras/Model).
 
 ```py
-from transformers import TFAutoModelForSequenceClassification
+from myTransformers import TFAutoModelForSequenceClassification
 from datasets import load_dataset
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 dataset = load_dataset("yelp_review_full")
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 
+
 def tokenize(examples):
     return tokenizer(examples["text"])
+
 
 dataset = dataset.map(tokenize)
 ```

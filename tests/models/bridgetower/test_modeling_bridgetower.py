@@ -15,15 +15,15 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     BridgeTowerConfig,
     BridgeTowerTextConfig,
     BridgeTowerVisionConfig,
     is_torch_available,
     is_vision_available,
 )
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers.utils import cached_property
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -39,7 +39,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         BridgeTowerForContrastiveLearning,
         BridgeTowerForImageAndTextRetrieval,
         BridgeTowerForMaskedLM,
@@ -49,7 +49,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import BridgeTowerProcessor
+    from myTransformers import BridgeTowerProcessor
 
 
 class BridgeTowerTextModelTester:

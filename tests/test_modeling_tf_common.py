@@ -27,16 +27,16 @@ from math import isnan
 
 from datasets import Dataset
 
-from transformers import is_tf_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+from myTransformers import is_tf_available
+from myTransformers.models.auto import get_values
+from myTransformers.testing_utils import (
     CaptureLogger,
     require_tf,
     require_tf2onnx,
     slow,
 )
-from transformers.utils import CONFIG_NAME, GENERATION_CONFIG_NAME, logging
-from transformers.utils.generic import ModelOutput
+from myTransformers.utils import CONFIG_NAME, GENERATION_CONFIG_NAME, logging
+from myTransformers.utils.generic import ModelOutput
 
 
 logger = logging.get_logger(__name__)
@@ -46,7 +46,7 @@ if is_tf_available():
     import numpy as np
     import tensorflow as tf
 
-    from transformers import (
+    from myTransformers import (
         TF_MODEL_FOR_CAUSAL_LM_MAPPING,
         TF_MODEL_FOR_DOCUMENT_QUESTION_ANSWERING_MAPPING,
         TF_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING,
@@ -65,7 +65,7 @@ if is_tf_available():
         TFAutoModelForSequenceClassification,
         TFSharedEmbeddings,
     )
-    from transformers.modeling_tf_utils import keras
+    from myTransformers.modeling_tf_utils import keras
 
     tf.config.experimental.enable_tensor_float_32_execution(False)
 
@@ -1211,7 +1211,7 @@ class TFModelTesterMixin:
                     with self.assertRaises(ValueError):
                         new_model_without_prefix = TFAutoModel.from_pretrained(tmp_dir, vocab_size=10)
 
-                    logger = logging.get_logger("transformers.modeling_tf_utils")
+                    logger = logging.get_logger("myTransformers.modeling_tf_utils")
                     with CaptureLogger(logger) as cl:
                         new_model = TFAutoModelForSequenceClassification.from_pretrained(
                             tmp_dir, num_labels=42, ignore_mismatched_sizes=True

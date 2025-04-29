@@ -936,7 +936,7 @@ if __name__ == "__main__":
     setup_failed = False if setup_status in ["skipped", "success"] else True
 
     org = "huggingface"
-    repo = "transformers"
+    repo = "myTransformers"
     repository_full_name = f"{org}/{repo}"
 
     # This env. variable is set in workflow file (under the job `send_results`).
@@ -1086,7 +1086,7 @@ if __name__ == "__main__":
                     if line.startswith("FAILED "):
                         # Avoid the extra `FAILED` entry given by `run_test_using_subprocess` causing issue when calling
                         # `stacktraces.pop` below.
-                        # See `run_test_using_subprocess` in `src/transformers/testing_utils.py`
+                        # See `run_test_using_subprocess` in `src/myTransformers/testing_utils.py`
                         if " - Failed: (subprocess)" in line:
                             continue
                         line = line[len("FAILED ") :]
@@ -1200,7 +1200,7 @@ if __name__ == "__main__":
                     if line.startswith("FAILED "):
                         # Avoid the extra `FAILED` entry given by `run_test_using_subprocess` causing issue when calling
                         # `stacktraces.pop` below.
-                        # See `run_test_using_subprocess` in `src/transformers/testing_utils.py`
+                        # See `run_test_using_subprocess` in `src/myTransformers/testing_utils.py`
                         if " - Failed: (subprocess)" in line:
                             continue
                         line = line[len("FAILED ") :]
@@ -1226,7 +1226,7 @@ if __name__ == "__main__":
     if not os.path.isdir(os.path.join(os.getcwd(), f"ci_results_{job_name}")):
         os.makedirs(os.path.join(os.getcwd(), f"ci_results_{job_name}"))
 
-    target_workflow = "huggingface/transformers/.github/workflows/self-scheduled-caller.yml@refs/heads/main"
+    target_workflow = "huggingface/myTransformers/.github/workflows/self-scheduled-caller.yml@refs/heads/main"
     is_scheduled_ci_run = os.environ.get("CI_WORKFLOW_REF") == target_workflow
 
     # Only the model testing job is concerned: this condition is to avoid other jobs to upload the empty list as

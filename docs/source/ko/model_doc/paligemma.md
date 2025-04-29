@@ -34,7 +34,7 @@ alt="drawing" width="600"/>
 PaliGemma의 추론은 다음처럼 수행됩니다:
 
 ```python
-from transformers import AutoProcessor, PaliGemmaForConditionalGeneration
+from myTransformers import AutoProcessor, PaliGemmaForConditionalGeneration
 
 model_id = "google/paligemma-3b-mix-224"
 model = PaliGemmaForConditionalGeneration.from_pretrained(model_id)

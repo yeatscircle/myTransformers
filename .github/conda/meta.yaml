@@ -1,4 +1,4 @@
-{% set name = "transformers" %}
+{% set name = "myTransformers" %}
 
 package:
   name: "{{ name|lower }}"
@@ -47,7 +47,7 @@ requirements:
 
 test:
   imports:
-    - transformers
+    - myTransformers
 
 about:
   home: https://huggingface.co

@@ -33,7 +33,7 @@ model = AutoModel.from_pretrained("google-bert/bert-base-cased")
 それぞれの自動クラスには、カスタムクラスで拡張するためのメソッドがあります。例えば、`NewModel`というモデルのカスタムクラスを定義した場合、`NewModelConfig`を確保しておけばこのようにして自動クラスに追加することができます：
 
 ```python
-from transformers import AutoConfig, AutoModel
+from myTransformers import AutoConfig, AutoModel
 
 AutoConfig.register("new-model", NewModelConfig)
 AutoModel.register(NewModelConfig, NewModel)

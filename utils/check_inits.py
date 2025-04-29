@@ -15,7 +15,7 @@
 """
 Utility that checks the custom inits of Transformers are well-defined: Transformers uses init files that delay the
 import of an object to when it's actually needed. This is to avoid the main init importing all models, which would
-make the line `import transformers` very slow when the user has all optional dependencies installed. The inits with
+make the line `import myTransformers` very slow when the user has all optional dependencies installed. The inits with
 delayed imports have two halves: one defining a dictionary `_import_structure` which maps modules to the name of the
 objects in each module, and one in `TYPE_CHECKING` which looks like a normal init for type-checkers. The goal of this
 script is to check the objects defined in both halves are the same.
@@ -43,7 +43,7 @@ from typing import Dict, List, Optional, Tuple
 
 
 # Path is set with the intent you should run this script from the root of the repo.
-PATH_TO_TRANSFORMERS = "src/transformers"
+PATH_TO_TRANSFORMERS = "src/myTransformers"
 
 
 # Matches is_xxx_available()
@@ -322,8 +322,8 @@ def check_submodules():
     """
     Check all submodules of Transformers are properly registered in the main init. Error otherwise.
     """
-    # This is to make sure the transformers module imported is the one in the repo.
-    from transformers.utils import direct_transformers_import
+    # This is to make sure the myTransformers module imported is the one in the repo.
+    from myTransformers.utils import direct_transformers_import
 
     transformers = direct_transformers_import(PATH_TO_TRANSFORMERS)
 

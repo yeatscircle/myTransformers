@@ -62,9 +62,9 @@ El campo `answers` es un diccionario que contiene la posición inicial de la res
 Carga el tokenizer de DistilBERT para procesar los campos `question` (pregunta) y `context` (contexto):
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Hay algunos pasos de preprocesamiento específicos para la tarea de respuesta a preguntas que debes tener en cuenta:
@@ -162,9 +162,9 @@ Usa el [`DefaultDataCollator`] para crear un lote de ejemplos. A diferencia de l
 Carga el modelo DistilBERT con [`AutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip>
@@ -230,24 +230,27 @@ Para familiarizarte con el fine-tuning con Keras, ¡mira el tutorial básico [aq
 Prepara una función de optimización, un programa para la tasa de aprendizaje y algunos hiperparámetros de entrenamiento:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 2
->>> total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
->>> optimizer, schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_warmup_steps=0,
-...     num_train_steps=total_train_steps,
+>> > batch_size = 16
+>> > num_epochs = 2
+>> > total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
+>> > optimizer, schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_warmup_steps = 0,
+...
+num_train_steps = total_train_steps,
 ... )
 ```
 
 Carga el modelo DistilBERT con [`TFAutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForQuestionAnswering("distilbert/distilbert-base-uncased")
 ```
 
 Configura el modelo para entrenarlo con [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):

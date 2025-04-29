@@ -21,8 +21,8 @@ import requests
 from huggingface_hub import hf_hub_download
 from parameterized import parameterized
 
-from transformers import Emu3Config, Emu3TextConfig, is_torch_available, is_vision_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import Emu3Config, Emu3TextConfig, is_torch_available, is_vision_available, set_seed
+from myTransformers.testing_utils import (
     Expectations,
     require_bitsandbytes,
     require_torch,
@@ -43,7 +43,7 @@ if is_vision_available():
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Emu3ForCausalLM,
         Emu3ForConditionalGeneration,
         Emu3Processor,

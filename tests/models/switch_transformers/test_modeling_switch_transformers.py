@@ -17,8 +17,8 @@ import copy
 import tempfile
 import unittest
 
-from transformers import SwitchTransformersConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import SwitchTransformersConfig, is_torch_available
+from myTransformers.testing_utils import (
     require_tokenizers,
     require_torch,
     require_torch_accelerator,
@@ -37,7 +37,7 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         SwitchTransformersEncoderModel,
         SwitchTransformersForConditionalGeneration,
@@ -45,7 +45,7 @@ if is_torch_available():
         SwitchTransformersSparseMLP,
         SwitchTransformersTop1Router,
     )
-    from transformers.models.switch_transformers.modeling_switch_transformers import (
+    from myTransformers.models.switch_transformers.modeling_switch_transformers import (
         load_balancing_loss_func,
         router_z_loss_func,
     )
@@ -1059,7 +1059,7 @@ class SwitchTransformerModelIntegrationTests(unittest.TestCase):
     def test_small_logits(self):
         r"""
         Logits testing to check implementation consistency between `t5x` implementation
-        and `transformers` implementation of Switch-C transformers. We only check the logits
+        and `myTransformers` implementation of Switch-C myTransformers. We only check the logits
         of the first batch.
         """
         model = SwitchTransformersModel.from_pretrained("google/switch-base-8", torch_dtype=torch.bfloat16).to(

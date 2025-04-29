@@ -15,8 +15,8 @@
 
 import unittest
 
-from transformers import ViTConfig
-from transformers.testing_utils import (
+from myTransformers import ViTConfig
+from myTransformers.testing_utils import (
     require_accelerate,
     require_torch,
     require_torch_accelerator,
@@ -25,7 +25,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property, is_torch_available, is_vision_available
+from myTransformers.utils import cached_property, is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -36,13 +36,13 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import ViTForImageClassification, ViTForMaskedImageModeling, ViTModel
+    from myTransformers import ViTForImageClassification, ViTForMaskedImageModeling, ViTModel
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ViTImageProcessor
+    from myTransformers import ViTImageProcessor
 
 
 class ViTModelTester:

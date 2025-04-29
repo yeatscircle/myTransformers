@@ -16,9 +16,9 @@ import unittest
 
 import numpy as np
 
-from transformers import is_torch_available, is_vision_available
-from transformers.processing_utils import _validate_images_text_input_order
-from transformers.testing_utils import require_torch, require_vision
+from myTransformers import is_torch_available, is_vision_available
+from myTransformers.processing_utils import _validate_images_text_input_order
+from myTransformers.testing_utils import require_torch, require_vision
 
 
 if is_vision_available():

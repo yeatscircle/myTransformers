@@ -24,7 +24,7 @@ A linter "unravels" the modular file into a `modeling.py` file to preserve the s
 Run the command below to automatically generate a `modeling.py` file from a modular file.
 
 ```bash
-python utils/modular_model_converter.py --files_to_parse src/transformers/models/<your_model>/modular_<your_model>.py
+python utils/modular_model_converter.py --files_to_parse src/myTransformers/models/<your_model>/modular_<your_model>.py
 ```
 
 For example:
@@ -38,7 +38,7 @@ You should be able to write everything (tokenizer, image processor, model, confi
 Run the command below to ensure the generated content matches `modular_<your_model>.py`.
 
 ```bash
-python utils/check_modular_conversion.py --files src/transformers/models/<your_model>/modular_<your_model>.py
+python utils/check_modular_conversion.py --files src/myTransformers/models/<your_model>/modular_<your_model>.py
 ```
 
 The example below demonstrates how a model can be added with significantly fewer lines of code with Modular Transformers.
@@ -118,7 +118,7 @@ from ..olmo.configuration_olmo import OlmoConfig
 
 class Olmo2Config(OlmoConfig):
     r"""
-    This is the configuration class to store the configuration of a [Olmo2Model](/docs/transformers/main/en/model_doc/olmo2#transformers.Olmo2Model).
+    This is the configuration class to store the configuration of a [Olmo2Model](/docs/myTransformers/main/en/model_doc/olmo2#myTransformers.Olmo2Model).
     """
 
     def __init__(
@@ -582,7 +582,32 @@ However, if there aren't any [implicit dependencies](#other-classes), then you c
 The linter raises a warning if an ambiguous case is detected. It explains what is happening and which prefix is used by default for getting the dependencies. These warning and renaming pattern complications usually only come up when defining multimodal models. For example, adding `Text` to class names in a multimodal model to make it clear which modality it refers to.
 
 ```py
-We detected multiple prefix names when inheriting from transformers.models.llama.modeling_llama: ('Emu3Text', 'Emu3'). We will only use the most used 'Emu3' prefix when grabbing args and dependencies. Make sure to subclass the intermediate classes with the prefix you want (if different from 'Emu3') or use a single prefix in all the modular (best).
+We
+detected
+multiple
+prefix
+names
+when
+inheriting
+from myTransformers.models.llama.modeling_llama: ('Emu3Text', 'Emu3').We
+will
+only
+use
+the
+most
+used
+'Emu3'
+prefix
+when
+grabbing
+args and dependencies.Make
+sure
+to
+subclass
+the
+intermediate
+classes
+with the prefix you want ( if different from 'Emu3') or use a single prefix in all the modular (best).
 ```
 
 If there are automatic dependencies with a prefix, but you want another one, explicitly rename the classes locally with a `pass` class as shown in the following.

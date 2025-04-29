@@ -15,8 +15,8 @@ import unittest
 
 import numpy as np
 
-from transformers import AutoTokenizer, GemmaConfig, is_flax_available
-from transformers.testing_utils import require_flax, require_read_token, slow
+from myTransformers import AutoTokenizer, GemmaConfig, is_flax_available
+from myTransformers.testing_utils import require_flax, require_read_token, slow
 
 from ...test_modeling_flax_common import FlaxModelTesterMixin, ids_tensor
 
@@ -25,7 +25,7 @@ if is_flax_available():
     import jax
     import jax.numpy as jnp
 
-    from transformers.models.gemma.modeling_flax_gemma import (
+    from myTransformers.models.gemma.modeling_flax_gemma import (
         FlaxGemmaForCausalLM,
         FlaxGemmaModel,
     )

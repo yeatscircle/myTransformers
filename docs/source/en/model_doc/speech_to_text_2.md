@@ -61,28 +61,33 @@ predicted token ids.
 - Step-by-step Speech Translation
 
 ```python
->>> import torch
->>> from transformers import Speech2Text2Processor, SpeechEncoderDecoderModel
->>> from datasets import load_dataset
->>> import soundfile as sf
+>> > import torch
+>> > from myTransformers import Speech2Text2Processor, SpeechEncoderDecoderModel
+>> > from datasets import load_dataset
+>> > import soundfile as sf
 
->>> model = SpeechEncoderDecoderModel.from_pretrained("facebook/s2t-wav2vec2-large-en-de")
->>> processor = Speech2Text2Processor.from_pretrained("facebook/s2t-wav2vec2-large-en-de")
+>> > model = SpeechEncoderDecoderModel.from_pretrained("facebook/s2t-wav2vec2-large-en-de")
+>> > processor = Speech2Text2Processor.from_pretrained("facebook/s2t-wav2vec2-large-en-de")
 
+>> >
 
->>> def map_to_array(batch):
-...     speech, _ = sf.read(batch["file"])
-...     batch["speech"] = speech
-...     return batch
+def map_to_array(batch):
 
 
->>> ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
->>> ds = ds.map(map_to_array)
+    ...
+speech, _ = sf.read(batch["file"])
+...
+batch["speech"] = speech
+...
+return batch
 
->>> inputs = processor(ds["speech"][0], sampling_rate=16_000, return_tensors="pt")
->>> generated_ids = model.generate(inputs=inputs["input_values"], attention_mask=inputs["attention_mask"])
+>> > ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
+>> > ds = ds.map(map_to_array)
 
->>> transcription = processor.batch_decode(generated_ids)
+>> > inputs = processor(ds["speech"][0], sampling_rate=16_000, return_tensors="pt")
+>> > generated_ids = model.generate(inputs=inputs["input_values"], attention_mask=inputs["attention_mask"])
+
+>> > transcription = processor.batch_decode(generated_ids)
 ```
 
 - Speech Translation via Pipelines
@@ -90,17 +95,20 @@ predicted token ids.
   The automatic speech recognition pipeline can also be used to translate speech in just a couple lines of code
 
 ```python
->>> from datasets import load_dataset
->>> from transformers import pipeline
+>> > from datasets import load_dataset
+>> > from myTransformers import pipeline
 
->>> librispeech_en = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
->>> asr = pipeline(
-...     "automatic-speech-recognition",
-...     model="facebook/s2t-wav2vec2-large-en-de",
-...     feature_extractor="facebook/s2t-wav2vec2-large-en-de",
+>> > librispeech_en = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
+>> > asr = pipeline(
+    ...
+"automatic-speech-recognition",
+...
+model = "facebook/s2t-wav2vec2-large-en-de",
+...
+feature_extractor = "facebook/s2t-wav2vec2-large-en-de",
 ... )
 
->>> translation_de = asr(librispeech_en[0]["file"])
+>> > translation_de = asr(librispeech_en[0]["file"])
 ```
 
 See [model hub](https://huggingface.co/models?filter=speech2text2) to look for Speech2Text2 checkpoints.

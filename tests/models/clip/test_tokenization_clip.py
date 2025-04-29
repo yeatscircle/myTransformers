@@ -18,9 +18,9 @@ import os
 import unittest
 from functools import lru_cache
 
-from transformers import CLIPTokenizer, CLIPTokenizerFast
-from transformers.models.clip.tokenization_clip import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_ftfy, require_tokenizers
+from myTransformers import CLIPTokenizer, CLIPTokenizerFast
+from myTransformers.models.clip.tokenization_clip import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import require_ftfy, require_tokenizers
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 
@@ -172,7 +172,7 @@ class CLIPTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                 )
 
     def test_log_warning(self):
-        # Test related to the breaking change introduced in transformers v4.17.0
+        # Test related to the breaking change introduced in myTransformers v4.17.0
         # We need to check that an error in raised when the user try to load a previous version of the tokenizer.
         with self.assertRaises(ValueError) as context:
             self.get_rust_tokenizer("robot-test/old-clip-tokenizer")

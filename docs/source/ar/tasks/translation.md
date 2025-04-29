@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate sacrebleu
+pip install myTransformers datasets evaluate sacrebleu
 ```
 
 نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل نموذجك ومشاركته مع المجتمع. عند الطلب، أدخل الرمز المميز الخاص بك لتسجيل الدخول:
@@ -81,10 +81,10 @@ pip install transformers datasets evaluate sacrebleu
 الخطوة التالية هي تحميل مُجزئ T5 لمعالجة أزواج اللغة الإنجليزية-الفرنسية:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 يجب أن تقوم دالة المعالجة المسبقة التي تُريد إنشاءها بما يلي:
@@ -117,17 +117,17 @@ pip install transformers datasets evaluate sacrebleu
 <pt>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -189,9 +189,9 @@ pip install transformers datasets evaluate sacrebleu
 أنت جاهز لبدء تدريب نموذجك الآن! حمّل T5 باستخدام [`AutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 في هذه المرحلة، تبقى ثلاث خطوات فقط:
@@ -243,17 +243,17 @@ pip install transformers datasets evaluate sacrebleu
 لضبط نموذج في TensorFlow، ابدأ بإعداد دالة مُحسِّن وجدول معدل تعلم وبعض المعلمات الفائقة للتدريب:
 
 ```py
->>> from transformers import AdamWeightDecay
+>> > from myTransformers import AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 ثم يمكنك تحميل T5 باستخدام [`TFAutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 حوّل مجموعات البيانات الخاصة بك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -287,19 +287,21 @@ pip install transformers datasets evaluate sacrebleu
 مرر دالة `compute_metrics` الخاصة بك إلى [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
 ```
 
 حدد مكان دفع نموذجك ومعالجك اللغوي في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_opus_books_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_opus_books_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -339,13 +341,13 @@ pip install transformers datasets evaluate sacrebleu
 أبسط طريقة لتجربة نموذجك المضبوط للاستدلال هي استخدامه في [`pipeline`]. قم بإنشاء مثيل لـ `pipeline` للترجمة باستخدام نموذجك، ومرر النص الخاص بك إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # تغيير `xx` إلى لغة الإدخال و `yy` إلى لغة المخرجات المطلوبة.
 # أمثلة: "en" للغة الإنجليزية، "fr" للغة الفرنسية، "de" للغة الألمانية، "es" للغة الإسبانية، "zh" للغة الصينية، إلخ؛ translation_en_to_fr تترجم من الإنجليزية إلى الفرنسية
 # يمكنك عرض جميع قوائم اللغات هنا - https://huggingface.co/languages
->>> translator = pipeline("translation_xx_to_yy", model="username/my_awesome_opus_books_model")
->>> translator(text)
+>> > translator = pipeline("translation_xx_to_yy", model="username/my_awesome_opus_books_model")
+>> > translator(text)
 [{'translation_text': 'Legumes partagent des ressources avec des bactéries azotantes.'}]
 ```
 
@@ -356,19 +358,19 @@ pip install transformers datasets evaluate sacrebleu
 قم بتحويل النص إلى رموز وإرجاع `input_ids` كموترات PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 استخدم الدالة [`~generation.GenerationMixin.generate`] لإنشاء الترجمة. لمزيد من التفاصيل حول استراتيجيات توليد النصوص المختلفة والمعلمات للتحكم في التوليد، تحقق من واجهة برمجة تطبيقات [توليد النصوص](../main_classes/text_generation).
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 فك تشفير معرفات الرموز المولدة مرة أخرى إلى نص:
@@ -382,19 +384,19 @@ pip install transformers datasets evaluate sacrebleu
 قم بتحويل النص إلى رموز وإرجاع `input_ids` كموترات TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 استخدم طريقة [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] لإنشاء الترجمة. لمزيد من التفاصيل حول استراتيجيات توليد النصوص المختلفة والمعلمات للتحكم في التوليد، تحقق من واجهة برمجة تطبيقات [توليد النصوص](../main_classes/text_generation).
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 فك تشفير معرفات الرموز المولدة مرة أخرى إلى نص:

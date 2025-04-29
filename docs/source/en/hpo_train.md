@@ -50,7 +50,7 @@ Pass `model_init` to [`Trainer`] along with everything else you need for trainin
 > If [compute_objective](./main_classes/trainer#transformers.Trainer.hyperparameter_search.compute_objective) isn't defined, the default [compute_objective](./main_classes/trainer#transformers.Trainer.hyperparameter_search.compute_objective) is called which is the sum of an evaluation metric like F1.
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=None,

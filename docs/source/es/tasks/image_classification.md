@@ -76,9 +76,9 @@ Cada clase de alimento - o label - corresponde a un número; `79` indica una cos
 Carga el image processor de ViT para procesar la imagen en un tensor:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224-in21k")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224-in21k")
 ```
 
 Aplica varias transformaciones de imagen al dataset para hacer el modelo más robusto contra el overfitting. En este caso se utilizará el módulo [`transforms`](https://pytorch.org/vision/stable/transforms.html) de torchvision. Recorta una parte aleatoria de la imagen, cambia su tamaño y normalízala con la media y la desviación estándar de la imagen:
@@ -108,22 +108,26 @@ Utiliza el método [`with_transform`](https://huggingface.co/docs/datasets/packa
 Utiliza [`DefaultDataCollator`] para crear un batch de ejemplos. A diferencia de otros data collators en 🤗 Transformers, el DefaultDataCollator no aplica un preprocesamiento adicional como el padding.
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 ## Entrena
 Carga ViT con [`AutoModelForImageClassification`]. Especifica el número de labels, y pasa al modelo el mapping entre el número de label y la clase de label:
 
 ```py
->>> from transformers import AutoModelForImageClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForImageClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForImageClassification.from_pretrained(
-...     "google/vit-base-patch16-224-in21k",
-...     num_labels=len(labels),
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = AutoModelForImageClassification.from_pretrained(
+    ...
+"google/vit-base-patch16-224-in21k",
+...
+num_labels = len(labels),
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
 ```
 

@@ -50,7 +50,7 @@ In this guide, you'll learn how to:
 Before you begin, make sure you have all the necessary libraries installed. 
 
 ```bash
-pip install -q bitsandbytes sentencepiece accelerate transformers
+pip install -q bitsandbytes sentencepiece accelerate myTransformers
 ```
 
 <Tip>
@@ -70,13 +70,13 @@ The IDEFICS processor wraps a [`LlamaTokenizer`] and IDEFICS image processor int
 preparing text and image inputs for the model.
 
 ```py
->>> import torch
+>> > import torch
 
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16, device_map="auto")
+>> > model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16, device_map="auto")
 ```
 
 Setting `device_map` to `"auto"` will automatically determine how to load and store the model weights in the most optimized 
@@ -89,20 +89,25 @@ processor in 4bit precision, pass a `BitsAndBytesConfig` to the `from_pretrained
 on the fly while loading.
 
 ```py
->>> import torch
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor, BitsAndBytesConfig
+>> > import torch
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor, BitsAndBytesConfig
 
->>> quantization_config = BitsAndBytesConfig(
-...     load_in_4bit=True,
-...     bnb_4bit_compute_dtype=torch.float16,
+>> > quantization_config = BitsAndBytesConfig(
+    ...
+load_in_4bit = True,
+...
+bnb_4bit_compute_dtype = torch.float16,
 ... )
 
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> model = IdeficsForVisionText2Text.from_pretrained(
-...     checkpoint,
-...     quantization_config=quantization_config,
-...     device_map="auto"
+>> > model = IdeficsForVisionText2Text.from_pretrained(
+    ...
+checkpoint,
+...
+quantization_config = quantization_config,
+...
+device_map = "auto"
 ... )
 ```
 
@@ -381,45 +386,47 @@ For conversational use cases, you can find fine-tuned instructed versions of the
 These checkpoints are the result of fine-tuning the respective base models on a mixture of supervised and instruction 
 fine-tuning datasets, which boosts the downstream performance while making the models more usable in conversational settings.
 
-The use and prompting for the conversational use is very similar to using the base models: 
+The use and prompting for the conversational use is very similar to using the base models:
 
 ```py
->>> import torch
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor
->>> from accelerate.test_utils.testing import get_backend
+>> > import torch
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor
+>> > from accelerate.test_utils.testing import get_backend
 
->>> device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
->>> checkpoint = "HuggingFaceM4/idefics-9b-instruct"
->>> model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16).to(device)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+>> > checkpoint = "HuggingFaceM4/idefics-9b-instruct"
+>> > model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16).to(device)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> prompts = [
-...     [
-...         "User: What is in this image?",
-...         "https://upload.wikimedia.org/wikipedia/commons/8/86/Id%C3%A9fix.JPG",
-...         "<end_of_utterance>",
+>> > prompts = [
+    ...[
+        ...         "User: What is in this image?",
+    ...         "https://upload.wikimedia.org/wikipedia/commons/8/86/Id%C3%A9fix.JPG",
+    ...         "<end_of_utterance>",
 
-...         "\nAssistant: This picture depicts Idefix, the dog of Obelix in Asterix and Obelix. Idefix is running on the ground.<end_of_utterance>",
+    ...
+    "\nAssistant: This picture depicts Idefix, the dog of Obelix in Asterix and Obelix. Idefix is running on the ground.<end_of_utterance>",
 
-...         "\nUser:",
-...         "https://static.wikia.nocookie.net/asterix/images/2/25/R22b.gif/revision/latest?cb=20110815073052",
-...         "And who is that?<end_of_utterance>",
+    ...         "\nUser:",
+    ...         "https://static.wikia.nocookie.net/asterix/images/2/25/R22b.gif/revision/latest?cb=20110815073052",
+    ...         "And who is that?<end_of_utterance>",
 
-...         "\nAssistant:",
-...     ],
-... ]
+    ...         "\nAssistant:",
+    ...],
+...]
 
->>> # --batched mode
->>> inputs = processor(prompts, add_end_of_utterance_token=False, return_tensors="pt").to(device)
->>> # --single sample mode
->>> # inputs = processor(prompts[0], return_tensors="pt").to(device)
+>> >  # --batched mode
+>> > inputs = processor(prompts, add_end_of_utterance_token=False, return_tensors="pt").to(device)
+>> >  # --single sample mode
+>> >  # inputs = processor(prompts[0], return_tensors="pt").to(device)
 
->>> # Generation args
->>> exit_condition = processor.tokenizer("<end_of_utterance>", add_special_tokens=False).input_ids
->>> bad_words_ids = processor.tokenizer(["<image>", "<fake_token_around_image>"], add_special_tokens=False).input_ids
+>> >  # Generation args
+>> > exit_condition = processor.tokenizer("<end_of_utterance>", add_special_tokens=False).input_ids
+>> > bad_words_ids = processor.tokenizer(["<image>", "<fake_token_around_image>"], add_special_tokens=False).input_ids
 
->>> generated_ids = model.generate(**inputs, eos_token_id=exit_condition, bad_words_ids=bad_words_ids, max_length=100)
->>> generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)
->>> for i, t in enumerate(generated_text):
-...     print(f"{i}:\n{t}\n")
+>> > generated_ids = model.generate(**inputs, eos_token_id=exit_condition, bad_words_ids=bad_words_ids, max_length=100)
+>> > generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)
+>> > for i, t in enumerate(generated_text):
+    ...
+print(f"{i}:\n{t}\n")
 ```

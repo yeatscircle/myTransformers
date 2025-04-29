@@ -19,7 +19,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from transformers import (
+from myTransformers import (
     DefaultFlowCallback,
     EarlyStoppingCallback,
     IntervalStrategy,
@@ -31,12 +31,12 @@ from transformers import (
     TrainingArguments,
     is_torch_available,
 )
-from transformers.testing_utils import require_torch
-from transformers.trainer_callback import ExportableState
+from myTransformers.testing_utils import require_torch
+from myTransformers.trainer_callback import ExportableState
 
 
 if is_torch_available():
-    from transformers.trainer import DEFAULT_CALLBACKS, TRAINER_STATE_NAME
+    from myTransformers.trainer import DEFAULT_CALLBACKS, TRAINER_STATE_NAME
 
     from .test_trainer import RegressionDataset, RegressionModelConfig, RegressionPreTrainedModel
 
@@ -263,7 +263,7 @@ class TrainerCallbackTest(unittest.TestCase):
             self.assertEqual(events, self.get_expected_events(trainer))
 
             # warning should be emitted for duplicated callbacks
-            with patch("transformers.trainer_callback.logger.warning") as warn_mock:
+            with patch("myTransformers.trainer_callback.logger.warning") as warn_mock:
                 trainer = self.get_trainer(
                     callbacks=[MyTestTrainerCallback, MyTestTrainerCallback],
                 )
@@ -408,7 +408,7 @@ class TrainerCallbackTest(unittest.TestCase):
         # Load it back in and verify values
         checkpoint = os.path.join(self.output_dir, "checkpoint-2")
         # warning should be emitted for not-present callbacks
-        with patch("transformers.trainer.logger.warning") as warn_mock:
+        with patch("myTransformers.trainer.logger.warning") as warn_mock:
             trainer.train(resume_from_checkpoint=checkpoint)
             assert "EarlyStoppingCallback" in warn_mock.call_args[0][0]
 

@@ -17,8 +17,8 @@ import unittest
 
 import numpy as np
 
-from transformers import is_flax_available, is_torch_available
-from transformers.testing_utils import require_flax, slow
+from myTransformers import is_flax_available, is_torch_available
+from myTransformers.testing_utils import require_flax, slow
 
 from ...test_modeling_flax_common import floats_tensor, ids_tensor, random_attention_mask
 from ..bart.test_modeling_flax_bart import FlaxBartStandaloneDecoderModelTester
@@ -33,7 +33,7 @@ if is_flax_available():
     from flax.training.common_utils import onehot
     from flax.traverse_util import flatten_dict
 
-    from transformers import (
+    from myTransformers import (
         FlaxBartForCausalLM,
         FlaxBertForCausalLM,
         FlaxGPT2LMHeadModel,
@@ -41,10 +41,10 @@ if is_flax_available():
         FlaxWav2Vec2Model,
         SpeechEncoderDecoderConfig,
     )
-    from transformers.modeling_flax_outputs import FlaxBaseModelOutput
+    from myTransformers.modeling_flax_outputs import FlaxBaseModelOutput
 
 if is_torch_available():
-    from transformers import SpeechEncoderDecoderModel
+    from myTransformers import SpeechEncoderDecoderModel
 
 
 @require_flax

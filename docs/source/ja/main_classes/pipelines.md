@@ -64,8 +64,8 @@ GPU。それが問題でない場合は、ためらわずに問題を作成し�
 
 ```python
 import datasets
-from transformers import pipeline
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers import pipeline
+from myTransformers.pipelines.pt_utils import KeyDataset
 from tqdm.auto import tqdm
 
 pipe = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h", device=0)
@@ -83,7 +83,7 @@ for out in tqdm(pipe(KeyDataset(dataset, "file"))):
 使いやすくするために、ジェネレーターを使用することもできます。
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-classification")
 
@@ -115,8 +115,8 @@ for out in pipe(data()):
 パイプラインがストリーミング機能を使用するときは常に (つまり、リスト、`dataset`、または `generator`を渡すとき)。
 
 ```python
-from transformers import pipeline
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers import pipeline
+from myTransformers.pipelines.pt_utils import KeyDataset
 import datasets
 
 dataset = datasets.load_dataset("imdb", name="plain_text", split="unsupervised")
@@ -140,7 +140,7 @@ for out in pipe(KeyDataset(dataset, "text"), batch_size=8, truncation="only_firs
 </Tip>
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 

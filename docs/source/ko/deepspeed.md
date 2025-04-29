@@ -47,7 +47,7 @@ pip install deepspeed
 <hfoption id="Transformers">
 
 ```bash
-pip install transformers[deepspeed]
+pip install myTransformers[deepspeed]
 ```
 
 </hfoption>
@@ -58,7 +58,7 @@ pip install transformers[deepspeed]
 시작하기 전에 모델에 맞는 충분한 GPU 및 CPU 메모리가 있는지 확인하는 것이 좋습니다. DeepSpeed는 필요한 CPU/GPU 메모리를 추정할 수 있는 도구를 제공합니다. 예를 들어, 단일 GPU에서 [bigscience/T0_3B](bigscience/T0_3B) 모델의 메모리 요구 사항을 추정할 수 있습니다:
 
 ```bash
-$ python -c 'from transformers import AutoModel; \
+$ python -c 'from myTransformers import AutoModel; \
 from deepspeed.runtime.zero.stage3 import estimate_zero3_model_states_mem_needs_all_live; \
 model = AutoModel.from_pretrained("bigscience/T0_3B"); \
 estimate_zero3_model_states_mem_needs_all_live(model, num_gpus_per_node=1, num_nodes=1)'
@@ -262,7 +262,7 @@ ZeRO-3는 옵티마이저, 그래디언트, 매개변수를 여러 GPU에 걸쳐
 [`deepspeed.zero.Init`](https://deepspeed.readthedocs.io/en/latest/zero3.html#deepspeed.zero.Init) 컨텍스트 매니저를 사용하면 모델을 더 빠르게 초기화할 수 있습니다:
 
 ```py
-from transformers import T5ForConditionalGeneration, T5Config
+from myTransformers import T5ForConditionalGeneration, T5Config
 import deepspeed
 
 with deepspeed.zero.Init():
@@ -273,7 +273,7 @@ with deepspeed.zero.Init():
 사전 학습된 모델의 경우, 딥스피드 구성 파일에 `is_deepspeed_zero3_enabled: true`가 [`TrainingArguments`]에 설정되어 있어야 하며, ZeRO 구성이 활성화되어 있어야 합니다. 훈련된 모델 [`~PreTrainedModel.from_pretrained`]을 호출하기 **전에** [`TrainingArguments`] 객체를 생성해야 합니다.
 
 ```py
-from transformers import AutoModel, Trainer, TrainingArguments
+from myTransformers import AutoModel, Trainer, TrainingArguments
 
 training_args = TrainingArguments(..., deepspeed=ds_config)
 model = AutoModel.from_pretrained("google-t5/t5-small")
@@ -843,7 +843,7 @@ ZeRO-2로 훈련된 모델은 pytorch_model.bin 가중치를 fp16에 저장합�
 다음과 같이 최신 체크포인트를 로드하려면 체크포인트를 하나 이상 저장해야 합니다:
 
 ```py
-from transformers.trainer_utils import get_last_checkpoint
+from myTransformers.trainer_utils import get_last_checkpoint
 from deepspeed.utils.zero_to_fp32 import load_state_dict_from_zero_checkpoint
 
 checkpoint_dir = get_last_checkpoint(trainer.args.output_dir)
@@ -941,8 +941,8 @@ ZeRO-3를 효율적으로 배포하려면 모델 앞에 [`HfDeepSpeedConfig`] �
 <hfoption id="pretrained model">
 
 ```py
-from transformers.integrations import HfDeepSpeedConfig
-from transformers import AutoModel
+from myTransformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoModel
 import deepspeed
 
 ds_config = {...}  # deepspeed 설정 객체 또는 파일 경로
@@ -958,8 +958,8 @@ engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
 [`HfDeepSpeedConfig`] is not required for ZeRO-1 or ZeRO-2.
 
 ```py
-from transformers.integrations import HfDeepSpeedConfig
-from transformers import AutoModel, AutoConfig
+from myTransformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoModel, AutoConfig
 import deepspeed
 
 ds_config = {...}  # deepspeed 설정 객체 또는 파일 경로
@@ -1017,8 +1017,8 @@ engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
 # 또는:
 # python -m torch.distributed.run --nproc_per_node=2 t0.py
 
-from transformers import AutoTokenizer, AutoConfig, AutoModelForSeq2SeqLM
-from transformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoTokenizer, AutoConfig, AutoModelForSeq2SeqLM
+from myTransformers.integrations import HfDeepSpeedConfig
 import deepspeed
 import os
 import torch
@@ -1153,7 +1153,7 @@ transformers와 관련된 이슈를 개설할 때에는 다음 정보를 제공�
 
 ```bash
 python -c 'import torch; print(f"torch: {torch.__version__}")'
-python -c 'import transformers; print(f"transformers: {transformers.__version__}")'
+python -c 'import myTransformers; print(f"myTransformers: {myTransformers.__version__}")'
 python -c 'import deepspeed; print(f"deepspeed: {deepspeed.__version__}")'
 ```
 

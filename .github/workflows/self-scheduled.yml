@@ -3,8 +3,8 @@ name: Self-hosted runner (scheduled)
 # Note that each job's dependencies go into a corresponding docker file.
 #
 # For example for `run_torch_cuda_extensions_gpu` the docker image is
-# `huggingface/transformers-pytorch-deepspeed-latest-gpu`, which can be found at
-# `docker/transformers-pytorch-deepspeed-latest-gpu/Dockerfile`
+# `huggingface/myTransformers-pytorch-deepspeed-latest-gpu`, which can be found at
+# `docker/myTransformers-pytorch-deepspeed-latest-gpu/Dockerfile`
 
 on:
   workflow_call:
@@ -36,7 +36,7 @@ env:
   MKL_NUM_THREADS: 8
   RUN_SLOW: yes
   # For gated repositories, we still need to agree to share information on the Hub repo. page in order to get access.
-  # This token is created under the bot `hf-transformers-bot`.
+  # This token is created under the bot `hf-myTransformers-bot`.
   HF_HUB_READ_TOKEN: ${{ secrets.HF_HUB_READ_TOKEN }}
   SIGOPT_API_TOKEN: ${{ secrets.SIGOPT_API_TOKEN }}
   TF_FORCE_GPU_ALLOW_GROWTH: true
@@ -53,7 +53,7 @@ jobs:
     runs-on:
       group: '${{ matrix.machine_type }}'
     container:
-      image: huggingface/transformers-all-latest-gpu
+      image: huggingface/myTransformers-all-latest-gpu
       options: --gpus 0 --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     outputs:
       folder_slices: ${{ steps.set-matrix.outputs.folder_slices }}
@@ -61,25 +61,25 @@ jobs:
       quantization_matrix: ${{ steps.set-matrix-quantization.outputs.quantization_matrix }}
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           git fetch && git checkout ${{ github.sha }}
 
       - name: Cleanup
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           rm -rf tests/__pycache__
           rm -rf tests/models/__pycache__
           rm -rf reports
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - id: set-matrix
         if: contains(fromJSON('["run_models_gpu", "run_trainer_and_fsdp_gpu"]'), inputs.job)
         name: Identify models to test
-        working-directory: /transformers/tests
+        working-directory: /myTransformers/tests
         run: |
           if [ "${{ inputs.job }}" = "run_models_gpu" ]; then
             echo "folder_slices=$(python3 ../utils/split_model_tests.py --num_splits ${{ env.NUM_SLICES }})" >> $GITHUB_OUTPUT
@@ -92,7 +92,7 @@ jobs:
       - id: set-matrix-quantization
         if: ${{ inputs.job == 'run_quantization_torch_gpu' }}
         name: Identify quantization method to test
-        working-directory: /transformers/tests
+        working-directory: /myTransformers/tests
         run: |
           echo "quantization_matrix=$(python3 -c 'import os; tests = os.getcwd(); quantization_tests = os.listdir(os.path.join(tests, "quantization")); d = sorted(list(filter(os.path.isdir, [f"quantization/{x}" for x in quantization_tests]))) ;  print(d)')" >> $GITHUB_OUTPUT
 
@@ -147,32 +147,32 @@ jobs:
     runs-on:
       group: '${{ matrix.machine_type }}'
     container:
-      image: huggingface/transformers-pytorch-gpu
+      image: huggingface/myTransformers-pytorch-gpu
       options: --gpus all --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: NVIDIA-SMI
         run: |
           nvidia-smi
 
       - name: Environment
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: /transformers
+        working-directory: /myTransformers
         shell: bash
         run: |
           echo "${{ matrix.machine_type }}"
@@ -189,21 +189,21 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run all pipeline tests on GPU
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 -m pytest -n 1 -v --dist=loadfile --make-reports=${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports tests/pipelines
 
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat /transformers/reports/${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports/failures_short.txt
+        run: cat /myTransformers/reports/${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports/failures_short.txt
 
       - name: "Test suite reports artifacts: ${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports
-          path: /transformers/reports/${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports
+          path: /myTransformers/reports/${{ env.machine_type }}_run_pipelines_torch_gpu_test_reports
 
   run_pipelines_tf_gpu:
     if: ${{ inputs.job == 'run_pipelines_tf_gpu' }}
@@ -215,33 +215,33 @@ jobs:
     runs-on:
       group: '${{ matrix.machine_type }}'
     container:
-      image: huggingface/transformers-tensorflow-gpu
+      image: huggingface/myTransformers-tensorflow-gpu
       options: --gpus all --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: NVIDIA-SMI
         run: |
           nvidia-smi
 
       - name: Environment
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: /transformers
+        working-directory: /myTransformers
         shell: bash
         run: |
           echo "${{ matrix.machine_type }}"
@@ -258,7 +258,7 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run all pipeline tests on GPU
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 -m pytest -n 1 -v --dist=loadfile --make-reports=${{ env.machine_type }}_run_pipelines_tf_gpu_test_reports tests/pipelines
 
@@ -272,7 +272,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_run_pipelines_tf_gpu_test_reports
-          path: /transformers/reports/${{ env.machine_type }}_run_pipelines_tf_gpu_test_reports
+          path: /myTransformers/reports/${{ env.machine_type }}_run_pipelines_tf_gpu_test_reports
 
   run_examples_gpu:
     if: ${{ inputs.job == 'run_examples_gpu' }}
@@ -284,32 +284,32 @@ jobs:
     runs-on:
       group: '${{ matrix.machine_type }}'
     container:
-      image: huggingface/transformers-all-latest-gpu
+      image: huggingface/myTransformers-all-latest-gpu
       options: --gpus 0 --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: NVIDIA-SMI
         run: |
           nvidia-smi
 
       - name: Environment
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: /transformers
+        working-directory: /myTransformers
         shell: bash
         run: |
           echo "${{ matrix.machine_type }}"
@@ -326,7 +326,7 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run examples tests on GPU
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           pip install -r examples/pytorch/_tests_requirements.txt
           python3 -m pytest -v --make-reports=${{ env.machine_type }}_run_examples_gpu_test_reports examples/pytorch
@@ -334,14 +334,14 @@ jobs:
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat /transformers/reports/${{ env.machine_type }}_run_examples_gpu_test_reports/failures_short.txt
+        run: cat /myTransformers/reports/${{ env.machine_type }}_run_examples_gpu_test_reports/failures_short.txt
 
       - name: "Test suite reports artifacts: ${{ env.machine_type }}_run_examples_gpu_test_reports"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_run_examples_gpu_test_reports
-          path: /transformers/reports/${{ env.machine_type }}_run_examples_gpu_test_reports
+          path: /myTransformers/reports/${{ env.machine_type }}_run_examples_gpu_test_reports
 
   run_torch_cuda_extensions_gpu:
     if: ${{ inputs.job == 'run_torch_cuda_extensions_gpu' }}
@@ -357,16 +357,16 @@ jobs:
       options: --gpus all --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Update clone
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: Update / Install some packages (for Past CI)
         if: ${{ contains(inputs.docker, '-past-') && contains(inputs.docker, '-pytorch-') }}
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         run: |
           python3 -m pip install -U datasets
           python3 -m pip install --no-cache-dir git+https://github.com/huggingface/accelerate@main#egg=accelerate
@@ -397,16 +397,16 @@ jobs:
           nvidia-smi
 
       - name: Environment
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         shell: bash
         run: |
           echo "${{ matrix.machine_type }}"
@@ -423,21 +423,21 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run all tests on GPU
-        working-directory: ${{ inputs.working-directory-prefix }}/transformers
+        working-directory: ${{ inputs.working-directory-prefix }}/myTransformers
         run: |
           python3 -m pytest -v --make-reports=${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports tests/deepspeed tests/extended
 
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat ${{ inputs.working-directory-prefix }}/transformers/reports/${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports/failures_short.txt
+        run: cat ${{ inputs.working-directory-prefix }}/myTransformers/reports/${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports/failures_short.txt
 
       - name: "Test suite reports artifacts: ${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports
-          path: ${{ inputs.working-directory-prefix }}/transformers/reports/${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports
+          path: ${{ inputs.working-directory-prefix }}/myTransformers/reports/${{ env.machine_type }}_run_torch_cuda_extensions_gpu_test_reports
 
   run_quantization_torch_gpu:
     if: ${{ inputs.job == 'run_quantization_torch_gpu' }}
@@ -452,7 +452,7 @@ jobs:
     runs-on:
       group: '${{ matrix.machine_type }}'
     container:
-      image: huggingface/transformers-quantization-latest-gpu
+      image: huggingface/myTransformers-quantization-latest-gpu
       options: --gpus all --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Echo folder ${{ matrix.folders }}
@@ -465,28 +465,28 @@ jobs:
           echo "matrix_folders=$matrix_folders" >> $GITHUB_ENV
 
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: NVIDIA-SMI
         run: |
           nvidia-smi
 
       - name: Environment
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: /transformers
+        working-directory: /myTransformers
         shell: bash
         run: |
           echo "${{ matrix.machine_type }}"
@@ -503,21 +503,21 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run quantization tests on GPU
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 -m pytest -v --make-reports=${{ env.machine_type }}_run_quantization_torch_gpu_${{ matrix.folders }}_test_reports tests/${{ matrix.folders }}
 
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat /transformers/reports/${{ env.machine_type }}_run_quantization_torch_gpu_${{ matrix.folders }}_test_reports/failures_short.txt
+        run: cat /myTransformers/reports/${{ env.machine_type }}_run_quantization_torch_gpu_${{ matrix.folders }}_test_reports/failures_short.txt
 
       - name: "Test suite reports artifacts: ${{ env.machine_type }}_run_quantization_torch_gpu_${{ env.matrix_folders }}_test_reports"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_run_quantization_torch_gpu_${{ env.matrix_folders }}_test_reports
-          path: /transformers/reports/${{ env.machine_type }}_run_quantization_torch_gpu_${{ matrix.folders }}_test_reports
+          path: /myTransformers/reports/${{ env.machine_type }}_run_quantization_torch_gpu_${{ matrix.folders }}_test_reports
 
   run_extract_warnings:
     # Let's only do this for the job `run_models_gpu` to simplify the (already complex) logic.
@@ -526,13 +526,13 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [setup, run_models_gpu]
     steps:
-      - name: Checkout transformers
+      - name: Checkout myTransformers
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Install transformers
-        run: pip install transformers
+      - name: Install myTransformers
+        run: pip install myTransformers
 
       - name: Show installed libraries and their versions
         run: pip freeze

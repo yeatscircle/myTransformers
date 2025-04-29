@@ -35,9 +35,9 @@ Obwohl jede Aufgabe eine zugehörige [`pipeline`] hat, ist es einfacher, die all
 1. Beginnen Sie mit der Erstellung einer [`pipeline`] und geben Sie eine Inferenzaufgabe an:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline(task="text-generation")
+>> > generator = pipeline(task="text-generation")
 ```
 
 2. Übergeben Sie Ihren Eingabetext an die [`pipeline`]:
@@ -74,18 +74,18 @@ Alle zusätzlichen Parameter für Ihre Aufgabe können auch in die [`pipeline`] 
 Die [`pipeline`] akzeptiert jedes Modell aus dem [Hub](https://huggingface.co/models). Auf dem Hub gibt es Tags, mit denen Sie nach einem Modell filtern können, das Sie für Ihre Aufgabe verwenden möchten. Sobald Sie ein passendes Modell ausgewählt haben, laden Sie es mit der entsprechenden `AutoModelFor` und [`AutoTokenizer`] Klasse. Laden Sie zum Beispiel die Klasse [`AutoModelForCausalLM`] für eine kausale Sprachmodellierungsaufgabe:
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForCausalLM
+>> > from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 Erstellen Sie eine [`pipeline`] für Ihre Aufgabe, und geben Sie das Modell und den Tokenizer an, die Sie geladen haben:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline(task="text-generation", model=model, tokenizer=tokenizer)
+>> > generator = pipeline(task="text-generation", model=model, tokenizer=tokenizer)
 ```
 
 Übergeben Sie Ihren Eingabetext an die [`pipeline`] , um einen Text zu erzeugen:
@@ -115,10 +115,11 @@ Lassen Sie uns zum Beispiel die Emotion in diesem Audioclip klassifizieren:
 Finden Sie ein [Audioklassifikation](https://huggingface.co/models?pipeline_tag=audio-classification) Modell auf dem Model Hub für Emotionserkennung und laden Sie es in die [`pipeline`]:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> audio_classifier = pipeline(
-...     task="audio-classification", model="ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > audio_classifier = pipeline(
+    ...
+task = "audio-classification", model = "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -140,15 +141,19 @@ Geben Sie Ihre Aufgabe an und übergeben Sie Ihr Bild an den Klassifikator. Das 
 ![pipeline-cat-chonk](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg)
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vision_classifier = pipeline(task="image-classification")
->>> preds = vision_classifier(
-...     images="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > vision_classifier = pipeline(task="image-classification")
+>> > preds = vision_classifier(
+    ...
+images = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
-[{'score': 0.4335, 'label': 'lynx, catamount'}, {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}, {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'}, {'score': 0.0229, 'label': 'tiger cat'}]
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
+[{'score': 0.4335, 'label': 'lynx, catamount'},
+ {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'},
+ {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'},
+ {'score': 0.0229, 'label': 'tiger cat'}]
 ```
 
 ## Multimodale Pipeline
@@ -165,11 +170,12 @@ Wenn Sie zum Beispiel das gleiche Bild wie in der obigen Vision-Pipeline verwend
 Erstellen Sie eine Pipeline für "vqa" und übergeben Sie ihr das Bild und die Frage:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vqa = pipeline(task="vqa")
->>> preds = vqa(image=image, question=question)
->>> preds = [{"score": round(pred["score"], 4), "answer": pred["answer"]} for pred in preds]
->>> preds
-[{'score': 0.9112, 'answer': 'snow'}, {'score': 0.8796, 'answer': 'in snow'}, {'score': 0.6717, 'answer': 'outside'}, {'score': 0.0291, 'answer': 'on ground'}, {'score': 0.027, 'answer': 'ground'}]
+>> > vqa = pipeline(task="vqa")
+>> > preds = vqa(image=image, question=question)
+>> > preds = [{"score": round(pred["score"], 4), "answer": pred["answer"]} for pred in preds]
+>> > preds
+[{'score': 0.9112, 'answer': 'snow'}, {'score': 0.8796, 'answer': 'in snow'}, {'score': 0.6717, 'answer': 'outside'},
+ {'score': 0.0291, 'answer': 'on ground'}, {'score': 0.027, 'answer': 'ground'}]
 ```

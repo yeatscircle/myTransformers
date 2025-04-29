@@ -55,7 +55,7 @@ rendered properly in your Markdown viewer.
 
 ```python
 from torch import nn
-from transformers import Trainer
+from myTransformers import Trainer
 
 
 class CustomTrainer(Trainer):
@@ -656,7 +656,7 @@ MPS バックエンドの使用に関して問題や質問がある場合は、
 以下は、上記の FSDP 構成で`accelerate launcher`を使用して`run_glue.py`を実行する例です。 
 
 ```bash
-cd transformers
+cd myTransformers
 
 accelerate launch \
 ./examples/pytorch/text-classification/run_glue.py \
@@ -675,7 +675,7 @@ accelerate launch \
 4. `accelerate launch`するための cmd 引数を直接使用することもできます。上の例は次のようにマッピングされます。
 
 ```bash
-cd transformers
+cd myTransformers
 
 accelerate launch --num_processes=2 \
 --use_fsdp \

@@ -42,12 +42,12 @@ The example below demonstrates how to classify text with [`Pipeline`] or the [`A
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline(
-    task="text-classification", 
-    model="bhadresh-savani/electra-base-emotion", 
-    torch_dtype=torch.float16, 
+    task="text-classification",
+    model="bhadresh-savani/electra-base-emotion",
+    torch_dtype=torch.float16,
     device=0
 )
 classifier("This restaurant has amazing food!")
@@ -58,13 +58,13 @@ classifier("This restaurant has amazing food!")
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
 tokenizer = AutoTokenizer.from_pretrained(
     "bhadresh-savani/electra-base-emotion",
 )
 model = AutoModelForSequenceClassification.from_pretrained(
-    "bhadresh-savani/electra-base-emotion", 
+    "bhadresh-savani/electra-base-emotion",
     torch_dtype=torch.float16
 )
 inputs = tokenizer("ELECTRA is more efficient than BERT", return_tensors="pt")
@@ -81,7 +81,7 @@ print(f"Predicted label: {predicted_label}")
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "This restaurant has amazing food." | transformers-cli run --task text-classification --model bhadresh-savani/electra-base-emotion --device 0
+echo -e "This restaurant has amazing food." | myTransformers-cli run --task text-classification --model bhadresh-savani/electra-base-emotion --device 0
 ```
 
 </hfoption>

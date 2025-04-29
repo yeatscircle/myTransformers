@@ -29,8 +29,8 @@ import evaluate
 import torch
 from datasets import DatasetDict, load_dataset
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoFeatureExtractor,
     AutoModelForSpeechSeq2Seq,
@@ -41,9 +41,9 @@ from transformers import (
     Seq2SeqTrainingArguments,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint, is_main_process
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.trainer_utils import get_last_checkpoint, is_main_process
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -275,7 +275,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
 
 def main():
     # 1. Parse input arguments
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
@@ -300,9 +300,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.set_verbosity(log_level)
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
 
     logger.setLevel(logging.INFO if is_main_process(training_args.local_rank) else logging.WARN)
 
@@ -315,7 +315,7 @@ def main():
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # 3. Detecting last checkpoint and eventually continue from last checkpoint

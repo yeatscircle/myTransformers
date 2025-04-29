@@ -38,7 +38,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate accelerate pillow torchvision scikit-learn
+pip install myTransformers datasets evaluate accelerate pillow torchvision scikit-learn
 ```
 
 We encourage you to log in to your Hugging Face account to upload and share your model with the community. When prompted, enter your token to log in:
@@ -102,10 +102,10 @@ Now you can convert the label id to a label name:
 The next step is to load a ViT image processor to process the image into a tensor:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "google/vit-base-patch16-224-in21k"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > checkpoint = "google/vit-base-patch16-224-in21k"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 ```
 
 <frameworkcontent>
@@ -144,9 +144,9 @@ To apply the preprocessing function over the entire dataset, use 🤗 Datasets [
 Now create a batch of examples using [`DefaultDataCollator`]. Unlike other data collators in 🤗 Transformers, the `DefaultDataCollator` does not apply additional preprocessing such as padding.
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 </pt>
 </frameworkcontent>
@@ -231,9 +231,9 @@ As a final preprocessing step, create a batch of examples using `DefaultDataColl
 `DefaultDataCollator` does not apply additional preprocessing, such as padding.
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -277,13 +277,17 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load ViT with [`AutoModelForImageClassification`]. Specify the number of labels along with the number of expected labels, and the label mappings:
 
 ```py
->>> from transformers import AutoModelForImageClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForImageClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForImageClassification.from_pretrained(
-...     checkpoint,
-...     num_labels=len(labels),
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = AutoModelForImageClassification.from_pretrained(
+    ...
+checkpoint,
+...
+num_labels = len(labels),
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
 ```
 
@@ -352,31 +356,38 @@ To fine-tune a model in TensorFlow, follow these steps:
 Start by defining the hyperparameters, optimizer and learning rate schedule:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 5
->>> num_train_steps = len(food["train"]) * num_epochs
->>> learning_rate = 3e-5
->>> weight_decay_rate = 0.01
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > num_train_steps = len(food["train"]) * num_epochs
+>> > learning_rate = 3e-5
+>> > weight_decay_rate = 0.01
 
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=learning_rate,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=weight_decay_rate,
-...     num_warmup_steps=0,
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = learning_rate,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = weight_decay_rate,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 Then, load ViT with [`TFAutoModelForImageClassification`] along with the label mappings:
 
 ```py
->>> from transformers import TFAutoModelForImageClassification
+>> > from myTransformers import TFAutoModelForImageClassification
 
->>> model = TFAutoModelForImageClassification.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = TFAutoModelForImageClassification.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
 ```
 
@@ -408,15 +419,18 @@ Pass your `compute_metrics` function to [KerasMetricCallback](../main_classes/ke
 and use the [PushToHubCallback](../main_classes/keras_callbacks#transformers.PushToHubCallback) to upload the model:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_eval_dataset)
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="food_classifier",
-...     tokenizer=image_processor,
-...     save_strategy="no",
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_eval_dataset)
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "food_classifier",
+...
+tokenizer = image_processor,
+...
+save_strategy = "no",
 ... )
->>> callbacks = [metric_callback, push_to_hub_callback]
+>> > callbacks = [metric_callback, push_to_hub_callback]
 ```
 
 Finally, you are ready to train your model! Call `fit()` with your training and validation datasets, the number of epochs,
@@ -465,10 +479,10 @@ Load an image you'd like to run inference on:
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for image classification with your model, and pass your image to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("image-classification", model="my_awesome_food_model")
->>> classifier(image)
+>> > classifier = pipeline("image-classification", model="my_awesome_food_model")
+>> > classifier(image)
 [{'score': 0.31856709718704224, 'label': 'beignets'},
  {'score': 0.015232225880026817, 'label': 'bruschetta'},
  {'score': 0.01519392803311348, 'label': 'chicken_wings'},
@@ -483,21 +497,22 @@ You can also manually replicate the results of the `pipeline` if you'd like:
 Load an image processor to preprocess the image and return the `input` as PyTorch tensors:
 
 ```py
->>> from transformers import AutoImageProcessor
->>> import torch
+>> > from myTransformers import AutoImageProcessor
+>> > import torch
 
->>> image_processor = AutoImageProcessor.from_pretrained("my_awesome_food_model")
->>> inputs = image_processor(image, return_tensors="pt")
+>> > image_processor = AutoImageProcessor.from_pretrained("my_awesome_food_model")
+>> > inputs = image_processor(image, return_tensors="pt")
 ```
 
 Pass your inputs to the model and return the logits:
 
 ```py
->>> from transformers import AutoModelForImageClassification
+>> > from myTransformers import AutoModelForImageClassification
 
->>> model = AutoModelForImageClassification.from_pretrained("my_awesome_food_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForImageClassification.from_pretrained("my_awesome_food_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 Get the predicted label with the highest probability, and use the model's `id2label` mapping to convert it to a label:
@@ -515,19 +530,19 @@ Get the predicted label with the highest probability, and use the model's `id2la
 Load an image processor to preprocess the image and return the `input` as TensorFlow tensors:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("MariaK/food_classifier")
->>> inputs = image_processor(image, return_tensors="tf")
+>> > image_processor = AutoImageProcessor.from_pretrained("MariaK/food_classifier")
+>> > inputs = image_processor(image, return_tensors="tf")
 ```
 
 Pass your inputs to the model and return the logits:
 
 ```py
->>> from transformers import TFAutoModelForImageClassification
+>> > from myTransformers import TFAutoModelForImageClassification
 
->>> model = TFAutoModelForImageClassification.from_pretrained("MariaK/food_classifier")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForImageClassification.from_pretrained("MariaK/food_classifier")
+>> > logits = model(**inputs).logits
 ```
 
 Get the predicted label with the highest probability, and use the model's `id2label` mapping to convert it to a label:

@@ -143,7 +143,7 @@ RUN apt-get update -y && \
 
 WORKDIR /workspace
 
-# Download and extract the transformers code
+# Download and extract the myTransformers code
 ARG HF_TRANSFORMERS_VER="4.46.0"
 RUN pip install --no-cache-dir \
     transformers==${HF_TRANSFORMERS_VER} && \
@@ -165,7 +165,7 @@ The CPU resource limits and requests are defined in [CPU units](https://kubernet
 apiVersion: "kubeflow.org/v1"
 kind: PyTorchJob
 metadata:
-  name: transformers-pytorchjob
+  name: myTransformers-pytorchjob
 spec:
   elasticPolicy:
     rdzvBackend: c10d
@@ -234,7 +234,7 @@ spec:
           volumes:
           - name: pvc-volume
             persistentVolumeClaim:
-              claimName: transformers-pvc
+              claimName: myTransformers-pvc
           - name: dshm
             emptyDir:
               medium: Memory
@@ -257,17 +257,17 @@ kubectl get pods -n ${NAMESPACE}
 
 NAME                                                     READY   STATUS                  RESTARTS          AGE
 ...
-transformers-pytorchjob-worker-0                         1/1     Running                 0                 7m37s
-transformers-pytorchjob-worker-1                         1/1     Running                 0                 7m37s
-transformers-pytorchjob-worker-2                         1/1     Running                 0                 7m37s
-transformers-pytorchjob-worker-3                         1/1     Running                 0                 7m37s
+myTransformers-pytorchjob-worker-0                         1/1     Running                 0                 7m37s
+myTransformers-pytorchjob-worker-1                         1/1     Running                 0                 7m37s
+myTransformers-pytorchjob-worker-2                         1/1     Running                 0                 7m37s
+myTransformers-pytorchjob-worker-3                         1/1     Running                 0                 7m37s
 ...
 ```
 
 Inspect the logs for each worker with the following command. Add `-f` to stream the logs.
 
 ```bash
-kubectl logs transformers-pytorchjob-worker-0 -n ${NAMESPACE} -f
+kubectl logs myTransformers-pytorchjob-worker-0 -n ${NAMESPACE} -f
 ```
 
 Once training is complete, the trained model can be copied from the PVC or storage location. Delete the PyTorchJob resource from the cluster with the command below.

@@ -15,8 +15,8 @@
 
 import unittest
 
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torch_available, is_torchvision_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -25,7 +25,7 @@ if is_torch_available():
     pass
 
 if is_vision_available() and is_torchvision_available():
-    from transformers import Llama4ImageProcessorFast
+    from myTransformers import Llama4ImageProcessorFast
 
 
 class Llama4ImageProcessingTester(unittest.TestCase):

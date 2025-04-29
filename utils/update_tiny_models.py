@@ -17,7 +17,7 @@
 This file is intended to be used in a CI workflow file without the need of specifying arguments. It creates and uploads
 tiny models for all model classes (if their tiny versions are not on the Hub yet), as well as produces an updated
 version of `tests/utils/tiny_model_summary.json`. That updated file should be merged into the `main` branch of
-`transformers` so the pipeline testing will use the latest created/updated tiny models.
+`myTransformers` so the pipeline testing will use the latest created/updated tiny models.
 """
 
 import argparse
@@ -30,16 +30,16 @@ import time
 from create_dummy_models import COMPOSITE_MODELS, create_tiny_models
 from huggingface_hub import ModelFilter, hf_api
 
-import transformers
-from transformers import AutoFeatureExtractor, AutoImageProcessor, AutoTokenizer
-from transformers.image_processing_utils import BaseImageProcessor
+import myTransformers
+from myTransformers import AutoFeatureExtractor, AutoImageProcessor, AutoTokenizer
+from myTransformers.image_processing_utils import BaseImageProcessor
 
 
 def get_all_model_names():
     model_names = set()
     # Each auto modeling files contains multiple mappings. Let's get them in a dynamic way.
     for module_name in ["modeling_auto", "modeling_tf_auto", "modeling_flax_auto"]:
-        module = getattr(transformers.models.auto, module_name, None)
+        module = getattr(myTransformers.models.auto, module_name, None)
         if module is None:
             continue
         # all mappings in a single auto modeling file
@@ -148,14 +148,14 @@ def get_tiny_model_summary_from_hub(output_path):
             pass
         try:
             time.sleep(1)
-            model_class = getattr(transformers, model)
+            model_class = getattr(myTransformers, model)
             m = model_class.from_pretrained(repo_id)
             content["model_classes"].add(m.__class__.__name__)
         except Exception:
             pass
         try:
             time.sleep(1)
-            model_class = getattr(transformers, f"TF{model}")
+            model_class = getattr(myTransformers, f"TF{model}")
             m = model_class.from_pretrained(repo_id)
             content["model_classes"].add(m.__class__.__name__)
         except Exception:

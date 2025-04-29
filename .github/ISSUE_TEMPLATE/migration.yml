@@ -1,14 +1,14 @@
-name: "\U0001F4DA Migration from pytorch-pretrained-bert or pytorch-transformers"
-description: Report a problem when migrating from pytorch-pretrained-bert or pytorch-transformers to transformers
+name: "\U0001F4DA Migration from pytorch-pretrained-bert or pytorch-myTransformers"
+description: Report a problem when migrating from pytorch-pretrained-bert or pytorch-myTransformers to myTransformers
 labels: [ "migration" ]
 body:
   - type: textarea
     id: system-info
     attributes:
       label: System Info
-      description: Please share your system info with us. You can run the command `transformers-cli env` and copy-paste its output below.
+      description: Please share your system info with us. You can run the command `myTransformers-cli env` and copy-paste its output below.
       render: shell
-      placeholder: transformers version, platform, python version, ...
+      placeholder: myTransformers version, platform, python version, ...
     validations:
       required: true
 
@@ -65,8 +65,8 @@ body:
       label: Checklist
       options:
         - label: "I have read the migration guide in the readme.
- ([pytorch-transformers](https://github.com/huggingface/transformers#migrating-from-pytorch-transformers-to-transformers);
-  [pytorch-pretrained-bert](https://github.com/huggingface/transformers#migrating-from-pytorch-pretrained-bert-to-transformers))"
+ ([pytorch-myTransformers](https://github.com/huggingface/myTransformers#migrating-from-pytorch-myTransformers-to-myTransformers);
+  [pytorch-pretrained-bert](https://github.com/huggingface/myTransformers#migrating-from-pytorch-pretrained-bert-to-myTransformers))"
           required: true
         - label: "I checked if a related official extension example runs on my machine."
           required: true

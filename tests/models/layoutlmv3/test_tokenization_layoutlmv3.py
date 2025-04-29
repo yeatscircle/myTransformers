@@ -23,7 +23,7 @@ from functools import lru_cache
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AddedToken,
     LayoutLMv3TokenizerFast,
     SpecialTokensMixin,
@@ -31,8 +31,8 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.models.layoutlmv3.tokenization_layoutlmv3 import VOCAB_FILES_NAMES, LayoutLMv3Tokenizer
-from transformers.testing_utils import (
+from myTransformers.models.layoutlmv3.tokenization_layoutlmv3 import VOCAB_FILES_NAMES, LayoutLMv3Tokenizer
+from myTransformers.testing_utils import (
     require_pandas,
     require_tf,
     require_tokenizers,
@@ -727,7 +727,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
             boxes=boxes,
         )
 
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             tokenizer_fast.pad(encoding_fast)
         self.assertEqual(len(cm.records), 1)
         self.assertIn(
@@ -1182,7 +1182,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -1867,7 +1867,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 question_1, seq_2, boxes=boxes_2, padding=padding_state, truncation=False
                             )
@@ -1882,7 +1882,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 [question_1], [seq_2], boxes=[boxes_2], padding=padding_state, truncation=False
                             )
@@ -2186,7 +2186,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, boxes=boxes_1, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                             self.assertNotEqual(len(output["bbox"]), model_max_length)
@@ -2199,7 +2199,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], boxes=[boxes_1], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                             self.assertNotEqual(len(output["bbox"][0]), model_max_length)
@@ -2380,7 +2380,7 @@ class LayoutLMv3TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     @require_tf
     @slow
     def test_tf_encode_plus_sent_to_model(self):
-        from transformers import TF_MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import TF_MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(TF_MODEL_MAPPING, TOKENIZER_MAPPING)
 

@@ -49,8 +49,8 @@ if __name__ == "__main__":
     example_dir = args.example.rsplit("/", 1)[0]
 
     # Set up remote environment
-    cluster.install_packages(["pip:./"])  # Installs transformers from local source
-    # Note transformers is copied into the home directory on the remote machine, so we can install from there
+    cluster.install_packages(["pip:./"])  # Installs myTransformers from local source
+    # Note myTransformers is copied into the home directory on the remote machine, so we can install from there
     cluster.run([f"pip install -r transformers/examples/{example_dir}/requirements.txt"])
     cluster.run(["pip install torch --upgrade --extra-index-url https://download.pytorch.org/whl/cu117"])
 

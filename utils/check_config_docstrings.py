@@ -16,15 +16,15 @@
 import inspect
 import re
 
-from transformers.utils import direct_transformers_import
+from myTransformers.utils import direct_transformers_import
 
 
 # All paths are set with the intent you should run this script from the root of the repo with the command
 # python utils/check_config_docstrings.py
-PATH_TO_TRANSFORMERS = "src/transformers"
+PATH_TO_TRANSFORMERS = "src/myTransformers"
 
 
-# This is to make sure the transformers module imported is the one in the repo.
+# This is to make sure the myTransformers module imported is the one in the repo.
 transformers = direct_transformers_import(PATH_TO_TRANSFORMERS)
 
 CONFIG_MAPPING = transformers.models.auto.configuration_auto.CONFIG_MAPPING

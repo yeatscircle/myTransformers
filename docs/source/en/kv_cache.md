@@ -42,7 +42,7 @@ Disable the cache by configuring `use_cache=False` in [`~GenerationMixin.generat
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16).to("cuda:0")
@@ -57,7 +57,7 @@ In most other cases, it's easier to define the cache strategy in the [cache_impl
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, DynamicCache
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16).to("cuda:0")
@@ -84,7 +84,7 @@ Enable [`OffloadedCache`] by configuring `cache_implementation="offloaded"` in e
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 ckpt = "microsoft/Phi-3-mini-4k-instruct"
 tokenizer = AutoTokenizer.from_pretrained(ckpt)
@@ -93,14 +93,24 @@ inputs = tokenizer("Fun fact: The shortest", return_tensors="pt").to(model.devic
 
 out = model.generate(**inputs, do_sample=False, max_new_tokens=23, cache_implementation="offloaded")
 print(tokenizer.batch_decode(out, skip_special_tokens=True)[0])
-Fun fact: The shortest war in history was between Britain and Zanzibar on August 27, 1896.
+Fun
+fact: The
+shortest
+war in history
+was
+between
+Britain and Zanzibar
+on
+August
+27, 1896.
 ```
 
 The example below shows how you can fallback on [`OffloadedCache`] if you run out of memory.
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
+
 
 def resilient_generate(model, *args, **kwargs):
     oom = False
@@ -115,14 +125,16 @@ def resilient_generate(model, *args, **kwargs):
         kwargs["cache_implementation"] = "offloaded"
         return model.generate(*args, **kwargs)
 
+
 ckpt = "microsoft/Phi-3-mini-4k-instruct"
 tokenizer = AutoTokenizer.from_pretrained(ckpt)
 model = AutoModelForCausalLM.from_pretrained(ckpt, torch_dtype=torch.float16).to("cuda:0")
-prompt = ["okay "*1000 + "Fun fact: The most"]
+prompt = ["okay " * 1000 + "Fun fact: The most"]
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-beams = { "num_beams": 40, "num_beam_groups": 40, "num_return_sequences": 40, "diversity_penalty": 1.0, "max_new_tokens": 23, "early_stopping": True, }
+beams = {"num_beams": 40, "num_beam_groups": 40, "num_return_sequences": 40, "diversity_penalty": 1.0,
+         "max_new_tokens": 23, "early_stopping": True, }
 out = resilient_generate(model, **inputs, **beams)
-responses = tokenizer.batch_decode(out[:,-28:], skip_special_tokens=True)
+responses = tokenizer.batch_decode(out[:, -28:], skip_special_tokens=True)
 ```
 
 ### Quantized cache
@@ -143,15 +155,29 @@ Enable [`QuantizedCache`] by configuring `cache_implementation="quantized"` in [
 For [`HQQQuantizedCache`], we recommend setting the `axis-key` and `axis-value` parameters to `1`.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, HQQQuantizedCache, QuantizedCacheConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, HQQQuantizedCache, QuantizedCacheConfig
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16).to("cuda:0")
 inputs = tokenizer("I like rock music because", return_tensors="pt").to(model.device)
 
-out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="quantized", cache_config={"axis-key": 1, "axis-value": 1, "backend": "hqq"})
+out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="quantized",
+                     cache_config={"axis-key": 1, "axis-value": 1, "backend": "hqq"})
 print(tokenizer.batch_decode(out, skip_special_tokens=True)[0])
-I like rock music because it's loud and energetic. It's a great way to express myself and rel
+I
+like
+rock
+music
+because
+it
+'s loud and energetic. It'
+s
+a
+great
+way
+to
+express
+myself and rel
 ```
 
 </hfoption>
@@ -160,15 +186,29 @@ I like rock music because it's loud and energetic. It's a great way to express m
 For [`QuantoQuantizedCache`], we recommend setting the `axis-key` and `axis-value` parameters to `0`.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, QuantoQuantizedCache, QuantizedCacheConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, QuantoQuantizedCache, QuantizedCacheConfig
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16).to("cuda:0")
 inputs = tokenizer("I like rock music because", return_tensors="pt").to(model.device)
 
-out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="quantized", cache_config={"nbits": 4, "axis-key": 0, "axis-value": 0, "backend": "quanto"})
+out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="quantized",
+                     cache_config={"nbits": 4, "axis-key": 0, "axis-value": 0, "backend": "quanto"})
 print(tokenizer.batch_decode(out, skip_special_tokens=True)[0])
-I like rock music because it's loud and energetic. It's a great way to express myself and rel
+I
+like
+rock
+music
+because
+it
+'s loud and energetic. It'
+s
+a
+great
+way
+to
+express
+myself and rel
 ```
 
 </hfoption>
@@ -184,7 +224,7 @@ Enable [`SinkCache`] by initializing it first with the [window_length](https://h
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, SinkCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, SinkCache
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16).to("cuda:0")
@@ -208,10 +248,11 @@ Enable [`StaticCache`] by configuring `cache_implementation="static"` in [`~Gene
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16,
+                                             device_map="auto")
 inputs = tokenizer("Hello, my name is", return_tensors="pt").to(model.device)
 
 out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="static")
@@ -227,10 +268,11 @@ Enable [`OffloadedStaticCache`] by configuring `cache_implementation="offloaded_
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16, device_map="auto")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", torch_dtype=torch.float16,
+                                             device_map="auto")
 inputs = tokenizer("Hello, my name is", return_tensors="pt").to(model.device)
 
 out = model.generate(**inputs, do_sample=False, max_new_tokens=20, cache_implementation="offloaded_static")
@@ -247,7 +289,7 @@ Enable [`SlidingWindowCache`] by configuring `cache_implementation="sliding_wind
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, SinkCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, SinkCache
 
 tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
 model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", torch_dtype=torch.float16).to("cuda:0")
@@ -290,8 +332,8 @@ The example below demonstrates how to use a cache for iterative generation.
 
 ```py
 import torch
-from transformers import AutoTokenizer,AutoModelForCausalLM
-from transformers.cache_utils import (
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers.cache_utils import (
     DynamicCache,
     SinkCache,
     StaticCache,
@@ -312,12 +354,13 @@ max_cache_length = past_key_values.get_max_length()
 messages = []
 for prompt in user_prompts:
     messages.append({"role": "user", "content": prompt})
-    inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt", return_dict=True).to(model.device)
+    inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt",
+                                           return_dict=True).to(model.device)
     if isinstance(past_key_values, SinkCache):
         inputs = {k: v[:, -max_cache_length:] for k, v in inputs.items()}
     input_length = inputs["input_ids"].shape[1]
     outputs = model.generate(**inputs, do_sample=False, max_new_tokens=256, past_key_values=past_key_values)
-    completion = tokenizer.decode(outputs[0, input_length: ], skip_special_tokens=True)
+    completion = tokenizer.decode(outputs[0, input_length:], skip_special_tokens=True)
     messages.append({"role": "assistant", "content": completion})
 ```
 
@@ -330,7 +373,7 @@ The example below initializes a [`StaticCache`], and then caches an initial prom
 ```py
 import copy
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, DynamicCache, StaticCache
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, DynamicCache, StaticCache
 
 model_id = "meta-llama/Llama-2-7b-chat-hf"
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="cuda")
@@ -338,20 +381,21 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 
 # Init StaticCache with big enough max-length (1024 tokens for the below example) 
 # You can also init a DynamicCache, if that suits you better
-prompt_cache = StaticCache(config=model.config, max_batch_size=1, max_cache_len=1024, device="cuda", dtype=torch.bfloat16)
+prompt_cache = StaticCache(config=model.config, max_batch_size=1, max_cache_len=1024, device="cuda",
+                           dtype=torch.bfloat16)
 
 INITIAL_PROMPT = "You are a helpful assistant. "
 inputs_initial_prompt = tokenizer(INITIAL_PROMPT, return_tensors="pt").to("cuda")
 # This is the common prompt cached, we need to run forward without grad to be able to copy
 with torch.no_grad():
-     prompt_cache = model(**inputs_initial_prompt, past_key_values = prompt_cache).past_key_values
+    prompt_cache = model(**inputs_initial_prompt, past_key_values=prompt_cache).past_key_values
 
 prompts = ["Help me to write a blogpost about travelling.", "What is the capital of France?"]
 responses = []
 for prompt in prompts:
     new_inputs = tokenizer(INITIAL_PROMPT + prompt, return_tensors="pt").to("cuda")
     past_key_values = copy.deepcopy(prompt_cache)
-    outputs = model.generate(**new_inputs, past_key_values=past_key_values,max_new_tokens=20) 
+    outputs = model.generate(**new_inputs, past_key_values=past_key_values, max_new_tokens=20)
     response = tokenizer.batch_decode(outputs)[0]
     responses.append(response)
 

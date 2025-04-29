@@ -69,9 +69,9 @@ You could also compile other model functions with XLA. For example, enable XLA f
 
 ```py
 import tensorflow as tf
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
+from myTransformers import AutoTokenizer, TFAutoModelForCausalLM
 # Will error if the minimal version of Transformers is not installed.
-from transformers.utils import check_min_version
+from myTransformers.utils import check_min_version
 
 check_min_version("4.21.0")
 
@@ -99,7 +99,7 @@ One way to handle this is to pad your text so it always has the same shape. Conf
 
 ```py
 import tensorflow as tf
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
+from myTransformers import AutoTokenizer, TFAutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", padding_side="left", pad_token="</s>")
 model = TFAutoModelForCausalLM.from_pretrained("openai-community/gpt2")

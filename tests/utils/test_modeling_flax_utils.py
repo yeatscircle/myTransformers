@@ -18,8 +18,8 @@ import unittest
 import numpy as np
 from huggingface_hub import HfFolder, snapshot_download
 
-from transformers import BertConfig, is_flax_available
-from transformers.testing_utils import (
+from myTransformers import BertConfig, is_flax_available
+from myTransformers.testing_utils import (
     TOKEN,
     CaptureLogger,
     TemporaryHubRepo,
@@ -27,7 +27,7 @@ from transformers.testing_utils import (
     require_flax,
     require_safetensors,
 )
-from transformers.utils import FLAX_WEIGHTS_NAME, SAFE_WEIGHTS_NAME, logging
+from myTransformers.utils import FLAX_WEIGHTS_NAME, SAFE_WEIGHTS_NAME, logging
 
 
 if is_flax_available():
@@ -36,7 +36,7 @@ if is_flax_available():
     from flax.core.frozen_dict import unfreeze
     from flax.traverse_util import flatten_dict
 
-    from transformers import FlaxBertModel
+    from myTransformers import FlaxBertModel
 
     os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = "0.12"  # assumed parallelism: 8
 
@@ -274,7 +274,7 @@ class FlaxModelUtilsTest(unittest.TestCase):
     def test_safetensors_from_pt_bf16(self):
         # This should not raise; should be able to load bf16-serialized torch safetensors without issue
         # and without torch.
-        logger = logging.get_logger("transformers.modeling_flax_utils")
+        logger = logging.get_logger("myTransformers.modeling_flax_utils")
 
         with CaptureLogger(logger) as cl:
             FlaxBertModel.from_pretrained("hf-internal-testing/tiny-bert-pt-safetensors-bf16")

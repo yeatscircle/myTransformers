@@ -19,14 +19,14 @@ import unittest
 
 import requests
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     Qwen2_5_VLConfig,
     Qwen2_5_VLForConditionalGeneration,
     is_torch_available,
     is_vision_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     is_flaky,
     require_cv2,
     require_flash_attn,
@@ -35,7 +35,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_cv2_available
+from myTransformers.utils import is_cv2_available
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester

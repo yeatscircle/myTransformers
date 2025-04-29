@@ -27,11 +27,11 @@ rendered properly in your Markdown viewer.
 Bark で`text-to-speech`パイプラインを使用する方法の例を次に示します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("text-to-speech", model="suno/bark-small")
->>> text = "[clears throat] This is a test ... and I just took a long pause."
->>> output = pipe(text)
+>> > pipe = pipeline("text-to-speech", model="suno/bark-small")
+>> > text = "[clears throat] This is a test ... and I just took a long pause."
+>> > output = pipe(text)
 ```
 
 ノートブックで結果の音声を聞くために使用できるコード スニペットを次に示します。
@@ -117,12 +117,11 @@ dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 使用するモデル チェックポイントを定義し、適切なプロセッサをロードすることから始めましょう。
 
-
 ```py
->>> from transformers import SpeechT5Processor
+>> > from myTransformers import SpeechT5Processor
 
->>> checkpoint = "microsoft/speecht5_tts"
->>> processor = SpeechT5Processor.from_pretrained(checkpoint)
+>> > checkpoint = "microsoft/speecht5_tts"
+>> > processor = SpeechT5Processor.from_pretrained(checkpoint)
 ```
 
 ### Text cleanup for SpeechT5 tokenization
@@ -451,9 +450,9 @@ SpeechT5 では、モデルのデコーダ部分への入力が 2 分の 1 に�
 プロセッサのロードに使用したのと同じチェックポイントから事前トレーニングされたモデルをロードします。
 
 ```py
->>> from transformers import SpeechT5ForTextToSpeech
+>> > from myTransformers import SpeechT5ForTextToSpeech
 
->>> model = SpeechT5ForTextToSpeech.from_pretrained(checkpoint)
+>> > model = SpeechT5ForTextToSpeech.from_pretrained(checkpoint)
 ```
 
 `use_cache=True`オプションは、勾配チェックポイントと互換性がありません。トレーニングのために無効にします。
@@ -466,42 +465,66 @@ SpeechT5 では、モデルのデコーダ部分への入力が 2 分の 1 に�
 損失だけを見てください。
 
 ```python
->>> from transformers import Seq2SeqTrainingArguments
+>> > from myTransformers import Seq2SeqTrainingArguments
 
->>> training_args = Seq2SeqTrainingArguments(
-...     output_dir="speecht5_finetuned_voxpopuli_nl",  # change to a repo name of your choice
-...     per_device_train_batch_size=4,
-...     gradient_accumulation_steps=8,
-...     learning_rate=1e-5,
-...     warmup_steps=500,
-...     max_steps=4000,
-...     gradient_checkpointing=True,
-...     fp16=True,
-...     eval_strategy="steps",
-...     per_device_eval_batch_size=2,
-...     save_steps=1000,
-...     eval_steps=1000,
-...     logging_steps=25,
-...     report_to=["tensorboard"],
-...     load_best_model_at_end=True,
-...     greater_is_better=False,
-...     label_names=["labels"],
-...     push_to_hub=True,
+>> > training_args = Seq2SeqTrainingArguments(
+    ...
+output_dir = "speecht5_finetuned_voxpopuli_nl",  # change to a repo name of your choice
+...
+per_device_train_batch_size = 4,
+...
+gradient_accumulation_steps = 8,
+...
+learning_rate = 1e-5,
+...
+warmup_steps = 500,
+...
+max_steps = 4000,
+...
+gradient_checkpointing = True,
+...
+fp16 = True,
+...
+eval_strategy = "steps",
+...
+per_device_eval_batch_size = 2,
+...
+save_steps = 1000,
+...
+eval_steps = 1000,
+...
+logging_steps = 25,
+...
+report_to = ["tensorboard"],
+...
+load_best_model_at_end = True,
+...
+greater_is_better = False,
+...
+label_names = ["labels"],
+...
+push_to_hub = True,
 ... )
 ```
 
 `Trainer`オブジェクトをインスタンス化し、モデル、データセット、データ照合器をそれに渡します。
 
 ```py
->>> from transformers import Seq2SeqTrainer
+>> > from myTransformers import Seq2SeqTrainer
 
->>> trainer = Seq2SeqTrainer(
-...     args=training_args,
-...     model=model,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     data_collator=data_collator,
-...     processing_class=processor,
+>> > trainer = Seq2SeqTrainer(
+    ...
+args = training_args,
+...
+model = model,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+data_collator = data_collator,
+...
+processing_class = processor,
 ... )
 ```
 これで、トレーニングを開始する準備が整いました。トレーニングには数時間かかります。 GPU に応じて、
@@ -532,9 +555,9 @@ SpeechT5 では、モデルのデコーダ部分への入力が 2 分の 1 に�
 チェックポイント:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("text-to-speech", model="YOUR_ACCOUNT_NAME/speecht5_finetuned_voxpopuli_nl")
+>> > pipe = pipeline("text-to-speech", model="YOUR_ACCOUNT_NAME/speecht5_finetuned_voxpopuli_nl")
 ```
 
 ナレーションを希望するオランダ語のテキストを選択してください。例:

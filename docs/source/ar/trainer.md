@@ -37,19 +37,19 @@ pip install accelerate --upgrade
 إذا كنت تُريد تحديد أي خيارات تدريب أو معلمات فائقة، فيمكنك العثور عليها في فئة [`TrainingArguments`]. على سبيل المثال، دعنا نحدد أين يتم حفظ النموذج في `output_dir` ورفع النموذج إلى Hub بعد التدريب باستخدام `push_to_hub=True`.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="your-model"،
-    learning_rate=2e-5,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=16,
-    num_train_epochs=2,
-    weight_decay=0.01,
-    eval_strategy="epoch"،
-    save_strategy="epoch"،
-    load_best_model_at_end=True,
-    push_to_hub=True,
+learning_rate = 2e-5,
+per_device_train_batch_size = 16,
+per_device_eval_batch_size = 16,
+num_train_epochs = 2,
+weight_decay = 0.01,
+eval_strategy = "epoch"،
+save_strategy = "epoch"،
+load_best_model_at_end = True,
+push_to_hub = True,
 )
 ```
 مرر `training_args` إلى [`Trainer`] جنبًا إلى جنب مع النموذج، ومجموعة بيانات، وشئ لمعالجة مجموعة البيانات مسبقًا (حسب نوع البيانات، فقد يكون محللًا رمزيًا أو مستخرج ميزات أو معالج صور)، وجامع بيانات، ودالة لحساب المقاييس التي تُريد تتبعها أثناء التدريب.
@@ -57,16 +57,16 @@ training_args = TrainingArguments(
 أخيرًا، استدعِ [`~Trainer.train`] لبدء التدريب!
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=dataset["train"]،
-    eval_dataset=dataset["test"]،
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
+eval_dataset = dataset["test"]،
+tokenizer = tokenizer,
+data_collator = data_collator,
+compute_metrics = compute_metrics,
 )
 
 trainer.train()
@@ -108,10 +108,10 @@ trainer.train(resume_from_checkpoint="your-model/checkpoint-1000")
 
 على سبيل المثال، إذا كنت تريد تخصيص طريقة [`~Trainer.compute_loss`] لاستخدام دالة خسارة ذات ترجيح بدلاً من ذلك.
 
-
 ```py
 from torch import nn
-from transformers import Trainer
+from myTransformers import Trainer
+
 
 class CustomTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
@@ -132,12 +132,13 @@ class CustomTrainer(Trainer):
 على سبيل المثال، إذا كنت تريد إضافة دالة استدعاء إيقاف مبكر إلى حلقة التدريب بعد 10 خطوات.
 
 ```py
-from transformers import TrainerCallback
+from myTransformers import TrainerCallback
+
 
 class EarlyStoppingCallback(TrainerCallback):
     def __init__(self, num_steps=10):
         self.num_steps = num_steps
-    
+
     def on_step_end(self, args, state, control, **kwargs):
         if state.global_step >= self.num_steps:
             return {"should_training_stop": True}
@@ -148,17 +149,17 @@ class EarlyStoppingCallback(TrainerCallback):
 ثم مرره إلى معامل `callback` في [`Trainer`].
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=dataset["train"]،
-    eval_dataset=dataset["test"]،
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-    callback=[EarlyStoppingCallback()],
+eval_dataset = dataset["test"]،
+tokenizer = tokenizer,
+data_collator = data_collator,
+compute_metrics = compute_metrics,
+callback = [EarlyStoppingCallback()],
 )
 ```
 
@@ -229,7 +230,7 @@ my_app.py ... --log_level error --log_level_replica error --log_on_each_node 0
 [NEFTune](https://hf.co/papers/2310.05914) هي تقنية يمكن أن تحسن الأداء عن طريق إضافة ضوضاء إلى مُتجهات التعلم أثناء التدريب. لتمكينه في [`Trainer`], قم بتعيين معامل `neftune_noise_alpha` في [`TrainingArguments`] للتحكم في مقدار الضوضاء المُضافة.
 
 ```py
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(..., neftune_noise_alpha=0.1)
 trainer = Trainer(..., args=training_args)
@@ -248,7 +249,7 @@ pip install liger-kernel
 يجب عليك تمرير `use_liger_kernel=True` لتطبيق نواة `liger` على نموذجك، على سبيل المثال:
 
 ```python
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="your-model",
@@ -269,13 +270,16 @@ training_args = TrainingArguments(
 
 ## المُحسِّنات
 يمكنك اختيار مُحسِّن مدمج للتدريب باستخدام:
+
 ```python
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
+
 training_args = TrainingArguments(..., optim="adamw_torch")
 ```
 اطلع على [`OptimizerNames`](https://github.com/huggingface/transformers/blob/main/src/transformers/training_args.py) للاطلاع على القائمة الكاملة للخيارات. نُدرج أمثلة مُتقدمة في الأقسام أدناه.
 
 يمكنك أيضًا استخدام مُحسِّن PyTorch عشوائي عبر:
+
 ```python
 import torch
 
@@ -286,7 +290,8 @@ optimizer_kwargs = {
     "weight_decay": 0.05,
 }
 
-from transformers import Trainer
+from myTransformers import Trainer
+
 trainer = Trainer(..., optimizer_cls_and_kwargs=(optimizer_cls, optimizer_kwargs))
 ```
 
@@ -310,16 +315,16 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 train_dataset = datasets.load_dataset('imdb', split='train')
 
 args = TrainingArguments(
     output_dir="./test-galore"،
-    max_steps=100,
-    per_device_train_batch_size=2,
-    optim="galore_adamw"،
-    optim_target_modules=[r".*.attn.*"، r".*.mlp.*"]
+max_steps = 100,
+per_device_train_batch_size = 2,
+optim = "galore_adamw"،
+optim_target_modules = [r".*.attn.*"، r".*.mlp.*"]
 )
 
 model_id = "google/gemma-2b"
@@ -330,7 +335,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',
@@ -347,7 +352,7 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 train_dataset = datasets.load_dataset('imdb', split='train')
 
@@ -368,7 +373,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',
@@ -390,16 +395,16 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments، AutoConfig، AutoTokenizer، AutoModelForCausalLM
+from myTransformers import TrainingArguments، AutoConfig، AutoTokenizer، AutoModelForCausalLM
 
-train_dataset = datasets.load_dataset('imdb'، split='train')
+train_dataset = datasets.load_dataset('imdb'، split = 'train')
 
 args = TrainingArguments(
     output_dir="./test-galore"،
-    max_steps=100،
-    per_device_train_batch_size=2،
-    optim="galore_adamw_layerwise"،
-    optim_target_modules=[r".*.attn.*"، r".*.mlp.*"]
+max_steps = 100،
+per_device_train_batch_size = 2،
+optim = "galore_adamw_layerwise"،
+optim_target_modules = [r".*.attn.*"، r".*.mlp.*"]
 )
 
 model_id = "google/gemma-2b"
@@ -411,10 +416,10 @@ model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
     model=model،
-    args=args،
-    train_dataset=train_dataset،
-    dataset_text_field='text'،
-    max_seq_length=512،
+args = args،
+train_dataset = train_dataset،
+dataset_text_field = 'text'،
+max_seq_length = 512،
 )
 
 trainer.train()
@@ -438,35 +443,35 @@ trainer.train()
 ```python
 import torch
 import datasets
-from transformers import TrainingArguments، AutoTokenizer، AutoModelForCausalLM
+from myTransformers import TrainingArguments، AutoTokenizer، AutoModelForCausalLM
 import trl
 
-train_dataset = datasets.load_dataset('imdb'، split='train')
+train_dataset = datasets.load_dataset('imdb'، split = 'train')
 
 args = TrainingArguments(
     output_dir="./test-lomo"،
-    max_steps=100،
-    per_device_train_batch_size=4،
-    optim="adalomo"،
-    gradient_checkpointing=True،
-    logging_strategy="steps"،
-    logging_steps=1،
-    learning_rate=2e-6،
-    save_strategy="no"،
-    run_name="lomo-imdb"،
+max_steps = 100،
+per_device_train_batch_size = 4،
+optim = "adalomo"،
+gradient_checkpointing = True،
+logging_strategy = "steps"،
+logging_steps = 1،
+learning_rate = 2e-6،
+save_strategy = "no"،
+run_name = "lomo-imdb"،
 )
 
 model_id = "google/gemma-2b"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(model_id، low_cpu_mem_usage=True).to(0)
+model = AutoModelForCausalLM.from_pretrained(model_id، low_cpu_mem_usage = True).to(0)
 
 trainer = trl.SFTTrainer(
     model=model،
-    args=args،
-    train_dataset=train_dataset،
-    dataset_text_field='text'،
-    max_seq_length=1024،
+args = args،
+train_dataset = train_dataset،
+dataset_text_field = 'text'،
+max_seq_length = 1024،
 )
 
 trainer.train()
@@ -479,10 +484,11 @@ trainer.train()
 </Tip>
 
 فيما يلي نص برمجى بسيط لشرح كيفية ضبط [google/gemma-2b](https://huggingface.co/google/gemma-2b) بدقة على مجموعة بيانات IMDB باستخدام مُحسِّن GrokAdamW:
+
 ```python
 import torch
 import datasets
-from transformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM, Trainer
+from myTransformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM, Trainer
 
 # تحميل مجموعة البيانات IMDB
 train_dataset = datasets.load_dataset('imdb', split='train')
@@ -523,10 +529,11 @@ trainer.train()
 المُحسِّنات المدعومة لـ SFO هي "schedule_free_adamw" و "schedule_free_sgd". قم أولاً بتثبيت `schedulefree` من pypi باستخدام الأمر  `pip install schedulefree`.
 
 فيما يلي نص برمجى بسيط لشرح كيفية ضبط [google/gemma-2b](https://huggingface.co/google/gemma-2b) بدقة على مجموعة بيانات IMDB بدقة كاملة:
+
 ```python
 import torch
 import datasets
-from transformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM
 import trl
 
 train_dataset = datasets.load_dataset('imdb', split='train')
@@ -550,7 +557,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id, low_cpu_mem_usage=True).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',

@@ -45,7 +45,7 @@ from flax.training.common_utils import get_metrics, onehot, shard
 from huggingface_hub import HfApi
 from tqdm import tqdm
 
-from transformers import (
+from myTransformers import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_MASKED_LM_MAPPING,
     AutoTokenizer,
@@ -57,8 +57,8 @@ from transformers import (
     is_tensorboard_available,
     set_seed,
 )
-from transformers.models.bart.modeling_flax_bart import shift_tokens_right
-from transformers.utils import send_example_telemetry
+from myTransformers.models.bart.modeling_flax_bart import shift_tokens_right
+from myTransformers.utils import send_example_telemetry
 
 
 MODEL_CONFIG_CLASSES = list(FLAX_MODEL_FOR_MASKED_LM_MAPPING.keys())
@@ -460,7 +460,7 @@ def write_eval_metric(summary_writer, eval_metrics, step):
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 

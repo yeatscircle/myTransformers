@@ -113,11 +113,11 @@ checkpoint: जाँच बिंदु
 हम त्वरित उपयोग के लिए मॉडल प्रदान करते हैं `pipeline` (पाइपलाइन) एपीआई। पाइपलाइन पूर्व-प्रशिक्षित मॉडल और संबंधित पाठ प्रीप्रोसेसिंग को एकत्रित करती है। सकारात्मक और नकारात्मक भावना को निर्धारित करने के लिए पाइपलाइनों का उपयोग करने का एक त्वरित उदाहरण यहां दिया गया है:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # भावना विश्लेषण पाइपलाइन का उपयोग करना
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -141,24 +141,26 @@ checkpoint: जाँच बिंदु
 उत्तर देने के अलावा, पूर्व-प्रशिक्षित मॉडल संगत आत्मविश्वास स्कोर भी देता है, जहां उत्तर टोकनयुक्त पाठ में शुरू और समाप्त होता है। आप [इस ट्यूटोरियल](https://huggingface.co/docs/transformers/task_summary) से पाइपलाइन एपीआई द्वारा समर्थित कार्यों के बारे में अधिक जान सकते हैं।
 
 अपने कार्य पर किसी भी पूर्व-प्रशिक्षित मॉडल को डाउनलोड करना और उसका उपयोग करना भी कोड की तीन पंक्तियों की तरह सरल है। यहाँ PyTorch संस्करण के लिए एक उदाहरण दिया गया है:
+
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 यहाँ समकक्ष है TensorFlow कोड:
+
 ```python
->>> from transformers import AutoTokenizer, TFAutoModel
+>> > from myTransformers import AutoTokenizer, TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="tf")
+>> > outputs = model(**inputs)
 ```
 
 टोकननाइज़र सभी पूर्व-प्रशिक्षित मॉडलों के लिए प्रीप्रोसेसिंग प्रदान करता है और इसे सीधे एक स्ट्रिंग (जैसे ऊपर दिए गए उदाहरण) या किसी सूची पर बुलाया जा सकता है। यह एक डिक्शनरी (तानाशाही) को आउटपुट करता है जिसे आप डाउनस्ट्रीम कोड में उपयोग कर सकते हैं या `**` अनपैकिंग एक्सप्रेशन के माध्यम से सीधे मॉडल को पास कर सकते हैं।
@@ -211,7 +213,7 @@ checkpoint: जाँच बिंदु
 जब इनमें से कोई एक बैकएंड सफलतापूर्वक स्थापित हो जाता है, तो ट्रांसफॉर्मर निम्नानुसार स्थापित किए जा सकते हैं:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 यदि आप उपयोग के मामलों को आज़माना चाहते हैं या आधिकारिक रिलीज़ से पहले नवीनतम इन-डेवलपमेंट कोड का उपयोग करना चाहते हैं, तो आपको [सोर्स से इंस्टॉल करना होगा](https://huggingface.co/docs/transformers/installation#installing-from-) स्रोत।
@@ -221,7 +223,7 @@ pip install transformers
 ट्रांसफॉर्मर कोंडा के माध्यम से निम्नानुसार स्थापित किया जा सकता है:
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_नोट:_** `huggingface` चैनल से `transformers` इंस्टॉल करना पुराना पड़ चुका है।

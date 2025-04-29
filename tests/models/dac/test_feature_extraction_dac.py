@@ -19,9 +19,9 @@ import unittest
 
 import numpy as np
 
-from transformers import DacFeatureExtractor
-from transformers.testing_utils import require_torch
-from transformers.utils.import_utils import is_torch_available
+from myTransformers import DacFeatureExtractor
+from myTransformers.testing_utils import require_torch
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 
@@ -49,7 +49,7 @@ def floats_list(shape, scale=1.0, rng=None, name=None):
 
 
 @require_torch
-# Copied from transformers.tests.encodec.test_feature_extraction_dac.EncodecFeatureExtractionTester with Encodec->Dac
+# Copied from myTransformers.tests.encodec.test_feature_extraction_dac.EncodecFeatureExtractionTester with Encodec->Dac
 class DacFeatureExtractionTester:
     # Ignore copy
     def __init__(
@@ -102,7 +102,7 @@ class DacFeatureExtractionTester:
 
 
 @require_torch
-# Copied from transformers.tests.encodec.test_feature_extraction_dac.EnCodecFeatureExtractionTest with Encodec->Dac
+# Copied from myTransformers.tests.encodec.test_feature_extraction_dac.EnCodecFeatureExtractionTest with Encodec->Dac
 class DacFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.TestCase):
     feature_extraction_class = DacFeatureExtractor
 

@@ -20,17 +20,17 @@ import pytest
 import torch
 from parameterized import parameterized
 
-from transformers import AutoTokenizer, GPT2TokenizerFast
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, GPT2TokenizerFast
+from myTransformers.testing_utils import (
     require_torch,
     require_torch_gpu,
     require_torchaudio,
 )
-from transformers.utils import is_torchaudio_available
+from myTransformers.utils import is_torchaudio_available
 
 
 if is_torchaudio_available():
-    from transformers import GraniteSpeechFeatureExtractor, GraniteSpeechProcessor
+    from myTransformers import GraniteSpeechFeatureExtractor, GraniteSpeechProcessor
 
 
 @pytest.skip("Public models not yet available", allow_module_level=True)

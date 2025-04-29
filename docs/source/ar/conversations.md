@@ -23,7 +23,7 @@ chat = [
 
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-generation", "meta-llama/Meta-Llama-3-8B-Instruct", torch_dtype=torch.bfloat16, device_map="auto")
 response = pipe(chat, max_new_tokens=512)
@@ -116,7 +116,7 @@ print(response[0]['generated_text'][-1]['content'])
 بعينة من التعليمات البرمجية، ثم نقوم بتفكيكها:
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 # إعداد الإدخال كما هو الحال من قبل
@@ -126,7 +126,8 @@ chat = [
 ]
 
 # 1: تحميل النموذج والمحلل
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto", torch_dtype=torch.bfloat16)
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto",
+                                             torch_dtype=torch.bfloat16)
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct")
 
 # 2: تطبيق قالب الدردشة
@@ -169,19 +170,21 @@ print("Decoded output:\n", decoded_output)
 ومن الممكن أيضًا النزول إلى أقل من 16 بت باستخدام "التكميم"، وهي طريقة لضغط أوزان النموذج بطريقة تفقد بعض المعلومات. يسمح هذا بضغط كل معلمة إلى 8 بتات أو 4 بتات أو حتى أقل. لاحظ أنه، خاصة في 4 بتات، قد تتأثر جودة ناتج النموذج سلبًا، ولكن غالبًا ما يكون هذا مقايضة تستحق القيام بها لتناسب نموذج محادثة أكبر وأكثر قدرة في الذاكرة. دعنا كيف يمكننا تطبيق ذلك باستخدام مكتبة `bitsandbytes`:
 
 ```python
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
-quantization_config = BitsAndBytesConfig(load_in_8bit=True) # يمكنك أيضًا تجربة load_in_4bit
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto", quantization_config=quantization_config)
+quantization_config = BitsAndBytesConfig(load_in_8bit=True)  # يمكنك أيضًا تجربة load_in_4bit
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto",
+                                             quantization_config=quantization_config)
 ```
 
 أو يمكننا القيام بنفس الشيء باستخدام واجهة برمجة التطبيقات "pipeline":
 
 ```python
-from transformers import pipeline, BitsAndBytesConfig
+from myTransformers import pipeline, BitsAndBytesConfig
 
-quantization_config = BitsAndBytesConfig(load_in_8bit=True) # يمكنك أيضًا تجربة load_in_4bit
-pipe = pipeline("text-generation", "meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto", model_kwargs={"quantization_config": quantization_config})
+quantization_config = BitsAndBytesConfig(load_in_8bit=True)  # يمكنك أيضًا تجربة load_in_4bit
+pipe = pipeline("text-generation", "meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto",
+                model_kwargs={"quantization_config": quantization_config})
 ```
 
 هناك عدة خيارات أخرى لكمية نماذج بخلاف `bitsandbytes` - يرجى الاطلاع على [دليل التكميم](./quantization) لمزيد من المعلومات.

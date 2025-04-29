@@ -41,10 +41,9 @@ The example below demonstrates how to chat with the model with [`Pipeline`] or t
 <hfoptions id="usage">
 <hfoption id="Pipeline">
 
-
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(
     task="text-generation",
@@ -58,10 +57,10 @@ pipe("Explain quantum computing simply. ", max_new_tokens=50)
 
 </hfoption>
 <hfoption id="AutoModel">
-    
+
 ```python
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-9b")
 model = AutoModelForCausalLM.from_pretrained(
@@ -94,7 +93,7 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to only quan
 
 ```python
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-27b")
@@ -114,9 +113,9 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 Use the [AttentionMaskVisualizer](https://github.com/huggingface/transformers/blob/beb9b5b02246b9b7ee81ddf938f93f44cfeaad19/src/transformers/utils/attention_visualizer.py#L139) to better understand what tokens the model can and cannot attend to.
 
-
 ```python
-from transformers.utils.attention_visualizer import AttentionMaskVisualizer
+from myTransformers.utils.attention_visualizer import AttentionMaskVisualizer
+
 visualizer = AttentionMaskVisualizer("google/gemma-2b")
 visualizer("You are an assistant. Make sure you print me") 
 ```
@@ -130,7 +129,7 @@ visualizer("You are an assistant. Make sure you print me")
 - Use a [`HybridCache`] instance to enable caching in Gemma 2. Gemma 2 doesn't support kv-caching strategies like [`DynamicCache`] or tuples of tensors because it uses sliding window attention every second layer.
 
     ```python
-    from transformers import AutoTokenizer, AutoModelForCausalLM, HybridCache
+    from myTransformers import AutoTokenizer, AutoModelForCausalLM, HybridCache
 
     model = AutoModelForCausalLM.from_pretrained("google/gemma-2-2b")
     tokenizer = AutoTokenizer.from_pretrained("google/gemma-2-2b")

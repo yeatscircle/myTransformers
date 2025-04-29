@@ -19,8 +19,8 @@ import os
 import sys
 from unittest.mock import patch
 
-from transformers import ViTMAEForPreTraining, Wav2Vec2ForPreTraining
-from transformers.testing_utils import (
+from myTransformers import ViTMAEForPreTraining, Wav2Vec2ForPreTraining
+from myTransformers.testing_utils import (
     CaptureLogger,
     TestCasePlus,
     backend_device_count,

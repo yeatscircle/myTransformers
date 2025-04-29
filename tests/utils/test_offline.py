@@ -16,8 +16,8 @@ import subprocess
 import sys
 import unittest
 
-from transformers import BertConfig, BertModel, BertTokenizer, pipeline
-from transformers.testing_utils import TestCasePlus, require_torch
+from myTransformers import BertConfig, BertModel, BertTokenizer, pipeline
+from myTransformers.testing_utils import TestCasePlus, require_torch
 
 
 class OfflineTests(TestCasePlus):
@@ -25,14 +25,14 @@ class OfflineTests(TestCasePlus):
     @unittest.skip("This test is failing on main")  # TODO matt/ydshieh, this test needs to be fixed
     def test_offline_mode(self):
         # this test is a bit tricky since TRANSFORMERS_OFFLINE can only be changed before
-        # `transformers` is loaded, and it's too late for inside pytest - so we are changing it
+        # `myTransformers` is loaded, and it's too late for inside pytest - so we are changing it
         # while running an external program
 
         # python one-liner segments
 
         # this must be loaded before socket.socket is monkey-patched
         load = """
-from transformers import BertConfig, BertModel, BertTokenizer, pipeline
+from myTransformers import BertConfig, BertModel, BertTokenizer, pipeline
         """
 
         run = """
@@ -67,7 +67,7 @@ socket.socket = offline_socket
         # python one-liner segments
         # this must be loaded before socket.socket is monkey-patched
         load = """
-from transformers import BertConfig, BertModel, BertTokenizer, pipeline
+from myTransformers import BertConfig, BertModel, BertTokenizer, pipeline
         """
 
         run = """
@@ -100,14 +100,14 @@ socket.socket = offline_socket
     @require_torch
     def test_offline_mode_sharded_checkpoint(self):
         # this test is a bit tricky since TRANSFORMERS_OFFLINE can only be changed before
-        # `transformers` is loaded, and it's too late for inside pytest - so we are changing it
+        # `myTransformers` is loaded, and it's too late for inside pytest - so we are changing it
         # while running an external program
 
         # python one-liner segments
 
         # this must be loaded before socket.socket is monkey-patched
         load = """
-from transformers import BertConfig, BertModel, BertTokenizer
+from myTransformers import BertConfig, BertModel, BertTokenizer
         """
 
         run = """
@@ -139,7 +139,7 @@ socket.socket = offline_socket
     @require_torch
     def test_offline_mode_pipeline_exception(self):
         load = """
-from transformers import pipeline
+from myTransformers import pipeline
         """
         run = """
 mname = "hf-internal-testing/tiny-random-bert"
@@ -161,7 +161,7 @@ socket.socket = offline_socket
     @require_torch
     def test_offline_model_dynamic_model(self):
         load = """
-from transformers import AutoModel
+from myTransformers import AutoModel
         """
         run = """
 mname = "hf-internal-testing/test_dynamic_model"
@@ -182,7 +182,7 @@ print("success")
         """
         Test `_is_offline_mode` helper (should respect both HF_HUB_OFFLINE and legacy TRANSFORMERS_OFFLINE env vars)
         """
-        load = "from transformers.utils import is_offline_mode"
+        load = "from myTransformers.utils import is_offline_mode"
         run = "print(is_offline_mode())"
 
         stdout, _ = self._execute_with_env(load, run)

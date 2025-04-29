@@ -17,8 +17,8 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import require_torch, require_torchvision, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_torchvision, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 
 if is_torch_available():
@@ -27,7 +27,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import TimmWrapperConfig, TimmWrapperImageProcessor
+    from myTransformers import TimmWrapperConfig, TimmWrapperImageProcessor
 
 
 @require_torch

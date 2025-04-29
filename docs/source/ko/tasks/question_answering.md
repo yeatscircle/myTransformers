@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에, 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 여러분의 모델을 업로드하고 커뮤니티에 공유할 수 있도록 Hugging Face 계정에 로그인하는 것이 좋습니다. 메시지가 표시되면 토큰을 입력해서 로그인합니다:
@@ -91,9 +91,9 @@ pip install transformers datasets evaluate
 다음 단계에서는 `question` 및 `context` 항목을 처리하기 위해 DistilBERT 토크나이저를 가져옵니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 질의 응답 태스크와 관련해서 특히 유의해야할 몇 가지 전처리 단계가 있습니다:
@@ -195,9 +195,9 @@ pip install transformers datasets evaluate
 이제 모델 훈련을 시작할 준비가 되었습니다! [`AutoModelForQuestionAnswering`]으로 DistilBERT를 가져옵니다:
 
 ```py
->>> from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 이제 세 단계만 남았습니다:
@@ -245,24 +245,27 @@ Keras로 모델을 미세 조정하는 것에 익숙하지 않다면, [여기](.
 TensorFlow를 이용한 모델을 미세 조정하려면 옵티마이저 함수, 학습률 스케쥴 및 몇 가지 훈련 하이퍼파라미터를 설정하는 것부터 시작해야합니다:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 2
->>> total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
->>> optimizer, schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_warmup_steps=0,
-...     num_train_steps=total_train_steps,
+>> > batch_size = 16
+>> > num_epochs = 2
+>> > total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
+>> > optimizer, schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_warmup_steps = 0,
+...
+num_train_steps = total_train_steps,
 ... )
 ```
 
 그 다음 [`TFAutoModelForQuestionAnswering`]으로 DistilBERT를 가져옵니다:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForQuestionAnswering("distilbert/distilbert-base-uncased")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]을 사용해서 데이터 세트를 `tf.data.Dataset` 형식으로 변환합니다:
@@ -294,11 +297,13 @@ TensorFlow를 이용한 모델을 미세 조정하려면 옵티마이저 함수,
 마지막으로 모델을 Hub로 푸시할 방법을 설정합니다. [`~transformers.PushToHubCallback`]에서 모델과 토크나이저를 푸시할 경로를 설정합니다:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_qa_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_qa_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -337,10 +342,10 @@ TensorFlow를 이용한 모델을 미세 조정하려면 옵티마이저 함수,
 추론을 위해 미세 조정한 모델을 테스트하는 가장 쉬운 방법은 [`pipeline`]을 사용하는 것 입니다. 모델을 사용해 질의 응답을 하기 위해서 `pipeline`을 인스턴스화하고 텍스트를 입력합니다:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
->>> question_answerer(question=question, context=context)
+>> > question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
+>> > question_answerer(question=question, context=context)
 {'score': 0.2058267742395401,
  'start': 10,
  'end': 95,
@@ -354,20 +359,21 @@ TensorFlow를 이용한 모델을 미세 조정하려면 옵티마이저 함수,
 텍스트를 토큰화해서 PyTorch 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, context, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, context, return_tensors="pt")
 ```
 
 모델에 입력을 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import AutoModelForQuestionAnswering
+>> > from myTransformers import AutoModelForQuestionAnswering
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> with torch.no_grad():
-...     outputs = model(**inputs)
+>> > model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > with torch.no_grad():
+    ...
+outputs = model(**inputs)
 ```
 
 모델의 출력에서 시작 및 종료 위치가 어딘지 가장 높은 확률을 얻습니다:
@@ -389,19 +395,19 @@ TensorFlow를 이용한 모델을 미세 조정하려면 옵티마이저 함수,
 텍스트를 토큰화해서 TensorFlow 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, text, return_tensors="tf")
 ```
 
 모델에 입력을 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> outputs = model(**inputs)
+>> > model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > outputs = model(**inputs)
 ```
 
 모델의 출력에서 시작 및 종료 위치가 어딘지 가장 높은 확률을 얻습니다:

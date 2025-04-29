@@ -20,10 +20,10 @@ import tempfile
 
 import numpy as np
 
-from transformers import is_flax_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import CaptureLogger, require_flax
-from transformers.utils import CONFIG_NAME, GENERATION_CONFIG_NAME, logging
+from myTransformers import is_flax_available
+from myTransformers.models.auto import get_values
+from myTransformers.testing_utils import CaptureLogger, require_flax
+from myTransformers.utils import CONFIG_NAME, GENERATION_CONFIG_NAME, logging
 
 
 if is_flax_available():
@@ -35,7 +35,7 @@ if is_flax_available():
     from flax.serialization import from_bytes
     from flax.traverse_util import flatten_dict, unflatten_dict
 
-    from transformers import (
+    from myTransformers import (
         FLAX_MODEL_FOR_QUESTION_ANSWERING_MAPPING,
         FLAX_MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
         FLAX_MODEL_MAPPING,
@@ -43,7 +43,7 @@ if is_flax_available():
         FlaxAutoModelForSequenceClassification,
         FlaxBertModel,
     )
-    from transformers.modeling_flax_utils import FLAX_WEIGHTS_INDEX_NAME, FLAX_WEIGHTS_NAME
+    from myTransformers.modeling_flax_utils import FLAX_WEIGHTS_INDEX_NAME, FLAX_WEIGHTS_NAME
 
     os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = "0.12"  # assumed parallelism: 8
 
@@ -462,7 +462,7 @@ class FlaxModelTesterMixin:
                     with self.assertRaises(ValueError):
                         new_model_without_prefix = FlaxAutoModel.from_pretrained(tmp_dir, vocab_size=10)
 
-                    logger = logging.get_logger("transformers.modeling_flax_utils")
+                    logger = logging.get_logger("myTransformers.modeling_flax_utils")
                     with CaptureLogger(logger) as cl:
                         new_model = FlaxAutoModelForSequenceClassification.from_pretrained(
                             tmp_dir, num_labels=42, ignore_mismatched_sizes=True

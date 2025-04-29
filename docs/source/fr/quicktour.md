@@ -23,7 +23,7 @@ Soyez opérationnel avec 🤗 Transformers ! Que vous soyez un développeur ou u
 Avant de commencer, assurez-vous que vous avez installé toutes les bibliothèques nécessaires :
 
 ```bash
-!pip install transformers datasets evaluate accelerate
+!pip install myTransformers datasets evaluate accelerate
 ```
 
 Vous aurez aussi besoin d'installer votre bibliothèque d'apprentissage profond favorite :
@@ -68,9 +68,9 @@ Le [`pipeline`] est le moyen le plus simple d'utiliser un modèle pré-entraîn�
 Commencez par créer une instance de [`pipeline`] et spécifiez la tâche pour laquelle vous souhaitez l'utiliser. Vous pouvez utiliser le [`pipeline`] pour n'importe laquelle des tâches mentionnées dans le tableau précédent. Pour obtenir une liste complète des tâches prises en charge, consultez la documentation de l'[API pipeline](./main_classes/pipelines). Dans ce guide, nous utiliserons le [`pipeline`] pour l'analyse des sentiments à titre d'exemple :
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis")
+>> > classifier = pipeline("sentiment-analysis")
 ```
 
 Le [`pipeline`] télécharge et stocke en cache un [modèle pré-entraîné](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) et un tokenizer par défaut pour l'analyse des sentiments. Vous pouvez maintenant utiliser le `classifier` sur le texte de votre choix :
@@ -93,10 +93,10 @@ label: NEGATIVE, avec le score de: 0.5309
 Le [`pipeline`] peut aussi itérer sur un jeu de données entier pour n'importe quelle tâche. Prenons par exemple la reconnaissance automatique de la parole :
 
 ```py
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+>> > speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
 ```
 
 Chargez un jeu de données audio (voir le 🤗 Datasets [Quick Start](https://huggingface.co/docs/datasets/quickstart#audio) pour plus de détails) sur lequel vous souhaitez itérer. Pour cet exemple, nous chargeons le jeu de données [MInDS-14](https://huggingface.co/datasets/PolyAI/minds14) :
@@ -137,20 +137,20 @@ Le [`pipeline`] peut être utilisé avec n'importe quel modèle du [Hub](https:/
 Utilisez [`AutoModelForSequenceClassification`] et [`AutoTokenizer`] pour charger le modèle pré-entraîné et le tokenizer adapté (plus de détails sur une `AutoClass` dans la section suivante) :
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </pt>
 <tf>
 Utilisez [`TFAutoModelForSequenceClassification`] et [`AutoTokenizer`] pour charger le modèle pré-entraîné et le tokenizer adapté (plus de détails sur une `TFAutoClass` dans la section suivante) :
 
 ```py
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -180,10 +180,10 @@ Un tokenizer est chargé de prétraiter le texte pour en faire un tableau de chi
 Chargez un tokenizer avec [`AutoTokenizer`] :
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 Passez votre texte au tokenizer :
@@ -243,10 +243,10 @@ Consultez le tutoriel [prétraitement](./preprocessing) pour plus de détails su
 🤗 Transformers fournit un moyen simple et unifié de charger des instances pré-entraînées. Cela signifie que vous pouvez charger un [`AutoModel`] comme vous chargeriez un [`AutoTokenizer`]. La seule différence est de sélectionner l'[`AutoModel`] approprié pour la tâche. Pour une classification de texte (ou de séquence de textes), vous devez charger [`AutoModelForSequenceClassification`] :
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -276,10 +276,10 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 🤗 Transformers fournit un moyen simple et unifié de charger des instances pré-entraînés. Cela signifie que vous pouvez charger un [`TFAutoModel`] comme vous chargeriez un [`AutoTokenizer`]. La seule différence est de sélectionner le [`TFAutoModel`] approprié pour la tâche. Pour une classification de texte (ou de séquence de textes), vous devez charger [`TFAutoModelForSequenceClassification`] :
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -352,19 +352,19 @@ Une fonctionnalité particulièrement cool 🤗 Transformers est la possibilité
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>
@@ -376,9 +376,9 @@ Vous pouvez modifier la configuration du modèle pour changer la façon dont un 
 Commencez par importer [`AutoConfig`], puis chargez le modèle pré-entraîné que vous voulez modifier. Dans [`AutoConfig.from_pretrained`], vous pouvez spécifier l'attribut que vous souhaitez modifier, tel que le nombre de têtes d'attention :
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
+>> > my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
 ```
 
 <frameworkcontent>
@@ -386,18 +386,18 @@ Commencez par importer [`AutoConfig`], puis chargez le modèle pré-entraîné q
 Créez un modèle personnalisé à partir de votre configuration avec [`AutoModel.from_config`] :
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> my_model = AutoModel.from_config(my_config)
+>> > my_model = AutoModel.from_config(my_config)
 ```
 </pt>
 <tf>
 Créez un modèle personnalisé à partir de votre configuration avec [`TFAutoModel.from_config`] :
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> my_model = TFAutoModel.from_config(my_config)
+>> > my_model = TFAutoModel.from_config(my_config)
 ```
 </tf>
 </frameworkcontent>
@@ -413,7 +413,7 @@ En fonction de votre tâche, vous passerez généralement les paramètres suivan
 1. Un [`PreTrainedModel`] ou un [`torch.nn.Module`](https://pytorch.org/docs/stable/nn.html#torch.nn.Module):
 
    ```py
-   >>> from transformers import AutoModelForSequenceClassification
+   >>> from myTransformers import AutoModelForSequenceClassification
 
    >>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -421,7 +421,7 @@ En fonction de votre tâche, vous passerez généralement les paramètres suivan
 2. [`TrainingArguments`] contient les hyperparamètres du modèle que vous pouvez changer comme le taux d'apprentissage, la taille de l'échantillon, et le nombre d'époques pour s'entraîner. Les valeurs par défaut sont utilisées si vous ne spécifiez pas d'hyperparamètres d'apprentissage :
 
    ```py
-   >>> from transformers import TrainingArguments
+   >>> from myTransformers import TrainingArguments
 
    >>> training_args = TrainingArguments(
    ...     output_dir="path/to/save/folder/",
@@ -435,7 +435,7 @@ En fonction de votre tâche, vous passerez généralement les paramètres suivan
 3. Une classe de prétraitement comme un tokenizer, un processeur d'images ou un extracteur de caractéristiques :
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -464,7 +464,7 @@ En fonction de votre tâche, vous passerez généralement les paramètres suivan
 6. Un [`DataCollatorWithPadding`] pour créer un échantillon d'exemples à partir de votre jeu de données :
 
    ```py
-   >>> from transformers import DataCollatorWithPadding
+   >>> from myTransformers import DataCollatorWithPadding
 
    >>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
    ```
@@ -472,15 +472,21 @@ En fonction de votre tâche, vous passerez généralement les paramètres suivan
 Maintenant, rassemblez tous ces éléments dans un [`Trainer`] :
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     processing_class=tokenizer,
-...     data_collator=data_collator,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+processing_class = tokenizer,
+...
+data_collator = data_collator,
 ... )  # doctest: +SKIP
 ```
 
@@ -507,7 +513,7 @@ Tous les modèles sont des modèles standard [`tf.keras.Model`](https://www.tens
 1. Vous commencez avec un modèle [`TFPreTrainedModel`] ou [`tf.keras.Model`](https://www.tensorflow.org/api_docs/python/tf/keras/Model) :
 
    ```py
-   >>> from transformers import TFAutoModelForSequenceClassification
+   >>> from myTransformers import TFAutoModelForSequenceClassification
 
    >>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -515,7 +521,7 @@ Tous les modèles sont des modèles standard [`tf.keras.Model`](https://www.tens
 2. Une classe de prétraitement comme un tokenizer, un processeur d'images ou un extracteur de caractéristiques :
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```

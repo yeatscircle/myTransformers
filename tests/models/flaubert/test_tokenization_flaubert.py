@@ -17,9 +17,9 @@ import json
 import os
 import unittest
 
-from transformers import FlaubertTokenizer
-from transformers.models.flaubert.tokenization_flaubert import VOCAB_FILES_NAMES
-from transformers.testing_utils import slow
+from myTransformers import FlaubertTokenizer
+from myTransformers.models.flaubert.tokenization_flaubert import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 
@@ -46,7 +46,7 @@ class FlaubertTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         with open(cls.merges_file, "w", encoding="utf-8") as fp:
             fp.write("\n".join(merges))
 
-    # Copied from transformers.tests.models.xlm.test_tokenization_xlm.XLMTokenizationTest.test_full_tokenizer
+    # Copied from myTransformers.tests.models.xlm.test_tokenization_xlm.XLMTokenizationTest.test_full_tokenizer
     def test_full_tokenizer(self):
         tokenizer = self.get_tokenizer()
         text = "lower newer"
@@ -59,7 +59,7 @@ class FlaubertTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         self.assertListEqual(tokenizer.convert_tokens_to_ids(input_tokens), input_bpe_tokens)
 
     @slow
-    # Copied from transformers.tests.models.xlm.test_tokenization_xlm.XLMTokenizationTest.test_sequence_builders
+    # Copied from myTransformers.tests.models.xlm.test_tokenization_xlm.XLMTokenizationTest.test_sequence_builders
     def test_sequence_builders(self):
         tokenizer = FlaubertTokenizer.from_pretrained("flaubert/flaubert_base_cased")
 

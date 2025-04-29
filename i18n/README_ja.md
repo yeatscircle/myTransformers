@@ -146,11 +146,11 @@ Hugging Faceチームによって作られた **[トランスフォーマーを�
 与えられた入力（テキスト、画像、音声、...）に対してすぐにモデルを使うために、我々は`pipeline`というAPIを提供しております。pipelineは、学習済みのモデルと、そのモデルの学習時に使用された前処理をグループ化したものです。以下は、肯定的なテキストと否定的なテキストを分類するためにpipelineを使用する方法です:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Allocate a pipeline for sentiment-analysis
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -198,25 +198,27 @@ Hugging Faceチームによって作られた **[トランスフォーマーを�
 [このチュートリアル](https://huggingface.co/docs/transformers/task_summary)では、`pipeline`APIでサポートされているタスクについて詳しく説明しています。
 
 `pipeline`に加えて、与えられたタスクに学習済みのモデルをダウンロードして使用するために必要なのは、3行のコードだけです。以下はPyTorchのバージョンです:
+
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 そしてこちらはTensorFlowと同等のコードとなります:
+
 ```python
->>> from transformers import AutoTokenizer, TFAutoModel
+>> > from myTransformers import AutoTokenizer, TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!", return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!", return_tensors="tf")
+>> > outputs = model(**inputs)
 ```
 
 トークナイザは学習済みモデルが期待するすべての前処理を担当し、単一の文字列 (上記の例のように) またはリストに対して直接呼び出すことができます。これは下流のコードで使用できる辞書を出力します。また、単純に ** 引数展開演算子を使用してモデルに直接渡すこともできます。
@@ -268,7 +270,7 @@ Hugging Faceチームによって作られた **[トランスフォーマーを�
 これらのバックエンドのいずれかがインストールされている場合、🤗Transformersは以下のようにpipを使用してインストールすることができます:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 もしサンプルを試したい、またはコードの最先端が必要で、新しいリリースを待てない場合は、[ライブラリをソースからインストール](https://huggingface.co/docs/transformers/installation#installing-from-source)する必要があります。
@@ -278,7 +280,7 @@ pip install transformers
 🤗Transformersは以下のようにcondaを使って設置することができます:
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_注意:_**  `huggingface` チャンネルから `transformers` をインストールすることは非推奨です。

@@ -18,9 +18,9 @@ import pickle
 import unittest
 from functools import lru_cache
 
-from transformers import AutoTokenizer
-from transformers.models.bert.tokenization_bert import BertTokenizer
-from transformers.models.bert_japanese.tokenization_bert_japanese import (
+from myTransformers import AutoTokenizer
+from myTransformers.models.bert.tokenization_bert import BertTokenizer
+from myTransformers.models.bert_japanese.tokenization_bert_japanese import (
     VOCAB_FILES_NAMES,
     BertJapaneseTokenizer,
     CharacterTokenizer,
@@ -29,7 +29,7 @@ from transformers.models.bert_japanese.tokenization_bert_japanese import (
     SudachiTokenizer,
     WordpieceTokenizer,
 )
-from transformers.testing_utils import custom_tokenizers, require_jumanpp, require_sudachi_projection
+from myTransformers.testing_utils import custom_tokenizers, require_jumanpp, require_sudachi_projection
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 
@@ -487,7 +487,7 @@ class AutoTokenizerCustomTest(unittest.TestCase):
 class BertTokenizerMismatchTest(unittest.TestCase):
     def test_tokenizer_mismatch_warning(self):
         EXAMPLE_BERT_JAPANESE_ID = "cl-tohoku/bert-base-japanese"
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             BertTokenizer.from_pretrained(EXAMPLE_BERT_JAPANESE_ID)
             self.assertTrue(
                 cm.records[0].message.startswith(
@@ -496,7 +496,7 @@ class BertTokenizerMismatchTest(unittest.TestCase):
                 )
             )
         EXAMPLE_BERT_ID = "google-bert/bert-base-cased"
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             BertJapaneseTokenizer.from_pretrained(EXAMPLE_BERT_ID)
             self.assertTrue(
                 cm.records[0].message.startswith(

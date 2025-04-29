@@ -61,10 +61,11 @@ GPT3/4, [Falcon](https://huggingface.co/tiiuae/falcon-40b), [Llama](https://hugg
 80GB A100 GPU 8개를 가진 노드에 접근할 수 있다면, BLOOM을 다음과 같이 로드할 수 있습니다.
 
 ```bash
-!pip install transformers accelerate bitsandbytes optimum
+!pip install myTransformers accelerate bitsandbytes optimum
 ```
+
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("bigscience/bloom", device_map="auto", pad_token_id=0)
 ```
@@ -78,10 +79,11 @@ model = AutoModelForCausalLM.from_pretrained("bigscience/bloom", device_map="aut
 먼저 모델과 토크나이저를 로드한 다음, 둘 다 Transformers의 [파이프라인](https://huggingface.co/docs/transformers/main_classes/pipelines) 객체에 전달합니다.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
 
-model = AutoModelForCausalLM.from_pretrained("bigcode/octocoder", torch_dtype=torch.bfloat16, device_map="auto", pad_token_id=0)
+model = AutoModelForCausalLM.from_pretrained("bigcode/octocoder", torch_dtype=torch.bfloat16, device_map="auto",
+                                             pad_token_id=0)
 tokenizer = AutoTokenizer.from_pretrained("bigcode/octocoder")
 
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)

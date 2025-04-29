@@ -31,7 +31,7 @@ In diesem Dokument werden wir versuchen zu erklären, worum es sich bei diesen v
 Beachten Sie, dass Sie im Idealfall eine Dev-Installation benötigen:
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 oder für eine bearbeitbare Installation:
@@ -43,7 +43,7 @@ pip install -e .[dev]
 innerhalb des Transformers Repo. Da die Anzahl der optionalen Abhängigkeiten von Transformers stark zugenommen hat, ist es möglich, dass Sie nicht alle davon bekommen können. Wenn die Dev-Installation fehlschlägt, stellen Sie sicher, dass Sie das Deep Learning-Framework, mit dem Sie arbeiten, installieren (PyTorch, TensorFlow und/oder Flax).
 
 ```bash
-pip install transformers[quality]
+pip install myTransformers[quality]
 ```
 
 oder für eine bearbeitbare Installation:
@@ -156,19 +156,19 @@ Wenn eine Datei eine vollständige Kopie einer anderen Datei ist, sollten Sie si
 Dieser Mechanismus stützt sich auf Kommentare der Form `# Kopiert von xxx`. Das `xxx` sollte den gesamten Pfad zu der Klasse der Funktion enthalten, die darunter kopiert wird. Zum Beispiel ist `RobertaSelfOutput` eine direkte Kopie der Klasse `BertSelfOutput`. Sie können also [hier](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L289) sehen, dass sie einen Kommentar hat:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertSelfOutput
+# Copied from myTransformers.models.bert.modeling_bert.BertSelfOutput
 ```
 
 Beachten Sie, dass Sie dies nicht auf eine ganze Klasse anwenden, sondern auf die entsprechenden Methoden, von denen kopiert wird. Zum Beispiel [hier](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L598) können Sie sehen, wie `RobertaPreTrainedModel._init_weights` von der gleichen Methode in `BertPreTrainedModel` mit dem Kommentar kopiert wird:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
+# Copied from myTransformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
 ```
 
 Manchmal ist die Kopie bis auf die Namen genau gleich: zum Beispiel verwenden wir in `RobertaAttention` `RobertaSelfAttention` anstelle von `BertSelfAttention`, aber ansonsten ist der Code genau derselbe. Aus diesem Grund unterstützt `#Copied from` einfache String-Ersetzungen mit der folgenden Syntax: `Kopiert von xxx mit foo->bar`. Das bedeutet, dass der Code kopiert wird, wobei alle Instanzen von "foo" durch "bar" ersetzt werden. Sie können sehen, wie es [hier](https://github.com/huggingface/transformers/blob/2bd7a27a671fd1d98059124024f580f8f5c0f3b5/src/transformers/models/roberta/modeling_roberta.py#L304C1-L304C86) in `RobertaAttention` mit dem Kommentar verwendet wird:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
+# Copied from myTransformers.models.bert.modeling_bert.BertAttention with Bert->Roberta
 ```
 
 Beachten Sie, dass um den Pfeil herum keine Leerzeichen stehen sollten (es sei denn, das Leerzeichen ist Teil des zu ersetzenden Musters, natürlich).
@@ -176,7 +176,7 @@ Beachten Sie, dass um den Pfeil herum keine Leerzeichen stehen sollten (es sei d
 Sie können mehrere Muster durch ein Komma getrennt hinzufügen. Zum Beispiel ist hier `CamemberForMaskedLM` eine direkte Kopie von `RobertaForMaskedLM` mit zwei Ersetzungen: `Roberta` zu `Camembert` und `ROBERTA` zu `CAMEMBERT`. Sie können [hier](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/camembert/modeling_camembert.py#L929) sehen, wie dies mit dem Kommentar gemacht wird:
 
 ```py
-# Copied from transformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
+# Copied from myTransformers.models.roberta.modeling_roberta.RobertaForMaskedLM with Roberta->Camembert, ROBERTA->CAMEMBERT
 ```
 
 Wenn die Reihenfolge eine Rolle spielt (weil eine der Ersetzungen mit einer vorherigen in Konflikt geraten könnte), werden die Ersetzungen von links nach rechts ausgeführt.
@@ -190,7 +190,7 @@ Wenn die Ersetzungen die Formatierung ändern (wenn Sie z.B. einen kurzen Namen 
 Eine andere Möglichkeit, wenn es sich bei den Mustern nur um verschiedene Umschreibungen derselben Ersetzung handelt (mit einer groß- und einer kleingeschriebenen Variante), besteht darin, die Option `all-casing` hinzuzufügen. [Hier](https://github.com/huggingface/transformers/blob/15082a9dc6950ecae63a0d3e5060b2fc7f15050a/src/transformers/models/mobilebert/modeling_mobilebert.py#L1237) ist ein Beispiel in `MobileBertForSequenceClassification` mit dem Kommentar:
 
 ```py
-# Copied from transformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
+# Copied from myTransformers.models.bert.modeling_bert.BertForSequenceClassification with Bert->MobileBert all-casing
 ```
 
 In diesem Fall wird der Code von `BertForSequenceClassification` kopiert, indem er ersetzt wird:

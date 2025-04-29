@@ -159,7 +159,7 @@ class QuantizationMessage(Message):
                     print(json.dumps({"blocks": blocks}))
 
                     client.chat_postMessage(
-                        channel="#transformers-ci-daily-quantization",
+                        channel="#myTransformers-ci-daily-quantization",
                         text=f"Results for {job}",
                         blocks=blocks,
                         thread_ts=self.thread_ts["ts"],
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     with open(f"ci_results_{job_name}/quantization_results.json", "w", encoding="UTF-8") as fp:
         json.dump(quantization_results, fp, indent=4, ensure_ascii=False)
 
-    target_workflow = "huggingface/transformers/.github/workflows/self-scheduled-caller.yml@refs/heads/main"
+    target_workflow = "huggingface/myTransformers/.github/workflows/self-scheduled-caller.yml@refs/heads/main"
     is_scheduled_ci_run = os.environ.get("CI_WORKFLOW_REF") == target_workflow
 
     # upload results to Hub dataset (only for the scheduled daily CI run on `main`)

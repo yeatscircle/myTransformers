@@ -42,8 +42,7 @@ Set `tp_plan="auto"` in [`~AutoModel.from_pretrained`] to enable tensor parallel
 ```py
 import os
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 # enable tensor parallelism
 model = AutoModelForCausalLM.from_pretrained(

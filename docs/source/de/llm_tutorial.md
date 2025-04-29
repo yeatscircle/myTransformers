@@ -32,7 +32,7 @@ Dieses Tutorial zeigt Ihnen, wie Sie:
 Bevor Sie beginnen, stellen Sie sicher, dass Sie alle erforderlichen Bibliotheken installiert haben:
 
 ```bash
-pip install transformers bitsandbytes>=0.39.0 -q
+pip install myTransformers bitsandbytes>=0.39.0 -q
 ```
 
 
@@ -78,10 +78,11 @@ Wenn Sie an der grundlegenden Verwendung von LLMs interessiert sind, ist unsere 
 Zunächst müssen Sie das Modell laden.
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "openlm-research/open_llama_7b", device_map="auto", load_in_4bit=True
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"openlm-research/open_llama_7b", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -95,10 +96,10 @@ Es gibt noch andere Möglichkeiten, ein Modell zu initialisieren, aber dies ist 
 Als nächstes müssen Sie Ihre Texteingabe mit einem [tokenizer](tokenizer_summary) vorverarbeiten.
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
->>> model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
+>> > tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
+>> > model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
 ```
 
 Die Variable `model_inputs` enthält die tokenisierte Texteingabe sowie die Aufmerksamkeitsmaske. Obwohl [`~generation.GenerationMixin.generate`] sein Bestes tut, um die Aufmerksamkeitsmaske abzuleiten, wenn sie nicht übergeben wird, empfehlen wir, sie für optimale Ergebnisse wann immer möglich zu übergeben.
@@ -119,12 +120,13 @@ Und das war's! Mit ein paar Zeilen Code können Sie sich die Macht eines LLM zun
 Es gibt viele [Generierungsstrategien](generation_strategies), und manchmal sind die Standardwerte für Ihren Anwendungsfall vielleicht nicht geeignet. Wenn Ihre Ausgaben nicht mit dem übereinstimmen, was Sie erwarten, haben wir eine Liste der häufigsten Fallstricke erstellt und wie Sie diese vermeiden können.
 
 ```py
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
->>> tokenizer.pad_token = tokenizer.eos_token  # Llama has no pad token by default
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "openlm-research/open_llama_7b", device_map="auto", load_in_4bit=True
+>> > tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
+>> > tokenizer.pad_token = tokenizer.eos_token  # Llama has no pad token by default
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"openlm-research/open_llama_7b", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -152,20 +154,20 @@ Wenn in der Datei [`~generation.GenerationConfig`] nichts angegeben ist, gibt `g
 Standardmäßig und sofern nicht in der Datei [`~generation.GenerationConfig`] angegeben, wählt `generate` bei jeder Iteration das wahrscheinlichste Token aus (gierige Dekodierung). Je nach Aufgabe kann dies unerwünscht sein; kreative Aufgaben wie Chatbots oder das Schreiben eines Aufsatzes profitieren vom Sampling. Andererseits profitieren Aufgaben, bei denen es auf die Eingabe ankommt, wie z.B. Audiotranskription oder Übersetzung, von der gierigen Dekodierung. Aktivieren Sie das Sampling mit `do_sample=True`. Mehr zu diesem Thema erfahren Sie in diesem [Blogbeitrag](https://huggingface.co/blog/how-to-generate).
 
 ```py
->>> # Set seed or reproducibility -- you don't need this unless you want full reproducibility
->>> from transformers import set_seed
->>> set_seed(0)
+>> >  # Set seed or reproducibility -- you don't need this unless you want full reproducibility
+>> > from myTransformers import set_seed
+>> > set_seed(0)
 
->>> model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
+>> > model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
 
->>> # LLM + greedy decoding = repetitive, boring output
->>> generated_ids = model.generate(**model_inputs)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # LLM + greedy decoding = repetitive, boring output
+>> > generated_ids = model.generate(**model_inputs)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat. I am a cat. I am a cat. I am a cat'
 
->>> # With sampling, the output becomes more creative!
->>> generated_ids = model.generate(**model_inputs, do_sample=True)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # With sampling, the output becomes more creative!
+>> > generated_ids = model.generate(**model_inputs, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat.\nI just need to be. I am always.\nEvery time'
 ```
 

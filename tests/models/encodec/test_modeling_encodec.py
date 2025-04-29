@@ -22,8 +22,8 @@ import unittest
 import numpy as np
 from datasets import Audio, load_dataset
 
-from transformers import AutoProcessor, EncodecConfig
-from transformers.testing_utils import (
+from myTransformers import AutoProcessor, EncodecConfig
+from myTransformers.testing_utils import (
     is_torch_available,
     require_torch,
     slow,
@@ -38,7 +38,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import EncodecFeatureExtractor, EncodecModel
+    from myTransformers import EncodecFeatureExtractor, EncodecModel
 
 
 def prepare_inputs_dict(
@@ -186,28 +186,28 @@ class EncodecModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase)
             expected_arg_names = ["input_values", "padding_mask", "bandwidth"]
             self.assertListEqual(arg_names[: len(expected_arg_names)], expected_arg_names)
 
-    @unittest.skip(reason="The EncodecModel is not transformers based, thus it does not have `inputs_embeds` logics")
+    @unittest.skip(reason="The EncodecModel is not myTransformers based, thus it does not have `inputs_embeds` logics")
     def test_inputs_embeds(self):
         pass
 
-    @unittest.skip(reason="The EncodecModel is not transformers based, thus it does not have `inputs_embeds` logics")
+    @unittest.skip(reason="The EncodecModel is not myTransformers based, thus it does not have `inputs_embeds` logics")
     def test_model_get_set_embeddings(self):
         pass
 
     @unittest.skip(
-        reason="The EncodecModel is not transformers based, thus it does not have the usual `attention` logic"
+        reason="The EncodecModel is not myTransformers based, thus it does not have the usual `attention` logic"
     )
     def test_retain_grad_hidden_states_attentions(self):
         pass
 
     @unittest.skip(
-        reason="The EncodecModel is not transformers based, thus it does not have the usual `attention` logic"
+        reason="The EncodecModel is not myTransformers based, thus it does not have the usual `attention` logic"
     )
     def test_torchscript_output_attentions(self):
         pass
 
     @unittest.skip(
-        reason="The EncodecModel is not transformers based, thus it does not have the usual `hidden_states` logic"
+        reason="The EncodecModel is not myTransformers based, thus it does not have the usual `hidden_states` logic"
     )
     def test_torchscript_output_hidden_state(self):
         pass
@@ -303,7 +303,7 @@ class EncodecModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase)
             self.clear_torch_jit_class_registry()
 
     @unittest.skip(
-        reason="The EncodecModel is not transformers based, thus it does not have the usual `attention` logic"
+        reason="The EncodecModel is not myTransformers based, thus it does not have the usual `attention` logic"
     )
     def test_attention_outputs(self):
         pass
@@ -338,7 +338,7 @@ class EncodecModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase)
             torch.testing.assert_close(hidden_states_no_chunk, hidden_states_with_chunk, rtol=1e-1, atol=1e-2)
 
     @unittest.skip(
-        reason="The EncodecModel is not transformers based, thus it does not have the usual `hidden_states` logic"
+        reason="The EncodecModel is not myTransformers based, thus it does not have the usual `hidden_states` logic"
     )
     def test_hidden_states_output(self):
         pass

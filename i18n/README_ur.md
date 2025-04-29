@@ -139,13 +139,12 @@ limitations under the License.
 
 دیے گئے ان پٹ (متن، تصویر، آڈیو، ...) پر ماڈل کو فوری طور پر استعمال کرنے کے لیے، ہم pipeline API فراہم کرتے ہیں۔ پائپ لائنز ایک پیشگی تربیت یافتہ ماڈل کو اس ماڈل کی تربیت کے دوران استعمال ہونے والے پری پروسیسنگ کے ساتھ گروپ کرتی ہیں۔ یہاں یہ ہے کہ مثبت اور منفی متون کی درجہ بندی کے لیے پائپ لائن کو جلدی سے کیسے استعمال کیا جائے:
 
-
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # جذبات کے تجزیے کے لیے ایک پائپ لائن مختص کریں
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -197,24 +196,25 @@ limitations under the License.
 &#8207;`pipeline` کے علاوہ، کسی بھی پیشگی تربیت یافتہ ماڈل کو آپ کے دیے گئے کام پر ڈاؤن لوڈ اور استعمال کرنے کے لیے، صرف تین لائنوں کا کوڈ کافی ہے۔ یہاں PyTorch ورژن ہے:
 
 ```python
->>> from transformers import AutoTokenizer، AutoModel
+>> > from myTransformers import AutoTokenizer، AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!"، return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!"، return_tensors = "pt")
+>> > outputs = model(**inputs)
 ```
 
 اور یہاں TensorFlow کے لیے مساوی کوڈ ہے:
+
 ```python
->>> from transformers import AutoTokenizer، TFAutoModel
+>> > from myTransformers import AutoTokenizer، TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!"، return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!"، return_tensors = "tf")
+>> > outputs = model(**inputs)
 ```
 
 ٹوکینائزر تمام پری پروسیسنگ کا ذمہ دار ہے جس کی پیشگی تربیت یافتہ ماڈل کو ضرورت ہوتی ہے اور اسے براہ راست ایک واحد سٹرنگ (جیسا کہ اوپر کی مثالوں میں) یا ایک فہرست پر کال کیا جا سکتا ہے۔ یہ ایک لغت فراہم کرے گا جسے آپ ڈاؤن اسٹریم کوڈ میں استعمال کر سکتے ہیں یا سادہ طور پر اپنے ماڈل کو ** دلیل انپیکنگ آپریٹر کے ذریعے براہ راست پاس کر سکتے ہیں۔
@@ -271,7 +271,7 @@ limitations under the License.
 جب ان میں سے کوئی ایک بیک اینڈ انسٹال ہو جائے، تو 🤗 Transformers کو pip کے ذریعے مندرجہ ذیل طریقے سے انسٹال کیا جا سکتا ہے:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 اگر آپ مثالوں کے ساتھ کھیلنا چاہتے ہیں یا آپ کو کوڈ کا تازہ ترین ورژن چاہیے اور آپ نئے ریلیز کا انتظار نہیں کر سکتے، تو آپ کو [سورس سے لائبریری انسٹال کرنی ہوگی](https://huggingface.co/docs/transformers/installation#installing-from-source)۔
@@ -281,7 +281,7 @@ pip install transformers
 &#8207;🤗 Transformers کو conda کے ذریعے مندرجہ ذیل طریقے سے انسٹال کیا جا سکتا ہے:
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_نوٹ:_** `transformers` کو `huggingface` چینل سے انسٹال کرنا اب ختم کیا جا چکا ہے۔

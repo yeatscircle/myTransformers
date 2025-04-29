@@ -22,7 +22,7 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AddedToken,
     MarkupLMTokenizerFast,
     SpecialTokensMixin,
@@ -30,8 +30,8 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.models.markuplm.tokenization_markuplm import VOCAB_FILES_NAMES, MarkupLMTokenizer
-from transformers.testing_utils import require_tokenizers, require_torch, slow
+from myTransformers.models.markuplm.tokenization_markuplm import VOCAB_FILES_NAMES, MarkupLMTokenizer
+from myTransformers.testing_utils import require_tokenizers, require_torch, slow
 
 from ...test_tokenization_common import SMALL_TRAINING_CORPUS, TokenizerTesterMixin, merge_model_tokenizer_mappings
 
@@ -1057,7 +1057,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 
@@ -1722,7 +1722,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 question_1, seq_2, xpaths=xpaths_2, padding=padding_state, truncation=False
                             )
@@ -1738,7 +1738,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(
                                 [question_1], [seq_2], xpaths=[xpaths_2], padding=padding_state, truncation=False
                             )
@@ -2050,7 +2050,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, xpaths=xpaths_1, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                             self.assertNotEqual(len(output["xpath_tags_seq"]), model_max_length)
@@ -2064,7 +2064,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], xpaths=[xpaths_1], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                             self.assertNotEqual(len(output["xpath_tags_seq"][0]), model_max_length)
@@ -2245,7 +2245,7 @@ class MarkupLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
 
         encoding_fast = tokenizer_fast(nodes, xpaths=xpaths)
 
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             tokenizer_fast.pad(encoding_fast)
         self.assertEqual(len(cm.records), 1)
         self.assertIn(

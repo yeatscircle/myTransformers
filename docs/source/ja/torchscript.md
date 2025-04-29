@@ -68,7 +68,7 @@ TorchScriptでは、重みが連結されているモデルをエクスポート
 TorchScriptで`BertModel`をエクスポートするには、`BertConfig`クラスから`BertModel`をインスタンス化し、それをファイル名`traced_bert.pt`でディスクに保存します：
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 enc = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
@@ -157,7 +157,7 @@ BERT（Bidirectional Encoder Representations from Transformers）アーキテク
 モデルをAWS NEURON用に変換するには、[PythonでTorchScriptを使用する](torchscript#using-torchscript-in-python) と同じコードを使用して `BertModel` をトレースします。Python APIを介してNeuron SDKのコンポーネントにアクセスするために、`torch.neuron` フレームワーク拡張をインポートします。
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 import torch.neuron
 ```

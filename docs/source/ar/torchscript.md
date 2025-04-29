@@ -52,7 +52,7 @@
 لتصدير `BertModel` باستخدام TorchScript، قم بتهيئة ـ `BertModel` من فئة `BertConfig` ثم احفظه على القرص تحت اسم الملف `traced_bert.pt`:
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 enc = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
@@ -137,7 +137,7 @@ traced_model(tokens_tensor, segments_tensors)
 قم بتحويل نموذج لـ AWS NEURON باستخدام نفس التعليمات البرمجية من [استخدام TorchScript في Python](torchscript#using-torchscript-in-python) لتتبع `BertModel`. قم باستيراد امتداد إطار عمل `torch.neuron` للوصول إلى مكونات Neuron SDK من خلال واجهة برمجة تطبيقات Python:
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 import torch.neuron
 ```

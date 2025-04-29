@@ -22,9 +22,9 @@ import unittest
 import numpy as np
 import requests
 
-from transformers import BlipConfig, BlipTextConfig, BlipVisionConfig
-from transformers.testing_utils import require_tf, require_vision, slow
-from transformers.utils import is_tf_available, is_vision_available
+from myTransformers import BlipConfig, BlipTextConfig, BlipVisionConfig
+from myTransformers.testing_utils import require_tf, require_vision, slow
+from myTransformers.utils import is_tf_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, floats_tensor, ids_tensor, random_attention_mask
@@ -34,7 +34,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import (
+    from myTransformers import (
         TFBlipForConditionalGeneration,
         TFBlipForImageTextRetrieval,
         TFBlipForQuestionAnswering,
@@ -42,13 +42,13 @@ if is_tf_available():
         TFBlipTextModel,
         TFBlipVisionModel,
     )
-    from transformers.modeling_tf_utils import keras
+    from myTransformers.modeling_tf_utils import keras
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import BlipProcessor
+    from myTransformers import BlipProcessor
 
 
 class TFBlipVisionModelTester:

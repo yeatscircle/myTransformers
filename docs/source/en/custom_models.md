@@ -38,24 +38,25 @@ The main rules for customizing a configuration are:
 > Add `model_type` to the configuration class to enable [AutoClass](./models#autoclass) support.
 
 ```py
-from transformers import PretrainedConfig
+from myTransformers import PretrainedConfig
 from typing import List
+
 
 class ResnetConfig(PretrainedConfig):
     model_type = "resnet"
 
     def __init__(
-        self,
-        block_type="bottleneck",
-        layers: List[int] = [3, 4, 6, 3],
-        num_classes: int = 1000,
-        input_channels: int = 3,
-        cardinality: int = 1,
-        base_width: int = 64,
-        stem_width: int = 64,
-        stem_type: str = "",
-        avg_down: bool = False,
-        **kwargs,
+            self,
+            block_type="bottleneck",
+            layers: List[int] = [3, 4, 6, 3],
+            num_classes: int = 1000,
+            input_channels: int = 3,
+            cardinality: int = 1,
+            base_width: int = 64,
+            stem_width: int = 64,
+            stem_type: str = "",
+            avg_down: bool = False,
+            **kwargs,
     ):
         if block_type not in ["basic", "bottleneck"]:
             raise ValueError(f"`block_type` must be 'basic' or bottleneck', got {block_type}.")
@@ -100,11 +101,12 @@ Define a mapping between the block types and classes. Everything else is created
 > Add `config_class` to the model class to enable [AutoClass](#autoclass-support) support.
 
 ```py
-from transformers import PreTrainedModel
+from myTransformers import PreTrainedModel
 from timm.models.resnet import BasicBlock, Bottleneck, ResNet
 from .configuration_resnet import ResnetConfig
 
 BLOCK_MAPPING = {"basic": BasicBlock, "bottleneck": Bottleneck}
+
 
 class ResnetModel(PreTrainedModel):
     config_class = ResnetConfig
@@ -197,7 +199,7 @@ Make sure you have the `model_type` attribute (must be different from existing m
 > The first argument to [`AutoConfig.register`] must match the `model_type` attribute in the custom configuration class, and the first argument to [`AutoModel.register`] must match the `config_class` of the custom model class.
 
 ```py
-from transformers import AutoConfig, AutoModel, AutoModelForImageClassification
+from myTransformers import AutoConfig, AutoModel, AutoModelForImageClassification
 
 AutoConfig.register("resnet", ResnetConfig)
 AutoModel.register(ResnetConfig, ResnetModel)

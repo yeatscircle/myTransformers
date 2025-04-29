@@ -37,7 +37,7 @@ rendered properly in your Markdown viewer.
 
 시작하기 전에 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 ```bash
-pip install -q datasets transformers evaluate timm albumentations
+pip install -q datasets myTransformers evaluate timm albumentations
 ```
 
 허깅페이스 허브에서 데이터 세트를 가져오기 위한 🤗 Datasets과 모델을 학습하기 위한 🤗 Transformers, 데이터를 증강하기 위한 `albumentations`를 사용합니다.
@@ -169,10 +169,10 @@ DatasetDict({
 사전 훈련된 모델과 동일한 체크포인트에서 이미지 프로세서를 인스턴스화합니다.
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "facebook/detr-resnet-50"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > checkpoint = "facebook/detr-resnet-50"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 ```
 
 `image_processor`에 이미지를 전달하기 전에, 데이터 세트에 두 가지 전처리를 적용해야 합니다:
@@ -317,13 +317,17 @@ DatasetDict({
 또한, `ignore_mismatched_sizes=True`를 지정하여 기존 분류 헤드(모델에서 분류에 사용되는 마지막 레이어)를 새 분류 헤드로 대체합니다.
 
 ```py
->>> from transformers import AutoModelForObjectDetection
+>> > from myTransformers import AutoModelForObjectDetection
 
->>> model = AutoModelForObjectDetection.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
-...     ignore_mismatched_sizes=True,
+>> > model = AutoModelForObjectDetection.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
+...
+ignore_mismatched_sizes = True,
 ... )
 ```
 
@@ -332,39 +336,54 @@ DatasetDict({
 이미지 열이 없는 경우 `pixel_values`를 생성할 수 없기 때문에 `remove_unused_columns`를 `False`로 설정해야 합니다.
 모델을 Hub에 업로드하여 공유하려면 `push_to_hub`를 `True`로 설정하십시오(허깅페이스에 로그인하여 모델을 업로드해야 합니다).
 
-
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(
-...     output_dir="detr-resnet-50_finetuned_cppe5",
-...     per_device_train_batch_size=8,
-...     num_train_epochs=10,
-...     fp16=True,
-...     save_steps=200,
-...     logging_steps=50,
-...     learning_rate=1e-5,
-...     weight_decay=1e-4,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = "detr-resnet-50_finetuned_cppe5",
+...
+per_device_train_batch_size = 8,
+...
+num_train_epochs = 10,
+...
+fp16 = True,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+learning_rate = 1e-5,
+...
+weight_decay = 1e-4,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 마지막으로 `model`, `training_args`, `collate_fn`, `image_processor`와 데이터 세트(`cppe5`)를 모두 가져온 후, [`~transformers.Trainer.train`]를 호출합니다.
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=collate_fn,
-...     train_dataset=cppe5["train"],
-...     processing_class=image_processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = collate_fn,
+...
+train_dataset = cppe5["train"],
+...
+processing_class = image_processor,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 
 `training_args`에서 `push_to_hub`를 `True`로 설정한 경우, 학습 체크포인트는 허깅페이스 허브에 업로드됩니다.
@@ -533,14 +552,14 @@ DETR 모델을 미세 조정 및 평가하고, 허깅페이스 허브에 업로�
 모델과 함께 객체 탐지를 위한 파이프라인을 인스턴스화하고, 이미지를 전달하세요:
 
 ```py
->>> from transformers import pipeline
->>> import requests
+>> > from myTransformers import pipeline
+>> > import requests
 
->>> url = "https://i.imgur.com/2lnWoly.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://i.imgur.com/2lnWoly.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> obj_detector = pipeline("object-detection", model="devonho/detr-resnet-50_finetuned_cppe5")
->>> obj_detector(image)
+>> > obj_detector = pipeline("object-detection", model="devonho/detr-resnet-50_finetuned_cppe5")
+>> > obj_detector(image)
 ```
 
 만약 원한다면 수동으로 `pipeline`의 결과를 재현할 수 있습니다:

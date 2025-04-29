@@ -17,15 +17,15 @@ import unittest
 import numpy as np
 from huggingface_hub.utils import insecure_hashlib
 
-from transformers import (
+from myTransformers import (
     MODEL_FOR_MASK_GENERATION_MAPPING,
     is_tf_available,
     is_torch_available,
     is_vision_available,
     pipeline,
 )
-from transformers.pipelines import MaskGenerationPipeline
-from transformers.testing_utils import (
+from myTransformers.pipelines import MaskGenerationPipeline
+from myTransformers.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_tf,
@@ -36,12 +36,12 @@ from transformers.testing_utils import (
 
 
 if is_tf_available():
-    from transformers import TF_MODEL_FOR_MASK_GENERATION_MAPPING
+    from myTransformers import TF_MODEL_FOR_MASK_GENERATION_MAPPING
 else:
     TF_MODEL_FOR_MASK_GENERATION_MAPPING = None
 
 if is_torch_available():
-    from transformers import MODEL_FOR_MASK_GENERATION_MAPPING
+    from myTransformers import MODEL_FOR_MASK_GENERATION_MAPPING
 else:
     MODEL_FOR_MASK_GENERATION_MAPPING = None
 

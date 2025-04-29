@@ -38,9 +38,9 @@ Quasi tutti i compiti di NLP iniziano con un tokenizer. Un tokenizer converte il
 Carica un tokenizer con [`AutoTokenizer.from_pretrained`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("FacebookAI/xlm-roberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("FacebookAI/xlm-roberta-base")
 ```
 
 Poi tokenizza il tuo input come mostrato in seguito:
@@ -59,10 +59,11 @@ Per compiti inerenti a audio e video, un feature extractor processa il segnale a
 Carica un feature extractor con [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained(
-...     "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained(
+    ...
+"ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -73,9 +74,9 @@ Compiti multimodali richiedono un processore che combini i due tipi di strumenti
 Carica un processore con [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
+>> > processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
 ```
 
 ## AutoModel
@@ -85,17 +86,17 @@ Carica un processore con [`AutoProcessor.from_pretrained`]:
 Infine, le classi `AutoModelFor` ti permettono di caricare un modello pre-allenato per un determinato compito (guarda [qui](model_doc/auto) per una lista completa di compiti presenti). Per esempio, carica un modello per la classificazione di sequenze con [`AutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Semplicemente utilizza lo stesso checkpoint per caricare un'architettura per un task differente:
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Generalmente, raccomandiamo di utilizzare la classe `AutoTokenizer` e la classe `AutoModelFor` per caricare istanze pre-allenate dei modelli. Questo ti assicurerà di aver caricato la corretta architettura ogni volta. Nel prossimo [tutorial](preprocessing), imparerai come utilizzare il tokenizer, il feature extractor e il processore per elaborare un dataset per il fine-tuning.
@@ -105,17 +106,17 @@ Generalmente, raccomandiamo di utilizzare la classe `AutoTokenizer` e la classe 
 Infine, le classi `TFAutoModelFor` ti permettono di caricare un modello pre-allenato per un determinato compito (guarda [qui](model_doc/auto) per una lista completa di compiti presenti). Per esempio, carica un modello per la classificazione di sequenze con [`TFAutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Semplicemente utilizza lo stesso checkpoint per caricare un'architettura per un task differente:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Generalmente, raccomandiamo di utilizzare la classe `AutoTokenizer` e la classe `TFAutoModelFor` per caricare istanze pre-allenate dei modelli. Questo ti assicurerà di aver caricato la corretta architettura ogni volta. Nel prossimo [tutorial](preprocessing), imparerai come utilizzare il tokenizer, il feature extractor e il processore per elaborare un dataset per il fine-tuning.

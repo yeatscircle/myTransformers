@@ -21,7 +21,7 @@ from pathlib import Path
 from huggingface_hub import hf_hub_download
 from requests.exceptions import HTTPError
 
-from transformers.utils import (
+from myTransformers.utils import (
     CONFIG_NAME,
     FLAX_WEIGHTS_NAME,
     TF2_WEIGHTS_NAME,
@@ -87,7 +87,7 @@ class GetFromCacheTests(unittest.TestCase):
         self.assertIsNone(path)
 
         # Under the mock environment, hf_hub_download will always raise an HTTPError
-        with mock.patch("transformers.utils.hub.hf_hub_download", side_effect=HTTPError) as mock_head:
+        with mock.patch("myTransformers.utils.hub.hf_hub_download", side_effect=HTTPError) as mock_head:
             path = cached_file(RANDOM_BERT, "conf", _raise_exceptions_for_connection_errors=False)
             self.assertIsNone(path)
             # This check we did call the fake head request
@@ -193,7 +193,7 @@ class GetFromCacheTests(unittest.TestCase):
     def test_cached_files_exception_raised(self):
         """Test that unhadled exceptions, e.g. ModuleNotFoundError, is properly re-raised by cached_files when hf_hub_download fails."""
         with mock.patch(
-            "transformers.utils.hub.hf_hub_download", side_effect=ModuleNotFoundError("No module named 'MockModule'")
+            "myTransformers.utils.hub.hf_hub_download", side_effect=ModuleNotFoundError("No module named 'MockModule'")
         ):
             with self.assertRaises(ModuleNotFoundError):
                 # The error should be re-raised by cached_files, not caught in the exception handling block

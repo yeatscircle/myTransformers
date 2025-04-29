@@ -57,9 +57,10 @@ model.set_output_embeddings(resized_embeddings)
 ## Usage Example
 
 #### Instruct model
+
 ```python
 import torch
-from transformers import MllamaForConditionalGeneration, AutoProcessor
+from myTransformers import MllamaForConditionalGeneration, AutoProcessor
 
 model_id = "meta-llama/Llama-3.2-11B-Vision-Instruct"
 model = MllamaForConditionalGeneration.from_pretrained(model_id, device_map="auto", torch_dtype=torch.bfloat16)
@@ -68,7 +69,7 @@ processor = AutoProcessor.from_pretrained(model_id)
 messages = [
     [
         {
-            "role": "user", 
+            "role": "user",
             "content": [
                 {"type": "image", "url": "https://llava-vl.github.io/static/images/view.jpg"},
                 {"type": "text", "text": "What does the image show?"}
@@ -76,17 +77,19 @@ messages = [
         }
     ],
 ]
-inputs = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt").to(model.device)
+inputs = processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=True, return_dict=True,
+                                       return_tensors="pt").to(model.device)
 output = model.generate(**inputs, max_new_tokens=25)
 print(processor.decode(output[0]))
 ```
 
 #### Base model
+
 ```python
 import requests
 import torch
 from PIL import Image
-from transformers import MllamaForConditionalGeneration, AutoProcessor
+from myTransformers import MllamaForConditionalGeneration, AutoProcessor
 
 model_id = "meta-llama/Llama-3.2-11B-Vision"
 model = MllamaForConditionalGeneration.from_pretrained(model_id, device_map="auto", torch_dtype=torch.bfloat16)

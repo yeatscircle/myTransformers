@@ -150,10 +150,11 @@ Flax에서 모델을 사용하는 경우, PyTorch에서 Flax로 체크포인트�
 - `{Hub 사용자 이름}/{모델 이름}` 형식의 `hub_model_id`
 
 ```py
->>> from transformers import PushToHubCallback
+>> > from myTransformers import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="./your_model_save_path", tokenizer=tokenizer, hub_model_id="your-username/my-awesome-model"
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "./your_model_save_path", tokenizer = tokenizer, hub_model_id = "your-username/my-awesome-model"
 ... )
 ```
 
@@ -178,9 +179,9 @@ Flax에서 모델을 사용하는 경우, PyTorch에서 Flax로 체크포인트�
 이렇게 하면 사용자 이름 아래에 모델 이름 `my-awesome-model`로 저장소가 생성됩니다. 이제 사용자는 `from_pretrained` 함수를 사용하여 모델을 가져올 수 있습니다:
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> model = AutoModel.from_pretrained("your_username/my-awesome-model")
+>> > model = AutoModel.from_pretrained("your_username/my-awesome-model")
 ```
 
 조직에 속하고 모델을 조직 이름으로 대신 푸시하려면 `repo_id`에 추가하세요:

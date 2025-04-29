@@ -20,8 +20,8 @@ import unittest
 
 import numpy as np
 
-from transformers import PretrainedConfig, VitsConfig
-from transformers.testing_utils import (
+from myTransformers import PretrainedConfig, VitsConfig
+from myTransformers.testing_utils import (
     is_flaky,
     is_torch_available,
     require_torch,
@@ -30,7 +30,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.trainer_utils import set_seed
+from myTransformers.trainer_utils import set_seed
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -45,7 +45,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import VitsModel, VitsTokenizer
+    from myTransformers import VitsModel, VitsTokenizer
 
 
 CONFIG_NAME = "config.json"

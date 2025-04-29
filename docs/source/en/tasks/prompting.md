@@ -23,10 +23,11 @@ Prompt engineering or prompting, uses natural language to improve large language
 Try prompting a LLM to classify some text. When you create a prompt, it's important to provide very specific instructions about the task and what the result should look like.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
-pipeline = pipeline(task="text-generation", model="mistralai/Mistal-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
+pipeline = pipeline(task="text-generation", model="mistralai/Mistal-7B-Instruct-v0.1", torch_dtype=torch.bfloat16,
+                    device_map="auto")
 prompt = """Classify the text into neutral, negative or positive.
 Text: This movie is definitely one of my favorite movies of its kind. The interaction between respectable and morally strong characters is an ode to chivalry and the honor code amongst thieves and policemen.
 Sentiment:
@@ -35,8 +36,33 @@ Sentiment:
 outputs = pipeline(prompt, max_new_tokens=10)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: Classify the text into neutral, negative or positive. 
-Text: This movie is definitely one of my favorite movies of its kind. The interaction between respectable and morally strong characters is an ode to chivalry and the honor code amongst thieves and policemen.
+Result: Classify
+the
+text
+into
+neutral, negative or positive.
+Text: This
+movie is definitely
+one
+of
+my
+favorite
+movies
+of
+its
+kind.The
+interaction
+between
+respectable and morally
+strong
+characters is an
+ode
+to
+chivalry and the
+honor
+code
+amongst
+thieves and policemen.
 Sentiment:
 Positive
 ```
@@ -85,7 +111,7 @@ Few-shot prompting improves accuracy and performance by including specific examp
 The example below provides the model with 1 example (1-shot) of the output format (a date in MM/DD/YYYY format) it should return.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -97,10 +123,37 @@ Date:"""
 outputs = pipeline(prompt, max_new_tokens=12, do_sample=True, top_k=10)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: Text: The first human went into space and orbited the Earth on April 12, 1961.
-Date: 04/12/1961
-Text: The first-ever televised presidential debate in the United States took place on September 28, 1960, between presidential candidates John F. Kennedy and Richard Nixon. 
-Date: 09/28/1960
+Result: Text: The
+first
+human
+went
+into
+space and orbited
+the
+Earth
+on
+April
+12, 1961.
+Date: 04 / 12 / 1961
+Text: The
+first - ever
+televised
+presidential
+debate in the
+United
+States
+took
+place
+on
+September
+28, 1960, between
+presidential
+candidates
+John
+F.Kennedy and Richard
+Nixon.
+Date: 0
+9 / 28 / 1960
 ```
 
 The downside of few-shot prompting is that you need to create lengthier prompts which increases computation and latency. There is also a limit to prompt lengths. Finally, a model can learn unintended patterns from your examples and it doesn't work well on complex reasoning tasks.
@@ -112,7 +165,7 @@ Chain-of-thought (CoT) is effective at generating more coherent and well-reasone
 The example below provides the model with several prompts to work through intermediate reasoning steps.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -127,13 +180,59 @@ If you eat 6 muffins, how many are left?"""
 outputs = pipeline(prompt, max_new_tokens=20, do_sample=True, top_k=10)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: Let's go through this step-by-step:
-1. You start with 15 muffins.
-2. You eat 2 muffins, leaving you with 13 muffins.
-3. You give 5 muffins to your neighbor, leaving you with 8 muffins.
-4. Your partner buys 6 more muffins, bringing the total number of muffins to 14.
-5. Your partner eats 2 muffins, leaving you with 12 muffins.
-If you eat 6 muffins, how many are left?
+Result: Let
+'s go through this step-by-step:
+1.
+You
+start
+with 15 muffins.
+2.
+You
+eat
+2
+muffins, leaving
+you
+with 13 muffins.
+3.
+You
+give
+5
+muffins
+to
+your
+neighbor, leaving
+you
+with 8 muffins.
+4.
+Your
+partner
+buys
+6
+more
+muffins, bringing
+the
+total
+number
+of
+muffins
+to
+14.
+5.
+Your
+partner
+eats
+2
+muffins, leaving
+you
+with 12 muffins.
+If
+you
+eat
+6
+muffins, how
+many
+are
+left?
 Answer: 6
 ```
 
@@ -160,7 +259,7 @@ The examples below demonstrate prompting a LLM for different tasks.
 <hfoption id="named entity recognition">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -172,14 +271,14 @@ Named entities:
 outputs = pipeline(prompt, max_new_tokens=50, return_full_text=False)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result:  [Clément Delangue, Julien Chaumond, Thomas Wolf, company, New York City, chatbot app, teenagers]
+Result: [Clément Delangue, Julien Chaumond, Thomas Wolf, company, New York City, chatbot app, teenagers]
 ```
 
 </hfoption>
 <hfoption id="translation">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -191,14 +290,23 @@ Translation:
 outputs = pipeline(prompt, max_new_tokens=20, do_sample=True, top_k=10, return_full_text=False)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: À l'occasion, j'ai croyu plus de six choses impossibles
+Result: À
+l
+'occasion, j'
+ai
+croyu
+plus
+de
+six
+choses
+impossibles
 ```
 
 </hfoption>
 <hfoption id="summarization">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -210,14 +318,32 @@ Summary:
 outputs = pipeline(prompt, max_new_tokens=30, do_sample=True, top_k=10, return_full_text=False)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: Permaculture is the design process that involves mimicking natural ecosystems to provide sustainable solutions to basic needs. It is a holistic approach that comb
+Result: Permaculture is the
+design
+process
+that
+involves
+mimicking
+natural
+ecosystems
+to
+provide
+sustainable
+solutions
+to
+basic
+needs.It is a
+holistic
+approach
+that
+comb
 ```
 
 </hfoption>
 <hfoption id="question answering">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipeline = pipeline(model="mistralai/Mistral-7B-Instruct-v0.1", torch_dtype=torch.bfloat16, device_map="auto")
@@ -230,7 +356,11 @@ Answer:
 outputs = pipeline(prompt, max_new_tokens=10, do_sample=True, top_k=10, return_full_text=False)
 for output in outputs:
     print(f"Result: {output['generated_text']}")
-Result: A blender or food processor is the modern tool
+Result: A
+blender or food
+processor is the
+modern
+tool
 ```
 
 </hfoption>

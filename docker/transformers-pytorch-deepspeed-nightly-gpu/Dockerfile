@@ -12,7 +12,7 @@ RUN apt install -y libaio-dev
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
 ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
 
 RUN python3 -m pip uninstall -y torch torchvision torchaudio
 
@@ -22,7 +22,7 @@ RUN python3 -m pip uninstall -y torch torchvision torchaudio
 RUN python3 -m pip install --no-cache-dir -U --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/$CUDA
 
 # `datasets` requires pandas, pandas has some modules compiled with numpy=1.x causing errors
-RUN python3 -m pip install --no-cache-dir './transformers[deepspeed-testing]' 'pandas<2' 'numpy<2'
+RUN python3 -m pip install --no-cache-dir './myTransformers[deepspeed-testing]' 'pandas<2' 'numpy<2'
 
 RUN python3 -m pip install --no-cache-dir git+https://github.com/huggingface/accelerate@main#egg=accelerate
 
@@ -57,9 +57,9 @@ RUN python3 -m pip uninstall -y deepspeed
 #RUN git clone https://github.com/pytorch/TensorRT.git
 #RUN cd TensorRT/py && python3 setup.py install --fx-only
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop
 
 # Disable for now as deepspeed is not installed above. To be enabled once the issue is fixed.
 # RUN python3 -c "from deepspeed.launcher.runner import main"

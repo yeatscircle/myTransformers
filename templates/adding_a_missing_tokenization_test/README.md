@@ -24,7 +24,7 @@ Let's first [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo
 
 ```shell script
 git clone https://github.com/YOUR-USERNAME/transformers
-cd transformers
+cd myTransformers
 pip install -e ".[dev]"
 ```
 

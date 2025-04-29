@@ -29,8 +29,8 @@ import pytest
 from datasets import load_dataset
 from huggingface_hub import snapshot_download
 
-from transformers import Wav2Vec2Config, is_tf_available
-from transformers.testing_utils import (
+from myTransformers import Wav2Vec2Config, is_tf_available
+from myTransformers.testing_utils import (
     CaptureLogger,
     is_flaky,
     require_librosa,
@@ -39,7 +39,7 @@ from transformers.testing_utils import (
     run_test_in_subprocess,
     slow,
 )
-from transformers.utils import is_librosa_available, is_pyctcdecode_available
+from myTransformers.utils import is_librosa_available, is_pyctcdecode_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor
@@ -49,21 +49,21 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import (
+    from myTransformers import (
         AutoFeatureExtractor,
         TFWav2Vec2ForCTC,
         TFWav2Vec2ForSequenceClassification,
         TFWav2Vec2Model,
         Wav2Vec2Processor,
     )
-    from transformers.models.wav2vec2.modeling_tf_wav2vec2 import _compute_mask_indices
+    from myTransformers.models.wav2vec2.modeling_tf_wav2vec2 import _compute_mask_indices
 
 
 if is_pyctcdecode_available():
     import pyctcdecode.decoder
 
-    from transformers import Wav2Vec2ProcessorWithLM
-    from transformers.models.wav2vec2_with_lm import processing_wav2vec2_with_lm
+    from myTransformers import Wav2Vec2ProcessorWithLM
+    from myTransformers.models.wav2vec2_with_lm import processing_wav2vec2_with_lm
 
 
 if is_librosa_available():

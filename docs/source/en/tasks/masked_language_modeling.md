@@ -38,7 +38,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 We encourage you to log in to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to log in:
@@ -97,9 +97,9 @@ While this may look like a lot, you're only really interested in the `text` fiel
 For masked language modeling, the next step is to load a DistilRoBERTa tokenizer to process the `text` subfield:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
 ```
 
 You'll notice from the example above, the `text` field is actually nested inside `answers`. This means you'll need to extract the `text` subfield from its nested structure with the [`flatten`](https://huggingface.co/docs/datasets/process#flatten) method:
@@ -187,10 +187,10 @@ Now create a batch of examples using [`DataCollatorForLanguageModeling`]. It's m
 Use the end-of-sequence token as the padding token and specify `mlm_probability` to randomly mask tokens each time you iterate over the data:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 ```
 </pt>
 <tf>
@@ -198,9 +198,9 @@ Use the end-of-sequence token as the padding token and specify `mlm_probability`
 Use the end-of-sequence token as the padding token and specify `mlm_probability` to randomly mask tokens each time you iterate over the data:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -218,9 +218,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load DistilRoBERTa with [`AutoModelForMaskedLM`]:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 At this point, only three steps remain:
@@ -276,17 +276,17 @@ If you aren't familiar with finetuning a model with Keras, take a look at the ba
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Then you can load DistilRoBERTa with [`TFAutoModelForMaskedLM`]:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 Convert your datasets to the `tf.data.Dataset` format with [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -318,11 +318,13 @@ Configure the model for training with [`compile`](https://keras.io/api/models/mo
 This can be done by specifying where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_mlm_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_mlm_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -357,10 +359,10 @@ Come up with some text you'd like the model to fill in the blank with, and use t
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for fill-mask with your model, and pass your text to it. If you like, you can use the `top_k` parameter to specify how many predictions to return:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> mask_filler = pipeline("fill-mask", "username/my_awesome_eli5_mlm_model")
->>> mask_filler(text, top_k=3)
+>> > mask_filler = pipeline("fill-mask", "username/my_awesome_eli5_mlm_model")
+>> > mask_filler(text, top_k=3)
 [{'score': 0.5150994658470154,
   'token': 21300,
   'token_str': ' spiral',
@@ -380,21 +382,21 @@ The simplest way to try out your finetuned model for inference is to use it in a
 Tokenize the text and return the `input_ids` as PyTorch tensors. You'll also need to specify the position of the `<mask>` token:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="pt")
->>> mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
+>> > mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
 ```
 
 Pass your inputs to the model and return the `logits` of the masked token:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = AutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 Then return the three masked tokens with the highest probability and print them out:
@@ -413,21 +415,21 @@ The Milky Way is a small galaxy.
 Tokenize the text and return the `input_ids` as TensorFlow tensors. You'll also need to specify the position of the `<mask>` token:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="tf")
->>> mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
+>> > mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
 ```
 
 Pass your inputs to the model and return the `logits` of the masked token:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = TFAutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 Then return the three masked tokens with the highest probability and print them out:

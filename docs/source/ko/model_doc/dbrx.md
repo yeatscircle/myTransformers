@@ -40,7 +40,7 @@ DBRX Instruct와 DBRX Base에 대한 더 자세한 정보는 이 [기술 블로�
 `generate()` 메소드는 DBRX를 사용하여 텍스트를 생성하는 데 사용될 수 있습니다. 표준 어텐션 구현, 플래시 어텐션, PyTorch의 스케일된 내적 어텐션(Scaled Dot-Product Attention)을 사용하여 생성할 수 있습니다. 후자의 두 어텐션 구현 방식은 처리 속도를 크게 높여줍니다.
 
 ```python
-from transformers import DbrxForCausalLM, AutoTokenizer
+from myTransformers import DbrxForCausalLM, AutoTokenizer
 import torch
 
 tokenizer = AutoTokenizer.from_pretrained("databricks/dbrx-instruct", token="YOUR_HF_TOKEN")
@@ -49,11 +49,12 @@ model = DbrxForCausalLM.from_pretrained(
     device_map="auto",
     torch_dtype=torch.bfloat16,
     token="YOUR_HF_TOKEN",
-    )
+)
 
 input_text = "What does it take to build a great LLM?"
 messages = [{"role": "user", "content": input_text}]
-input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
+input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True,
+                                          return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_new_tokens=200)
 print(tokenizer.decode(outputs[0]))
@@ -61,9 +62,8 @@ print(tokenizer.decode(outputs[0]))
 
 `pip install flash-attn`를 통해 플래시 어텐션을 설치하면, 더 빠른 생성이 가능합니다. (플래시 어텐션에 대한 HuggingFace 문서는 [이곳](https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2)에서 확인할 수 있습니다.)
 
-
 ```python
-from transformers import DbrxForCausalLM, AutoTokenizer
+from myTransformers import DbrxForCausalLM, AutoTokenizer
 import torch
 
 tokenizer = AutoTokenizer.from_pretrained("databricks/dbrx-instruct", token="YOUR_HF_TOKEN")
@@ -73,11 +73,12 @@ model = DbrxForCausalLM.from_pretrained(
     torch_dtype=torch.bfloat16,
     token="YOUR_HF_TOKEN",
     attn_implementation="flash_attention_2",
-    )
+)
 
 input_text = "What does it take to build a great LLM?"
 messages = [{"role": "user", "content": input_text}]
-input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
+input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True,
+                                          return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_new_tokens=200)
 print(tokenizer.decode(outputs[0]))
@@ -85,9 +86,8 @@ print(tokenizer.decode(outputs[0]))
 
 PyTorch의 스케일된 내적 어텐션을 사용하여도 더 빠른 생성이 가능합니다. (스케일된 내적 어텐션에 대한 HuggingFace 문서는 [이곳](https://huggingface.co/docs/transformers/perf_infer_gpu_one#pytorch-scaled-dot-product-attention)에서 확인할 수 있습니다.)
 
-
 ```python
-from transformers import DbrxForCausalLM, AutoTokenizer
+from myTransformers import DbrxForCausalLM, AutoTokenizer
 import torch
 
 tokenizer = AutoTokenizer.from_pretrained("databricks/dbrx-instruct", token="YOUR_HF_TOKEN")
@@ -97,11 +97,12 @@ model = DbrxForCausalLM.from_pretrained(
     torch_dtype=torch.bfloat16,
     token="YOUR_HF_TOKEN",
     attn_implementation="sdpa",
-    )
+)
 
 input_text = "What does it take to build a great LLM?"
 messages = [{"role": "user", "content": input_text}]
-input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
+input_ids = tokenizer.apply_chat_template(messages, return_dict=True, tokenize=True, add_generation_prompt=True,
+                                          return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_new_tokens=200)
 print(tokenizer.decode(outputs[0]))

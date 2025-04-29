@@ -65,21 +65,21 @@ Tips:
 - The original checkpoint can be converted using the [conversion script](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py). The script can be called with the following (example) command:
     
     ```bash
-    python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+    python src/myTransformers/models/llama/convert_llama_weights_to_hf.py \
         --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path --llama_version 3
     ```
 
 - After conversion, the model and tokenizer can be loaded via:
 
     ```python
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from myTransformers import AutoModelForCausalLM, AutoTokenizer
     
     tokenizer = AutoTokenizer.from_pretrained("/output/path")
     model = AutoModelForCausalLM.from_pretrained("/output/path")
     ```
 
     Note that executing the script requires enough CPU RAM to host the whole model in float16 precision (even if the biggest versions
-    come in several checkpoints they each contain a part of each weight of the model, so we need to load them all in RAM). For the 75B model, it's thus 145GB of RAM needed.
+  come in several checkpoints they each contain a part of each weight of the model, so we need to load them all in RAM). For the 75B model, it's thus 145GB of RAM needed.
 
 - When using Flash Attention 2 via `attn_implementation="flash_attention_2"`, don't pass `torch_dtype` to the `from_pretrained` class method and use Automatic Mixed-Precision training. When using `Trainer`, it is simply specifying either `fp16` or `bf16` to `True`. Otherwise, make sure you are using `torch.autocast`. This is required because the Flash Attention only support `fp16` and `bf16` data type.
 

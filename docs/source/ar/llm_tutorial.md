@@ -15,7 +15,7 @@
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers bitsandbytes>=0.39.0 -q
+pip install myTransformers bitsandbytes>=0.39.0 -q
 ```
 
 ## توليد النص
@@ -60,10 +60,11 @@ pip install transformers bitsandbytes>=0.39.0 -q
 أولاً، تحتاج إلى تحميل النموذج.
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -77,10 +78,10 @@ pip install transformers bitsandbytes>=0.39.0 -q
 بعد ذلك، تحتاج إلى معالجة إدخال النص الخاص بك باستخدام [مُجزّئ اللغوي](tokenizer_summary).
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1", padding_side="left")
->>> model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1", padding_side="left")
+>> > model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
 ```
 
 يحتوي متغير `model_inputs` على النص المدخل بعد تقسيمه إلى وحدات لغوية (tokens)، بالإضافة إلى قناع الانتباه. في حين أن [`~generation.GenerationMixin.generate`] تبذل قصارى جهدها لاستنتاج قناع الانتباه عندما لا يتم تمريره، نوصي بتمريره كلما أمكن ذلك للحصول على نتائج مثالية.
@@ -113,12 +114,13 @@ pip install transformers bitsandbytes>=0.39.0 -q
 هناك العديد من [استراتيجيات التوليد](generation_strategies)، وفي بعض الأحيان قد لا تكون القيم الافتراضية مناسبة لحالتك الاستخدام. إذا لم تكن الإخراج الخاصة بك متوافقة مع ما تتوقعه، فقد قمنا بإنشاء قائمة بأكثر الأخطاء الشائعة وكيفية تجنبها.
 
 ```py
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
->>> tokenizer.pad_token = tokenizer.eos_token  # Most LLMs don't have a pad token by default
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
+>> > tokenizer.pad_token = tokenizer.eos_token  # Most LLMs don't have a pad token by default
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -144,20 +146,20 @@ pip install transformers bitsandbytes>=0.39.0 -q
 بشكل افتراضي، وما لم يتم تحديده في [`~generation.GenerationConfig`] الملف، `generate` يحدد الكلمة الأكثر احتمالًا فى كل خطوة من خطوات عملية التوليد (وهذا يُعرف بالتشفير الجشع). اعتمادًا على مهمتك، قد يكون هذا غير مرغوب فيه؛ تستفيد المهام الإبداعية مثل برامج الدردشة أو كتابة مقال ستفيد من أسلوب العينة العشوائية في اختيار الكلمات، تمن ناحية أخرى، فإن المهام التي تعتمد على مدخلات محددة  مثل تحويل الصوت إلى نص أو الترجم من فك التشفير الجشع. قم بتفعيل أسلوب العينات العشوائية باستخدام `do_sample=True`، ويمكنك معرفة المزيد حول هذا الموضوع في [تدوينة المدونة](https://huggingface.co/blog/how-to-generate).
 
 ```py
->>> # Set seed or reproducibility -- you don't need this unless you want full reproducibility
->>> from transformers import set_seed
->>> set_seed(42)
+>> >  # Set seed or reproducibility -- you don't need this unless you want full reproducibility
+>> > from myTransformers import set_seed
+>> > set_seed(42)
 
->>> model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
+>> > model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
 
->>> # LLM + greedy decoding = repetitive, boring output
->>> generated_ids = model.generate(**model_inputs)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # LLM + greedy decoding = repetitive, boring output
+>> > generated_ids = model.generate(**model_inputs)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat. I am a cat. I am a cat. I am a cat'
 
->>> # With sampling, the output becomes more creative!
->>> generated_ids = model.generate(**model_inputs, do_sample=True)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # With sampling, the output becomes more creative!
+>> > generated_ids = model.generate(**model_inputs, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat.  Specifically, I am an indoor-only cat.  I'
 ```
 

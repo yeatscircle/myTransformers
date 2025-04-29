@@ -37,7 +37,7 @@ $$\text{PPL}(X) = \exp \left\{ {-\frac{1}{t}\sum_i^t \log p_\theta (x_i|x_{<i}) 
 دعونا نوضح هذه العملية مع GPT-2.
 
 ```python
-from transformers import GPT2LMHeadModel, GPT2TokenizerFast
+from myTransformers import GPT2LMHeadModel, GPT2TokenizerFast
 
 device = "cuda"
 model_id = "openai-community/gpt2-large"

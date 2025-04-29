@@ -19,14 +19,14 @@ from io import BytesIO
 
 import requests
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     BitsAndBytesConfig,
     InternVLConfig,
     is_torch_available,
     is_vision_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     cleanup,
     require_av,
     require_bitsandbytes,
@@ -45,7 +45,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         InternVLForConditionalGeneration,
     )
 
@@ -638,9 +638,9 @@ class InternVLLlamaIntegrationTest(unittest.TestCase):
 
         actual_logits = output.logits[0, -1, :5].cpu()
         expected_logits = torch.tensor([-9.8750, -0.4258, 1.4844, -10.3125, -10.3125], dtype=torch.bfloat16)
-        # The original implementation and the transformers implementation do not match exactly, hence the higher tolerance.
+        # The original implementation and the myTransformers implementation do not match exactly, hence the higher tolerance.
         # The difference is likely due to the different implementations of the attention mechanism (different order of operations)
-        # between the transformers Llama model and the original InternLM model.
+        # between the myTransformers Llama model and the original InternLM model.
         # The difference has almost no effect on the output tokens, but it does affect the logits a lot more.
         self.assertTrue(
             torch.allclose(actual_logits, expected_logits, atol=1),

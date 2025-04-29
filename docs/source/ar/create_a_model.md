@@ -16,27 +16,28 @@
 اطلع على [DistilBERT](model_doc/distilbert) من خلال [`DistilBertConfig`] لمعاينة خصائصه:
 
 ```py
->>> from transformers import DistilBertConfig
+>> > from myTransformers import DistilBertConfig
 
->>> config = DistilBertConfig()
->>> print(config)
-DistilBertConfig {
-  "activation": "gelu",
-  "attention_dropout": 0.1,
-  "dim": 768,
-  "dropout": 0.1,
-  "hidden_dim": 3072,
-  "initializer_range": 0.02,
-  "max_position_embeddings": 512,
-  "model_type": "distilbert",
-  "n_heads": 12,
-  "n_layers": 6,
-  "pad_token_id": 0,
-  "qa_dropout": 0.1,
-  "seq_classif_dropout": 0.2,
-  "sinusoidal_pos_embds": false,
-  "transformers_version": "4.16.2",
-  "vocab_size": 30522
+>> > config = DistilBertConfig()
+>> > print(config)
+DistilBertConfig
+{
+    "activation": "gelu",
+    "attention_dropout": 0.1,
+    "dim": 768,
+    "dropout": 0.1,
+    "hidden_dim": 3072,
+    "initializer_range": 0.02,
+    "max_position_embeddings": 512,
+    "model_type": "distilbert",
+    "n_heads": 12,
+    "n_layers": 6,
+    "pad_token_id": 0,
+    "qa_dropout": 0.1,
+    "seq_classif_dropout": 0.2,
+    "sinusoidal_pos_embds": false,
+    "transformers_version": "4.16.2",
+    "vocab_size": 30522
 }
 ```
 
@@ -86,10 +87,10 @@ DistilBertConfig {
 قم بتحميل خصائص التكوين المخصصة الخاصة بك في النموذج:
 
 ```py
->>> from transformers import DistilBertModel
+>> > from myTransformers import DistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
->>> model = DistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
+>> > model = DistilBertModel(my_config)
 ```
 
 هذا ينشئ نموذجًا بقيم عشوائية بدلاً من الأوزان  المُدربة مسبقًا. لن يكون هذا النموذج مفيدًا حتى يتم تدريبه.  تُعد عملية التدريب مكلفة وتستغرق وقتًا طويلاً. من الأفضل بشكل عام استخدام نموذج مُدرب مسبقًا للحصول على نتائج أفضل بشكل أسرع، مع استخدام جزء بسيط فقط من الموارد المطلوبة للتدريب.
@@ -110,10 +111,10 @@ DistilBertConfig {
 قم بتحميل خصائص التكوين المُخصصة الخاصة بك في النموذج:
 
 ```py
->>> from transformers import TFDistilBertModel
+>> > from myTransformers import TFDistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
->>> tf_model = TFDistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
+>> > tf_model = TFDistilBertModel(my_config)
 ```
 
 هذا ينشئ نموذجًا بقيم عشوائية بدلاً من الأوزان المُدربة مسبقًا. لن يكون هذا النموذج مفيدًا حتى يتم تدريبه. تُعد عملية التدريب مكلفة وتستغرق وقتًا طويلاً. من الأفضل بشكل عام استخدام نموذج مُدرب مسبقًا للحصول على نتائج أفضل بشكل أسرع، مع استخدام جزء بسيط فقط من الموارد المطلوبة للتدريب.
@@ -141,34 +142,34 @@ DistilBertConfig {
 على سبيل المثال، [`DistilBertForSequenceClassification`] هو نموذج DistilBERT الأساس  مزودًا برأس تصنيف تسلسلي.  يُشكّل رأس التصنيف التسلسلي طبقة خطية فوق المخرجات المجمعة.
 
 ```py
->>> from transformers import DistilBertForSequenceClassification
+>> > from myTransformers import DistilBertForSequenceClassification
 
->>> model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 أعد استخدام هذا نقطة التحقق هذه لمهمة أخرى بسهولة، وذلك بتغيير رأس النموذج.ففي مهمة الإجابة على الأسئلة، ستستخدم رأس النموذج [`DistilBertForQuestionAnswering`]. رأس الإجابة على الأسئلة مشابه لرأس التصنيف التسلسلي باستثناء أنه طبقة خطية فوق مخرجات الحالات الكامنة.
 
 ```py
->>> from transformers import DistilBertForQuestionAnswering
+>> > from myTransformers import DistilBertForQuestionAnswering
 
->>> model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </pt>
 <tf>
 على سبيل المثال، [`TFDistilBertForSequenceClassification`] هو نموذج DistilBERT الأساسي برأس تصنيف تسلسل. رأس التصنيف التسلسلي هو طبقة خطية أعلى المخرجات المجمعة.
 
 ```py
->>> from transformers import TFDistilBertForSequenceClassification
+>> > from myTransformers import TFDistilBertForSequenceClassification
 
->>> tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 أعد استخدام هذا نقطة التحقق لمهمة أخرى عن طريق التبديل إلى رأس نموذج مختلف. لمهمة الإجابة على الأسئلة، ستستخدم رأس النموذج [`TFDistilBertForQuestionAnswering`]. رأس الإجابة على الأسئلة مشابه لرأس التصنيف التسلسلي باستثناء أنه طبقة خطية أعلى حالات الإخراج المخفية.
 
 ```py
->>> from transformers import TFDistilBertForQuestionAnswering
+>> > from myTransformers import TFDistilBertForQuestionAnswering
 
->>> tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </tf>
 </frameworkcontent>
@@ -191,25 +192,25 @@ DistilBertConfig {
 إذا دربت مجزئ النصوص خاص بك، فيمكنك إنشاء واحد من *قاموسك*:```
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt"، do_lower_case=False، padding_side="left")
+>> > my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt"، do_lower_case = False، padding_side = "left")
 ```
 
 من المهم أن تتذكر أن قاموس مجزئ النصوص المُخصص سيكون مختلفًا عن قاموس مجزئ النصوص نموذج مُدرّب مسبقًا. يجب عليك استخدام قاموس نموذج مُدرّب مسبقًا إذا كنت تستخدم نموذجًا مُدرّبًا مسبقًا، وإلا فلن تكون المدخلات ذات معنى. قم بإنشاء مجزئ النصوص باستخدام قاموس نموذج مُدرّب مسبقًا باستخدام فئة [`DistilBertTokenizer`]:
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 قم بإنشاء مجزئ نصوص سريع باستخدام فئة [`DistilBertTokenizerFast`]:
 
 ```py
->>> from transformers import DistilBertTokenizerFast
+>> > from myTransformers import DistilBertTokenizerFast
 
->>> fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
+>> > fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip>
@@ -223,26 +224,27 @@ DistilBertConfig {
 لبناء معالج صور خاص بالنموذج المستخدم، أنشئ مثلاً مُعالج  [`ViTImageProcessor`] افتراضيًا إذا كنت تستخدم [ViT](model_doc/vit) لتصنيف الصور:
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> vit_extractor = ViTImageProcessor()
->>> print(vit_extractor)
-ViTImageProcessor {
-  "do_normalize": true,
-  "do_resize": true,
-  "image_processor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": 2,
-  "size": 224
+>> > vit_extractor = ViTImageProcessor()
+>> > print(vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": true,
+    "do_resize": true,
+    "image_processor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": 2,
+    "size": 224
 }
 ```
 
@@ -255,26 +257,27 @@ ViTImageProcessor {
 عدل أيًا من معلمات [`ViTImageProcessor`] لإنشاء معالج الصور المخصص الخاص بك:
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
->>> print(my_vit_extractor)
-ViTImageProcessor {
-  "do_normalize": false,
-  "do_resize": true,
- "image_processor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.3,
-    0.3,
-    0.3
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": "PIL.Image.BOX",
-  "size": 224
+>> > my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
+>> > print(my_vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": false,
+    "do_resize": true,
+    "image_processor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.3,
+        0.3,
+        0.3
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": "PIL.Image.BOX",
+    "size": 224
 }
 ```
 ## العمود الفقري
@@ -293,10 +296,11 @@ ViTImageProcessor {
 قم بتعيين `use_pretrained_backbone=True` لتحميل الأوزان المسبقة التدريب لـ ResNet للعمود الفقري.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
-config = MaskFormerConfig(backbone="microsoft/resnet-50", use_pretrained_backbone=True) # تكوين الجزء الأساسي والجزء الوسيط
-model = MaskFormerForInstanceSegmentation(config) # جزء المعالجة النهائي
+config = MaskFormerConfig(backbone="microsoft/resnet-50",
+                          use_pretrained_backbone=True)  # تكوين الجزء الأساسي والجزء الوسيط
+model = MaskFormerForInstanceSegmentation(config)  # جزء المعالجة النهائي
 ```
 
 </hfoption>
@@ -305,16 +309,17 @@ model = MaskFormerForInstanceSegmentation(config) # جزء المعالجة ال
 قم بتعيين `use_pretrained_backbone=False` لتهيئة جزء ResNet الأساسي بشكل عشوائي.
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
-config = MaskFormerConfig(backbone="microsoft/resnet-50", use_pretrained_backbone=False) # تكوين الجزء الأساسي والجزء الوسيط
-model = MaskFormerForInstanceSegmentation(config) # جزء المعالجة النهائي
+config = MaskFormerConfig(backbone="microsoft/resnet-50",
+                          use_pretrained_backbone=False)  # تكوين الجزء الأساسي والجزء الوسيط
+model = MaskFormerForInstanceSegmentation(config)  # جزء المعالجة النهائي
 ```
 
 يمكنك أيضًا تحميل تكوين الجزء الأساسي بشكل منفصل، ثم تمريره إلى تكوين النموذج.```
 
 ```py
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation, ResNetConfig
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation, ResNetConfig
 
 backbone_config = ResNetConfig()
 config = MaskFormerConfig(backbone_config=backbone_config)
@@ -329,25 +334,27 @@ model = MaskFormerForInstanceSegmentation(config)
 استخدم `use_timm_backbone=True` و `use_pretrained_backbone=True` لتحميل أوزان timm المُدرّبة مسبقًا للجزء الأساسي.
 
 ```python
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
-config = MaskFormerConfig(backbone="resnet50", use_pretrained_backbone=True, use_timm_backbone=True) # تكوين الجزء الأساسي والجزء الوسيط
-model = MaskFormerForInstanceSegmentation(config) # جزء المعالجة النهائي
+config = MaskFormerConfig(backbone="resnet50", use_pretrained_backbone=True,
+                          use_timm_backbone=True)  # تكوين الجزء الأساسي والجزء الوسيط
+model = MaskFormerForInstanceSegmentation(config)  # جزء المعالجة النهائي
 ```
 
 قم بتعيين `use_timm_backbone=True` و `use_pretrained_backbone=False` لتحميل عمود فقري timm مبدئي عشوائي.
 
 ```python
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
-config = MaskFormerConfig(backbone="resnet50", use_pretrained_backbone=False, use_timm_backbone=True) # تكوين الجزء الأساسي والجزء الوسيط
-model = MaskFormerForInstanceSegmentation(config) # جزء المعالجة النهائي
+config = MaskFormerConfig(backbone="resnet50", use_pretrained_backbone=False,
+                          use_timm_backbone=True)  # تكوين الجزء الأساسي والجزء الوسيط
+model = MaskFormerForInstanceSegmentation(config)  # جزء المعالجة النهائي
 ```
 
 يمكنك أيضًا تحميل تكوين الجزء الأساسي واستخدامه لإنشاء `TimmBackbone` أو تمريره إلى تكوين النموذج. سيتم تحميلأوزان الجزء الأساسي لـ Timm المُدرّبة مسبقًا افتراضيًا. عيّن `use_pretrained_backbone=False` لتحميل الأوزان المبدئية العشوائية.
 
 ```python
-from transformers import TimmBackboneConfig, TimmBackbone
+from myTransformers import TimmBackboneConfig, TimmBackbone
 
 backbone_config = TimmBackboneConfig("resnet50", use_pretrained_backbone=False)
 
@@ -355,7 +362,7 @@ backbone_config = TimmBackboneConfig("resnet50", use_pretrained_backbone=False)
 backbone = TimmBackbone(config=backbone_config)
 
 # قم بإنشاء نموذج باستخدام عمود فقري timm
-from transformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
+from myTransformers import MaskFormerConfig, MaskFormerForInstanceSegmentation
 
 config = MaskFormerConfig(backbone_config=backbone_config)
 model = MaskFormerForInstanceSegmentation(config)
@@ -368,18 +375,19 @@ model = MaskFormerForInstanceSegmentation(config)
 للاستخدام، قم بإنشاء مستخرج ميزات مرتبط بالنموذج الذي تستخدمه. على سبيل المثال، قم بإنشاء مستخرج ميزات Wav2Vec2 الافتراضي إذا كنت تستخدم [Wav2Vec2](model_doc/wav2vec2) لتصنيف الصوت:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor()
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": true,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor",
-  "feature_size": 1,
-  "padding_side": "right",
-  "padding_value": 0.0,
-  "return_attention_mask": false,
-  "sampling_rate": 16000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor()
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": true,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor",
+    "feature_size": 1,
+    "padding_side": "right",
+    "padding_value": 0.0,
+    "return_attention_mask": false,
+    "sampling_rate": 16000
 }
 ```
 
@@ -390,18 +398,19 @@ Wav2Vec2FeatureExtractor {
 قم بتعديل أي من معلمات [`Wav2Vec2FeatureExtractor`] لإنشاء مستخرج ميزات مخصص:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000، do_normalize=False)
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": false,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor"،
-  "feature_size": 1،
-  "padding_side": "right"،
-  "padding_value": 0.0،
-  "return_attention_mask": false،
-  "sampling_rate": 8000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000، do_normalize = False)
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": false,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor"،
+"feature_size": 1،
+"padding_side": "right"،
+"padding_value": 0.0،
+"return_attention_mask": false،
+"sampling_rate": 8000
 }
 ```
 
@@ -412,25 +421,25 @@ Wav2Vec2FeatureExtractor {
 قم بإنشاء مستخرج ميزات لمعالجة المدخلات الصوتية:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
+>> > feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
 ```
 
 قم بإنشاء مقسّم رموز لمعالجة المدخلات النصية:
 
 ```py
->>> from transformers import Wav2Vec2CTCTokenizer
+>> > from myTransformers import Wav2Vec2CTCTokenizer
 
->>> tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
+>> > tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
 ```
 
 قم بدمج مستخرج الميزات ومقسّم الرموز في [`Wav2Vec2Processor`]:
 
 ```py
->>> from transformers import Wav2Vec2Processor
+>> > from myTransformers import Wav2Vec2Processor
 
->>> processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
+>> > processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
 ```
 
 باستخدام فئتين أساسيتين - التكوين والنموذج - بالإضافة إلى فئة معالجة مسبق (مقسّم رموز أو معالج صورة أو مستخرج ميزات أو معالج)، يمكنك إنشاء أي من النماذج التي تدعمها مكتبة 🤗 Transformers. يمكن تكوين كل من هذه الفئات الأساسية، مما يسمح لك باستخدام السمات المطلوبة. يمكنك بسهولة تهيئة نموذج للتدريب أو تعديل نموذج مدرب مسبقاً لإجراء ضبط دقيق.

@@ -114,24 +114,25 @@ Tips:
 
 `Helium` can be found on the [Huggingface Hub](https://huggingface.co/models?other=helium)
 
-In the following, we demonstrate how to use `helium-1-preview` for the inference. 
+In the following, we demonstrate how to use `helium-1-preview` for the inference.
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
->>> device = "cuda" # the device to load the model onto
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
+>> > device = "cuda"  # the device to load the model onto
 
->>> model = AutoModelForCausalLM.from_pretrained("kyutai/helium-1-preview-2b", device_map="auto")
->>> tokenizer = AutoTokenizer.from_pretrained("kyutai/helium-1-preview-2b")
+>> > model = AutoModelForCausalLM.from_pretrained("kyutai/helium-1-preview-2b", device_map="auto")
+>> > tokenizer = AutoTokenizer.from_pretrained("kyutai/helium-1-preview-2b")
 
->>> prompt = "Give me a short introduction to large language model."
+>> > prompt = "Give me a short introduction to large language model."
 
->>> model_inputs = tokenizer(prompt, return_tensors="pt").to(device)
+>> > model_inputs = tokenizer(prompt, return_tensors="pt").to(device)
 
->>> generated_ids = model.generate(model_inputs.input_ids, max_new_tokens=512, do_sample=True)
+>> > generated_ids = model.generate(model_inputs.input_ids, max_new_tokens=512, do_sample=True)
 
->>> generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
+>> > generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in
+                      zip(model_inputs.input_ids, generated_ids)]
 
->>> response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> > response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 ```
 
 ## HeliumConfig

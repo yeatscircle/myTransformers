@@ -42,7 +42,7 @@ rendered properly in your Markdown viewer.
 
 
 ```bash
-pip install -q datasets transformers evaluate timm albumentations
+pip install -q datasets myTransformers evaluate timm albumentations
 ```
 
 🤗 データセットを使用して Hugging Face Hub からデータセットをロードし、🤗 トランスフォーマーを使用してモデルをトレーニングします。
@@ -177,10 +177,10 @@ DETR モデルをトレーニングできる「ラベル」。画像プロセッ
 微調整するモデルと同じチェックポイントからイメージ プロセッサをインスタンス化します。
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "facebook/detr-resnet-50"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > checkpoint = "facebook/detr-resnet-50"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 ```
 
 画像を`image_processor`に渡す前に、2 つの前処理変換をデータセットに適用します。
@@ -327,13 +327,17 @@ DETR モデルをトレーニングできる「ラベル」。画像プロセッ
 および `id2label` マップは、以前にデータセットのメタデータから作成したものです。さらに、`ignore_mismatched_sizes=True`を指定して、既存の分類頭部を新しい分類頭部に置き換えます。
 
 ```py
->>> from transformers import AutoModelForObjectDetection
+>> > from myTransformers import AutoModelForObjectDetection
 
->>> model = AutoModelForObjectDetection.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
-...     ignore_mismatched_sizes=True,
+>> > model = AutoModelForObjectDetection.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
+...
+ignore_mismatched_sizes = True,
 ... )
 ```
 
@@ -344,37 +348,53 @@ DETR モデルをトレーニングできる「ラベル」。画像プロセッ
 顔に向かってモデルをアップロードします）。
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(
-...     output_dir="detr-resnet-50_finetuned_cppe5",
-...     per_device_train_batch_size=8,
-...     num_train_epochs=10,
-...     fp16=True,
-...     save_steps=200,
-...     logging_steps=50,
-...     learning_rate=1e-5,
-...     weight_decay=1e-4,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = "detr-resnet-50_finetuned_cppe5",
+...
+per_device_train_batch_size = 8,
+...
+num_train_epochs = 10,
+...
+fp16 = True,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+learning_rate = 1e-5,
+...
+weight_decay = 1e-4,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 最後に、すべてをまとめて、[`~transformers.Trainer.train`] を呼び出します。
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=collate_fn,
-...     train_dataset=cppe5["train"],
-...     processing_class=image_processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = collate_fn,
+...
+train_dataset = cppe5["train"],
+...
+processing_class = image_processor,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 
 `training_args`で`push_to_hub`を`True`に設定した場合、トレーニング チェックポイントは
@@ -545,16 +565,15 @@ DETR モデルを微調整して評価し、Hugging Face Hub にアップロー�
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。パイプラインをインスタンス化する
 モデルを使用してオブジェクトを検出し、それに画像を渡します。
 
-
 ```py
->>> from transformers import pipeline
->>> import requests
+>> > from myTransformers import pipeline
+>> > import requests
 
->>> url = "https://i.imgur.com/2lnWoly.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://i.imgur.com/2lnWoly.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> obj_detector = pipeline("object-detection", model="devonho/detr-resnet-50_finetuned_cppe5")
->>> obj_detector(image)
+>> > obj_detector = pipeline("object-detection", model="devonho/detr-resnet-50_finetuned_cppe5")
+>> > obj_detector(image)
 ```
 
 必要に応じて、パイプラインの結果を手動で複製することもできます。

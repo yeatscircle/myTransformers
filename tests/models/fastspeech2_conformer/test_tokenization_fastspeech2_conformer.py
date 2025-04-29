@@ -15,8 +15,8 @@
 
 import unittest
 
-from transformers.models.fastspeech2_conformer import FastSpeech2ConformerTokenizer
-from transformers.testing_utils import require_g2p_en, slow
+from myTransformers.models.fastspeech2_conformer import FastSpeech2ConformerTokenizer
+from myTransformers.testing_utils import require_g2p_en, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin
 
@@ -101,7 +101,7 @@ class FastSpeech2ConformerTokenizerTest(TokenizerTesterMixin, unittest.TestCase)
         # here "32" is phonemized as "thirty-two" because we haven't implemented the custom number handling.
 
         sequences = [
-            "Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides "
+            "Transformers (formerly known as pytorch-myTransformers and pytorch-pretrained-bert) provides "
             "general-purpose architectures (BERT, GPT, RoBERTa, XLM, DistilBert, XLNet...) for Natural "
             "Language Understanding (NLU) and Natural Language Generation (NLG) with over thirty-two pretrained "
             "models in one hundred plus languages and deep interoperability between Jax, PyTorch and TensorFlow.",

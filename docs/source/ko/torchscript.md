@@ -79,7 +79,7 @@ TorchScript는 묶인 가중치를 가진 모델을 내보낼 수 없으므로, 
 `BertModel`을 TorchScript로 내보내려면 `BertConfig` 클래스에서 `BertModel`을 인스턴스화한 다음, `traced_bert.pt`라는 파일명으로 디스크에 저장하면 됩니다.
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 enc = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
@@ -172,7 +172,7 @@ AWS Neuron을 사용하여 모델을 변환하려면 [Neuron SDK 환경](https:/
 `torch.neuron` 프레임워크 익스텐션을 가져와 Python API를 통해 Neuron SDK의 구성 요소에 접근합니다:
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 import torch.neuron
 ```

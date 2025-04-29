@@ -29,11 +29,11 @@ pip install aqlm[gpu,cpu]
 Load an AQLM-quantized model with [`~PreTrainedModel.from_pretrained`].
 
 ```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 quantized_model = AutoModelForCausalLM.from_pretrained(
     "ISTA-DASLab/Mixtral-8x7b-AQLM-2Bit-1x16-hf",
-    torch_dtype="auto", 
+    torch_dtype="auto",
     device_map="auto"
 )
 ```

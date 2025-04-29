@@ -54,7 +54,7 @@ predicciones en cada paso.
 Demostremos este proceso con GPT-2.
 
 ```python
-from transformers import GPT2LMHeadModel, GPT2TokenizerFast
+from myTransformers import GPT2LMHeadModel, GPT2TokenizerFast
 
 device = "cuda"
 model_id = "openai-community/gpt2-large"

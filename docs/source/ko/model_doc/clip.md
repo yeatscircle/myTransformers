@@ -38,24 +38,23 @@ CLIP은 멀티모달 비전 밒 언어 모델입니다. 이미지-텍스트 유�
 
 다음 예시는 [`CLIPProcessor`]와 [`CLIPModel`]을 사용하여 이미지-텍스트 유사도 점수를 얻는 방법을 보여줍니다.
 
-
 ```python
->>> from PIL import Image
->>> import requests
+>> > from PIL import Image
+>> > import requests
 
->>> from transformers import CLIPProcessor, CLIPModel
+>> > from myTransformers import CLIPProcessor, CLIPModel
 
->>> model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
->>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+>> > model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+>> > processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> inputs = processor(text=["a photo of a cat", "a photo of a dog"], images=image, return_tensors="pt", padding=True)
+>> > inputs = processor(text=["a photo of a cat", "a photo of a dog"], images=image, return_tensors="pt", padding=True)
 
->>> outputs = model(**inputs)
->>> logits_per_image = outputs.logits_per_image  # 이미지-텍스트 유사성 점수
->>> probs = logits_per_image.softmax(dim=1)  # 확률을 레이블링 하기위해서 소프트맥스를 취합니다.
+>> > outputs = model(**inputs)
+>> > logits_per_image = outputs.logits_per_image  # 이미지-텍스트 유사성 점수
+>> > probs = logits_per_image.softmax(dim=1)  # 확률을 레이블링 하기위해서 소프트맥스를 취합니다.
 ```
 
 
@@ -78,36 +77,42 @@ pip install -U flash-attn --no-build-isolation
 플래시 어텐션2를 사용해서 모델을 로드하고 구동하기 위해서 다음 스니펫을 참고하세요:
 
 ```python
->>> import torch
->>> import requests
->>> from PIL import Image
+>> > import torch
+>> > import requests
+>> > from PIL import Image
 
->>> from transformers import CLIPProcessor, CLIPModel
+>> > from myTransformers import CLIPProcessor, CLIPModel
 
->>> device = "cuda"
->>> torch_dtype = torch.float16
+>> > device = "cuda"
+>> > torch_dtype = torch.float16
 
->>> model = CLIPModel.from_pretrained(
-...     "openai/clip-vit-base-patch32",
-...     attn_implementation="flash_attention_2",
-...     device_map=device,
-...     torch_dtype=torch_dtype,
+>> > model = CLIPModel.from_pretrained(
+    ...
+"openai/clip-vit-base-patch32",
+...
+attn_implementation = "flash_attention_2",
+...
+device_map = device,
+...
+torch_dtype = torch_dtype,
 ... )
->>> processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+>> > processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> inputs = processor(text=["a photo of a cat", "a photo of a dog"], images=image, return_tensors="pt", padding=True)
->>> inputs.to(device)
+>> > inputs = processor(text=["a photo of a cat", "a photo of a dog"], images=image, return_tensors="pt", padding=True)
+>> > inputs.to(device)
 
->>> with torch.no_grad():
-...     with torch.autocast(device):
-...         outputs = model(**inputs)
+>> > with torch.no_grad():
+    ...
+with torch.autocast(device):
+    ...
+outputs = model(**inputs)
 
->>> logits_per_image = outputs.logits_per_image  # 이미지-텍스트 유사성 점수
->>> probs = logits_per_image.softmax(dim=1)  # 확률을 레이블링 하기위해서 소프트맥스를 취합니다.
->>> print(probs)
+>> > logits_per_image = outputs.logits_per_image  # 이미지-텍스트 유사성 점수
+>> > probs = logits_per_image.softmax(dim=1)  # 확률을 레이블링 하기위해서 소프트맥스를 취합니다.
+>> > print(probs)
 tensor([[0.9946, 0.0052]], device='cuda:0', dtype=torch.float16)
 ```
 
@@ -119,7 +124,7 @@ tensor([[0.9946, 0.0052]], device='cuda:0', dtype=torch.float16)
 `torch>=2.1.1`에서는 구현이 가능할 때 SDPA가 기본적으로 사용되지만, `from_pretrained()` 함수에서 `attn_implementation="sdpa"`를 설정하여 SDPA를 명시적으로 사용하도록 요청할 수도 있습니다.
 
 ```python
-from transformers import CLIPModel
+from myTransformers import CLIPModel
 
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32", torch_dtype=torch.float16, attn_implementation="sdpa")
 ```

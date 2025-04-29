@@ -229,11 +229,10 @@ training_args = TrainingArguments(per_device_train_batch_size=4, optim="adamw_bn
 * まず、モデルのパラメータを2つのグループに分けます - 重み減衰を適用するべきグループと、適用すべきでないグループです。通常、バイアスとレイヤー正規化パラメータは重み減衰されません。
 * 次に、以前に使用したAdamWオプティマイザと同じパラメータを使用するために、いくつかの引数の調整を行います。
 
-
 ```py
 import bitsandbytes as bnb
 from torch import nn
-from transformers.trainer_pt_utils import get_parameter_names
+from myTransformers.trainer_pt_utils import get_parameter_names
 
 training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
 

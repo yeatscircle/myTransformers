@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에, 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티에 공유하는 것을 권장합니다. 메시지가 표시되면, 토큰을 입력하여 로그인하세요:
@@ -77,9 +77,9 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티에
 다음 단계는 DistilBERT 토크나이저를 가져와서 `text` 필드를 전처리하는 것입니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 `text`를 토큰화하고 시퀀스가 DistilBERT의 최대 입력 길이보다 길지 않도록 자르기 위한 전처리 함수를 생성하세요:
@@ -158,10 +158,11 @@ tokenized_imdb = imdb.map(preprocess_function, batched=True)
 이제 모델을 훈련시킬 준비가 되었습니다! [`AutoModelForSequenceClassification`]로 DistilBERT를 가쳐오고 예상되는 레이블 수와 레이블 매핑을 지정하세요:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = AutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -219,23 +220,24 @@ Keras를 사용하여 모델을 파인 튜닝하는 방법에 익숙하지 않�
 TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수와 학습률 스케쥴, 그리고 일부 훈련 하이퍼파라미터를 설정해야 합니다:
 
 ```py
->>> from transformers import create_optimizer
->>> import tensorflow as tf
+>> > from myTransformers import create_optimizer
+>> > import tensorflow as tf
 
->>> batch_size = 16
->>> num_epochs = 5
->>> batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
->>> total_train_steps = int(batches_per_epoch * num_epochs)
->>> optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
+>> > total_train_steps = int(batches_per_epoch * num_epochs)
+>> > optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 그런 다음 [`TFAutoModelForSequenceClassification`]을 사용하여 DistilBERT를 로드하고, 예상되는 레이블 수와 레이블 매핑을 로드할 수 있습니다:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -270,19 +272,21 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 [`~transformers.KerasMetricCallback`]에 `compute_metrics`를 전달하여 정확도를 높입니다.
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 [`~transformers.PushToHubCallback`]에서 모델과 토크나이저를 업로드할 위치를 지정합니다:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -321,10 +325,10 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 파인 튜닝된 모델로 추론을 시도하는 가장 간단한 방법은 [`pipeline`]를 사용하는 것입니다. 모델로 감정 분석을 위한 `pipeline`을 인스턴스화하고, 텍스트를 전달해보세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
->>> classifier(text)
+>> > classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
+>> > classifier(text)
 [{'label': 'POSITIVE', 'score': 0.9994940757751465}]
 ```
 
@@ -335,20 +339,21 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 PyTorch 텐서를 반환합니다.
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 입력을 모델에 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 가장 높은 확률을 가진 클래스를 모델의 `id2label` 매핑을 사용하여 텍스트 레이블로 변환합니다:
@@ -363,19 +368,19 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 TensorFlow 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 입력값을 모델에 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > logits = model(**inputs).logits
 ```
 
 가장 높은 확률을 가진 클래스를 모델의 `id2label` 매핑을 사용하여 텍스트 레이블로 변환합니다:

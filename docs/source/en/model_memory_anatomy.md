@@ -24,7 +24,7 @@ Let's start by exploring a motivating example of GPU utilization and the trainin
 we'll need to install a few libraries: 
 
 ```bash
-pip install transformers datasets accelerate nvidia-ml-py3
+pip install myTransformers datasets accelerate nvidia-ml-py3
 ```
 
 The `nvidia-ml-py3` library allows us to monitor the memory usage of the models from within Python. You might be familiar 
@@ -95,14 +95,15 @@ We see that the kernels alone take up 1.3GB of GPU memory. Now let's see how muc
 First, we load the `google-bert/bert-large-uncased` model. We load the model weights directly to the GPU so that we can check 
 how much space just the weights use.
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
-
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
->>> print_gpu_utilization()
-GPU memory occupied: 2631 MB.
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
+>> > print_gpu_utilization()
+GPU
+memory
+occupied: 2631
+MB.
 ```
 
 We can see that the model weights alone take up 1.3 GB of GPU memory. The exact number depends on the specific 
@@ -164,15 +165,14 @@ default_args = {
 Let's use the [`Trainer`] and train the model without using any GPU performance optimization techniques and a batch size of 4:
 
 ```py
->>> from transformers import TrainingArguments, Trainer, logging
+>> > from myTransformers import TrainingArguments, Trainer, logging
 
->>> logging.set_verbosity_error()
+>> > logging.set_verbosity_error()
 
-
->>> training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
->>> trainer = Trainer(model=model, args=training_args, train_dataset=ds)
->>> result = trainer.train()
->>> print_summary(result)
+>> > training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
+>> > trainer = Trainer(model=model, args=training_args, train_dataset=ds)
+>> > result = trainer.train()
+>> > print_summary(result)
 ```
 
 ```

@@ -48,7 +48,7 @@ import torch
 from PIL import Image
 import requests
 import numpy as np
-from transformers import AutoImageProcessor, AutoModelForImageClassification
+from myTransformers import AutoImageProcessor, AutoModelForImageClassification
 
 url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
 image = Image.open(requests.get(url, stream=True).raw)
@@ -67,7 +67,7 @@ with torch.no_grad():
 #### 使用 DETR 进行目标检测
 
 ```python 
-from transformers import AutoImageProcessor, AutoModelForObjectDetection
+from myTransformers import AutoImageProcessor, AutoModelForObjectDetection
 
 processor = AutoImageProcessor.from_pretrained("facebook/detr-resnet-50")
 model = AutoModelForObjectDetection.from_pretrained("facebook/detr-resnet-50").to("cuda")
@@ -83,7 +83,7 @@ with torch.no_grad():
 #### 使用 Segformer 进行图像分割
 
 ```python 
-from transformers import SegformerImageProcessor, SegformerForSemanticSegmentation
+from myTransformers import SegformerImageProcessor, SegformerForSemanticSegmentation
 
 processor = SegformerImageProcessor.from_pretrained("nvidia/segformer-b0-finetuned-ade-512-512")
 model = SegformerForSemanticSegmentation.from_pretrained("nvidia/segformer-b0-finetuned-ade-512-512").to("cuda")

@@ -46,16 +46,19 @@ rendered properly in your Markdown viewer.
 正如您现在所知，您需要一个`tokenizer`来处理文本，包括填充和截断操作以处理可变的序列长度。如果要一次性处理您的数据集，可以使用 🤗 Datasets 的 [`map`](https://huggingface.co/docs/datasets/process#map) 方法，将预处理函数应用于整个数据集：
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+
+>> >
+
+def tokenize_function(examples):
 
 
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
 
-
->>> tokenized_datasets = dataset.map(tokenize_function, batched=True)
+>> > tokenized_datasets = dataset.map(tokenize_function, batched=True)
 ```
 如果愿意的话，您可以从完整数据集提取一个较小子集来进行微调，以减少训练所需的时间：
 
@@ -81,11 +84,10 @@ rendered properly in your Markdown viewer.
 
 首先加载您的模型并指定期望的标签数量。根据 Yelp Review [数据集卡片](https://huggingface.co/datasets/yelp_review_full#data-fields)，您知道有五个标签：
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 <Tip>
@@ -101,9 +103,9 @@ rendered properly in your Markdown viewer.
 指定保存训练检查点的位置：
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer")
+>> > training_args = TrainingArguments(output_dir="test_trainer")
 ```
 
 ### 评估
@@ -128,9 +130,9 @@ rendered properly in your Markdown viewer.
 如果您希望在微调过程中监视评估指标，请在您的训练参数中指定 `eval_strategy` 参数，以在每个`epoch`结束时展示评估指标：
 
 ```py
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
+>> > training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
 ```
 
 ### 训练器
@@ -178,7 +180,7 @@ dataset = dataset["train"]  # Just take the training split for now
 接下来，加载一个`tokenizer`并将数据标记为 NumPy 数组。请注意，标签已经是由 0 和 1 组成的`list`，因此我们可以直接将其转换为 NumPy 数组而无需进行分词处理！
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 tokenized_data = tokenizer(dataset["sentence"], return_tensors="np", padding=True)
@@ -190,12 +192,12 @@ labels = np.array(dataset["label"])  # Label is already an array of 0 and 1
 最后，加载、[`compile`](https://keras.io/api/models/model_training_apis/#compile-method) 和 [`fit`](https://keras.io/api/models/model_training_apis/#fit-method) 模型。请注意，Transformers 模型都有一个默认的与任务相关的损失函数，因此除非您希望自定义，否则无需指定一个损失函数：
 
 ```py
-from transformers import TFAutoModelForSequenceClassification
+from myTransformers import TFAutoModelForSequenceClassification
 from tensorflow.keras.optimizers import Adam
 
 # Load and compile our model
 model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased")
-# Lower learning rates are often better for fine-tuning transformers
+# Lower learning rates are often better for fine-tuning myTransformers
 model.compile(optimizer=Adam(3e-5))  # No loss argument!
 
 model.fit(tokenized_data, labels)
@@ -304,9 +306,9 @@ torch.cuda.empty_cache()
 加载您的模型，并指定期望的标签数量：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 ### Optimizer and learning rate scheduler
@@ -321,14 +323,14 @@ torch.cuda.empty_cache()
 
 创建来自 [`Trainer`] 的默认`learning rate scheduler`：
 
-
 ```py
->>> from transformers import get_scheduler
+>> > from myTransformers import get_scheduler
 
->>> num_epochs = 3
->>> num_training_steps = num_epochs * len(train_dataloader)
->>> lr_scheduler = get_scheduler(
-...     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
+>> > num_epochs = 3
+>> > num_training_steps = num_epochs * len(train_dataloader)
+>> > lr_scheduler = get_scheduler(
+    ...
+name = "linear", optimizer = optimizer, num_warmup_steps = 0, num_training_steps = num_training_steps
 ... )
 ```
 

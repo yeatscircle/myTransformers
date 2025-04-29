@@ -16,9 +16,9 @@
 import collections
 import unittest
 
-from transformers import DonutSwinConfig
-from transformers.testing_utils import require_torch, slow, torch_device
-from transformers.utils import is_torch_available
+from myTransformers import DonutSwinConfig
+from myTransformers.testing_utils import require_torch, slow, torch_device
+from myTransformers.utils import is_torch_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor, ids_tensor
@@ -29,7 +29,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import DonutSwinForImageClassification, DonutSwinModel
+    from myTransformers import DonutSwinForImageClassification, DonutSwinModel
 
 
 class DonutSwinModelTester:

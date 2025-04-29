@@ -32,28 +32,29 @@ BERTweet은 BERT-base(Devlin et al., 2019)와 동일한 아키텍처를 가지�
 ## 사용 예시 [[usage-example]]
 
 ```python
->>> import torch
->>> from transformers import AutoModel, AutoTokenizer
+>> > import torch
+>> > from myTransformers import AutoModel, AutoTokenizer
 
->>> bertweet = AutoModel.from_pretrained("vinai/bertweet-base")
+>> > bertweet = AutoModel.from_pretrained("vinai/bertweet-base")
 
->>> # 트랜스포머 버전 4.x 이상 :
->>> tokenizer = AutoTokenizer.from_pretrained("vinai/bertweet-base", use_fast=False)
+>> >  # 트랜스포머 버전 4.x 이상 :
+>> > tokenizer = AutoTokenizer.from_pretrained("vinai/bertweet-base", use_fast=False)
 
->>> # 트랜스포머 버전 3.x 이상:
->>> # tokenizer = AutoTokenizer.from_pretrained("vinai/bertweet-base")
+>> >  # 트랜스포머 버전 3.x 이상:
+>> >  # tokenizer = AutoTokenizer.from_pretrained("vinai/bertweet-base")
 
->>> # 입력된 트윗은 이미 정규화되었습니다!
->>> line = "SC has first two presumptive cases of coronavirus , DHEC confirms HTTPURL via @USER :cry:"
+>> >  # 입력된 트윗은 이미 정규화되었습니다!
+>> > line = "SC has first two presumptive cases of coronavirus , DHEC confirms HTTPURL via @USER :cry:"
 
->>> input_ids = torch.tensor([tokenizer.encode(line)])
+>> > input_ids = torch.tensor([tokenizer.encode(line)])
 
->>> with torch.no_grad():
-...     features = bertweet(input_ids)  # Models outputs are now tuples
+>> > with torch.no_grad():
+    ...
+features = bertweet(input_ids)  # Models outputs are now tuples
 
->>> # With TensorFlow 2.0+:
->>> # from transformers import TFAutoModel
->>> # bertweet = TFAutoModel.from_pretrained("vinai/bertweet-base")
+>> >  # With TensorFlow 2.0+:
+>> >  # from myTransformers import TFAutoModel
+>> >  # bertweet = TFAutoModel.from_pretrained("vinai/bertweet-base")
 ```
 
 <Tip> 

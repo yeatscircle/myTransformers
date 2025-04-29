@@ -37,7 +37,7 @@ def extract_classes_and_imports(file_path):
     for node in ast.walk(tree):
         if isinstance(node, (ast.Import, ast.ImportFrom)):
             module = node.module if isinstance(node, ast.ImportFrom) else None
-            if module and (".modeling_" in module or "transformers.models" in module):
+            if module and (".modeling_" in module or "myTransformers.models" in module):
                 imports.add(module)
     return imports
 

@@ -85,19 +85,19 @@ optimum-cli export onnx --model local_path --task question-answering distilbert_
 그 결과로 생성된 `model.onnx` 파일은 ONNX 표준을 지원하는 많은 [가속기](https://onnx.ai/supported-tools.html#deployModel) 중 하나에서 실행할 수 있습니다. 예를 들어, [ONNX Runtime](https://onnxruntime.ai/)을 사용하여 모델을 로드하고 실행할 수 있습니다:
 
 ```python
->>> from transformers import AutoTokenizer
->>> from optimum.onnxruntime import ORTModelForQuestionAnswering
+>> > from myTransformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForQuestionAnswering
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 Hub의 TensorFlow 체크포인트에 대해서도 동일한 프로세스가 적용됩니다. 예를 들어, [Keras organization](https://huggingface.co/keras-io)에서 순수한 TensorFlow 체크포인트를 내보내는 방법은 다음과 같습니다:
 
 ```bash
-optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_squad_onnx/
+optimum-cli export onnx --model keras-io/myTransformers-qa distilbert_base_cased_squad_onnx/
 ```
 
 ### `optimum.onnxruntime`을 사용하여 🤗 Transformers 모델을 ONNX로 내보내기 [[exporting-a-transformers-model-to-onnx-with-optimumonnxruntime]]
@@ -105,19 +105,19 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 CLI 대신에 `optimum.onnxruntime`을 사용하여 프로그래밍 방식으로 🤗 Transformers 모델을 ONNX로 내보낼 수도 있습니다. 다음과 같이 진행하세요:
 
 ```python
->>> from optimum.onnxruntime import ORTModelForSequenceClassification
->>> from transformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer
 
->>> model_checkpoint = "distilbert_base_uncased_squad"
->>> save_directory = "onnx/"
+>> > model_checkpoint = "distilbert_base_uncased_squad"
+>> > save_directory = "onnx/"
 
->>> # Load a model from transformers and export it to ONNX
->>> ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
->>> tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+>> >  # Load a model from myTransformers and export it to ONNX
+>> > ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
->>> # Save the onnx model and tokenizer
->>> ort_model.save_pretrained(save_directory)
->>> tokenizer.save_pretrained(save_directory)
+>> >  # Save the onnx model and tokenizer
+>> > ort_model.save_pretrained(save_directory)
+>> > tokenizer.save_pretrained(save_directory)
 ```
 
 ### 지원되지 않는 아키텍처의 모델 내보내기 [[exporting-a-model-for-an-unsupported-architecture]]
@@ -135,47 +135,47 @@ CLI 대신에 `optimum.onnxruntime`을 사용하여 프로그래밍 방식으로
 🤗 Transformers 모델을 ONNX로 내보내려면 추가 종속성을 설치하세요:
 
 ```bash
-pip install transformers[onnx]
+pip install myTransformers[onnx]
 ```
 
 `transformers.onnx` 패키지를 Python 모듈로 사용하여 준비된 구성을 사용하여 체크포인트를 내보냅니다:
 
 ```bash
-python -m transformers.onnx --model=distilbert/distilbert-base-uncased onnx/
+python -m myTransformers.onnx --model=distilbert/distilbert-base-uncased onnx/
 ```
 
 이렇게 하면 `--model` 인수에 정의된 체크포인트의 ONNX 그래프가 내보내집니다. 🤗 Hub에서 제공하는 체크포인트나 로컬에 저장된 체크포인트를 전달할 수 있습니다. 결과로 생성된 `model.onnx` 파일은 ONNX 표준을 지원하는 많은 가속기 중 하나에서 실행할 수 있습니다. 예를 들어, 다음과 같이 ONNX Runtime을 사용하여 모델을 로드하고 실행할 수 있습니다:
 
 ```python
->>> from transformers import AutoTokenizer
->>> from onnxruntime import InferenceSession
+>> > from myTransformers import AutoTokenizer
+>> > from onnxruntime import InferenceSession
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
->>> session = InferenceSession("onnx/model.onnx")
->>> # ONNX Runtime expects NumPy arrays as input
->>> inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
->>> outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > session = InferenceSession("onnx/model.onnx")
+>> >  # ONNX Runtime expects NumPy arrays as input
+>> > inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
+>> > outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
 ```
 
 필요한 출력 이름(예: `["last_hidden_state"]`)은 각 모델의 ONNX 구성을 확인하여 얻을 수 있습니다. 예를 들어, DistilBERT의 경우 다음과 같습니다:
 
 ```python
->>> from transformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
+>> > from myTransformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
 
->>> config = DistilBertConfig()
->>> onnx_config = DistilBertOnnxConfig(config)
->>> print(list(onnx_config.outputs.keys()))
+>> > config = DistilBertConfig()
+>> > onnx_config = DistilBertOnnxConfig(config)
+>> > print(list(onnx_config.outputs.keys()))
 ["last_hidden_state"]
 ```
 
 Hub의 TensorFlow 체크포인트에 대해서도 동일한 프로세스가 적용됩니다. 예를 들어, 다음과 같이 순수한 TensorFlow 체크포인트를 내보냅니다:
 
 ```bash
-python -m transformers.onnx --model=keras-io/transformers-qa onnx/
+python -m myTransformers.onnx --model=keras-io/myTransformers-qa onnx/
 ```
 
 로컬에 저장된 모델을 내보내려면 모델의 가중치 파일과 토크나이저 파일을 동일한 디렉토리에 저장한 다음, transformers.onnx 패키지의 --model 인수를 원하는 디렉토리로 지정하여 ONNX로 내보냅니다:
 
 ```bash
-python -m transformers.onnx --model=local-pt-checkpoint onnx/
+python -m myTransformers.onnx --model=local-pt-checkpoint onnx/
 ```

@@ -17,8 +17,8 @@ import copy
 import tempfile
 import unittest
 
-from transformers import NllbMoeConfig, is_torch_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import NllbMoeConfig, is_torch_available, set_seed
+from myTransformers.testing_utils import (
     require_sentencepiece,
     require_tokenizers,
     require_torch,
@@ -26,7 +26,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -37,8 +37,8 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import NllbMoeForConditionalGeneration, NllbMoeModel, NllbTokenizer
-    from transformers.models.nllb_moe.modeling_nllb_moe import NllbMoeDecoder, NllbMoeEncoder, NllbMoeTop2Router
+    from myTransformers import NllbMoeForConditionalGeneration, NllbMoeModel, NllbTokenizer
+    from myTransformers.models.nllb_moe.modeling_nllb_moe import NllbMoeDecoder, NllbMoeEncoder, NllbMoeTop2Router
 
 
 class NllbMoeModelTester:
@@ -404,7 +404,7 @@ class NllbMoeModelIntegrationTests(unittest.TestCase):
     def test_inference_logits(self):
         r"""
         Logits testing to check implementation consistency between `fairseq` implementation
-        and `transformers` implementation of NLLB-MoE transformers. We only check the logits
+        and `myTransformers` implementation of NLLB-MoE myTransformers. We only check the logits
         of the second sample of the batch, as it is padded.
         """
         model = NllbMoeForConditionalGeneration.from_pretrained("hf-internal-testing/random-nllb-moe-2-experts").eval()

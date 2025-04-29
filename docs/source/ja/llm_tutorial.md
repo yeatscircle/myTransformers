@@ -32,7 +32,7 @@ LLM、またはLarge Language Models（大規模言語モデル）は、テキ�
 
 
 ```bash
-pip install transformers bitsandbytes>=0.39.0 -q
+pip install myTransformers bitsandbytes>=0.39.0 -q
 ```
 
 ## Generate text
@@ -78,12 +78,12 @@ LLM（Language Model）による自己回帰生成の重要な側面の1つは�
 <!-- TODO: llama 2（またはより新しい一般的なベースライン）が利用可能になったら、例を更新する -->
 まず、モデルを読み込む必要があります。
 
-
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "openlm-research/open_llama_7b", device_map="auto", load_in_4bit=True
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"openlm-research/open_llama_7b", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -96,12 +96,11 @@ LLM（Language Model）による自己回帰生成の重要な側面の1つは�
 
 次に、[トークナイザ](tokenizer_summary)を使用してテキスト入力を前処理する必要があります。
 
-
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
->>> model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
+>> > tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
+>> > model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to("cuda")
 ```
 
 
@@ -123,12 +122,13 @@ LLM（Language Model）による自己回帰生成の重要な側面の1つは�
 [生成戦略](generation_strategies)はたくさんあり、デフォルトの値があなたのユースケースに適していないことがあります。出力が期待通りでない場合、最も一般的な落とし穴とその回避方法のリストを作成しました。
 
 ```py
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
->>> tokenizer.pad_token = tokenizer.eos_token  # Llama has no pad token by default
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "openlm-research/open_llama_7b", device_map="auto", load_in_4bit=True
+>> > tokenizer = AutoTokenizer.from_pretrained("openlm-research/open_llama_7b")
+>> > tokenizer.pad_token = tokenizer.eos_token  # Llama has no pad token by default
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"openlm-research/open_llama_7b", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -155,20 +155,20 @@ LLM（Language Model）による自己回帰生成の重要な側面の1つは�
 デフォルトでは、 [`~generation.GenerationConfig`] ファイルで指定されていない限り、`generate` は各イテレーションで最も可能性の高いトークンを選択します（貪欲デコーディング）。タスクに応じて、これは望ましくないことがあります。チャットボットやエッセイのような創造的なタスクでは、サンプリングが有益です。一方、音声の転写や翻訳のような入力に基づくタスクでは、貪欲デコーディングが有益です。`do_sample=True` でサンプリングを有効にできます。このトピックについての詳細は、この[ブログポスト](https://huggingface.co/blog/how-to-generate)で学ぶことができます。
 
 ```py
->>> # Set seed or reproducibility -- you don't need this unless you want full reproducibility
->>> from transformers import set_seed
->>> set_seed(0)
+>> >  # Set seed or reproducibility -- you don't need this unless you want full reproducibility
+>> > from myTransformers import set_seed
+>> > set_seed(0)
 
->>> model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
+>> > model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
 
->>> # LLM + greedy decoding = repetitive, boring output
->>> generated_ids = model.generate(**model_inputs)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # LLM + greedy decoding = repetitive, boring output
+>> > generated_ids = model.generate(**model_inputs)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat. I am a cat. I am a cat. I am a cat'
 
->>> # With sampling, the output becomes more creative!
->>> generated_ids = model.generate(**model_inputs, do_sample=True)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # With sampling, the output becomes more creative!
+>> > generated_ids = model.generate(**model_inputs, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat.\nI just need to be. I am always.\nEvery time'
 ```
 

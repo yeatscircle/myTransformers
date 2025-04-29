@@ -26,7 +26,7 @@ specific language governing permissions and limitations under the License.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください：
 
 ```bash
-!pip install transformers datasets evaluate accelerate
+!pip install myTransformers datasets evaluate accelerate
 ```
 
 あなたはまた、好きな機械学習フレームワークをインストールする必要があります:
@@ -78,9 +78,9 @@ pip install tensorflow
 このガイドでは、センチメント分析のために [`pipeline`] を使用する例を示します：
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis")
+>> > classifier = pipeline("sentiment-analysis")
 ```
 
 [`pipeline`]は、感情分析のためのデフォルトの[事前学習済みモデル](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)とトークナイザをダウンロードしてキャッシュし、使用できるようになります。
@@ -104,10 +104,10 @@ label: NEGATIVE, スコア: 0.5309
 [`pipeline`]は、任意のタスクに対してデータセット全体を繰り返し処理することもできます。この例では、自動音声認識をタスクとして選びましょう：
 
 ```python
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+>> > speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
 ```
 
 オーディオデータセットをロードします（詳細については🤗 Datasets [クイックスタート](https://huggingface.co/docs/datasets/quickstart#audio)を参照してください）。
@@ -148,10 +148,10 @@ label: NEGATIVE, スコア: 0.5309
 [`AutoModelForSequenceClassification`]と[`AutoTokenizer`]を使用して事前学習済みモデルとそれに関連するトークナイザをロードします（次のセクションで`AutoClass`について詳しく説明します）：
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 </pt>
@@ -159,10 +159,10 @@ label: NEGATIVE, スコア: 0.5309
 以下のコードは、[`TFAutoModelForSequenceClassification`]および[`AutoTokenizer`]を使用して、事前学習済みモデルとその関連するトークナイザをロードする方法を示しています（`TFAutoClass`については次のセクションで詳しく説明します）：
 
 ```python
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -199,10 +199,10 @@ label: NEGATIVE, スコア: 0.5309
 [`AutoTokenizer`] を使用してトークナイザをロードします：
 
 ```python
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 Pass your text to the tokenizer:
@@ -265,10 +265,10 @@ Pass your text to the tokenizer:
 テキスト（またはシーケンス）分類の場合、[`AutoModelForSequenceClassification`]をロードする必要があります：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -302,10 +302,10 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 テキスト（またはシーケンス）分類の場合、[`TFAutoModelForSequenceClassification`]をロードする必要があります：
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -384,20 +384,20 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>
@@ -409,9 +409,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 最初に[`AutoConfig`]をインポートし、変更したい事前学習済みモデルをロードします。[`AutoConfig.from_pretrained`]内で、変更したい属性（例：アテンションヘッドの数）を指定できます：
 
 ```python
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
+>> > my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
 ```
 
 <frameworkcontent>
@@ -419,9 +419,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 [`AutoModel.from_config`]を使用してカスタム設定からモデルを作成します：
 
 ```python
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> my_model = AutoModel.from_config(my_config)
+>> > my_model = AutoModel.from_config(my_config)
 ```
 
 </pt>
@@ -429,9 +429,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 カスタム構成からモデルを作成するには、[`TFAutoModel.from_config`]を使用します：
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> my_model = TFAutoModel.from_config(my_config)
+>> > my_model = TFAutoModel.from_config(my_config)
 ```
 
 </tf>
@@ -450,7 +450,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. [`PreTrainedModel`]または[`torch.nn.Module`](https://pytorch.org/docs/stable/nn.html#torch.nn.Module)から始めます：
 
     ```py
-    >>> from transformers import AutoModelForSequenceClassification
+    >>> from myTransformers import AutoModelForSequenceClassification
 
     >>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
     ```
@@ -458,7 +458,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. [`TrainingArguments`]には、変更できるモデルのハイパーパラメータが含まれており、学習率、バッチサイズ、トレーニングエポック数などが変更できます。指定しない場合、デフォルト値が使用されます：
 
    ```py
-   >>> from transformers import TrainingArguments
+   >>> from myTransformers import TrainingArguments
 
    >>> training_args = TrainingArguments(
    ...     output_dir="path/to/save/folder/",
@@ -472,7 +472,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 3. トークナイザ、画像プロセッサ、特徴量抽出器、またはプロセッサのような前処理クラスをロードします：
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
     ```
@@ -501,7 +501,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 6. データセットからの例のバッチを作成するための [`DataCollatorWithPadding`]：
 
    ```py
-   >>> from transformers import DataCollatorWithPadding
+   >>> from myTransformers import DataCollatorWithPadding
 
    >>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
    ```
@@ -509,15 +509,21 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 次に、これらのクラスを[`Trainer`]にまとめます：
 
 ```python
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     processing_class=tokenizer,
-...     data_collator=data_collator,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+processing_class = tokenizer,
+...
+data_collator = data_collator,
 ... )  # doctest: +SKIP
 ```
 
@@ -545,7 +551,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. [`TFPreTrainedModel`]または[`tf.keras.Model`](https://www.tensorflow.org/api_docs/python/tf/keras/Model)から始めます：
 
    ```py
-   >>> from transformers import TFAutoModelForSequenceClassification
+   >>> from myTransformers import TFAutoModelForSequenceClassification
 
    >>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -553,7 +559,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. トークナイザ、画像プロセッサ、特徴量抽出器、またはプロセッサのような前処理クラスをロードします：
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```

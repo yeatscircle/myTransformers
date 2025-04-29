@@ -18,15 +18,15 @@ import unittest
 import requests
 from PIL import Image
 
-from transformers import TextNetConfig
-from transformers.models.textnet.image_processing_textnet import TextNetImageProcessor
-from transformers.testing_utils import (
+from myTransformers import TextNetConfig
+from myTransformers.models.textnet.image_processing_textnet import TextNetImageProcessor
+from myTransformers.testing_utils import (
     require_torch,
     require_vision,
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available
+from myTransformers.utils import is_torch_available
 
 from ...test_backbone_common import BackboneTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -38,7 +38,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import TextNetBackbone, TextNetForImageClassification, TextNetModel
+    from myTransformers import TextNetBackbone, TextNetForImageClassification, TextNetModel
 
 
 class TextNetConfigTester(ConfigTester):

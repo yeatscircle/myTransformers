@@ -20,7 +20,7 @@ RUN apt install -y git libsndfile1-dev tesseract-ocr espeak-ng python3 python3-p
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
 ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
 
 RUN [ ${#PYTORCH} -gt 0 ] && VERSION='torch=='$PYTORCH'.*' ||  VERSION='torch'; echo "export VERSION='$VERSION'" >> ~/.profile
 RUN echo torch=$VERSION
@@ -87,9 +87,9 @@ RUN python3 -m pip install --no-cache-dir amd-quark
 # Add AutoRound for quantization testing
 RUN python3 -m pip install --no-cache-dir "auto-round>=0.5.0"
 
-# Add transformers in editable mode
-RUN python3 -m pip install --no-cache-dir -e ./transformers[dev-torch]
+# Add myTransformers in editable mode
+RUN python3 -m pip install --no-cache-dir -e ./myTransformers[dev-torch]
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop

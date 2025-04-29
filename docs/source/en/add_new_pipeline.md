@@ -32,7 +32,8 @@ Keeping the inputs and outputs simple, and ideally JSON-serializable, makes it e
 With an input and output decided, you can start implementing [`Pipeline`]. Your pipeline should inherit from the base [`Pipeline`] class and include 4 methods.
 
 ```py
-from transformers import Pipeline
+from myTransformers import Pipeline
+
 
 class MyPipeline(Pipeline):
     def _sanitize_parameters(self, **kwargs):
@@ -87,7 +88,7 @@ def _sanitize_parameters(self, **kwargs):
 Now the pipeline can return the top most likely labels if a user chooses to.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline("my-task")
 # returns 3 most likely labels
@@ -105,8 +106,8 @@ Register the new task your pipeline supports in the `PIPELINE_REGISTRY`. The reg
 - the expected input with `type`
 
 ```py
-from transformers.pipelines import PIPELINE_REGISTRY
-from transformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
+from myTransformers.pipelines import PIPELINE_REGISTRY
+from myTransformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
 
 PIPELINE_REGISTRY.register_pipeline(
     "new-task",
@@ -132,12 +133,14 @@ For example, a custom pipeline for sentence pair classification might look like 
 
 ```py
 import numpy as np
-from transformers import Pipeline
+from myTransformers import Pipeline
+
 
 def softmax(outputs):
     maxes = np.max(outputs, axis=-1, keepdims=True)
     shifted_exp = np.exp(outputs - maxes)
     return shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
+
 
 class PairClassificationPipeline(Pipeline):
     def _sanitize_parameters(self, **kwargs):
@@ -167,8 +170,8 @@ Save the code in a file named `pair_classification.py`, and import and register 
 
 ```py
 from pair_classification import PairClassificationPipeline
-from transformers.pipelines import PIPELINE_REGISTRY
-from transformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
+from myTransformers.pipelines import PIPELINE_REGISTRY
+from myTransformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
 
 PIPELINE_REGISTRY.register_pipeline(
     "pair-classification",
@@ -197,7 +200,7 @@ The [register_pipeline](https://github.com/huggingface/transformers/blob/9feae5f
 Call [`~Pipeline.push_to_hub`] to push the pipeline to the Hub. The Python file containing the code is copied to the Hub, and the pipelines model and tokenizer are also saved and pushed to the Hub. Your pipeline should now be available on the Hub under your namespace.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(task="pair-classification", model="sgugger/finetuned-bert-mrpc")
 pipeline.push_to_hub("pair-classification-pipeline")
@@ -206,7 +209,7 @@ pipeline.push_to_hub("pair-classification-pipeline")
 To use the pipeline, add `trust_remote_code=True` when loading the pipeline.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(task="pair-classification", trust_remote_code=True)
 ```

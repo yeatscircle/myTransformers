@@ -21,8 +21,8 @@ import unittest
 import numpy as np
 from datasets import Audio, load_dataset
 
-from transformers import AutoProcessor, DacConfig, DacModel
-from transformers.testing_utils import is_torch_available, require_torch, slow, torch_device
+from myTransformers import AutoProcessor, DacConfig, DacModel
+from myTransformers.testing_utils import is_torch_available, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor
@@ -34,7 +34,7 @@ if is_torch_available():
 
 
 @require_torch
-# Copied from transformers.tests.encodec.test_modeling_encodec.EncodecModelTester with Encodec->Dac
+# Copied from myTransformers.tests.encodec.test_modeling_encodec.EncodecModelTester with Encodec->Dac
 class DacModelTester:
     # Ignore copy
     def __init__(
@@ -113,7 +113,7 @@ class DacModelTester:
 
 
 @require_torch
-# Copied from transformers.tests.encodec.test_modeling_encodec.EncodecModelTest with Encodec->Dac
+# Copied from myTransformers.tests.encodec.test_modeling_encodec.EncodecModelTest with Encodec->Dac
 class DacModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase):
     all_model_classes = (DacModel,) if is_torch_available() else ()
     is_encoder_decoder = True
@@ -162,23 +162,23 @@ class DacModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase):
             expected_arg_names = ["input_values", "n_quantizers", "return_dict"]
             self.assertListEqual(arg_names[: len(expected_arg_names)], expected_arg_names)
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have `inputs_embeds` logics")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have `inputs_embeds` logics")
     def test_inputs_embeds(self):
         pass
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have `inputs_embeds` logics")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have `inputs_embeds` logics")
     def test_model_get_set_embeddings(self):
         pass
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have the usual `attention` logic")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have the usual `attention` logic")
     def test_retain_grad_hidden_states_attentions(self):
         pass
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have the usual `attention` logic")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have the usual `attention` logic")
     def test_torchscript_output_attentions(self):
         pass
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have the usual `hidden_states` logic")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have the usual `hidden_states` logic")
     def test_torchscript_output_hidden_state(self):
         pass
 
@@ -272,11 +272,11 @@ class DacModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase):
             # (Even with this call, there are still memory leak by ~0.04MB)
             self.clear_torch_jit_class_registry()
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have the usual `attention` logic")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have the usual `attention` logic")
     def test_attention_outputs(self):
         pass
 
-    @unittest.skip("The DacModel is not transformers based, thus it does not have the usual `hidden_states` logic")
+    @unittest.skip("The DacModel is not myTransformers based, thus it does not have the usual `hidden_states` logic")
     def test_hidden_states_output(self):
         pass
 

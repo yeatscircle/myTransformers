@@ -30,19 +30,19 @@ jobs:
     runs-on: 
       group: aws-g4dn-2xlarge-cache
     container:
-      image: huggingface/transformers-all-latest-gpu
+      image: huggingface/myTransformers-all-latest-gpu
       options: --gpus 0 --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .[flax]
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .[flax]
 
       - name: GPU visibility
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
@@ -50,7 +50,7 @@ jobs:
         run: pip freeze
 
       - name: Get doctest files
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           echo "${{ toJson(fromJson(inputs.job_splits)[matrix.split_keys]) }}" > doc_tests.txt
           cat doc_tests.txt
@@ -65,7 +65,7 @@ jobs:
           echo "split_keys=$split_keys" >> $GITHUB_ENV
 
       - name: Run doctests
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           cat doc_tests.txt
           python3 -m pytest -v --make-reports doc_tests_gpu_${{ env.split_keys }} --doctest-modules $(cat doc_tests.txt) -sv --doctest-continue-on-failure --doctest-glob="*.md"
@@ -73,11 +73,11 @@ jobs:
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat /transformers/reports/doc_tests_gpu_${{ env.split_keys }}/failures_short.txt
+        run: cat /myTransformers/reports/doc_tests_gpu_${{ env.split_keys }}/failures_short.txt
 
       - name: "Test suite reports artifacts: doc_tests_gpu_test_reports_${{ env.split_keys }}"
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: doc_tests_gpu_test_reports_${{ env.split_keys }}
-          path: /transformers/reports/doc_tests_gpu_${{ env.split_keys }}
+          path: /myTransformers/reports/doc_tests_gpu_${{ env.split_keys }}

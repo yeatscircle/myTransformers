@@ -37,7 +37,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에, 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## 깊이 추정 파이프라인[[depth-estimation-inference-by-hand]]
@@ -46,10 +46,10 @@ pip install -q transformers
 [Hugging Face Hub 체크포인트](https://huggingface.co/models?pipeline_tag=depth-estimation&sort=downloads)에서 파이프라인을 초기화합니다:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "vinvino02/glpn-nyu"
->>> depth_estimator = pipeline("depth-estimation", model=checkpoint)
+>> > checkpoint = "vinvino02/glpn-nyu"
+>> > depth_estimator = pipeline("depth-estimation", model=checkpoint)
 ```
 
 
@@ -95,12 +95,12 @@ pip install -q transformers
 여기서 이전에 사용한 체크포인트와 동일한 것을 사용합니다:
 
 ```py
->>> from transformers import AutoImageProcessor, AutoModelForDepthEstimation
+>> > from myTransformers import AutoImageProcessor, AutoModelForDepthEstimation
 
->>> checkpoint = "vinvino02/glpn-nyu"
+>> > checkpoint = "vinvino02/glpn-nyu"
 
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint)
->>> model = AutoModelForDepthEstimation.from_pretrained(checkpoint)
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForDepthEstimation.from_pretrained(checkpoint)
 ```
 
 필요한 이미지 변환을 처리하는 `image_processor`를 사용하여 모델에 대한 이미지 입력을 준비합니다.

@@ -19,13 +19,13 @@ import unittest
 import requests
 from PIL import Image
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     MLCDVisionConfig,
     MLCDVisionModel,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_torch,
     slow,
     torch_device,

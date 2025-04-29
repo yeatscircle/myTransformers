@@ -136,10 +136,11 @@ pip install huggingface_hub
 - `hub_model_id`، والذي هو اسم مستخدم Hub واسم النموذج الخاص بك.
 
 ```py
->>> from transformers import PushToHubCallback
+>> > from myTransformers import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="./your_model_save_path", tokenizer=tokenizer, hub_model_id="your-username/my-awesome-model"
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "./your_model_save_path", tokenizer = tokenizer, hub_model_id = "your-username/my-awesome-model"
 ... )
 ```
 
@@ -164,14 +165,15 @@ pip install huggingface_hub
 ينشئ هذا مستودعًا تحت اسم المستخدم الخاص بك باسم نموذج `my-awesome-model`. يمكن للمستخدمين الآن تحميل نموذجك باستخدام دالة `from_pretrained`:
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> model = AutoModel.from_pretrained("your_username/my-awesome-model")
+>> > model = AutoModel.from_pretrained("your_username/my-awesome-model")
 ```
-```py
->>> from transformers import AutoModel
 
->>> model = AutoModel.from_pretrained("your_username/my-awesome-model")
+```py
+>> > from myTransformers import AutoModel
+
+>> > model = AutoModel.from_pretrained("your_username/my-awesome-model")
 ```
 
 إذا كنت تنتمي إلى منظمة وتريد دفع نموذجك تحت اسم المنظمة بدلاً من ذلك، فما عليك سوى إضافته إلى `repo_id`:

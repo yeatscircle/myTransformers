@@ -46,10 +46,9 @@ Flash Attention 2は、モデルのdtypeが`fp16`または`bf16`の場合にの�
 
 モデルでFlash Attention 2を有効にするには、`from_pretrained`の引数に`attn_implementation="flash_attention_2"`を追加します。
 
-
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
 
 model_id = "tiiuae/falcon-7b"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -106,7 +105,7 @@ Flash Attentionは、アテンション計算をよりメモリ効率の良い�
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
 
 model_id = "tiiuae/falcon-7b"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -124,7 +123,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
 
 model_id = "tiiuae/falcon-7b"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -142,7 +141,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
 from peft import LoraConfig
 
 model_id = "tiiuae/falcon-7b"
@@ -161,7 +160,7 @@ lora_config = LoraConfig(
 
 model.add_adapter(lora_config)
 
-... # train your model
+...  # train your model
 ```
 
 ## BetterTransformer
@@ -205,7 +204,7 @@ BetterTransformer APIを使ったエンコーダーモデルの可能性につ�
 モデルをBetterTransformerに変換するには、以下の手順を実行してください：
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("facebook/opt-350m")
 # convert the model to BetterTransformer
@@ -288,9 +287,8 @@ Note that this feature can also be used in a multi GPU setup.
 
 以下のコードを実行することで、簡単に単一のGPUでFP4モデルを実行できます:
 
-
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model_name = "bigscience/bloom-2b5"
 model_4bit = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto", load_in_4bit=True)
@@ -358,7 +356,7 @@ Int8混合精度行列分解は、行列乗算を2つのストリームに分割
 必要なライブラリをインストールした後、ミックス 8 ビットモデルを読み込む方法は次の通りです：
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 model_name = "bigscience/bloom-2b5"
 model_8bit = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
@@ -369,9 +367,8 @@ model_8bit = AutoModelForCausalLM.from_pretrained(model_name, quantization_confi
 * `pipeline()` 関数の代わりに、モデルの `generate()` メソッドを使用することをお勧めします。`pipeline()` 関数を使用して推論することは可能ですが、混合8ビットモデルに最適化されておらず、`generate()` メソッドを使用するよりも遅くなります。また、一部のサンプリング戦略（例：ヌクレウスサンプリング）は、`pipeline()` 関数では混合8ビットモデルではサポートされていません。
 * すべての入力をモデルと同じデバイスに配置してください。
 
-
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 model_name = "bigscience/bloom-2b5"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -419,11 +416,10 @@ In this example, the first GPU will use 1GB of memory and the second 2GB.
 
 異なる方法を組み合わせて、モデルの最適なパフォーマンスを得ることができます。例えば、BetterTransformerを使用してFP4ミックスプレシジョン推論とフラッシュアテンションを組み合わせることができます。
 
-
 ```py
 import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,

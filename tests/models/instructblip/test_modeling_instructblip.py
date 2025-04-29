@@ -22,14 +22,14 @@ import pytest
 import requests
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     CONFIG_MAPPING,
     InstructBlipConfig,
     InstructBlipProcessor,
     InstructBlipQFormerConfig,
     InstructBlipVisionConfig,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_accelerate,
     require_bitsandbytes,
     require_torch,
@@ -38,7 +38,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -54,7 +54,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import InstructBlipForConditionalGeneration, InstructBlipVisionModel
+    from myTransformers import InstructBlipForConditionalGeneration, InstructBlipVisionModel
 
 
 if is_vision_available():

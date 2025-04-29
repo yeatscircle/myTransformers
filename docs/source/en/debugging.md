@@ -173,7 +173,7 @@ Underflow and overflow can occur when activations or weights are `inf`, `nan`, a
 <hfoption id="Trainer">
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     debug="underflow_overflow",
@@ -185,7 +185,7 @@ args = TrainingArguments(
 <hfoption id="PyTorch training loop">
 
 ```py
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model)
 ```
@@ -314,7 +314,7 @@ class T5LayerFF(nn.Module):
 Finally, you can configure the number of frames printed by [`~debug_utils.DebugUnderflowOverflow`].
 
 ```py
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model, max_frames_to_save=100)
 ```

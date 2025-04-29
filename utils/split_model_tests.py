@@ -23,9 +23,9 @@ details.
 
 Usage:
 
-This script is required to be run under `tests` folder of `transformers` root directory.
+This script is required to be run under `tests` folder of `myTransformers` root directory.
 
-Assume we are under `transformers` root directory:
+Assume we are under `myTransformers` root directory:
 ```bash
 cd tests
 python ../utils/split_model_tests.py --num_splits 64

@@ -18,8 +18,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     FEATURE_EXTRACTOR_MAPPING,
     AutoConfig,
@@ -27,7 +27,7 @@ from transformers import (
     Wav2Vec2Config,
     Wav2Vec2FeatureExtractor,
 )
-from transformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, get_tests_dir
+from myTransformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, get_tests_dir
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent.parent / "utils"))
@@ -43,7 +43,7 @@ SAMPLE_CONFIG = get_tests_dir("fixtures/dummy-config.json")
 
 class AutoFeatureExtractorTest(unittest.TestCase):
     def setUp(self):
-        transformers.dynamic_module_utils.TIME_OUT_REMOTE_CODE = 0
+        myTransformers.dynamic_module_utils.TIME_OUT_REMOTE_CODE = 0
 
     def test_feature_extractor_from_model_shortcut(self):
         config = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base-960h")

@@ -41,7 +41,7 @@ In this guide, you will learn how to use OWL-ViT:
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## Zero-shot object detection pipeline
@@ -50,10 +50,10 @@ The simplest way to try out inference with OWL-ViT is to use it in a [`pipeline`
 for zero-shot object detection from a [checkpoint on the Hugging Face Hub](https://huggingface.co/models?other=owlvit):
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "google/owlv2-base-patch16-ensemble"
->>> detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
+>> > checkpoint = "google/owlv2-base-patch16-ensemble"
+>> > detector = pipeline(model=checkpoint, task="zero-shot-object-detection")
 ```
 
 Next, choose an image you'd like to detect objects in. Here we'll use the image of astronaut Eileen Collins that is
@@ -135,10 +135,10 @@ Start by loading the model and associated processor from a [checkpoint on the Hu
 Here we'll use the same checkpoint as before:
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
+>> > from myTransformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 
->>> model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForZeroShotObjectDetection.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 ```
 
 Let's take a different image to switch things up.

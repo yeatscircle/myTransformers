@@ -24,7 +24,7 @@ The example below demonstrates how to generate text with [`Pipeline`] or the [`A
 
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
     task="text-generation",
@@ -40,18 +40,20 @@ pipeline("Plants create energy through a process known as")
 
 ```python
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("CohereForAI/c4ai-command-r-v01")
-model = AutoModelForCausalLM.from_pretrained("CohereForAI/c4ai-command-r-v01", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa")
+model = AutoModelForCausalLM.from_pretrained("CohereForAI/c4ai-command-r-v01", torch_dtype=torch.float16,
+                                             device_map="auto", attn_implementation="sdpa")
 
 # format message with the Command-R chat template
 messages = [{"role": "user", "content": "How do plants make energy?"}]
-input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
+input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(
+    "cuda")
 output = model.generate(
-    input_ids, 
-    max_new_tokens=100, 
-    do_sample=True, 
+    input_ids,
+    max_new_tokens=100,
+    do_sample=True,
     temperature=0.3,
     cache_implementation="static",
 )
@@ -63,7 +65,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 
 ```bash
 # pip install -U flash-attn --no-build-isolation
-transformers-cli chat --model_name_or_path CohereForAI/c4ai-command-r-v01 --torch_dtype auto --attn_implementation flash_attention_2
+myTransformers-cli chat --model_name_or_path CohereForAI/c4ai-command-r-v01 --torch_dtype auto --attn_implementation flash_attention_2
 ```
 
 </hfoption>
@@ -75,19 +77,22 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to quantize 
 
 ```python
 import torch
-from transformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
 
 bnb_config = BitsAndBytesConfig(load_in_4bit=True)
 tokenizer = AutoTokenizer.from_pretrained("CohereForAI/c4ai-command-r-v01")
-model = AutoModelForCausalLM.from_pretrained("CohereForAI/c4ai-command-r-v01", torch_dtype=torch.float16, device_map="auto", quantization_config=bnb_config, attn_implementation="sdpa")
+model = AutoModelForCausalLM.from_pretrained("CohereForAI/c4ai-command-r-v01", torch_dtype=torch.float16,
+                                             device_map="auto", quantization_config=bnb_config,
+                                             attn_implementation="sdpa")
 
 # format message with the Command-R chat template
 messages = [{"role": "user", "content": "How do plants make energy?"}]
-input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to("cuda")
+input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(
+    "cuda")
 output = model.generate(
-    input_ids, 
-    max_new_tokens=100, 
-    do_sample=True, 
+    input_ids,
+    max_new_tokens=100,
+    do_sample=True,
     temperature=0.3,
     cache_implementation="static",
 )
@@ -97,7 +102,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 Use the [AttentionMaskVisualizer](https://github.com/huggingface/transformers/blob/beb9b5b02246b9b7ee81ddf938f93f44cfeaad19/src/transformers/utils/attention_visualizer.py#L139) to better understand what tokens the model can and cannot attend to.
 
 ```py
-from transformers.utils.attention_visualizer import AttentionMaskVisualizer
+from myTransformers.utils.attention_visualizer import AttentionMaskVisualizer
 
 visualizer = AttentionMaskVisualizer("CohereForAI/c4ai-command-r-v01")
 visualizer("Plants create energy through a process known as")

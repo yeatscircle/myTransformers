@@ -22,8 +22,8 @@ from typing import Optional
 from seq2seq_trainer import Seq2SeqTrainer
 from seq2seq_training_args import Seq2SeqTrainingArguments
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
@@ -32,8 +32,8 @@ from transformers import (
     MBartTokenizerFast,
     set_seed,
 )
-from transformers.trainer_utils import EvaluationStrategy, is_main_process
-from transformers.training_args import ParallelMode
+from myTransformers.trainer_utils import EvaluationStrategy, is_main_process
+from myTransformers.training_args import ParallelMode
 from utils import (
     Seq2SeqDataCollator,
     Seq2SeqDataset,
@@ -155,7 +155,7 @@ def handle_metrics(split, metrics, output_dir):
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -184,11 +184,11 @@ def main():
         bool(training_args.parallel_mode == ParallelMode.DISTRIBUTED),
         training_args.fp16,
     )
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
     # Set the verbosity to info of the Transformers logger (on main process only):
     if is_main_process(training_args.local_rank):
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     logger.info("Training/evaluation parameters %s", training_args)
 
     # Set seed

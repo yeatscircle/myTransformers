@@ -41,9 +41,9 @@ if __name__ == "__main__":
     parser.add_argument("--check_lib", action="store_true", help="Whether to check the build or the actual package.")
     args = parser.parse_args()
     if args.check_lib:
-        transformers_module = importlib.import_module("transformers")
+        transformers_module = importlib.import_module("myTransformers")
         transformers_path = Path(transformers_module.__file__).parent
     else:
-        transformers_path = Path.cwd() / "build/lib/transformers"
+        transformers_path = Path.cwd() / "build/lib/myTransformers"
     if not test_custom_files_are_present(transformers_path):
         raise ValueError("The built release does not contain the custom files. Fix this before going further!")

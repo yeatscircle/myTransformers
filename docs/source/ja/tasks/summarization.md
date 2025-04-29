@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate rouge_score
+pip install myTransformers datasets evaluate rouge_score
 ```
 
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -85,10 +85,10 @@ pip install transformers datasets evaluate rouge_score
 次のステップでは、T5 トークナイザーをロードして「text」と`summary`を処理します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 作成する前処理関数は次のことを行う必要があります。
@@ -123,17 +123,17 @@ pip install transformers datasets evaluate rouge_score
 <pt>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import DataCollatorForSeq2Seq
+>> > from myTransformers import DataCollatorForSeq2Seq
 
->>> data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
+>> > data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=checkpoint, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -183,11 +183,10 @@ pip install transformers datasets evaluate rouge_score
 
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForSeq2SeqLM`] を使用して T5 をロードします。
 
-
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 この時点で残っている手順は次の 3 つだけです。
@@ -239,18 +238,17 @@ Keras を使用したモデルの微調整に慣れていない場合は、[こ�
 TensorFlow でモデルを微調整するには、オプティマイザー関数、学習率スケジュール、およびいくつかのトレーニング ハイパーパラメーターをセットアップすることから始めます。
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 次に、[`TFAutoModelForSeq2SeqLM`] を使用して T5 をロードできます。
 
-
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] を使用して、データセットを `tf.data.Dataset` 形式に変換します。
@@ -284,19 +282,21 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 `compute_metrics` 関数を [`~transformers.KerasMetricCallback`] に渡します。
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 Specify where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_billsum_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_billsum_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -338,11 +338,12 @@ Specify where to push your model and tokenizer in the [`~transformers.PushToHubC
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用して要約用の `pipeline` をインスタンス化し、テキストをそれに渡します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline("summarization", model="stevhliu/my_awesome_billsum_model")
->>> summarizer(text)
-[{"summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
+>> > summarizer = pipeline("summarization", model="stevhliu/my_awesome_billsum_model")
+>> > summarizer(text)
+[{
+     "summary_text": "The Inflation Reduction Act lowers prescription drug costs, health care costs, and energy costs. It's the most aggressive action on tackling the climate crisis in American history, which will lift up American workers and create good-paying, union jobs across the country."}]
 ```
 
 必要に応じて、`pipeline`」の結果を手動で複製することもできます。
@@ -352,19 +353,19 @@ Specify where to push your model and tokenizer in the [`~transformers.PushToHubC
 Tokenize the text and return the `input_ids` as PyTorch tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 [`~generation.GenerationMixin.generate`] メソッドを使用して要約を作成します。さまざまなテキスト生成戦略と生成を制御するためのパラメーターの詳細については、[Text Generation](../main_classes/text_generation) API を確認してください。
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 生成されたトークン ID をデコードしてテキストに戻します。
@@ -379,19 +380,19 @@ Tokenize the text and return the `input_ids` as PyTorch tensors:
 テキストをトークン化し、`input_ids`を TensorFlow テンソルとして返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] メソッドを使用して要約を作成します。さまざまなテキスト生成戦略と生成を制御するためのパラメーターの詳細については、[Text Generation](../main_classes/text_generation) API を確認してください。
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("stevhliu/my_awesome_billsum_model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=False)
 ```
 
 生成されたトークン ID をデコードしてテキストに戻します。

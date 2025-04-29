@@ -37,10 +37,16 @@ The example below demonstrates how to generate text with [`Pipeline`], [`AutoMod
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(task="text-generation", model="microsoft/phi-1.5", device=0, torch_dtype=torch.bfloat16)
-pipeline("pipeline('''def print_prime(n): """ Print all primes between 1 and n"""''')")
+pipeline("pipeline('''def print_prime(n): """
+Print
+all
+primes
+between
+1 and n
+"""''')")
 
 ```
 
@@ -50,10 +56,11 @@ pipeline("pipeline('''def print_prime(n): """ Print all primes between 1 and n""
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-1")
-model = AutoModelForCausalLM.from_pretrained("microsoft/phi-1", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa")
+model = AutoModelForCausalLM.from_pretrained("microsoft/phi-1", torch_dtype=torch.float16, device_map="auto",
+                                             attn_implementation="sdpa")
 
 input_ids = tokenizer('''def print_prime(n):
    """
@@ -68,7 +75,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "'''def print_prime(n): """ Print all primes between 1 and n"""'''" | transformers-cli run --task text-classification --model microsoft/phi-1.5 --device 0
+echo -e "'''def print_prime(n): """ Print all primes between 1 and n"""'''" | myTransformers-cli run --task text-classification --model microsoft/phi-1.5 --device 0
 ```
 
 </hfoption>
@@ -80,11 +87,13 @@ The example below uses [bitsandbytes](https://huggingface.co/docs/transformers/e
 
 ```py
 import torch
-from transformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
 
-bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)
+bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4",
+                                bnb_4bit_use_double_quant=True)
 tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-1")
-model = AutoModelForCausalLM.from_pretrained("microsoft/phi-1", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa", quantization_config=bnb_config)
+model = AutoModelForCausalLM.from_pretrained("microsoft/phi-1", torch_dtype=torch.float16, device_map="auto",
+                                             attn_implementation="sdpa", quantization_config=bnb_config)
 
 input_ids = tokenizer('''def print_prime(n):
    """
@@ -101,7 +110,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 
     ```py
     import torch
-    from transformers import AutoTokenizer, AutoModelForCausalLM
+    from myTransformers import AutoTokenizer, AutoModelForCausalLM
     
     tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-1")
     model = AutoModelForCausalLM.from_pretrained(

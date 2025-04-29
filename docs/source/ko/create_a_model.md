@@ -32,27 +32,28 @@ rendered properly in your Markdown viewer.
 [DistilBERT](model_doc/distilbert) 속성을 검사하기 위해 [`DistilBertConfig`]에 접근하여 자세히 살펴봅니다:
 
 ```py
->>> from transformers import DistilBertConfig
+>> > from myTransformers import DistilBertConfig
 
->>> config = DistilBertConfig()
->>> print(config)
-DistilBertConfig {
-  "activation": "gelu",
-  "attention_dropout": 0.1,
-  "dim": 768,
-  "dropout": 0.1,
-  "hidden_dim": 3072,
-  "initializer_range": 0.02,
-  "max_position_embeddings": 512,
-  "model_type": "distilbert",
-  "n_heads": 12,
-  "n_layers": 6,
-  "pad_token_id": 0,
-  "qa_dropout": 0.1,
-  "seq_classif_dropout": 0.2,
-  "sinusoidal_pos_embds": false,
-  "transformers_version": "4.16.2",
-  "vocab_size": 30522
+>> > config = DistilBertConfig()
+>> > print(config)
+DistilBertConfig
+{
+    "activation": "gelu",
+    "attention_dropout": 0.1,
+    "dim": 768,
+    "dropout": 0.1,
+    "hidden_dim": 3072,
+    "initializer_range": 0.02,
+    "max_position_embeddings": 512,
+    "model_type": "distilbert",
+    "n_heads": 12,
+    "n_layers": 6,
+    "pad_token_id": 0,
+    "qa_dropout": 0.1,
+    "seq_classif_dropout": 0.2,
+    "sinusoidal_pos_embds": false,
+    "transformers_version": "4.16.2",
+    "vocab_size": 30522
 }
 ```
 
@@ -117,10 +118,10 @@ configuration 파일을 딕셔너리로 저장하거나 사용자 정의 configu
 사용자 지정 configuration 속성을 모델에 가져옵니다:
 
 ```py
->>> from transformers import DistilBertModel
+>> > from myTransformers import DistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
->>> model = DistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/config.json")
+>> > model = DistilBertModel(my_config)
 ```
 
 이제 사전 학습된 가중치 대신 임의의 값을 가진 모델이 생성됩니다. 이 모델을 훈련하기 전까지는 유용하게 사용할 수 없습니다. 훈련은 비용과 시간이 많이 소요되는 프로세스입니다. 일반적으로 훈련에 필요한 리소스의 일부만 사용하면서 더 나은 결과를 더 빨리 얻으려면 사전 훈련된 모델을 사용하는 것이 좋습니다.
@@ -141,10 +142,10 @@ configuration 파일을 딕셔너리로 저장하거나 사용자 정의 configu
 사용자 지정 configuration 속성을 모델에 불러옵니다:
 
 ```py
->>> from transformers import TFDistilBertModel
+>> > from myTransformers import TFDistilBertModel
 
->>> my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
->>> tf_model = TFDistilBertModel(my_config)
+>> > my_config = DistilBertConfig.from_pretrained("./your_model_save_path/my_config.json")
+>> > tf_model = TFDistilBertModel(my_config)
 ```
 
 이제 사전 학습된 가중치 대신 임의의 값을 가진 모델이 생성됩니다. 이 모델을 훈련하기 전까지는 유용하게 사용할 수 없습니다. 훈련은 비용과 시간이 많이 소요되는 프로세스입니다. 일반적으로 훈련에 필요한 리소스의 일부만 사용하면서 더 나은 결과를 더 빨리 얻으려면 사전 훈련된 모델을 사용하는 것이 좋습니다.
@@ -172,34 +173,34 @@ configuration 파일을 딕셔너리로 저장하거나 사용자 정의 configu
 예를 들어, [`DistilBertForSequenceClassification`]은 시퀀스 분류 헤드가 있는 기본 DistilBERT 모델입니다. 시퀀스 분류 헤드는 풀링된 출력 위에 있는 선형 레이어입니다.
 
 ```py
->>> from transformers import DistilBertForSequenceClassification
+>> > from myTransformers import DistilBertForSequenceClassification
 
->>> model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 다른 모델 헤드로 전환하여 이 체크포인트를 다른 작업에 쉽게 재사용할 수 있습니다. 질의응답 작업의 경우, [`DistilBertForQuestionAnswering`] 모델 헤드를 사용할 수 있습니다. 질의응답 헤드는 숨겨진 상태 출력 위에 선형 레이어가 있다는 점을 제외하면 시퀀스 분류 헤드와 유사합니다.
 
 ```py
->>> from transformers import DistilBertForQuestionAnswering
+>> > from myTransformers import DistilBertForQuestionAnswering
 
->>> model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = DistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </pt>
 <tf>
 예를 들어, [`TFDistilBertForSequenceClassification`]은 시퀀스 분류 헤드가 있는 기본 DistilBERT 모델입니다. 시퀀스 분류 헤드는 풀링된 출력 위에 있는 선형 레이어입니다.
 
 ```py
->>> from transformers import TFDistilBertForSequenceClassification
+>> > from myTransformers import TFDistilBertForSequenceClassification
 
->>> tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 다른 모델 헤드로 전환하여 이 체크포인트를 다른 작업에 쉽게 재사용할 수 있습니다. 질의응답 작업의 경우, [`TFDistilBertForQuestionAnswering`] 모델 헤드를 사용할 수 있습니다. 질의응답 헤드는 숨겨진 상태 출력 위에 선형 레이어가 있다는 점을 제외하면 시퀀스 분류 헤드와 유사합니다.
 
 ```py
->>> from transformers import TFDistilBertForQuestionAnswering
+>> > from myTransformers import TFDistilBertForQuestionAnswering
 
->>> tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tf_model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 </tf>
 </frameworkcontent>
@@ -221,25 +222,25 @@ configuration 파일을 딕셔너리로 저장하거나 사용자 정의 configu
 토크나이저를 직접 학습한 경우, *어휘(vocabulary)* 파일에서 토크나이저를 만들 수 있습니다:
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt", do_lower_case=False, padding_side="left")
+>> > my_tokenizer = DistilBertTokenizer(vocab_file="my_vocab_file.txt", do_lower_case=False, padding_side="left")
 ```
 
 사용자 지정 토크나이저의 어휘는 사전 학습된 모델의 토크나이저에서 생성된 어휘와 다를 수 있다는 점을 기억하는 것이 중요합니다. 사전 학습된 모델을 사용하는 경우 사전 학습된 모델의 어휘를 사용해야 하며, 그렇지 않으면 입력이 의미를 갖지 못합니다. [`DistilBertTokenizer`] 클래스를 사용하여 사전 학습된 모델의 어휘로 토크나이저를 생성합니다:
 
 ```py
->>> from transformers import DistilBertTokenizer
+>> > from myTransformers import DistilBertTokenizer
 
->>> slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > slow_tokenizer = DistilBertTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 [`DistilBertTokenizerFast`] 클래스로 빠른 토크나이저를 생성합니다:
 
 ```py
->>> from transformers import DistilBertTokenizerFast
+>> > from myTransformers import DistilBertTokenizerFast
 
->>> fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
+>> > fast_tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip>
@@ -255,26 +256,27 @@ configuration 파일을 딕셔너리로 저장하거나 사용자 정의 configu
 사용하려면 사용 중인 모델과 연결된 이미지 프로세서를 생성합니다. 예를 들어, 이미지 분류에 [ViT](model_doc/vit)를 사용하는 경우 기본 [`ViTImageProcessor`]를 생성합니다:
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> vit_extractor = ViTImageProcessor()
->>> print(vit_extractor)
-ViTImageProcessor {
-  "do_normalize": true,
-  "do_resize": true,
-  "feature_extractor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": 2,
-  "size": 224
+>> > vit_extractor = ViTImageProcessor()
+>> > print(vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": true,
+    "do_resize": true,
+    "feature_extractor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": 2,
+    "size": 224
 }
 ```
 
@@ -287,26 +289,27 @@ ViTImageProcessor {
 사용자 지정 이미지 프로세서를 생성하려면 [`ViTImageProcessor`] 파라미터를 수정합니다:
 
 ```py
->>> from transformers import ViTImageProcessor
+>> > from myTransformers import ViTImageProcessor
 
->>> my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
->>> print(my_vit_extractor)
-ViTImageProcessor {
-  "do_normalize": false,
-  "do_resize": true,
-  "feature_extractor_type": "ViTImageProcessor",
-  "image_mean": [
-    0.3,
-    0.3,
-    0.3
-  ],
-  "image_std": [
-    0.5,
-    0.5,
-    0.5
-  ],
-  "resample": "PIL.Image.BOX",
-  "size": 224
+>> > my_vit_extractor = ViTImageProcessor(resample="PIL.Image.BOX", do_normalize=False, image_mean=[0.3, 0.3, 0.3])
+>> > print(my_vit_extractor)
+ViTImageProcessor
+{
+    "do_normalize": false,
+    "do_resize": true,
+    "feature_extractor_type": "ViTImageProcessor",
+    "image_mean": [
+        0.3,
+        0.3,
+        0.3
+    ],
+    "image_std": [
+        0.5,
+        0.5,
+        0.5
+    ],
+    "resample": "PIL.Image.BOX",
+    "size": 224
 }
 ```
 
@@ -317,18 +320,19 @@ ViTImageProcessor {
 사용하려면 사용 중인 모델과 연결된 특성 추출기를 생성합니다. 예를 들어, 오디오 분류에 [Wav2Vec2](model_doc/wav2vec2)를 사용하는 경우 기본 [`Wav2Vec2FeatureExtractor`]를 생성합니다:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor()
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": true,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor",
-  "feature_size": 1,
-  "padding_side": "right",
-  "padding_value": 0.0,
-  "return_attention_mask": false,
-  "sampling_rate": 16000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor()
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": true,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor",
+    "feature_size": 1,
+    "padding_side": "right",
+    "padding_value": 0.0,
+    "return_attention_mask": false,
+    "sampling_rate": 16000
 }
 ```
 
@@ -341,18 +345,19 @@ Wav2Vec2FeatureExtractor {
 사용자 지정 특성 추출기를 만들려면 [`Wav2Vec2FeatureExtractor`] 매개변수를 수정합니다:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000, do_normalize=False)
->>> print(w2v2_extractor)
-Wav2Vec2FeatureExtractor {
-  "do_normalize": false,
-  "feature_extractor_type": "Wav2Vec2FeatureExtractor",
-  "feature_size": 1,
-  "padding_side": "right",
-  "padding_value": 0.0,
-  "return_attention_mask": false,
-  "sampling_rate": 8000
+>> > w2v2_extractor = Wav2Vec2FeatureExtractor(sampling_rate=8000, do_normalize=False)
+>> > print(w2v2_extractor)
+Wav2Vec2FeatureExtractor
+{
+    "do_normalize": false,
+    "feature_extractor_type": "Wav2Vec2FeatureExtractor",
+    "feature_size": 1,
+    "padding_side": "right",
+    "padding_value": 0.0,
+    "return_attention_mask": false,
+    "sampling_rate": 8000
 }
 ```
 
@@ -364,25 +369,25 @@ Wav2Vec2FeatureExtractor {
 오디오 입력을 처리할 특성 추출기를 만듭니다:
 
 ```py
->>> from transformers import Wav2Vec2FeatureExtractor
+>> > from myTransformers import Wav2Vec2FeatureExtractor
 
->>> feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
+>> > feature_extractor = Wav2Vec2FeatureExtractor(padding_value=1.0, do_normalize=True)
 ```
 
 텍스트 입력을 처리할 토크나이저를 만듭니다:
 
 ```py
->>> from transformers import Wav2Vec2CTCTokenizer
+>> > from myTransformers import Wav2Vec2CTCTokenizer
 
->>> tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
+>> > tokenizer = Wav2Vec2CTCTokenizer(vocab_file="my_vocab_file.txt")
 ```
 
 [`Wav2Vec2Processor`]에서 특성 추출기와 토크나이저를 결합합니다:
 
 ```py
->>> from transformers import Wav2Vec2Processor
+>> > from myTransformers import Wav2Vec2Processor
 
->>> processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
+>> > processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
 ```
 
 configuration과 모델이라는 두 가지 기본 클래스와 추가 전처리 클래스(토크나이저, 이미지 프로세서, 특성 추출기 또는 프로세서)를 사용하면 🤗 Transformers에서 지원하는 모든 모델을 만들 수 있습니다. 이러한 각 기본 클래스는 구성이 가능하므로 원하는 특정 속성을 사용할 수 있습니다. 학습을 위해 모델을 쉽게 설정하거나 기존의 사전 학습된 모델을 수정하여 미세 조정할 수 있습니다.

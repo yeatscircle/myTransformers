@@ -67,10 +67,10 @@
 يسمح تقسيم subword للنموذج بأن يكون له حجم مفردات معقول مع القدرة على تعلم تمثيلات مستقلة عن السياق ذات معنى. بالإضافة إلى ذلك، يمكّن تقسيم subword النموذج من معالجة الكلمات التي لم يسبق له رؤيتها من قبل، عن طريق تحليلها إلى رموز فرعية معروفة. على سبيل المثال، يقوم المحلل [`~transformers.BertTokenizer`] بتحليل"I have a new GPU!" كما يلي:
 
 ```py
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> tokenizer.tokenize("I have a new GPU!")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer.tokenize("I have a new GPU!")
 ["i", "have", "a", "new", "gp", "##u", "!"]
 ```
 
@@ -79,10 +79,10 @@
 كمثال آخر، يقوم المحلل [`~transformers.XLNetTokenizer`] بتقسيم نّص مثالنا السابق كما يلي:
 
 ```py
->>> from transformers import XLNetTokenizer
+>> > from myTransformers import XLNetTokenizer
 
->>> tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
->>> tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
+>> > tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
+>> > tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
 ["▁Don", "'", "t", "▁you", "▁love", "▁"، "🤗"، "▁"، "Transform"، "ers"، "؟"، "▁We"، "▁sure"، "▁do"، "."]
 ```
 سنعود إلى معنى تلك `"▁"` عندما نلقي نظرة على [SentencePiece](#sentencepiece). كما يمكنك أن ترى،

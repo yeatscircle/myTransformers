@@ -24,7 +24,7 @@ rendered properly in your Markdown viewer.
 蒸留とプロセスの評価に必要なライブラリをインストールしましょう。
 
 ```bash
-pip install transformers datasets accelerate tensorboard evaluate --upgrade
+pip install myTransformers datasets accelerate tensorboard evaluate --upgrade
 ```
 
 この例では、教師モデルとして`merve/beans-vit-224`モデルを使用しています。これは、Bean データセットに基づいて微調整された`google/vit-base-patch16-224-in21k`に基づく画像分類モデルです。このモデルをランダムに初期化された MobileNetV2 に抽出します。
@@ -40,21 +40,23 @@ dataset = load_dataset("beans")
 この場合、同じ解像度で同じ出力が返されるため、どちらのモデルの画像プロセッサも使用できます。 `dataset`の`map()`メソッドを使用して、データセットのすべての分割に前処理を適用します。
 
 ```python
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
+
 teacher_processor = AutoImageProcessor.from_pretrained("merve/beans-vit-224")
+
 
 def process(examples):
     processed_inputs = teacher_processor(examples["image"])
     return processed_inputs
+
 
 processed_datasets = dataset.map(process, batched=True)
 ```
 
 基本的に、我々は生徒モデル（ランダムに初期化されたMobileNet）が教師モデル（微調整されたビジョン変換器）を模倣することを望む。これを実現するために、まず教師と生徒からロジット出力を得る。次に、それぞれのソフトターゲットの重要度を制御するパラメータ`temperature`で分割する。`lambda`と呼ばれるパラメータは蒸留ロスの重要度を量る。この例では、`temperature=5`、`lambda=0.5`とする。生徒と教師の間の発散を計算するために、Kullback-Leibler発散損失を使用します。2つのデータPとQが与えられたとき、KLダイバージェンスはQを使ってPを表現するためにどれだけの余分な情報が必要かを説明します。もし2つが同じであれば、QからPを説明するために必要な他の情報はないので、それらのKLダイバージェンスはゼロになります。
 
-
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -76,7 +78,7 @@ class ImageDistilTrainer(Trainer):
         student_output = self.student(**inputs)
 
         with torch.no_grad():
-          teacher_output = self.teacher(**inputs)
+            teacher_output = self.teacher(**inputs)
 
         # Compute soft targets for teacher and student
         soft_teacher = F.softmax(teacher_output.logits / self.temperature, dim=-1)
@@ -104,7 +106,7 @@ notebook_login()
 教師モデルと生徒モデルである`TrainingArguments`を設定しましょう。
 
 ```python
-from transformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
+from myTransformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
 
 training_args = TrainingArguments(
     output_dir="my-awesome-model",
@@ -120,7 +122,7 @@ training_args = TrainingArguments(
     push_to_hub=True,
     hub_strategy="every_save",
     hub_model_id=repo_name,
-    )
+)
 
 num_labels = len(processed_datasets["train"].features["labels"].names)
 
@@ -153,9 +155,8 @@ def compute_metrics(eval_pred):
 
 定義したトレーニング引数を使用して`Trainer`を初期化しましょう。データ照合装置も初期化します。
 
-
 ```python
-from transformers import DefaultDataCollator
+from myTransformers import DefaultDataCollator
 
 data_collator = DefaultDataCollator()
 trainer = ImageDistilTrainer(

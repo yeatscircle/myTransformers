@@ -11,7 +11,7 @@ env:
   TRANSFORMERS_IS_CI: yes
   OMP_NUM_THREADS: 8
   MKL_NUM_THREADS: 8
-  RUN_SLOW: yes # For gated repositories, we still need to agree to share information on the Hub repo. page in order to get access. # This token is created under the bot `hf-transformers-bot`.
+  RUN_SLOW: yes # For gated repositories, we still need to agree to share information on the Hub repo. page in order to get access. # This token is created under the bot `hf-myTransformers-bot`.
   SIGOPT_API_TOKEN: ${{ secrets.SIGOPT_API_TOKEN }}
   TF_FORCE_GPU_ALLOW_GROWTH: true
 
@@ -29,7 +29,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@1c8e6069583811afb28f97afeaf8e7da80c6be5c
         with:
-          files: src/transformers/models/**
+          files: src/myTransformers/models/**
 
       - name: Run step if only the files listed above change
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -54,7 +54,7 @@ jobs:
     runs-on:
       group: aws-g5-4xlarge-cache
     container:
-      image: huggingface/transformers-all-latest-gpu
+      image: huggingface/myTransformers-all-latest-gpu
       options: --gpus all --privileged --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     if: ${{ needs.get_modified_models.outputs.matrix != '[]' && needs.get_modified_models.outputs.matrix != '' && fromJson(needs.get_modified_models.outputs.matrix)[0] != null }}
     strategy:
@@ -66,7 +66,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Install locally transformers & other libs
+      - name: Install locally myTransformers & other libs
         run: |
           apt install sudo
           sudo -H pip install --upgrade pip
@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.model-name }}_fa2_tests
-          path: /transformers/reports/${{ matrix.model-name }}_fa2_tests
+          path: /myTransformers/reports/${{ matrix.model-name }}_fa2_tests
 
       - name: Post to Slack
         if: always()
@@ -114,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tests_integration_${{ matrix.model-name }}
-          path: /transformers/reports/tests_integration_${{ matrix.model-name }}
+          path: /myTransformers/reports/tests_integration_${{ matrix.model-name }}
 
       - name: Post to Slack
         if: always()

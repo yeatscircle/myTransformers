@@ -72,12 +72,11 @@ rendered properly in your Markdown viewer.
 
 サブワードトークン化により、モデルは合理的な語彙サイズを持つことができ、意味のあるコンテキスト独立の表現を学習できます。さらに、サブワードトークン化により、モデルは以前に見たことのない単語を処理し、それらを既知のサブワードに分解することができます。例えば、[`~transformers.BertTokenizer`]は`"I have a new GPU!"`を以下のようにトークン化します：
 
-
 ```py
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> tokenizer.tokenize("I have a new GPU!")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer.tokenize("I have a new GPU!")
 ["i", "have", "a", "new", "gp", "##u", "!"]
 ```
 
@@ -86,10 +85,10 @@ rendered properly in your Markdown viewer.
 別の例として、[`~transformers.XLNetTokenizer`]は以下のように以前のサンプルテキストをトークン化します：
 
 ```py
->>> from transformers import XLNetTokenizer
+>> > from myTransformers import XLNetTokenizer
 
->>> tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
->>> tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
+>> > tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
+>> > tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
 ["▁Don", "'", "t", "▁you", "▁love", "▁", "🤗", "▁", "Transform", "ers", "?", "▁We", "▁sure", "▁do", "."]
 ```
 

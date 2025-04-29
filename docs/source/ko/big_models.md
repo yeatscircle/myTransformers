@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 `max_shard_size` 매개변수로 샤딩 전 최대 크기를 제어할 수 있으므로, 이 예제를 위해 샤드 크기가 작은 일반 크기의 모델을 사용하겠습니다: 전통적인 BERT 모델을 사용해 봅시다.
 
 ```py
-from transformers import AutoModel
+from myTransformers import AutoModel
 
 model = AutoModel.from_pretrained("google-bert/bert-base-cased")
 ```
@@ -108,11 +108,13 @@ dict_keys(['metadata', 'weight_map'])
 만약 [`~PreTrainedModel.from_pretrained`]를 사용하지 않고 모델 내에서 이러한 샤딩된 체크포인트를 직접 가져오려면 (전체 체크포인트를 위해 `model.load_state_dict()`를 수행하는 것처럼), [`~modeling_utils.load_sharded_checkpoint`]를 사용해야 합니다.
 
 ```py
->>> from transformers.modeling_utils import load_sharded_checkpoint
+>> > from myTransformers.modeling_utils import load_sharded_checkpoint
 
->>> with tempfile.TemporaryDirectory() as tmp_dir:
-...     model.save_pretrained(tmp_dir, max_shard_size="200MB")
-...     load_sharded_checkpoint(model, tmp_dir)
+>> > with tempfile.TemporaryDirectory() as tmp_dir:
+    ...
+model.save_pretrained(tmp_dir, max_shard_size="200MB")
+...
+load_sharded_checkpoint(model, tmp_dir)
 ```
 
 ## 저(低)메모리 로딩 [[low-memory-loading]]

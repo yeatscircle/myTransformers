@@ -15,8 +15,8 @@
 import gc
 import unittest
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, HqqConfig
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, HqqConfig
+from myTransformers.testing_utils import (
     require_accelerate,
     require_hqq,
     require_torch_gpu,
@@ -24,7 +24,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_hqq_available, is_torch_available
+from myTransformers.utils import is_hqq_available, is_torch_available
 
 
 if is_torch_available():

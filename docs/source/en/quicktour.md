@@ -60,7 +60,7 @@ Install a machine learning framework.
 Then install an up-to-date version of Transformers and some additional libraries from the Hugging Face ecosystem for accessing datasets and vision models, evaluating training, and optimizing training for large models.
 
 ```bash
-!pip install -U transformers datasets evaluate accelerate timm
+!pip install -U myTransformers datasets evaluate accelerate timm
 ```
 
 ## Pretrained models
@@ -86,7 +86,7 @@ When you load a model, configure the following parameters to ensure the model is
 - `torch_dtype="auto"` directly initializes the model weights in the data type they're stored in, which can help avoid loading the weights twice (PyTorch loads weights in `torch.float32` by default).
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf", torch_dtype="auto", device_map="auto")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
@@ -112,7 +112,7 @@ tokenizer.batch_decode(generated_ids)[0]
 <hfoption id="TensorFlow">
 
 ```py
-from transformers import TFAutoModelForCausalLM, AutoTokenizer
+from myTransformers import TFAutoModelForCausalLM, AutoTokenizer
 
 model = TFAutoModelForCausalLM.from_pretrained("openai-community/gpt2-xl")
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2-xl")
@@ -155,7 +155,7 @@ Create a [`Pipeline`] object and select a task. By default, [`Pipeline`] downloa
 Set `device="cuda"` to accelerate inference with a GPU.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline("text-generation", model="meta-llama/Llama-2-7b-hf", device="cuda")
 ```
@@ -173,7 +173,7 @@ pipeline("The secret to baking a good cake is ", max_length=50)
 Set `device="cuda"` to accelerate inference with a GPU.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline("image-segmentation", model="facebook/detr-resnet-50-panoptic", device="cuda")
 ```
@@ -198,7 +198,7 @@ segments[1]["label"]
 Set `device="cuda"` to accelerate inference with a GPU.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3", device="cuda")
 ```
@@ -222,7 +222,7 @@ Use the [`TrainingArguments`] class to customize the training process. It provid
 Load a model, tokenizer, and dataset for training.
 
 ```py
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from myTransformers import AutoModelForSequenceClassification, AutoTokenizer
 from datasets import load_dataset
 
 model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
@@ -241,7 +241,7 @@ dataset = dataset.map(tokenize_dataset, batched=True)
 Load a data collator to create batches of data and pass the tokenizer to it.
 
 ```py
-from transformers import DataCollatorWithPadding
+from myTransformers import DataCollatorWithPadding
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 ```
@@ -249,7 +249,7 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 Next, set up [`TrainingArguments`] with the training features and hyperparameters.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="distilbert-rotten-tomatoes",
@@ -264,7 +264,7 @@ training_args = TrainingArguments(
 Finally, pass all these separate components to [`Trainer`] and call [`~Trainer.train`] to start.
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -296,7 +296,7 @@ Congratulations, you just trained your first model with Transformers!
 Load a model, tokenizer, and dataset for training.
 
 ```py
-from transformers import TFAutoModelForSequenceClassification, AutoTokenizer
+from myTransformers import TFAutoModelForSequenceClassification, AutoTokenizer
 
 model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")

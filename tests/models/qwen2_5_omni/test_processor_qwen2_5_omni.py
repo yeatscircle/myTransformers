@@ -22,14 +22,14 @@ import numpy as np
 import pytest
 from huggingface_hub import hf_hub_download
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     Qwen2_5OmniProcessor,
     Qwen2Tokenizer,
     WhisperFeatureExtractor,
 )
-from transformers.testing_utils import require_av, require_librosa, require_torch, require_torchaudio, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_av, require_librosa, require_torch, require_torchaudio, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -38,7 +38,7 @@ if is_torch_available():
     import torch
 
 if is_vision_available():
-    from transformers import Qwen2VLImageProcessor
+    from myTransformers import Qwen2VLImageProcessor
 
 
 @require_vision

@@ -16,9 +16,9 @@ import copy
 import inspect
 import unittest
 
-from transformers import AutoBackbone
-from transformers.testing_utils import require_timm, require_torch, torch_device
-from transformers.utils.import_utils import is_torch_available
+from myTransformers import AutoBackbone
+from myTransformers.testing_utils import require_timm, require_torch, torch_device
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_backbone_common import BackboneTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -26,7 +26,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor
 
 
 if is_torch_available():
-    from transformers import TimmBackbone, TimmBackboneConfig
+    from myTransformers import TimmBackbone, TimmBackboneConfig
 
 from ...test_pipeline_mixin import PipelineTesterMixin
 
@@ -116,7 +116,7 @@ class TimmBackboneModelTest(ModelTesterMixin, BackboneTesterMixin, PipelineTeste
         self.assertEqual(len(timm_model.stage_names), len(transformers_model.stage_names))
         self.assertEqual(timm_model.channels, transformers_model.channels)
         # Out indices are set to the last layer by default. For timm models, we don't know
-        # the number of layers in advance, so we set it to (-1,), whereas for transformers
+        # the number of layers in advance, so we set it to (-1,), whereas for myTransformers
         # models, we set it to [len(stage_names) - 1] (kept for backward compatibility).
         self.assertEqual(timm_model.out_indices, [-1])
         self.assertEqual(transformers_model.out_indices, [len(timm_model.stage_names) - 1])

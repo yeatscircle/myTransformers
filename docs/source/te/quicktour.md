@@ -23,7 +23,7 @@ rendered properly in your Markdown viewer.
 మీరు ప్రారంభించడానికి ముందు, మీరు అవసరమైన అన్ని లైబ్రరీలను ఇన్‌స్టాల్ చేశారని నిర్ధారించుకోండి:
 
 ```bash
-!pip install transformers datasets evaluate accelerate
+!pip install myTransformers datasets evaluate accelerate
 ```
 
 మీరు మీ ప్రాధాన్య యంత్ర అభ్యాస ఫ్రేమ్‌వర్క్‌ను కూడా ఇన్‌స్టాల్ చేయాలి:
@@ -76,9 +76,9 @@ Here is the translation in Telugu:
 [`pipeline`] యొక్క ఉదాహరణను సృష్టించడం ద్వారా మరియు మీరు దానిని ఉపయోగించాలనుకుంటున్న పనిని పేర్కొనడం ద్వారా ప్రారంభించండి. ఈ గైడ్‌లో, మీరు సెంటిమెంట్ విశ్లేషణ కోసం [`pipeline`]ని ఉదాహరణగా ఉపయోగిస్తారు:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis")
+>> > classifier = pipeline("sentiment-analysis")
 ```
 
 సెంటిమెంట్ విశ్లేషణ కోసం [`pipeline`] డిఫాల్ట్ [ప్రీట్రైన్డ్ మోడల్](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) మరియు టోకెనైజర్‌ని డౌన్‌లోడ్ చేస్తుంది మరియు కాష్ చేస్తుంది. ఇప్పుడు మీరు మీ లక్ష్య వచనంలో `classifier`ని ఉపయోగించవచ్చు:
@@ -101,10 +101,10 @@ label: NEGATIVE, with score: 0.5309
 [`pipeline`] మీకు నచ్చిన ఏదైనా పని కోసం మొత్తం డేటాసెట్‌ను కూడా పునరావృతం చేయగలదు. ఈ ఉదాహరణ కోసం, స్వయంచాలక ప్రసంగ గుర్తింపును మన పనిగా ఎంచుకుందాం:
 
 ```py
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+>> > speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
 ```
 
 మీరు మళ్లీ మళ్లీ చెప్పాలనుకుంటున్న ఆడియో డేటాసెట్‌ను లోడ్ చేయండి (మరిన్ని వివరాల కోసం 🤗 డేటాసెట్‌లు [త్వరిత ప్రారంభం](https://huggingface.co/docs/datasets/quickstart#audio) చూడండి. ఉదాహరణకు, [MInDS-14](https://huggingface.co/datasets/PolyAI/minds14) డేటాసెట్‌ను లోడ్ చేయండి:
@@ -146,20 +146,20 @@ label: NEGATIVE, with score: 0.5309
 ముందుగా శిక్షణ పొందిన మోడల్‌ను లోడ్ చేయడానికి [`AutoModelForSequenceClassification`] మరియు [`AutoTokenizer`]ని ఉపయోగించండి మరియు దాని అనుబంధిత టోకెనైజర్ (తదుపరి విభాగంలో `AutoClass`పై మరిన్ని):
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </pt>
 <tf>
 ముందుగా శిక్షణ పొందిన మోడల్‌ను లోడ్ చేయడానికి [`TFAutoModelForSequenceClassification`] మరియు [`AutoTokenizer`]ని ఉపయోగించండి మరియు దాని అనుబంధిత టోకెనైజర్ (తదుపరి విభాగంలో `TFAutoClass`పై మరిన్ని):
 
 ```py
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -189,10 +189,10 @@ label: NEGATIVE, with score: 0.5309
 [`AutoTokenizer`]తో టోకెనైజర్‌ను లోడ్ చేయండి:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 మీ వచనాన్ని టోకెనైజర్‌కు పంపండి:
@@ -251,12 +251,11 @@ label: NEGATIVE, with score: 0.5309
 <pt>
 🤗 ట్రాన్స్‌ఫార్మర్లు ప్రీట్రైన్డ్ ఇన్‌స్టాన్స్‌లను లోడ్ చేయడానికి సులభమైన మరియు ఏకీకృత మార్గాన్ని అందిస్తాయి. దీని అర్థం మీరు [`AutoTokenizer`]ని లోడ్ చేసినట్లుగా [`AutoModel`]ని లోడ్ చేయవచ్చు. టాస్క్ కోసం సరైన [`AutoModel`]ని ఎంచుకోవడం మాత్రమే తేడా. టెక్స్ట్ (లేదా సీక్వెన్స్) వర్గీకరణ కోసం, మీరు [`AutoModelForSequenceClassification`]ని లోడ్ చేయాలి:
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -288,10 +287,10 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 🤗 ట్రాన్స్‌ఫార్మర్లు ప్రీట్రైన్డ్ ఇన్‌స్టాన్స్‌లను లోడ్ చేయడానికి సులభమైన మరియు ఏకీకృత మార్గాన్ని అందిస్తాయి. మీరు [`AutoTokenizer`]ని లోడ్ చేసినట్లుగా మీరు [`TFAutoModel`]ని లోడ్ చేయవచ్చని దీని అర్థం. టాస్క్ కోసం సరైన [`TFAutoModel`]ని ఎంచుకోవడం మాత్రమే తేడా. టెక్స్ట్ (లేదా సీక్వెన్స్) వర్గీకరణ కోసం, మీరు [`TFAutoModelForSequenceClassification`]ని లోడ్ చేయాలి:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -364,19 +363,19 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>
@@ -387,9 +386,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 [`AutoConfig`]ని దిగుమతి చేయడం ద్వారా ప్రారంభించండి, ఆపై మీరు సవరించాలనుకుంటున్న ప్రీట్రైన్డ్ మోడల్‌ను లోడ్ చేయండి. [`AutoConfig.from_pretrained`]లో, మీరు అటెన్షన్ హెడ్‌ల సంఖ్య వంటి మీరు మార్చాలనుకుంటున్న లక్షణాన్ని పేర్కొనవచ్చు:
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
+>> > my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
 ```
 
 <frameworkcontent>
@@ -397,18 +396,18 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 [`AutoModel.from_config`]తో మీ అనుకూల కాన్ఫిగరేషన్ నుండి మోడల్‌ను సృష్టించండి:
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> my_model = AutoModel.from_config(my_config)
+>> > my_model = AutoModel.from_config(my_config)
 ```
 </pt>
 <tf>
 [`TFAutoModel.from_config`]తో మీ అనుకూల కాన్ఫిగరేషన్ నుండి మోడల్‌ను సృష్టించండి:
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> my_model = TFAutoModel.from_config(my_config)
+>> > my_model = TFAutoModel.from_config(my_config)
 ```
 </tf>
 </frameworkcontent>
@@ -423,7 +422,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 
 1. మీరు [`PreTrainedModel`] లేదా [`torch.nn.Module`](https://pytorch.org/docs/stable/nn.html#torch.nn.Module)తో ప్రారంభిస్తారు:
    ```py
-   >>> from transformers import AutoModelForSequenceClassification
+   >>> from myTransformers import AutoModelForSequenceClassification
 
    >>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -431,7 +430,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. [`TrainingArguments`] మీరు నేర్చుకునే రేటు, బ్యాచ్ పరిమాణం మరియు శిక్షణ పొందవలసిన యుగాల సంఖ్య వంటి మార్చగల మోడల్ హైపర్‌పారామీటర్‌లను కలిగి ఉంది. మీరు ఎలాంటి శిక్షణా వాదనలను పేర్కొనకుంటే డిఫాల్ట్ విలువలు ఉపయోగించబడతాయి:
 
    ```py
-   >>> from transformers import TrainingArguments
+   >>> from myTransformers import TrainingArguments
 
    >>> training_args = TrainingArguments(
    ...     output_dir="path/to/save/folder/",
@@ -444,7 +443,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 
 3. టోకెనైజర్, ఇమేజ్ ప్రాసెసర్, ఫీచర్ ఎక్స్‌ట్రాక్టర్ లేదా ప్రాసెసర్ వంటి ప్రీప్రాసెసింగ్ క్లాస్‌ని లోడ్ చేయండి:
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -473,7 +472,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 6. మీ డేటాసెట్ నుండి ఉదాహరణల సమూహాన్ని సృష్టించడానికి [`DataCollatorWithPadding`]:
 
    ```py
-   >>> from transformers import DataCollatorWithPadding
+   >>> from myTransformers import DataCollatorWithPadding
 
    >>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
    ```
@@ -481,15 +480,21 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 ఇప్పుడు ఈ తరగతులన్నింటినీ [`Trainer`]లో సేకరించండి:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     processing_class=tokenizer,
-...     data_collator=data_collator,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+processing_class = tokenizer,
+...
+data_collator = data_collator,
 ... )  # doctest: +SKIP
 ```
 
@@ -515,7 +520,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 
 1. మీరు [`TFPreTrainedModel`] లేదా [`tf.keras.Model`](https://www.tensorflow.org/api_docs/python/tf/keras/Model)తో ప్రారంభిస్తారు:
    ```py
-   >>> from transformers import TFAutoModelForSequenceClassification
+   >>> from myTransformers import TFAutoModelForSequenceClassification
 
    >>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -523,7 +528,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. టోకెనైజర్, ఇమేజ్ ప్రాసెసర్, ఫీచర్ ఎక్స్‌ట్రాక్టర్ లేదా ప్రాసెసర్ వంటి ప్రీప్రాసెసింగ్ క్లాస్‌ని లోడ్ చేయండి:
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```

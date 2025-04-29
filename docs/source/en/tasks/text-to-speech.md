@@ -27,11 +27,11 @@ can also be conditioned to generate non-verbal communications such as laughing, 
 Here's an example of how you would use the `"text-to-speech"` pipeline with Bark:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("text-to-speech", model="suno/bark-small")
->>> text = "[clears throat] This is a test ... and I just took a long pause."
->>> output = pipe(text)
+>> > pipe = pipeline("text-to-speech", model="suno/bark-small")
+>> > text = "[clears throat] This is a test ... and I just took a long pause."
+>> > output = pipe(text)
 ```
 
 Here's a code snippet you can use to listen to the resulting audio in a notebook:
@@ -121,10 +121,10 @@ dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 Let's begin by defining the model checkpoint to use and loading the appropriate processor:
 
 ```py
->>> from transformers import SpeechT5Processor
+>> > from myTransformers import SpeechT5Processor
 
->>> checkpoint = "microsoft/speecht5_tts"
->>> processor = SpeechT5Processor.from_pretrained(checkpoint)
+>> > checkpoint = "microsoft/speecht5_tts"
+>> > processor = SpeechT5Processor.from_pretrained(checkpoint)
 ```
 
 ### Text cleanup for SpeechT5 tokenization
@@ -451,9 +451,9 @@ multiple of 2.
 Load the pre-trained model from the same checkpoint as you used for loading the processor:
 
 ```py
->>> from transformers import SpeechT5ForTextToSpeech
+>> > from myTransformers import SpeechT5ForTextToSpeech
 
->>> model = SpeechT5ForTextToSpeech.from_pretrained(checkpoint)
+>> > model = SpeechT5ForTextToSpeech.from_pretrained(checkpoint)
 ```
 
 The `use_cache=True` option is incompatible with gradient checkpointing. Disable it for training.
@@ -466,42 +466,66 @@ Define the training arguments. Here we are not computing any evaluation metrics 
 only look at the loss:
 
 ```python
->>> from transformers import Seq2SeqTrainingArguments
+>> > from myTransformers import Seq2SeqTrainingArguments
 
->>> training_args = Seq2SeqTrainingArguments(
-...     output_dir="speecht5_finetuned_voxpopuli_nl",  # change to a repo name of your choice
-...     per_device_train_batch_size=4,
-...     gradient_accumulation_steps=8,
-...     learning_rate=1e-5,
-...     warmup_steps=500,
-...     max_steps=4000,
-...     gradient_checkpointing=True,
-...     fp16=True,
-...     eval_strategy="steps",
-...     per_device_eval_batch_size=2,
-...     save_steps=1000,
-...     eval_steps=1000,
-...     logging_steps=25,
-...     report_to=["tensorboard"],
-...     load_best_model_at_end=True,
-...     greater_is_better=False,
-...     label_names=["labels"],
-...     push_to_hub=True,
+>> > training_args = Seq2SeqTrainingArguments(
+    ...
+output_dir = "speecht5_finetuned_voxpopuli_nl",  # change to a repo name of your choice
+...
+per_device_train_batch_size = 4,
+...
+gradient_accumulation_steps = 8,
+...
+learning_rate = 1e-5,
+...
+warmup_steps = 500,
+...
+max_steps = 4000,
+...
+gradient_checkpointing = True,
+...
+fp16 = True,
+...
+eval_strategy = "steps",
+...
+per_device_eval_batch_size = 2,
+...
+save_steps = 1000,
+...
+eval_steps = 1000,
+...
+logging_steps = 25,
+...
+report_to = ["tensorboard"],
+...
+load_best_model_at_end = True,
+...
+greater_is_better = False,
+...
+label_names = ["labels"],
+...
+push_to_hub = True,
 ... )
 ```
 
 Instantiate the `Trainer` object  and pass the model, dataset, and data collator to it.
 
 ```py
->>> from transformers import Seq2SeqTrainer
+>> > from myTransformers import Seq2SeqTrainer
 
->>> trainer = Seq2SeqTrainer(
-...     args=training_args,
-...     model=model,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     data_collator=data_collator,
-...     processing_class=processor,
+>> > trainer = Seq2SeqTrainer(
+    ...
+args = training_args,
+...
+model = model,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+data_collator = data_collator,
+...
+processing_class = processor,
 ... )
 ```
 
@@ -534,9 +558,9 @@ First, let's see how you can use it with a corresponding pipeline. Let's create 
 checkpoint:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("text-to-speech", model="YOUR_ACCOUNT_NAME/speecht5_finetuned_voxpopuli_nl")
+>> > pipe = pipeline("text-to-speech", model="YOUR_ACCOUNT_NAME/speecht5_finetuned_voxpopuli_nl")
 ```
 
 Pick a piece of text in Dutch you'd like narrated, e.g.:

@@ -52,7 +52,7 @@ alt="drawing" width="500"/>
 Here is a quick example of using the model to detect interest points in an image:
 
 ```python
-from transformers import AutoImageProcessor, SuperPointForKeypointDetection
+from myTransformers import AutoImageProcessor, SuperPointForKeypointDetection
 import torch
 from PIL import Image
 import requests
@@ -73,7 +73,7 @@ You can also feed multiple images to the model. Due to the nature of SuperPoint,
 you will need to use the mask attribute to retrieve the respective information :
 
 ```python
-from transformers import AutoImageProcessor, SuperPointForKeypointDetection
+from myTransformers import AutoImageProcessor, SuperPointForKeypointDetection
 import torch
 from PIL import Image
 import requests

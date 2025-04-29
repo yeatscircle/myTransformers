@@ -38,8 +38,7 @@ To use the model:
 
 ```python
 import torch
-from transformers import TimesFmModelForPrediction
-
+from myTransformers import TimesFmModelForPrediction
 
 model = TimesFmModelForPrediction.from_pretrained(
     "google/timesfm-2.0-500m-pytorch",
@@ -48,8 +47,7 @@ model = TimesFmModelForPrediction.from_pretrained(
     device_map="cuda" if torch.cuda.is_available() else None
 )
 
-
- # Create dummy inputs
+# Create dummy inputs
 forecast_input = [
     np.sin(np.linspace(0, 20, 100)),
     np.sin(np.linspace(0, 20, 200)),

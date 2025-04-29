@@ -43,7 +43,7 @@ Once you have setup the `doc-builder` and additional packages, you can generate 
 typing the following command:
 
 ```bash
-doc-builder build transformers docs/source/en/ --build_dir ~/tmp/test-build
+doc-builder build myTransformers docs/source/en/ --build_dir ~/tmp/test-build
 ```
 
 You can adapt the `--build_dir` to set any temporary folder that you prefer. This command will create it and generate
@@ -67,7 +67,7 @@ doc-builder preview {package_name} {path_to_docs}
 For example:
 
 ```bash
-doc-builder preview transformers docs/source/en/
+doc-builder preview myTransformers docs/source/en/
 ```
 
 The docs will be viewable at [http://localhost:3000](http://localhost:3000). You can also preview the docs once you have opened a PR. You will see a bot add a comment to a link where the documentation with your changes lives.
@@ -325,27 +325,28 @@ The syntax for Example docstrings can look as follows:
 ```python
     Example:
 
-    >>> from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-    >>> from datasets import load_dataset
-    >>> import torch
+>> > from myTransformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+>> > from datasets import load_dataset
+>> > import torch
 
-    >>> dataset = load_dataset("hf-internal-testing/librispeech_asr_demo", "clean", split="validation")
-    >>> dataset = dataset.sort("id")
-    >>> sampling_rate = dataset.features["audio"].sampling_rate
+>> > dataset = load_dataset("hf-internal-testing/librispeech_asr_demo", "clean", split="validation")
+>> > dataset = dataset.sort("id")
+>> > sampling_rate = dataset.features["audio"].sampling_rate
 
-    >>> processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
-    >>> model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-base-960h")
+>> > processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
+>> > model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-base-960h")
 
-    >>> # audio file is decoded on the fly
-    >>> inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
-    >>> with torch.no_grad():
-    ...     logits = model(**inputs).logits
-    >>> predicted_ids = torch.argmax(logits, dim=-1)
+>> >  # audio file is decoded on the fly
+>> > inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
+>> > predicted_ids = torch.argmax(logits, dim=-1)
 
-    >>> # transcribe speech
-    >>> transcription = processor.batch_decode(predicted_ids)
-    >>> transcription[0]
-    'MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD TO WELCOME HIS GOSPEL'
+>> >  # transcribe speech
+>> > transcription = processor.batch_decode(predicted_ids)
+>> > transcription[0]
+'MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD TO WELCOME HIS GOSPEL'
 ```
 
 The docstring should give a minimal, clear example of how the respective model 
@@ -367,13 +368,13 @@ seen [here](https://github.com/huggingface/transformers/actions/workflows/doctes
 Run all the tests in the docstrings of a given file with the following command, here is how we test the modeling file of Wav2Vec2 for instance:
 
 ```bash
-pytest --doctest-modules src/transformers/models/wav2vec2/modeling_wav2vec2.py -sv --doctest-continue-on-failure
+pytest --doctest-modules src/myTransformers/models/wav2vec2/modeling_wav2vec2.py -sv --doctest-continue-on-failure
 ```
 
 If you want to isolate a specific docstring, just add `::` after the file name then type the whole path of the function/class/method whose docstring you want to test. For instance, here is how to just test the forward method of `Wav2Vec2ForCTC`:
 
 ```bash
-pytest --doctest-modules src/transformers/models/wav2vec2/modeling_wav2vec2.py::transformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC.forward -sv --doctest-continue-on-failure
+pytest --doctest-modules src/myTransformers/models/wav2vec2/modeling_wav2vec2.py::myTransformers.models.wav2vec2.modeling_wav2vec2.Wav2Vec2ForCTC.forward -sv --doctest-continue-on-failure
 ```
 
 ### For Markdown files

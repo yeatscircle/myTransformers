@@ -36,7 +36,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 We encourage you to login to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to login:
@@ -123,9 +123,9 @@ Now you can convert the label id to a label name:
 The next step is to load a Wav2Vec2 feature extractor to process the audio signal:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 The MInDS-14 dataset has a sampling rate of 8kHz (you can find this information in its [dataset card](https://huggingface.co/datasets/PolyAI/minds14)), which means you'll need to resample the dataset to 16kHz to use the pretrained Wav2Vec2 model:
@@ -198,11 +198,12 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load Wav2Vec2 with [`AutoModelForAudioClassification`] along with the number of expected labels, and the label mappings:
 
 ```py
->>> from transformers import AutoModelForAudioClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForAudioClassification, TrainingArguments, Trainer
 
->>> num_labels = len(id2label)
->>> model = AutoModelForAudioClassification.from_pretrained(
-...     "facebook/wav2vec2-base", num_labels=num_labels, label2id=label2id, id2label=id2label
+>> > num_labels = len(id2label)
+>> > model = AutoModelForAudioClassification.from_pretrained(
+    ...
+"facebook/wav2vec2-base", num_labels = num_labels, label2id = label2id, id2label = id2label
 ... )
 ```
 
@@ -274,10 +275,10 @@ Load an audio file for inference. Remember to resample the sampling rate of the 
 The simplest way to try out your fine-tuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for audio classification with your model, and pass your audio file to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("audio-classification", model="stevhliu/my_awesome_minds_model")
->>> classifier(audio_file)
+>> > classifier = pipeline("audio-classification", model="stevhliu/my_awesome_minds_model")
+>> > classifier(audio_file)
 [
     {'score': 0.09766869246959686, 'label': 'cash_deposit'},
     {'score': 0.07998877018690109, 'label': 'app_error'},
@@ -294,20 +295,21 @@ You can also manually replicate the results of the `pipeline` if you'd like:
 Load a feature extractor to preprocess the audio file and return the `input` as PyTorch tensors:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("stevhliu/my_awesome_minds_model")
->>> inputs = feature_extractor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("stevhliu/my_awesome_minds_model")
+>> > inputs = feature_extractor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 Pass your inputs to the model and return the logits:
 
 ```py
->>> from transformers import AutoModelForAudioClassification
+>> > from myTransformers import AutoModelForAudioClassification
 
->>> model = AutoModelForAudioClassification.from_pretrained("stevhliu/my_awesome_minds_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForAudioClassification.from_pretrained("stevhliu/my_awesome_minds_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 Get the class with the highest probability, and use the model's `id2label` mapping to convert it to a label:

@@ -56,9 +56,9 @@ Los campos `sent1` y `sent2` muestran cómo comienza una oración, y cada campo 
 Carga el tokenizer de BERT para procesar el comienzo de cada oración y los cuatro finales posibles:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 La función de preprocesmaiento debe hacer lo siguiente:
@@ -95,9 +95,10 @@ Para crear un lote de ejemplos para selección múltiple, este también le *aña
 `padding=True`, el rellenado dinámico es más eficiente.
 
 El [`DataCollatorForMultipleChoice`] aplanará todas las entradas del modelo, les aplicará relleno y luego des-aplanará los resultados.
+
 ```py
->>> from transformers import DataCollatorForMultipleChoice
->>> collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
+>> > from myTransformers import DataCollatorForMultipleChoice
+>> > collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
 ```
 
 ## Entrenamiento
@@ -107,9 +108,9 @@ El [`DataCollatorForMultipleChoice`] aplanará todas las entradas del modelo, le
 Carga el modelo BERT con [`AutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
 
->>> model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 <Tip>
@@ -176,20 +177,20 @@ Para familiarizarte con el fine-tuning con Keras, ¡mira el tutorial básico [aq
 Prepara una función de optimización, un programa para la tasa de aprendizaje y algunos hiperparámetros de entrenamiento:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 2
->>> total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
->>> optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_train_epochs = 2
+>> > total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
+>> > optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 Carga el modelo BERT con [`TFAutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 Configura el modelo para entrenarlo con [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):

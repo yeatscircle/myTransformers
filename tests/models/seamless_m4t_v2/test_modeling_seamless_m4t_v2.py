@@ -17,10 +17,10 @@ import copy
 import tempfile
 import unittest
 
-from transformers import SeamlessM4Tv2Config, is_speech_available, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
-from transformers.trainer_utils import set_seed
-from transformers.utils import cached_property
+from myTransformers import SeamlessM4Tv2Config, is_speech_available, is_torch_available
+from myTransformers.testing_utils import require_torch, slow, torch_device
+from myTransformers.trainer_utils import set_seed
+from myTransformers.utils import cached_property
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -35,7 +35,7 @@ from ...test_modeling_common import (
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         SeamlessM4Tv2ForSpeechToSpeech,
         SeamlessM4Tv2ForSpeechToText,
         SeamlessM4Tv2ForTextToSpeech,
@@ -44,7 +44,7 @@ if is_torch_available():
     )
 
 if is_speech_available():
-    from transformers import SeamlessM4TProcessor
+    from myTransformers import SeamlessM4TProcessor
 
 
 class SeamlessM4Tv2ModelTester:
@@ -820,7 +820,7 @@ class SeamlessM4Tv2GenerationTest(unittest.TestCase):
     def test_speech_generation(self):
         config, input_speech, input_text = self.prepare_speech_and_text_input()
 
-        from transformers.testing_utils import set_config_for_less_flaky_test, set_model_for_less_flaky_test
+        from myTransformers.testing_utils import set_config_for_less_flaky_test, set_model_for_less_flaky_test
 
         set_config_for_less_flaky_test(config)
 

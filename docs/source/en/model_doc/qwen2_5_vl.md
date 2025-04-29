@@ -38,7 +38,8 @@ The example below demonstrates how to generate text based on an image with [`Pip
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
+
 pipe = pipeline(
     task="image-text-to-text",
     model="Qwen/Qwen2.5-VL-7B-Instruct",
@@ -53,11 +54,11 @@ messages = [
                 "type": "image",
                 "url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg",
             },
-            { "type": "text", "text": "Describe this image."},
+            {"type": "text", "text": "Describe this image."},
         ]
     }
 ]
-pipe(text=messages,max_new_tokens=20, return_full_text=False)
+pipe(text=messages, max_new_tokens=20, return_full_text=False)
 
 ```
 </hfoption>
@@ -66,7 +67,7 @@ pipe(text=messages,max_new_tokens=20, return_full_text=False)
 
 ```py
 import torch
-from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
+from myTransformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
 
 model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
     "Qwen/Qwen2.5-VL-7B-Instruct",
@@ -77,15 +78,15 @@ model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-7B-Instruct")
 messages = [
     {
-        "role":"user",
-        "content":[
+        "role": "user",
+        "content": [
             {
-                "type":"image",
+                "type": "image",
                 "url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
             },
             {
-                "type":"text",
-                "text":"Describe this image."
+                "type": "text",
+                "text": "Describe this image."
             }
         ]
     }
@@ -102,10 +103,10 @@ inputs = processor.apply_chat_template(
 
 generated_ids = model.generate(**inputs, max_new_tokens=128)
 generated_ids_trimmed = [
-            out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+    out_ids[len(in_ids):] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
 ]
 output_text = processor.batch_decode(
-       generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+    generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
 )
 print(output_text)
 ```
@@ -118,7 +119,7 @@ The example below uses [torchao](../quantization/torchao) to only quantize the w
 
 ```python
 import torch
-from transformers import TorchAoConfig, Gemma3ForConditionalGeneration, AutoProcessor
+from myTransformers import TorchAoConfig, Gemma3ForConditionalGeneration, AutoProcessor
 
 quantization_config = TorchAoConfig("int4_weight_only", group_size=128)
 model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
@@ -159,10 +160,10 @@ model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
     print(output_text)
     ```
 - Use Qwen2.5-VL for a mixed batch of inputs (images, videos, text). Add labels when handling multiple images or videos for better reference
- as show below.
+  as show below.
     ```python
     import torch
-    from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
+    from myTransformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
     
     model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
         "Qwen/Qwen2.5-VL-7B-Instruct",

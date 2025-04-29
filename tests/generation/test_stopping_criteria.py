@@ -15,8 +15,8 @@
 import time
 import unittest
 
-from transformers import AutoTokenizer, is_torch_available
-from transformers.testing_utils import require_torch, torch_device
+from myTransformers import AutoTokenizer, is_torch_available
+from myTransformers.testing_utils import require_torch, torch_device
 
 from ..test_modeling_common import ids_tensor
 
@@ -24,7 +24,7 @@ from ..test_modeling_common import ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers.generation import (
+    from myTransformers.generation import (
         ConfidenceCriteria,
         EosTokenCriteria,
         MaxLengthCriteria,

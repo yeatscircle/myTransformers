@@ -20,8 +20,8 @@ import unittest
 import numpy as np
 from parameterized import parameterized
 
-from transformers.testing_utils import require_torch, require_vision, slow
-from transformers.utils import is_torch_available, is_torchvision_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision, slow
+from myTransformers.utils import is_torch_available, is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import AnnotationFormatTestMixin, ImageProcessingTestMixin, prepare_image_inputs
 
@@ -32,10 +32,10 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import YolosImageProcessor
+    from myTransformers import YolosImageProcessor
 
     if is_torchvision_available():
-        from transformers import YolosImageProcessorFast
+        from myTransformers import YolosImageProcessorFast
 
 
 class YolosImageProcessingTester:

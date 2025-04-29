@@ -25,7 +25,7 @@ RUN cd apex && \
 
 WORKDIR /workspace
 COPY . transformers/
-RUN cd transformers/ && \
+RUN cd myTransformers/ && \
     python3 -m pip install --no-cache-dir .
 
 CMD ["/bin/bash"]

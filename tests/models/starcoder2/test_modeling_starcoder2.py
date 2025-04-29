@@ -17,8 +17,8 @@ import unittest
 
 import pytest
 
-from transformers import Starcoder2Config, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import Starcoder2Config, is_torch_available
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_flash_attn,
     require_torch,
@@ -37,7 +37,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         Starcoder2ForCausalLM,
         Starcoder2ForSequenceClassification,
@@ -46,7 +46,7 @@ if is_torch_available():
     )
 
 
-# Copied from transformers.tests.models.mistral.test_modeling_mistral.Starcoder2ModelTester with Mistral->Starcoder2
+# Copied from myTransformers.tests.models.mistral.test_modeling_mistral.Starcoder2ModelTester with Mistral->Starcoder2
 class Starcoder2ModelTester:
     def __init__(
         self,
@@ -173,7 +173,7 @@ class Starcoder2ModelTester:
 
 
 @require_torch
-# Copied from transformers.tests.models.mistral.test_modeling_mistral.MistralModelTest with Mistral->Starcoder2
+# Copied from myTransformers.tests.models.mistral.test_modeling_mistral.MistralModelTest with Mistral->Starcoder2
 class Starcoder2ModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixin, unittest.TestCase):
     all_model_classes = (
         (Starcoder2Model, Starcoder2ForCausalLM, Starcoder2ForSequenceClassification, Starcoder2ForTokenClassification)

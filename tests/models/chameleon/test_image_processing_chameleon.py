@@ -16,8 +16,8 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -28,7 +28,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ChameleonImageProcessor
+    from myTransformers import ChameleonImageProcessor
 
 
 class ChameleonImageProcessingTester:

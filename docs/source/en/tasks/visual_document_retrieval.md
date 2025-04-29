@@ -27,7 +27,7 @@ This guide demonstrates how to index and retrieve documents with [ColPali](../mo
 Make sure Transformers and Datasets is installed.
 
 ```bash
-pip install -q datasets transformers
+pip install -q datasets myTransformers
 ```
 
 We will index a dataset of documents related to UFO sightings. We filter the examples where our column of interest is missing. It contains several columns, we are interested in the column `specific_detail_query` where it contains short summary of the document, and `image` column that contains our documents.
@@ -51,7 +51,7 @@ Let's load the model and the tokenizer.
 
 ```python
 import torch
-from transformers import ColPaliForRetrieval, ColPaliProcessor
+from myTransformers import ColPaliForRetrieval, ColPaliProcessor
 
 model_name = "vidore/colpali-v1.2-hf"
 

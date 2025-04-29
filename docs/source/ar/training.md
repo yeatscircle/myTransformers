@@ -26,21 +26,28 @@
 كما تعلم الآن، تحتاج إلى محول نص إلى رمز (tokenizer) لمعالجة النص وتضمين استراتيجيات للحشو والقص للتعامل مع أي أطوال متسلسلة متغيرة. لمعالجة مجموعة البيانات الخاصة بك في خطوة واحدة، استخدم طريقة 🤗 Datasets [`map`](https://huggingface.co/docs/datasets/process#map) لتطبيق دالة معالجة مسبقة على مجموعة البيانات بأكملها:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 
+>> >
 
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
-
-
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
+def tokenize_function(examples):
 
 
->>> tokenized_datasets = dataset.map(tokenize_function, batched=True)
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+
+>> >
+
+def tokenize_function(examples):
+
+
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
+
+>> > tokenized_datasets = dataset.map(tokenize_function, batched=True)
 ```
 
 إذا كنت ترغب، يمكنك إنشاء مجموعة فرعية أصغر من مجموعة البيانات الكاملة لضبطها لتقليل الوقت الذي تستغرقه:
@@ -69,9 +76,9 @@
 ابدأ بتحميل نموذجك وتحديد عدد التصنيفات المتوقعة. من بطاقة مجموعة بيانات Yelp Review [dataset card](https://huggingface.co/datasets/yelp_review_full#data-fields)، تعرف أنه يوجد خمسة تصنيفات:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 <Tip>
@@ -87,9 +94,9 @@
 حدد مكان حفظ النسخ من تدريبك:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer")
+>> > training_args = TrainingArguments(output_dir="test_trainer")
 ```
 
 ### التقييم
@@ -115,9 +122,9 @@
 إذا كنت ترغب في مراقبة مقاييس التقييم الخاصة بك أثناء الضبط الدقيق، فحدد معلمة `eval_strategy` في معاملات التدريب الخاصة بك لإظهار مقياس التقييم في نهاية كل حقبة تدريبه:
 
 ```py
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
+>> > training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
 ```
 
 ### المدرب
@@ -169,7 +176,7 @@ dataset = dataset ["train"] # خذ فقط قسم التدريب الآن
 لذا يمكننا ببساطة تحويل ذلك مباشرة إلى مصفوفة NumPy بدون ترميز!
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 import numpy as np
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
@@ -183,13 +190,13 @@ labels = np.array(dataset["label"])  # Label is already an array of 0 and 1
 أخيرًا، قم بتحميل وتجميع وتناسب النموذج. لاحظ أن نماذج Transformers تحتوي جميعها على دالة خسارة ذات صلة بالمهمة بشكل افتراضي، لذا فأنت لست بحاجة إلى تحديد واحدة ما لم ترغب في ذلك:
 
 ```py
-from transformers import TFAutoModelForSequenceClassification
+from myTransformers import TFAutoModelForSequenceClassification
 from tensorflow.keras.optimizers import Adam
 
 # تحميل وتجميع النموذج الخاص بنا
 model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased")
 # معدلات التعلم المنخفضة أفضل غالبًا لضبط النماذج الدقيقة
-model.compile(optimizer=Adam(3e-5)) # لا توجد دالة خسارة!
+model.compile(optimizer=Adam(3e-5))  # لا توجد دالة خسارة!
 
 model.fit(tokenized_data, labels)
 ```
@@ -310,9 +317,9 @@ torch.cuda.empty_cache()
 قم بتحميل نموذجك مع عدد التصنيفات المتوقعة:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased"، num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased"، num_labels = 5)
 ```
 
 ### المحسن ومخطط معدل التعلم
@@ -328,12 +335,13 @@ torch.cuda.empty_cache()
 قم بإنشاء مخطط معدل التعلم الافتراضي من [`Trainer`]:
 
 ```py
->>> from transformers import get_scheduler
+>> > from myTransformers import get_scheduler
 
->>> num_epochs = 3
->>> num_training_steps = num_epochs * len(train_dataloader)
->>> lr_scheduler = get_scheduler(
-...     name="linear"، optimizer=optimizer، num_warmup_steps=0، num_training_steps=num_training_steps
+>> > num_epochs = 3
+>> > num_training_steps = num_epochs * len(train_dataloader)
+>> > lr_scheduler = get_scheduler(
+    ...
+name = "linear"، optimizer = optimizer، num_warmup_steps = 0، num_training_steps = num_training_steps
 ... )
 ```
 

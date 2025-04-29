@@ -19,9 +19,9 @@ import unittest
 
 from huggingface_hub import hf_hub_download
 
-from transformers import AutoProcessor, AutoTokenizer, InternVLProcessor
-from transformers.testing_utils import require_av, require_torch, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers import AutoProcessor, AutoTokenizer, InternVLProcessor
+from myTransformers.testing_utils import require_av, require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -31,7 +31,7 @@ if is_torch_available():
 
 
 if is_vision_available():
-    from transformers import GotOcr2ImageProcessor
+    from myTransformers import GotOcr2ImageProcessor
 
 
 @require_vision

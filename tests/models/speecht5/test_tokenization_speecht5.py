@@ -15,10 +15,10 @@
 
 import unittest
 
-from transformers import SPIECE_UNDERLINE
-from transformers.models.speecht5 import SpeechT5Tokenizer
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
-from transformers.tokenization_utils import AddedToken
+from myTransformers import SPIECE_UNDERLINE
+from myTransformers.models.speecht5 import SpeechT5Tokenizer
+from myTransformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
+from myTransformers.tokenization_utils import AddedToken
 
 from ...test_tokenization_common import TokenizerTesterMixin
 
@@ -175,7 +175,7 @@ class SpeechT5TokenizerTest(TokenizerTesterMixin, unittest.TestCase):
     def test_tokenizer_integration(self):
         # Use custom sequence because this tokenizer does not handle numbers.
         sequences = [
-            "Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides "
+            "Transformers (formerly known as pytorch-myTransformers and pytorch-pretrained-bert) provides "
             "general-purpose architectures (BERT, GPT, RoBERTa, XLM, DistilBert, XLNet...) for Natural "
             "Language Understanding (NLU) and Natural Language Generation (NLG) with over thirty-two pretrained "
             "models in one hundred plus languages and deep interoperability between Jax, PyTorch and TensorFlow.",

@@ -27,7 +27,7 @@ as well as `eager`, which is a simple matrix multiplication without any optimiza
 This is the setting you can usually choose when instantiating a model:
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model_id = "meta-llama/Llama-3.2-1B"
 
@@ -39,15 +39,17 @@ But what if you wanted to create your own attention function? Or simply play aro
 a few statements here and there? You can now do so with the `AttentionInterface`! Here is an example:
 
 ```python
-from transformers import AutoModelForCausalLM, AttentionInterface
-from transformers.integrations.sdpa_attention import sdpa_attention_forward
+from myTransformers import AutoModelForCausalLM, AttentionInterface
+from myTransformers.integrations.sdpa_attention import sdpa_attention_forward
 import torch
 
 model_id = "meta-llama/Llama-3.2-1B"
 
+
 def my_new_sdpa(*args, **kwargs):
     print("I just entered the attention computation")
     return sdpa_attention_forward(*args, **kwargs)
+
 
 AttentionInterface.register("my_new_sdpa", my_new_sdpa)
 
@@ -79,22 +81,24 @@ But indeed, what if the new function requires a new arg to be properly used? It'
 you can simply pass the arg (as a kwargs, i.e. you need to qualify the name of the arg) in the model's forward, and it will be correctly used in the attention. However, custom attention functions have some limitations. In particular, it must follow the signature and return format of other attention functions, i.e.
 
 ```python
-from transformers import AutoModelForCausalLM, AttentionInterface
-from transformers.integrations.sdpa_attention import sdpa_attention_forward
+from myTransformers import AutoModelForCausalLM, AttentionInterface
+from myTransformers.integrations.sdpa_attention import sdpa_attention_forward
 import torch
 
+
 def custom_attention(
-    module: torch.nn.Module,  # required arg
-    query: torch.Tensor,  # required arg
-    key: torch.Tensor,  # required arg
-    value: torch.Tensor,  # required arg
-    attention_mask: Optional[torch.Tensor],  # required arg
-    a_new_kwargs = None,  # You can now add as many kwargs as you need
-    another_new_kwargs = None,  # You can now add as many kwargs as you need
-    **kwargs,  # You need to accept **kwargs as models will pass other args
+        module: torch.nn.Module,  # required arg
+        query: torch.Tensor,  # required arg
+        key: torch.Tensor,  # required arg
+        value: torch.Tensor,  # required arg
+        attention_mask: Optional[torch.Tensor],  # required arg
+        a_new_kwargs=None,  # You can now add as many kwargs as you need
+        another_new_kwargs=None,  # You can now add as many kwargs as you need
+        **kwargs,  # You need to accept **kwargs as models will pass other args
 ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]
     ...  # do your magic!
     return attn_output, attn_weights  # attn_weights are optional here
+
 
 AttentionInterface.register("custom", custom_attention)
 
@@ -112,17 +116,19 @@ and/or perform a few checks, the prefered way is to use the global `ALL_ATTENTIO
 would expect from a usual Python dictionary:
 
 ```python
->>> from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
+>> > from myTransformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
 
->>> list(ALL_ATTENTION_FUNCTIONS.keys())
->>> ['flash_attention_2', 'flex_attention', 'sdpa']
+>> > list(ALL_ATTENTION_FUNCTIONS.keys())
+>> > ['flash_attention_2', 'flex_attention', 'sdpa']
 
->>> ALL_ATTENTION_FUNCTIONS["sdpa"]
->>> <function transformers.integrations.sdpa_attention.sdpa_attention_forward>
+>> > ALL_ATTENTION_FUNCTIONS["sdpa"]
+>> > < function
+transformers.integrations.sdpa_attention.sdpa_attention_forward >
 
->>> ALL_ATTENTION_FUNCTIONS.get("sdpa", None)
->>> <function transformers.integrations.sdpa_attention.sdpa_attention_forward>
+>> > ALL_ATTENTION_FUNCTIONS.get("sdpa", None)
+>> > < function
+transformers.integrations.sdpa_attention.sdpa_attention_forward >
 
 # You can also globally `register` a new function directly on it
->>> ALL_ATTENTION_FUNCTIONS.register("new_func", new_func)
+>> > ALL_ATTENTION_FUNCTIONS.register("new_func", new_func)
 ```

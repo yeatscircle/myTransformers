@@ -44,7 +44,7 @@ Batch size is one of the most important hyperparameters for efficient GPU traini
 Configure [`~TrainingArguments.per_device_train_batch_size`] in [`TrainingArguments`].
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=256,
@@ -65,7 +65,7 @@ Gradient accumulation overcomes memory constraints - useful for fitting a very l
 Configure [`~TrainingArguments.per_device_train_batch_size`] in [`TrainingArguments`] to enable gradient accumulation.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 # effective batch size of 64
 args = TrainingArguments(
@@ -88,7 +88,7 @@ Gradient checkpointing reduces memory usage by only storing some of the intermed
 Configure [`~TrainingArguments.gradient_checkpointing`] in [`TrainingArguments`] to enable gradient checkpointing.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -111,7 +111,7 @@ The main advantage of mixed precision training is saving the activations in fp16
 Configure [`~TrainingArguments.fp16`] in [`TrainingArguments`] to enable mixed precision training with the fp16 data type.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -131,7 +131,7 @@ fp16 isn't memory-optimized because the gradients that are computed in fp16 are 
 Configure [`~TrainingArguments.fp16`] in [`TrainingArguments`] to enable mixed precision training with the bf16 data type.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -157,14 +157,14 @@ torch.backends.cudnn.allow_tf32 = True
 Configure [tf32()](https://huggingface.co/docs/transformers/main_classes/trainer#transformers.TrainingArguments.tf32) in [`TrainingArguments`] to enable mixed precision training with tf32 mode.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
     gradient_accumulation_steps=16,
     gradient_checkpointing=True,
     bf16=True.
-    tf32=True,
+    tf32 = True,
 )
 ```
 
@@ -178,7 +178,7 @@ Transformers implements the [AdamW (adamw_torch)](https://pytorch.org/docs/stabl
 Configure [`~TrainingArguments.optim`] in [`TrainingArguments`] to choose an optimizer.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -203,7 +203,7 @@ Data preloading loads and prepares batches of data in advance on the CPU to ensu
 Configure [`~TrainingArguments.dataloader_pin_memory`] and [`~TrainingArguments.dataloader_num_workers`] in [`TrainingArguments`] to allocate pinned memory and increase the number of workers.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -227,7 +227,7 @@ The [torch.cuda.empty_cache](https://pytorch.org/docs/stable/generated/torch.cud
 Use [torch_empty_cache_steps()](https://huggingface.co/docs/transformers/main_classes/trainer#transformers.TrainingArguments.torch_empty_cache_steps) in [`TrainingArguments`] to enable it after a certain number of training steps.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -248,7 +248,7 @@ args = TrainingArguments(
 Configure [`~TrainingArguments.torch_compile`] in [`TrainingArguments`] to enable it, and configure [torch_compile_backend()](https://huggingface.co/docs/transformers/main_classes/trainer#transformers.TrainingArguments.torch_compile_backend) to select a backend to use.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 args = TrainingArguments(
     per_device_train_batch_size=4,
@@ -290,7 +290,7 @@ Refer to the table below to help you choose the right backend for your training 
 SDPA is enabled by default for PyTorch 2.1.1+, but it can be explicitly enabled by setting `attn_implementation="sdpa"` in [`~PreTrainedModel.from_pretrained`].
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", attn_implementation="sdpa")
 ```

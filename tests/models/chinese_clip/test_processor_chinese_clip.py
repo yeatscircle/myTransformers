@@ -20,16 +20,16 @@ import unittest
 
 import pytest
 
-from transformers import BertTokenizer, BertTokenizerFast
-from transformers.models.bert.tokenization_bert import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_vision
-from transformers.utils import FEATURE_EXTRACTOR_NAME, is_vision_available
+from myTransformers import BertTokenizer, BertTokenizerFast
+from myTransformers.models.bert.tokenization_bert import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import require_vision
+from myTransformers.utils import FEATURE_EXTRACTOR_NAME, is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import ChineseCLIPImageProcessor, ChineseCLIPProcessor
+    from myTransformers import ChineseCLIPImageProcessor, ChineseCLIPProcessor
 
 
 @require_vision

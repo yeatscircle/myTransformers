@@ -24,7 +24,7 @@ Call [`~PreTrainedModel.from_pretrained`] to download and load a models weights 
 > The [`~PreTrainedModel.from_pretrained`] method loads weights stored in the [safetensors](https://hf.co/docs/safetensors/index) file format if they're available. Traditionally, PyTorch model weights are serialized with the [pickle](https://docs.python.org/3/library/pickle.html) utility which is known to be unsecure. Safetensor files are more secure and faster to load.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf", torch_dtype="auto", device_map="auto")
 ```
@@ -51,18 +51,18 @@ For each model type, there is a separate class for each machine learning framewo
 <hfoption id="PyTorch">
 
 ```py
-from transformers import AutoModelForCausalLM, MistralForCausalLM
+from myTransformers import AutoModelForCausalLM, MistralForCausalLM
 
 # load with AutoClass or model-specific class
-model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", , torch_dtype="auto", device_map="auto")
-model = MistralForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1", , torch_dtype="auto", device_map="auto")
+model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1",, torch_dtype = "auto", device_map = "auto")
+model = MistralForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1",, torch_dtype = "auto", device_map = "auto")
 ```
 
 </hfoption>
 <hfoption id="TensorFlow">
 
 ```py
-from transformers import TFAutoModelForCausalLM, TFMistralForCausalLM
+from myTransformers import TFAutoModelForCausalLM, TFMistralForCausalLM
 
 # load with AutoClass or model-specific class
 model = TFAutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
@@ -73,7 +73,7 @@ model = TFMistralForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
 <hfoption id="Flax">
 
 ```py
-from transformers import FlaxAutoModelForCausalLM, FlaxMistralForCausalLM
+from myTransformers import FlaxAutoModelForCausalLM, FlaxMistralForCausalLM
 
 # load with AutoClass or model-specific class
 model = FlaxAutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
@@ -101,7 +101,7 @@ Easily switch between models or tasks, as long as the architecture is supported 
 For example, the same model can be used for separate tasks.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
+from myTransformers import AutoModelForCausalLM, AutoModelForSequenceClassification, AutoModelForQuestionAnswering
 
 # use the same API for 3 different tasks
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
@@ -112,7 +112,7 @@ model = AutoModelForQuestionAnswering.from_pretrained("meta-llama/Llama-2-7b-hf"
 In other cases, you may want to quickly try out several different models for a task.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 # use the same API to load 3 different models
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
@@ -128,7 +128,7 @@ The [AutoModel](./model_doc/auto) class builds on top of model-specific classes.
 If you already know which model class you want to use, then you could use its model-specific class directly.
 
 ```py
-from transformers import LlamaModel, LlamaForCausalLM
+from myTransformers import LlamaModel, LlamaForCausalLM
 
 model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
 ```
@@ -165,7 +165,7 @@ The `max_shard_size` parameter defaults to 5GB for each shard because it is easi
 For example, create some shards checkpoints for [BioMistral/BioMistral-7B](https://hf.co/BioMistral/BioMistral-7B) in [`~PreTrainedModel.save_pretrained`].
 
 ```py
-from transformers import AutoModel
+from myTransformers import AutoModel
 import tempfile
 import os
 
@@ -186,7 +186,7 @@ with tempfile.TemporaryDirectory() as tmp_dir:
 Sharded checkpoints can also be directly loaded with [`~transformers.modeling_utils.load_sharded_checkpoint`].
 
 ```py
-from transformers.modeling_utils import load_sharded_checkpoint
+from myTransformers.modeling_utils import load_sharded_checkpoint
 
 with tempfile.TemporaryDirectory() as tmp_dir:
     model.save_pretrained(tmp_dir, max_shard_size="5GB")
@@ -248,7 +248,7 @@ Both features combined reduces memory usage and loading times for big pretrained
 Set [device_map](https://github.com/huggingface/transformers/blob/026a173a64372e9602a16523b8fae9de4b0ff428/src/transformers/modeling_utils.py#L3061) to `"auto"` to enable Big Model Inference. This also sets the [low_cpu_mem_usage](https://github.com/huggingface/transformers/blob/026a173a64372e9602a16523b8fae9de4b0ff428/src/transformers/modeling_utils.py#L3028) parameter to `True`, such that not more than 1x the model size is used in CPU memory.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-7b", device_map="auto")
 ```
@@ -272,7 +272,7 @@ Explicitly set the [torch_dtype](https://pytorch.org/docs/stable/tensor_attribut
 <hfoption id="specific dtype">
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 gemma = AutoModelForCausalLM.from_pretrained("google/gemma-7b", torch_dtype=torch.float16)
 ```
@@ -281,7 +281,7 @@ gemma = AutoModelForCausalLM.from_pretrained("google/gemma-7b", torch_dtype=torc
 <hfoption id="auto dtype">
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 gemma = AutoModelForCausalLM.from_pretrained("google/gemma-7b", torch_dtype="auto")
 ```
@@ -293,7 +293,7 @@ The `torch_dtype` parameter can also be configured in [`AutoConfig`] for models 
 
 ```py
 import torch
-from transformers import AutoConfig, AutoModel
+from myTransformers import AutoConfig, AutoModel
 
 my_config = AutoConfig.from_pretrained("google/gemma-2b", torch_dtype=torch.float16)
 model = AutoModel.from_config(my_config)
@@ -308,7 +308,7 @@ Take extra precaution when loading a custom model. While the Hub includes [malwa
 Set `trust_remote_code=True` in [`~PreTrainedModel.from_pretrained`] to load a custom model.
 
 ```py
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("sgugger/custom-resnet50d", trust_remote_code=True)
 ```

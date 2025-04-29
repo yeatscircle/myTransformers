@@ -39,15 +39,14 @@ PatchTSMixer 모델은 [Trainer API](../trainer.md)와 호환됩니다.
 
 ```python
 
-from transformers import PatchTSMixerConfig, PatchTSMixerForPrediction
-from transformers import Trainer, TrainingArguments,
+from myTransformers import PatchTSMixerConfig, PatchTSMixerForPrediction
+from myTransformers import Trainer, TrainingArguments,
 
-
-config = PatchTSMixerConfig(context_length = 512, prediction_length = 96)
+config = PatchTSMixerConfig(context_length=512, prediction_length=96)
 model = PatchTSMixerForPrediction(config)
-trainer = Trainer(model=model, args=training_args, 
-            train_dataset=train_dataset,
-            eval_dataset=valid_dataset)
+trainer = Trainer(model=model, args=training_args,
+                  train_dataset=train_dataset,
+                  eval_dataset=valid_dataset)
 trainer.train()
 results = trainer.evaluate(test_dataset)
 ```

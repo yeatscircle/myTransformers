@@ -20,10 +20,10 @@ from io import BytesIO
 import numpy as np
 import requests
 
-from transformers import SmolVLMProcessor
-from transformers.models.auto.processing_auto import AutoProcessor
-from transformers.testing_utils import require_av, require_torch, require_vision
-from transformers.utils import is_vision_available
+from myTransformers import SmolVLMProcessor
+from myTransformers.models.auto.processing_auto import AutoProcessor
+from myTransformers.testing_utils import require_av, require_torch, require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 

@@ -17,9 +17,9 @@ import copy
 import tempfile
 import unittest
 
-from transformers import LEDConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+from myTransformers import LEDConfig, is_torch_available
+from myTransformers.models.auto import get_values
+from myTransformers.testing_utils import (
     require_sentencepiece,
     require_tokenizers,
     require_torch,
@@ -27,7 +27,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -38,7 +38,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MODEL_FOR_QUESTION_ANSWERING_MAPPING,
         LEDForConditionalGeneration,
         LEDForQuestionAnswering,
@@ -46,7 +46,7 @@ if is_torch_available():
         LEDModel,
         LEDTokenizer,
     )
-    from transformers.models.led.modeling_led import LEDDecoder, LEDEncoder
+    from myTransformers.models.led.modeling_led import LEDDecoder, LEDEncoder
 
 
 def prepare_led_inputs_dict(

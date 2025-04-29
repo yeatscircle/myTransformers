@@ -41,11 +41,12 @@ Allow Accelerate to automatically distribute the model across your available har
 Place all inputs on the same device as the model.
 
 ```py
-from transformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
 
 quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 tokenizer = AutoTokenizer("meta-llama/Llama-3.1-8B")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", quantization_config=quantization_config)
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto",
+                                             quantization_config=quantization_config)
 
 prompt = "Hello, my llama is cute"
 inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
@@ -74,11 +75,12 @@ Allow Accelerate to automatically distribute the model across your available har
 Place all inputs on the same device as the model.
 
 ```py
-from transformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import BitsAndBytesConfig, AutoTokenizer, AutoModelForCausalLM
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
 tokenizer = AutoTokenizer("meta-llama/Llama-3.1-8B")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", quantization_config=quantization_config)
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto",
+                                             quantization_config=quantization_config)
 
 prompt = "Hello, my llama is cute"
 inputs = tokenizer(prompt, return_tensors="pt").to(model_8bit.device)
@@ -128,7 +130,7 @@ Now you can use the model for inference in a [`Pipeline`].
 
 ```py
 from optimum.pipelines import pipeline
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased-finetuned-sst-2-english")
 pipeline = pipeline(task="text-classification", model=ort_model, tokenizer=tokenizer, device="cuda:0")
@@ -150,7 +152,7 @@ Learn more details about using ORT with Optimum in the [Accelerated inference on
 BetterTransformer is available through Optimum with [`~PreTrainedModel.to_bettertransformer`].
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("bigscience/bloom")
 model = model.to_bettertransformer()
@@ -178,7 +180,7 @@ There are three supported implementations available.
 SDPA is used by default for PyTorch v2.1.1. and greater when an implementation is available. You could explicitly enable SDPA by setting `attn_implementation="sdpa"` in [`~PreTrainedModel.from_pretrained`] though. Certain attention parameters, such as `head_mask` and `output_attentions=True`, are unsupported and returns a warning that Transformers will fall back to the (slower) eager implementation.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", attn_implementation="sdpa")
 ```
@@ -188,7 +190,7 @@ SDPA selects the most performant implementation available, but you can also expl
 ```py
 import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto").to("cuda")
@@ -196,8 +198,8 @@ model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_m
 input_text = "Hello, my llama is cute"
 inputs = tokenizer(input_text, return_tensors="pt").to("cuda")
 
-with sdpa_kernel(SDPBackend.FLASH_ATTENTION)::
-    outputs = model.generate(**inputs)
+with sdpa_kernel(SDPBackend.FLASH_ATTENTION): :
+outputs = model.generate(**inputs)
 
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
@@ -237,9 +239,10 @@ FlashAttention2 support is currently limited to Instinct MI210, Instinct MI250 a
 Enable FlashAttention2 by setting `attn_implementation="flash_attention_2"` in [`~PreTrainedModel.from_pretrained`]. FlashAttention2 is only supported for models with the fp16 or bf16 torch type. Make sure to cast your model to the appropriate data type first.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", torch_dtype=torch.bfloat16, attn_implementation="flash_attention_2")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", device_map="auto", torch_dtype=torch.bfloat16,
+                                             attn_implementation="flash_attention_2")
 ```
 
 ### Benchmarks

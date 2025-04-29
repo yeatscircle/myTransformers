@@ -45,24 +45,23 @@ The model can accept both images and videos as input. Here's an example code for
 ```python
 
 import torch
-from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
+from myTransformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
 
 # Load the model in half-precision on the available device(s)
 model = Qwen2VLForConditionalGeneration.from_pretrained("Qwen/Qwen2-VL-7B-Instruct", device_map="auto")
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-7B-Instruct")
 
-
 conversation = [
     {
-        "role":"user",
-        "content":[
+        "role": "user",
+        "content": [
             {
-                "type":"image",
+                "type": "image",
                 "url": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg"
             },
             {
-                "type":"text",
-                "text":"Describe this image."
+                "type": "text",
+                "text": "Describe this image."
             }
         ]
     }
@@ -81,8 +80,6 @@ output_ids = model.generate(**inputs, max_new_tokens=128)
 generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(inputs.input_ids, output_ids)]
 output_text = processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)
 print(output_text)
-
-
 
 # Video
 conversation = [
@@ -103,7 +100,6 @@ inputs = processor.apply_chat_template(
     return_dict=True,
     return_tensors="pt"
 ).to(model.device)
-
 
 # Inference: Generation of the output
 output_ids = model.generate(**inputs, max_new_tokens=128)
@@ -265,11 +261,11 @@ Also, you should have a hardware that is compatible with Flash-Attention 2. Read
 To load and run a model using Flash Attention-2, simply add `attn_implementation="flash_attention_2"` when loading the model as follows:
 
 ```python
-from transformers import Qwen2VLForConditionalGeneration
+from myTransformers import Qwen2VLForConditionalGeneration
 
 model = Qwen2VLForConditionalGeneration.from_pretrained(
-    "Qwen/Qwen2-VL-7B-Instruct", 
-    torch_dtype=torch.bfloat16, 
+    "Qwen/Qwen2-VL-7B-Instruct",
+    torch_dtype=torch.bfloat16,
     attn_implementation="flash_attention_2",
 )
 ```

@@ -19,7 +19,7 @@ This script will be (mostly) used in the following 2 situations:
   - run within a (scheduled) CI job to:
     - check if model test files in the library have updated `pipeline_model_mapping`,
     - and/or update test files and (possibly) open a GitHub pull request automatically
-  - being run by a `transformers` member to quickly check and update some particular test file(s)
+  - being run by a `myTransformers` member to quickly check and update some particular test file(s)
 
 This script is **NOT** intended to be run (manually) by community contributors.
 """

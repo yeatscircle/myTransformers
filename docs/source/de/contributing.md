@@ -63,13 +63,13 @@ Wenn Sie sich vergewissert haben, dass der Fehler noch nicht gemeldet wurde, geb
 Um das Betriebssystem und die Softwareversionen automatisch auszugeben, führen Sie den folgenden Befehl aus:
 
 ```bash
-transformers-cli env
+myTransformers-cli env
 ```
 
 Sie können denselben Befehl auch im Hauptverzeichnis des Repositorys ausführen:
 
 ```bash
-python src/transformers/commands/transformers_cli.py env
+python src/myTransformers/commands/transformers_cli.py env
 ```
 
 ### Möchten Sie eine neue Funktion?
@@ -119,8 +119,8 @@ Sie benötigen **[Python 3.9](https://github.com/huggingface/transformers/blob/m
 1. Klonen Sie Ihren Fork auf Ihre lokale Festplatte und fügen Sie das ursprüngliche Repository als Remote hinzu:
 
    ```bash
-   git clone git@github.com:<your Github handle>/transformers.git
-   cd transformers
+   git clone git@github.com:<your Github handle>/myTransformers.git
+   cd myTransformers
    git remote add upstream https://github.com/huggingface/transformers.git
    ```
 
@@ -195,7 +195,7 @@ Sie benötigen **[Python 3.9](https://github.com/huggingface/transformers/blob/m
    Führen Sie den folgenden Befehl im Hauptverzeichnis des Repositorys aus:
 
    ```bash
-   doc-builder build transformers docs/source/en --build_dir ~/tmp/test-build
+   doc-builder build myTransformers docs/source/en --build_dir ~/tmp/test-build
    ```
 
    Dadurch wird die Dokumentation im Ordner `~/tmp/test-build` erstellt, wo Sie die erzeugten Markdown-Dateien mit Ihrem bevorzugten Editor überprüfen können. Sie können auch eine Vorschau der Dokumentation auf GitHub sehen, wenn Sie eine Pull-Anfrage öffnen.

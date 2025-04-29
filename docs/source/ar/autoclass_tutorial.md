@@ -19,9 +19,9 @@
 قم بتحميل المُجزّئ باستخدام [`AutoTokenizer.from_pretrained`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 ثم قم بتحليل إدخالك على النحو الموضح أدناه:
@@ -40,9 +40,9 @@
 بالنسبة لمهمات الرؤية، يقوم معالج الصور بمعالجة الصورة إلى تنسيق الإدخال الصحيح.
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 ## AutoBackbone
@@ -66,18 +66,18 @@
 على سبيل المثال، في الرسم التخطيطي أعلاه، لإرجاع خريطة الميزات من المرحلة الأولى من العمود الفقري Swin، يمكنك تعيين `out_indices=(1,)`:
 
 ```py
->>> from transformers import AutoImageProcessor, AutoBackbone
->>> import torch
->>> from PIL import Image
->>> import requests
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
->>> processor = AutoImageProcessor.from_pretrained("microsoft/swin-tiny-patch4-window7-224")
->>> model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
+>> > from myTransformers import AutoImageProcessor, AutoBackbone
+>> > import torch
+>> > from PIL import Image
+>> > import requests
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
+>> > processor = AutoImageProcessor.from_pretrained("microsoft/swin-tiny-patch4-window7-224")
+>> > model = AutoBackbone.from_pretrained("microsoft/swin-tiny-patch4-window7-224", out_indices=(1,))
 
->>> inputs = processor(image, return_tensors="pt")
->>> outputs = model(**inputs)
->>> feature_maps = outputs.feature_maps
+>> > inputs = processor(image, return_tensors="pt")
+>> > outputs = model(**inputs)
+>> > feature_maps = outputs.feature_maps
 ```
 
 الآن يمكنك الوصول إلى كائن `feature_maps` من المرحلة الأولى من العمود الفقري:
@@ -94,10 +94,11 @@
 قم بتحميل مستخرج ميزات باستخدام [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained(
-...     "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained(
+    ...
+"ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -108,9 +109,9 @@
 قم بتحميل معالج باستخدام [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
+>> > processor = AutoProcessor.from_pretrained("microsoft/layoutlmv2-base-uncased")
 ```
 
 ## النموذج التلقائي (AutoModel)
@@ -120,17 +121,17 @@
 تسمح لك فئات `AutoModelFor` بتحميل نموذج مُدرب مسبقًا لمهمة معينة (راجع [هنا](model_doc/auto) للحصول على قائمة كاملة بالمهام المتاحة). على سبيل المثال، قم بتحميل نموذج لتصنيف التسلسل باستخدام [`AutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 أعد استخدام نفس نقطة التفتيش لتحميل بنية لمهمة مختلفة:
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 <Tip warning={true}>
@@ -149,17 +150,17 @@
 أخيرًا، تسمح لك فئات `TFAutoModelFor` بتحميل نموذج مُدرب مسبقًا لمهمة معينة (راجع [هنا](model_doc/auto) للحصول على قائمة كاملة بالمهام المتاحة). على سبيل المثال، قم بتحميل نموذج لتصنيف التسلسل باستخدام [`TFAutoModelForSequenceClassification.from_pretrained`]:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 أعد استخدام نفس نقطة التفتيش لتحميل بنية لمهمة مختلفة:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 بشكل عام، نوصي باستخدام فئة `AutoTokenizer` وفئة `TFAutoModelFor` لتحميل نسخ لنماذج مُدربة مسبقًا. سيساعدك هذا في تحميل البنية الصحيحة في كل مرة. في البرنامج التعليمي التالي، ستتعرف على كيفية استخدام المُجزّئ اللغوي ومعالج الصور ومستخرج الميزات والمعالج الذي تم تحميله حديثًا لمعالجة مجموعة بيانات للضبط الدقيق.

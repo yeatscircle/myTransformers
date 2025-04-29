@@ -28,9 +28,11 @@ object for which you are lacking a dependency will error-out when calling any me
 This object is still importable:
 
 ```python
->>> from transformers import DetrImageProcessorFast
->>> print(DetrImageProcessorFast)
-<class 'DetrImageProcessorFast'>
+>> > from myTransformers import DetrImageProcessorFast
+>> > print(DetrImageProcessorFast)
+<
+
+class 'DetrImageProcessorFast'>
 ```
 
 However, no method can be called on that object:

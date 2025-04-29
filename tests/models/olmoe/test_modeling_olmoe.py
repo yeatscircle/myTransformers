@@ -17,10 +17,10 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import OlmoeConfig, is_torch_available, set_seed
-from transformers.models.auto.tokenization_auto import AutoTokenizer
-from transformers.models.gpt_neox.tokenization_gpt_neox_fast import GPTNeoXTokenizerFast
-from transformers.testing_utils import (
+from myTransformers import OlmoeConfig, is_torch_available, set_seed
+from myTransformers.models.auto.tokenization_auto import AutoTokenizer
+from myTransformers.models.gpt_neox.tokenization_gpt_neox_fast import GPTNeoXTokenizerFast
+from myTransformers.testing_utils import (
     require_tokenizers,
     require_torch,
     slow,
@@ -36,7 +36,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         OlmoeForCausalLM,
         OlmoeModel,
     )

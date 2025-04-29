@@ -19,9 +19,9 @@ import os
 import unittest
 from functools import lru_cache
 
-from transformers import AddedToken, Qwen2Tokenizer, Qwen2TokenizerFast
-from transformers.models.qwen2.tokenization_qwen2 import VOCAB_FILES_NAMES, bytes_to_unicode
-from transformers.testing_utils import require_tokenizers, slow
+from myTransformers import AddedToken, Qwen2Tokenizer, Qwen2TokenizerFast
+from myTransformers.models.qwen2.tokenization_qwen2 import VOCAB_FILES_NAMES, bytes_to_unicode
+from myTransformers.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 
@@ -219,7 +219,7 @@ class Qwen2TokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     @slow
     def test_tokenizer_integration(self):
         sequences = [
-            "Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides "
+            "Transformers (formerly known as pytorch-myTransformers and pytorch-pretrained-bert) provides "
             "general-purpose architectures (BERT, GPT-2, RoBERTa, XLM, DistilBert, XLNet...) for Natural "
             "Language Understanding (NLU) and Natural Language Generation (NLG) with over 32+ pretrained "
             "models in 100+ languages and deep interoperability between Jax, PyTorch and TensorFlow.",

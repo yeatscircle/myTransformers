@@ -86,7 +86,7 @@ def parse_arguments():
     """
     Parse command line arguments for the benchmarking CLI.
     """
-    parser = argparse.ArgumentParser(description="CLI for benchmarking the huggingface/transformers.")
+    parser = argparse.ArgumentParser(description="CLI for benchmarking the huggingface/myTransformers.")
 
     parser.add_argument(
         "branch",

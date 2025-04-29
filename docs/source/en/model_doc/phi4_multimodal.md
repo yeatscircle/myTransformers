@@ -31,8 +31,7 @@ In the following, we demonstrate how to use it for inference depending on the in
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig
-
+from myTransformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig
 
 # Define model path
 model_path = "microsoft/Phi-4-multimodal-instruct"
@@ -40,7 +39,7 @@ device = "cuda:0"
 
 # Load model and processor
 processor = AutoProcessor.from_pretrained(model_path)
-model = AutoModelForCausalLM.from_pretrained(model_path, device_map=device,  torch_dtype=torch.float16)
+model = AutoModelForCausalLM.from_pretrained(model_path, device_map=device, torch_dtype=torch.float16)
 
 # Optional: load the adapters (note that without them, the base model will very likely not work well)
 model.load_adapter(model_path, adapter_name="speech", device_map=device, adapter_kwargs={"subfolder": 'speech-lora'})
@@ -57,7 +56,7 @@ messages = [
     },
 ]
 
-model.set_adapter("vision") # if loaded, activate the vision adapter
+model.set_adapter("vision")  # if loaded, activate the vision adapter
 inputs = processor.apply_chat_template(
     messages,
     add_generation_prompt=True,
@@ -78,16 +77,16 @@ response = processor.batch_decode(
 )[0]
 print(f'>>> Response\n{response}')
 
-
 # Part 2: Audio Processing
-model.set_adapter("speech") # if loaded, activate the speech adapter
+model.set_adapter("speech")  # if loaded, activate the speech adapter
 audio_url = "https://upload.wikimedia.org/wikipedia/commons/b/b0/Barbara_Sahakian_BBC_Radio4_The_Life_Scientific_29_May_2012_b01j5j24.flac"
 messages = [
     {
         "role": "user",
         "content": [
             {"type": "audio", "url": audio_url},
-            {"type": "text", "text": "Transcribe the audio to text, and then translate the audio to French. Use <sep> as a separator between the origina transcript and the translation."},
+            {"type": "text",
+             "text": "Transcribe the audio to text, and then translate the audio to French. Use <sep> as a separator between the origina transcript and the translation."},
         ],
     },
 ]

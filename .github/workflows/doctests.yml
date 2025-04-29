@@ -17,33 +17,33 @@ jobs:
     runs-on: 
       group: aws-g4dn-2xlarge-cache
     container:
-      image: huggingface/transformers-all-latest-gpu
+      image: huggingface/myTransformers-all-latest-gpu
       options: --gpus 0 --shm-size "16gb" --ipc host -v /mnt/cache/.cache/huggingface:/mnt/cache/
     outputs:
       job_splits: ${{ steps.set-matrix.outputs.job_splits }}
       split_keys: ${{ steps.set-matrix.outputs.split_keys }}
     steps:
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Check values for matrix
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/split_doctest_jobs.py
           python3 utils/split_doctest_jobs.py --only_return_keys --num_splits ${{ env.NUM_SLICES }}
 
       - id: set-matrix
-        working-directory: /transformers
+        working-directory: /myTransformers
         name: Set values for matrix
         run: |
           echo "job_splits=$(python3 utils/split_doctest_jobs.py)" >> $GITHUB_OUTPUT

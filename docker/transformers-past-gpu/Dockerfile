@@ -13,12 +13,12 @@ RUN git lfs install
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
 ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
-RUN python3 -m pip install --no-cache-dir -e ./transformers[dev,onnxruntime]
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
+RUN python3 -m pip install --no-cache-dir -e ./myTransformers[dev,onnxruntime]
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop
 
 ARG FRAMEWORK
 ARG VERSION
@@ -30,7 +30,7 @@ RUN [ "$VERSION" != "1.10" ] && python3 -m pip install -U setuptools || python3 
 RUN python3 -m pip uninstall -y torch torchvision torchaudio tensorflow jax flax
 
 # Get the libraries and their versions to install, and write installation command to `~/.profile`.
-RUN python3 ./transformers/utils/past_ci_versions.py --framework $FRAMEWORK --version $VERSION
+RUN python3 ./myTransformers/utils/past_ci_versions.py --framework $FRAMEWORK --version $VERSION
 
 # Install the target framework
 RUN echo "INSTALL_CMD = $INSTALL_CMD"
@@ -54,6 +54,6 @@ RUN python3 -m pip uninstall -y deepspeed
 
 RUN python3 -m pip install -U "itsdangerous<2.1.0"
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop

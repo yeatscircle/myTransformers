@@ -22,9 +22,9 @@ import unittest
 import numpy as np
 from datasets import load_dataset
 
-from transformers import WhisperFeatureExtractor
-from transformers.testing_utils import check_json_file_has_correct_format, require_torch, require_torch_gpu
-from transformers.utils.import_utils import is_torch_available
+from myTransformers import WhisperFeatureExtractor
+from myTransformers.testing_utils import check_json_file_has_correct_format, require_torch, require_torch_gpu
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 

@@ -55,9 +55,9 @@ import torch
 import requests
 
 from PIL import Image
-from transformers import AutoModelForObjectDetection, AutoImageProcessor
+from myTransformers import AutoModelForObjectDetection, AutoImageProcessor
 
-url = 'http://images.cocodataset.org/val2017/000000039769.jpg' 
+url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
 image = Image.open(requests.get(url, stream=True).raw)
 
 image_processor = AutoImageProcessor.from_pretrained("IDEA-Research/dab-detr-resnet-50")
@@ -68,7 +68,8 @@ inputs = image_processor(images=image, return_tensors="pt")
 with torch.no_grad():
     outputs = model(**inputs)
 
-results = image_processor.post_process_object_detection(outputs, target_sizes=torch.tensor([image.size[::-1]]), threshold=0.3)
+results = image_processor.post_process_object_detection(outputs, target_sizes=torch.tensor([image.size[::-1]]),
+                                                        threshold=0.3)
 
 for result in results:
     for score, label_id, box in zip(result["scores"], result["labels"], result["boxes"]):
@@ -88,18 +89,20 @@ couch: 0.59 [-0.04, 1.34, 639.9, 477.09]
 There are three other ways to instantiate a DAB-DETR model (depending on what you prefer):
 
 Option 1: Instantiate DAB-DETR with pre-trained weights for entire model
-```py
->>> from transformers import DabDetrForObjectDetection
 
->>> model = DabDetrForObjectDetection.from_pretrained("IDEA-Research/dab-detr-resnet-50")
+```py
+>> > from myTransformers import DabDetrForObjectDetection
+
+>> > model = DabDetrForObjectDetection.from_pretrained("IDEA-Research/dab-detr-resnet-50")
 ```
 
 Option 2: Instantiate DAB-DETR with randomly initialized weights for Transformer, but pre-trained weights for backbone
-```py
->>> from transformers import DabDetrConfig, DabDetrForObjectDetection
 
->>> config = DabDetrConfig()
->>> model = DabDetrForObjectDetection(config)
+```py
+>> > from myTransformers import DabDetrConfig, DabDetrForObjectDetection
+
+>> > config = DabDetrConfig()
+>> > model = DabDetrForObjectDetection(config)
 ```
 Option 3: Instantiate DAB-DETR with randomly initialized weights for backbone + Transformer
 ```py

@@ -90,7 +90,7 @@ def get_list_of_models_to_deprecate(
     else:
         thresh_date = datetime.strptime(thresh_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
 
-    models_dir = PATH_TO_REPO / "src/transformers/models"
+    models_dir = PATH_TO_REPO / "src/myTransformers/models"
     model_paths = get_list_of_repo_model_paths(models_dir=models_dir)
 
     if use_cache and os.path.exists("models_info.json"):

@@ -53,13 +53,13 @@ Search using the compressed-tensors [tag](https://huggingface.co/models?other=co
 Only models that have already been quantized can be loaded at the moment, and once a model is loaded, it cannot be saved. To quantize a model into the compressed-tensors format, see [llm-compressor](https://github.com/vllm-project/llm-compressor). Alternatively, models can be created independently and serizlied with a compressed-tensors config.
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 ct_model = AutoModelForCausalLM.from_pretrained("nm-testing/Meta-Llama-3.1-8B-Instruct-FP8-hf", device_map="auto")
 
 # measure memory usage
-mem_params = sum([param.nelement()*param.element_size() for param in ct_model.parameters()])
-print(f"{mem_params/2**30:.4f} GB")
+mem_params = sum([param.nelement() * param.element_size() for param in ct_model.parameters()])
+print(f"{mem_params / 2 ** 30:.4f} GB")
 # 8.4575 GB
 ```
 
@@ -126,7 +126,7 @@ model.layers.0.self_attn.v_proj.weight_scale |	[1] |	BF16
 When loading a compressed-tensors model with the [`~quantizers.HFQuantizer`] integration, all the [nn.Linear](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html) modules specified in the quantization config are replaced by [CompressedLinear](https://github.com/neuralmagic/compressed-tensors/blob/975cb223b19fcac2b98a4271d17668462d4d6e1d/src/compressed_tensors/linear/compressed_linear.py#L30) modules that manage the compressed weights and forward pass for inference. The `lm_head` module is still kept as an unquantized nn.Linear module.
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 ct_model = AutoModelForCausalLM.from_pretrained("nm-testing/Meta-Llama-3.1-8B-Instruct-FP8-hf")
 print(ct_model)

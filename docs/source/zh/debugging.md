@@ -80,7 +80,7 @@ NCCL_DEBUG=INFO python -m torch.distributed.run --nproc_per_node 2 --nnodes 1 to
 如果您正在使用自己的训练循环或其他Trainer，您可以通过以下方式实现相同的功能：
 
 ```python
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model)
 ```
@@ -249,7 +249,7 @@ class T5LayerFF(nn.Module):
 此外，如果您在自己的代码中实例化调试器，您可以调整从其默认打印的`frame`数，例如：
 
 ```python
-from transformers.debug_utils import DebugUnderflowOverflow
+from myTransformers.debug_utils import DebugUnderflowOverflow
 
 debug_overflow = DebugUnderflowOverflow(model, max_frames_to_save=100)
 ```

@@ -39,18 +39,17 @@ LLM（Language Model）のますます一般的な使用事例の1つは「チ�
 
 さっそく、`BlenderBot` モデルを使用した例を示して具体的にしましょう。`BlenderBot` のデフォルトテンプレートは非常にシンプルで、ほとんどが対話のラウンド間に空白を追加するだけです。
 
-
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> chat = [
-...   {"role": "user", "content": "Hello, how are you?"},
-...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...   {"role": "user", "content": "Hello, how are you?"},
+    ...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 " Hello, how are you?  I'm doing great. How can I help you today?   I'd like to show off how chat templating works!</s>"
 ```
 
@@ -60,14 +59,14 @@ LLM（Language Model）のますます一般的な使用事例の1つは「チ�
 このコードを実行する場合は[リポジトリでアクセスをリクエスト](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)する必要があります。
 
 ```python
->> from transformers import AutoTokenizer
+>> from myTransformers import AutoTokenizer
 >> tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 
 >> chat = [
-...   {"role": "user", "content": "Hello, how are you?"},
-...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+    ...   {"role": "user", "content": "Hello, how are you?"},
+    ...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
 >> tokenizer.use_default_system_prompt = False
 >> tokenizer.apply_chat_template(chat, tokenize=False)
@@ -82,10 +81,10 @@ LLM（Language Model）のますます一般的な使用事例の1つは「チ�
 
 ```python
 
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> tokenizer.chat_template
+>> > tokenizer.chat_template
 "{% for message in messages %}{% if message['role'] == 'user' %}{{ ' ' }}{% endif %}{{ message['content'] }}{% if not loop.last %}{{ '  ' }}{% endif %}{% endfor %}{{ eos_token }}"
 ```
 

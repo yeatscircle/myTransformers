@@ -17,8 +17,8 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import set_seed
-from transformers.testing_utils import (
+from myTransformers import set_seed
+from myTransformers.testing_utils import (
     CaptureStderr,
     get_gpu_count,
     is_torch_available,
@@ -37,7 +37,7 @@ from transformers.testing_utils import (
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoModelForCausalLM,
         AutoTokenizer,
         ClvpForCausalLM,
@@ -48,7 +48,7 @@ if is_torch_available():
         StaticCache,
         convert_and_export_with_cache,
     )
-    from transformers.utils import is_torch_greater_or_equal
+    from myTransformers.utils import is_torch_greater_or_equal
 
 
 @require_torch

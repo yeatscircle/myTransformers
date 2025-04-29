@@ -66,9 +66,8 @@ Each **checkpoint** is trained with a specific prompt format, depending on the u
 Here’s an example of how to structure your input. 
 We will use [llava-hf/llava-1.5-7b-hf](https://huggingface.co/llava-hf/llava-1.5-7b-hf) and a conversation history of text and image. Each content field has to be a list of dicts, as follows:
 
-
 ```python
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 processor = AutoProcessor.from_pretrained("llava-hf/llava-1.5-7b-hf")
 
@@ -78,11 +77,11 @@ conversation = [
         "content": [
             {"type": "image"},
             {"type": "text", "text": "What’s shown in this image?"},
-            ],
+        ],
     },
     {
         "role": "assistant",
-        "content": [{"type": "text", "text": "This image shows a red stop sign."},]
+        "content": [{"type": "text", "text": "This image shows a red stop sign."}, ]
     },
     {
 
@@ -97,7 +96,7 @@ text_prompt = processor.apply_chat_template(conversation, add_generation_prompt=
 
 # Note that the template simply formats your prompt, you still have to tokenize it and obtain pixel values for your images
 print(text_prompt)
->>> "USER: <image>\n<What’s shown in this image? ASSISTANT: This image shows a red stop sign.</s>USER: Describe the image in more details. ASSISTANT:"
+>> > "USER: <image>\n<What’s shown in this image? ASSISTANT: This image shows a red stop sign.</s>USER: Describe the image in more details. ASSISTANT:"
 ```
 
 - If you want to construct a chat prompt yourself, below is a list of prompt formats accepted by each llava checkpoint:
@@ -131,13 +130,13 @@ For multiple turns conversation:
 
 ### Single input inference
 
-
 ```python
 import torch
-from transformers import AutoProcessor, LlavaForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaForConditionalGeneration
 
 # Load the model in half-precision
-model = LlavaForConditionalGeneration.from_pretrained("llava-hf/llava-1.5-7b-hf", torch_dtype=torch.float16, device_map="auto")
+model = LlavaForConditionalGeneration.from_pretrained("llava-hf/llava-1.5-7b-hf", torch_dtype=torch.float16,
+                                                      device_map="auto")
 processor = AutoProcessor.from_pretrained("llava-hf/llava-1.5-7b-hf")
 
 conversation = [
@@ -170,12 +169,12 @@ LLaVa also supports batched inference. Here is how you can do it:
 
 ```python
 import torch
-from transformers import AutoProcessor, LlavaForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaForConditionalGeneration
 
 # Load the model in half-precision
-model = LlavaForConditionalGeneration.from_pretrained("llava-hf/llava-1.5-7b-hf", torch_dtype=torch.float16, device_map="auto")
+model = LlavaForConditionalGeneration.from_pretrained("llava-hf/llava-1.5-7b-hf", torch_dtype=torch.float16,
+                                                      device_map="auto")
 processor = AutoProcessor.from_pretrained("llava-hf/llava-1.5-7b-hf")
-
 
 # Prepare a batch of two prompts
 conversation_1 = [
@@ -207,7 +206,6 @@ inputs = processor.apply_chat_template(
     return_tensors="pt"
 ).to(model.device, torch.float16)
 
-
 # Generate
 generate_ids = model.generate(**inputs, max_new_tokens=30)
 processor.batch_decode(generate_ids, skip_special_tokens=True)
@@ -219,7 +217,7 @@ processor.batch_decode(generate_ids, skip_special_tokens=True)
 In order to match the logits of the [original implementation](https://github.com/haotian-liu/LLaVA/tree/main), one needs to additionally specify `do_pad=True` when instantiating `LLavaImageProcessor`:
 
 ```python
-from transformers import LLavaImageProcessor
+from myTransformers import LLavaImageProcessor
 
 image_processor = LLavaImageProcessor.from_pretrained("https://huggingface.co/llava-hf/llava-1.5-7b-hf", do_pad=True)
 ```

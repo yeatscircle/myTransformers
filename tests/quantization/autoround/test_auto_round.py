@@ -15,8 +15,8 @@ import gc
 import tempfile
 import unittest
 
-from transformers import AutoModelForCausalLM, AutoRoundConfig, AutoTokenizer
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoRoundConfig, AutoTokenizer
+from myTransformers.testing_utils import (
     require_accelerate,
     require_auto_round,
     require_intel_extension_for_pytorch,
@@ -25,7 +25,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available
+from myTransformers.utils import is_torch_available
 
 
 if is_torch_available():

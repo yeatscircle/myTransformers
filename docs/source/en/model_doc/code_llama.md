@@ -35,10 +35,10 @@ The example below demonstrates how to generate code with [`Pipeline`], or the [`
 
 <hfoptions id="usage">
 <hfoption id="Pipeline">
-    
+
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(
     "text-generation",
@@ -52,7 +52,8 @@ result = pipe("# Function to calculate the factorial of a number\ndef factorial(
 print(result[0]['generated_text'])
 
 # infilling
-infill_result = pipe("def remove_non_ascii(s: str) -> str:\n    \"\"\" <FILL_ME>\n    return result", max_new_tokens=200)
+infill_result = pipe("def remove_non_ascii(s: str) -> str:\n    \"\"\" <FILL_ME>\n    return result",
+                     max_new_tokens=200)
 print(infill_result[0]['generated_text'])
 ```
 
@@ -61,7 +62,7 @@ print(infill_result[0]['generated_text'])
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/CodeLlama-7b-hf")
 model = AutoModelForCausalLM.from_pretrained(
@@ -76,7 +77,7 @@ prompt = "# Function to calculate the factorial of a number\ndef factorial(n):"
 input_ids = tokenizer(prompt, return_tensors="pt").to("cuda")
 
 output = model.generate(
-    **input_ids, 
+    **input_ids,
     max_new_tokens=256,
     cache_implementation="static"
 )
@@ -95,7 +96,7 @@ print(filled_text)
 <hfoption id="transformers-cli">
     
 ```bash
-echo -e "# Function to calculate the factorial of a number\ndef factorial(n):" | transformers-cli run --task text-generation --model meta-llama/CodeLlama-7b-hf --device 0
+echo -e "# Function to calculate the factorial of a number\ndef factorial(n):" | myTransformers-cli run --task text-generation --model meta-llama/CodeLlama-7b-hf --device 0
 ```
 
 </hfoption>
@@ -108,15 +109,16 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to only quan
 ```py
 # pip install bitsandbytes
 import torch
-from transformers import AutoModelForCausalLM, CodeLlamaTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, CodeLlamaTokenizer, BitsAndBytesConfig
 
-bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)
+bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4",
+                                bnb_4bit_use_double_quant=True)
 tokenizer = CodeLlamaTokenizer.from_pretrained("meta-llama/CodeLlama-34b-hf")
 model = AutoModelForCausalLM.from_pretrained(
-   "meta-llama/CodeLlama-34b-hf",
-   torch_dtype=torch.bfloat16,
-   device_map="auto",
-   quantization_config=bnb_config
+    "meta-llama/CodeLlama-34b-hf",
+    torch_dtype=torch.bfloat16,
+    device_map="auto",
+    quantization_config=bnb_config
 )
 
 prompt = "# Write a Python function to check if a string is a palindrome\ndef is_palindrome(s):"
@@ -129,7 +131,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 Use the [AttentionMaskVisualizer](https://github.com/huggingface/transformers/blob/beb9b5b02246b9b7ee81ddf938f93f44cfeaad19/src/transformers/utils/attention_visualizer.py#L139) to better understand what tokens the model can and cannot attend to.
 
 ```py
-from transformers.utils.attention_visualizer import AttentionMaskVisualizer
+from myTransformers.utils.attention_visualizer import AttentionMaskVisualizer
 
 visualizer = AttentionMaskVisualizer("meta-llama/CodeLlama-7b-hf")
 visualizer("""def func(a, b):
@@ -145,7 +147,7 @@ visualizer("""def func(a, b):
 - Infilling is only available in the 7B and 13B base models, and not in the Python, Instruct, 34B, or 70B models.
 - Use the `<FILL_ME>` token where you want your input to be filled. The tokenizer splits this token to create a formatted input string that follows the [original training pattern](https://github.com/facebookresearch/codellama/blob/cb51c14ec761370ba2e2bc351374a79265d0465e/llama/generation.py#L402). This is more robust than preparing the pattern yourself.
     ```py
-    from transformers import LlamaForCausalLM, CodeLlamaTokenizer
+    from myTransformers import LlamaForCausalLM, CodeLlamaTokenizer
     
     tokenizer = CodeLlamaTokenizer.from_pretrained("meta-llama/CodeLlama-7b-hf")
     model = LlamaForCausalLM.from_pretrained("meta-llama/CodeLlama-7b-hf")

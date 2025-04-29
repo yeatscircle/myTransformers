@@ -200,7 +200,7 @@ Returns:
 Example:
     ```python
     >>> import torch
-    >>> from transformers import WhisperModel, WhisperFeatureExtractor
+    >>> from myTransformers import WhisperModel, WhisperFeatureExtractor
     >>> from datasets import load_dataset
 
     >>> model = WhisperModel.from_pretrained("openai/whisper-base")
@@ -507,7 +507,7 @@ Inside tests:
 - How many GPUs are available:
 
 ```python
-from transformers.testing_utils import get_gpu_count
+from myTransformers.testing_utils import get_gpu_count
 
 n_gpu = get_gpu_count()  # works with torch and tf
 ```
@@ -757,7 +757,7 @@ To start using those all you need is to make sure that the test resides in a sub
 `transformers.test_utils.TestCasePlus`. For example:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -769,7 +769,7 @@ If you don't need to manipulate paths via `pathlib` or you just need a path as a
 `str()` on the `pathlib` object or use the accessors ending with `_str`. For example:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -792,7 +792,7 @@ A helper class `transformers.test_utils.TestCasePlus` is best used for such purp
 Here is an example of its usage:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class ExamplesTests(TestCasePlus):
@@ -850,10 +850,9 @@ otherwise.
 If you need to temporary override `sys.path` to import from another test for example, you can use the
 `ExtendSysPath` context manager. Example:
 
-
 ```python
 import os
-from transformers.testing_utils import ExtendSysPath
+from myTransformers.testing_utils import ExtendSysPath
 
 bindir = os.path.abspath(os.path.dirname(__file__))
 with ExtendSysPath(f"{bindir}/.."):
@@ -962,7 +961,9 @@ an hour for the test suite to complete on CI. Therefore, with some exceptions fo
 marked as in the example below:
 
 ```python no-style
-from transformers.testing_utils import slow
+from myTransformers.testing_utils import slow
+
+
 @slow
 def test_integration_foo():
 ```
@@ -1106,7 +1107,7 @@ But, then we have a helper context manager wrapper to automatically take care of
 some `\r`'s in it or not, so it's a simple:
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 with CaptureStdout() as cs:
     function_that_writes_to_stdout()
@@ -1116,7 +1117,7 @@ print(cs.out)
 Here is a full test example:
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 msg = "Secret message\r"
 final = "Hello World"
@@ -1128,7 +1129,7 @@ assert cs.out == final + "\n", f"captured: {cs.out}, expecting {final}"
 If you'd like to capture `stderr` use the `CaptureStderr` class instead:
 
 ```python
-from transformers.testing_utils import CaptureStderr
+from myTransformers.testing_utils import CaptureStderr
 
 with CaptureStderr() as cs:
     function_that_writes_to_stderr()
@@ -1138,7 +1139,7 @@ print(cs.err)
 If you need to capture both streams at once, use the parent `CaptureStd` class:
 
 ```python
-from transformers.testing_utils import CaptureStd
+from myTransformers.testing_utils import CaptureStd
 
 with CaptureStd() as cs:
     function_that_writes_to_stdout_and_stderr()
@@ -1154,12 +1155,12 @@ from the context.
 If you need to validate the output of a logger, you can use `CaptureLogger`:
 
 ```python
-from transformers import logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import logging
+from myTransformers.testing_utils import CaptureLogger
 
 msg = "Testing 1, 2, 3"
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers.models.bart.tokenization_bart")
+logger = logging.get_logger("myTransformers.models.bart.tokenization_bart")
 with CaptureLogger(logger) as cl:
     logger.info(msg)
 assert cl.out, msg + "\n"
@@ -1171,7 +1172,7 @@ If you want to test the impact of environment variables for a specific test you 
 `transformers.testing_utils.mockenv`
 
 ```python
-from transformers.testing_utils import mockenv
+from myTransformers.testing_utils import mockenv
 
 
 class HfArgumentParserTest(unittest.TestCase):
@@ -1184,7 +1185,7 @@ At times an external program needs to be called, which requires setting `PYTHONP
 multiple local paths. A helper class `transformers.test_utils.TestCasePlus` comes to help:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class EnvExampleTest(TestCasePlus):

@@ -43,9 +43,8 @@ This model was contributed by [matthijs](https://huggingface.co/Matthijs). The T
   TensorFlow Lite model:
 
 ```py
-from transformers import TFMobileViTForImageClassification
+from myTransformers import TFMobileViTForImageClassification
 import tensorflow as tf
-
 
 model_ckpt = "apple/mobilevit-xx-small"
 model = TFMobileViTForImageClassification.from_pretrained(model_ckpt)

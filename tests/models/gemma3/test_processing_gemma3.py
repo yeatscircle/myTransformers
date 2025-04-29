@@ -17,15 +17,15 @@ import tempfile
 import unittest
 from typing import Optional
 
-from transformers import Gemma3Processor, GemmaTokenizer
-from transformers.testing_utils import get_tests_dir, require_vision
-from transformers.utils import is_vision_available
+from myTransformers import Gemma3Processor, GemmaTokenizer
+from myTransformers.testing_utils import get_tests_dir, require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import Gemma3ImageProcessor
+    from myTransformers import Gemma3ImageProcessor
 
 SAMPLE_VOCAB = get_tests_dir("fixtures/test_sentencepiece.model")
 

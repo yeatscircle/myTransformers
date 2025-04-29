@@ -57,7 +57,7 @@ rendered properly in your Markdown viewer.
 
 ```python
 from torch import nn
-from transformers import Trainer
+from myTransformers import Trainer
 
 
 class CustomTrainer(Trainer):
@@ -593,7 +593,7 @@ Accelerate 现在支持 Trainer。用户可以期待以下内容：
 3. 使用accelerate配置文件参数或启动器参数以外的参数运行Trainer脚本。以下是一个使用上述FSDP配置从accelerate启动器运行`run_glue.py`的示例。
 
 ```bash
-cd transformers
+cd myTransformers
 
 accelerate launch \
 ./examples/pytorch/text-classification/run_glue.py \
@@ -612,7 +612,7 @@ accelerate launch \
 4. 你也可以直接使用`accelerate launch`的cmd参数。上面的示例将映射到：
 
 ```bash
-cd transformers
+cd myTransformers
 
 accelerate launch --num_processes=2 \
 --use_fsdp \
@@ -654,7 +654,7 @@ NEFTune 是一种提升聊天模型性能的技术，由 Jain 等人在论文“
 要在 `Trainer` 中使用它，只需在创建 `TrainingArguments` 实例时传递 `neftune_noise_alpha`。请注意，为了避免任何意外行为，NEFTune在训练后被禁止，以此恢复原始的embedding层。
 
 ```python
-from transformers import Trainer, TrainingArguments
+from myTransformers import Trainer, TrainingArguments
 
 args = TrainingArguments(..., neftune_noise_alpha=0.1)
 trainer = Trainer(..., args=args)

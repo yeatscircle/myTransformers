@@ -45,7 +45,7 @@ pip install .
 Quantize a model on-the-fly by defining the quantization data type in [`EetqConfig`].
 
 ```py
-from transformers import AutoModelForCausalLM, EetqConfig
+from myTransformers import AutoModelForCausalLM, EetqConfig
 
 quantization_config = EetqConfig("int8")
 model = AutoModelForCausalLM.from_pretrained(

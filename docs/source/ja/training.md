@@ -53,14 +53,19 @@ rendered properly in your Markdown viewer.
 データセット全体に前処理関数を適用します：
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
+>> >
 
->>> tokenized_datasets = dataset.map(tokenize_function, batched=True)
+def tokenize_function(examples):
+
+
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
+
+>> > tokenized_datasets = dataset.map(tokenize_function, batched=True)
 ```
 
 お好みで、実行時間を短縮するためにフルデータセットの小さなサブセットを作成することができます：
@@ -89,9 +94,9 @@ rendered properly in your Markdown viewer.
 まず、モデルをロードし、予想されるラベルの数を指定します。Yelp Review [dataset card](https://huggingface.co/datasets/yelp_review_full#data-fields)から、5つのラベルがあることがわかります：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 <Tip>
@@ -109,9 +114,9 @@ BERTモデルの事前学習済みのヘッドは破棄され、ランダムに�
 トレーニングのチェックポイントを保存する場所を指定します：
 
 ```python
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer")
+>> > training_args = TrainingArguments(output_dir="test_trainer")
 ```
 
 ### Evaluate
@@ -138,9 +143,9 @@ BERTモデルの事前学習済みのヘッドは破棄され、ランダムに�
 評価メトリクスをファインチューニング中に監視したい場合、トレーニング引数で `eval_strategy` パラメータを指定して、各エポックの終了時に評価メトリクスを報告します：
 
 ```python
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
+>> > training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
 ```
 
 ### Trainer
@@ -192,7 +197,7 @@ dataset = dataset["train"]  # 今のところトレーニング分割のみを�
 次に、トークナイザをロードし、データをNumPy配列としてトークン化します。ラベルは既に`0`と`1`のリストであるため、トークン化せずに直接NumPy配列に変換できます！
 
 ```python
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 tokenized_data = tokenizer(dataset["sentence"], return_tensors="np", padding=True)
@@ -206,7 +211,7 @@ labels = np.array(dataset["label"])  # ラベルはすでに0と1の配列です
 注意点として、Transformersモデルはすべてデフォルトでタスクに関連した損失関数を持っているため、指定しなくても構いません（指定する場合を除く）：
 
 ```python
-from transformers import TFAutoModelForSequenceClassification
+from myTransformers import TFAutoModelForSequenceClassification
 from tensorflow.keras.optimizers import Adam
 
 # モデルをロードしてコンパイルする
@@ -330,9 +335,9 @@ torch.cuda.empty_cache()
 ロードするモデルと期待されるラベルの数を指定してください：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 ### Optimizer and learning rate scheduler
@@ -349,12 +354,13 @@ PyTorchから[`AdamW`](https://pytorch.org/docs/stable/generated/torch.optim.Ada
 デフォルトの学習率スケジューラを[`Trainer`]から作成する：
 
 ```py
->>> from transformers import get_scheduler
+>> > from myTransformers import get_scheduler
 
->>> num_epochs = 3
->>> num_training_steps = num_epochs * len(train_dataloader)
->>> lr_scheduler = get_scheduler(
-...     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
+>> > num_epochs = 3
+>> > num_training_steps = num_epochs * len(train_dataloader)
+>> > lr_scheduler = get_scheduler(
+    ...
+name = "linear", optimizer = optimizer, num_warmup_steps = 0, num_training_steps = num_training_steps
 ... )
 ```
 

@@ -17,9 +17,9 @@ import inspect
 import math
 import unittest
 
-from transformers import DeformableDetrConfig, ResNetConfig, is_torch_available, is_vision_available
-from transformers.file_utils import cached_property
-from transformers.testing_utils import (
+from myTransformers import DeformableDetrConfig, ResNetConfig, is_torch_available, is_vision_available
+from myTransformers.file_utils import cached_property
+from myTransformers.testing_utils import (
     require_timm,
     require_torch,
     require_torch_accelerator,
@@ -37,13 +37,13 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import DeformableDetrForObjectDetection, DeformableDetrModel
+    from myTransformers import DeformableDetrForObjectDetection, DeformableDetrModel
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoImageProcessor
+    from myTransformers import AutoImageProcessor
 
 
 class DeformableDetrModelTester:

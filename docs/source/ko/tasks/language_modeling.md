@@ -41,7 +41,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 커뮤니티에 모델을 업로드하고 공유하기 위해 Hugging Face 계정에 로그인하는 것을 권장합니다. 알림이 표시되면 토큰을 입력하여 로그인하세요:
@@ -96,9 +96,9 @@ pip install transformers datasets evaluate
 다음 단계는 `text` 필드를 전처리하기 위해 DistilGPT2 토크나이저를 불러오는 것입니다.
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 ```
 
 위의 예제에서 알 수 있듯이, `text` 필드는 `answers` 아래에 중첩되어 있습니다. 따라서 [`flatten`](https://huggingface.co/docs/datasets/process#flatten) 메소드를 사용하여 중첩 구조에서 `text` 하위 필드를 추출해야 합니다.
@@ -180,10 +180,10 @@ pip install transformers datasets evaluate
 패딩 토큰으로 종결 토큰을 사용하고 `mlm=False`로 설정하세요. 이렇게 하면 입력을 오른쪽으로 한 칸씩 시프트한 값을 레이블로 사용합니다:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 ```
 
 </pt>
@@ -191,9 +191,9 @@ pip install transformers datasets evaluate
 패딩 토큰으로 종결 토큰을 사용하고 `mlm=False`로 설정하세요. 이렇게 하면 입력을 오른쪽으로 한 칸씩 시프트한 값을 레이블로 사용합니다:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 
 </tf>
@@ -213,9 +213,9 @@ pip install transformers datasets evaluate
 이제 모델을 훈련하기 준비가 되었습니다! [`AutoModelForCausalLM`]를 사용하여 DistilGPT2를 불러옵니다:
 
 ```py
->>> from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCausalLM, TrainingArguments, Trainer
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 여기까지 진행하면 세 단계만 남았습니다:
@@ -269,17 +269,17 @@ Keras를 사용하여 모델을 미세 조정하는 방법에 익숙하지 않�
 TensorFlow에서 모델을 미세 조정하려면, 먼저 옵티마이저 함수, 학습률 스케줄 및 일부 훈련 하이퍼파라미터를 설정하세요:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 그런 다음 [`TFAutoModelForCausalLM`]를 사용하여 DistilGPT2를 불러옵니다:
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]을 사용하여 데이터 세트를 `tf.data.Dataset` 형식으로 변환하세요:
@@ -311,11 +311,13 @@ TensorFlow에서 모델을 미세 조정하려면, 먼저 옵티마이저 함수
 [`~transformers.PushToHubCallback`]에서 모델과 토크나이저를 업로드할 위치를 지정할 수 있습니다:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_clm-model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_clm-model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -348,11 +350,12 @@ TensorFlow에서 모델을 미세 조정하려면, 먼저 옵티마이저 함수
 추론을 위해 미세 조정된 모델을 간단히 사용하는 가장 간단한 방법은 [`pipeline`]에서 사용하는 것입니다. 모델과 함께 텍스트 생성을 위한 `pipeline`을 인스턴스화하고 텍스트를 전달하세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline("text-generation", model="my_awesome_eli5_clm-model")
->>> generator(prompt)
-[{'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
+>> > generator = pipeline("text-generation", model="my_awesome_eli5_clm-model")
+>> > generator(prompt)
+[{
+     'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
 ```
 
 <frameworkcontent>
@@ -360,19 +363,19 @@ TensorFlow에서 모델을 미세 조정하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 `input_ids`를 PyTorch 텐서로 반환하세요:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="pt").input_ids
 ```
 
 [`~generation.GenerationMixin.generate`] 메소드를 사용하여 텍스트를 생성하세요. 생성을 제어하는 다양한 텍스트 생성 전략과 매개변수에 대한 자세한 내용은 [텍스트 생성 전략](../generation_strategies) 페이지를 확인하세요.
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = AutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 생성된 토큰 ID를 다시 텍스트로 디코딩하세요:
@@ -386,19 +389,19 @@ TensorFlow에서 모델을 미세 조정하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 `input_ids`를 TensorFlow 텐서로 반환하세요:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="tf").input_ids
 ```
 
 [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] 메소드를 사용하여 요약을 생성하세요. 생성을 제어하는 다양한 텍스트 생성 전략과 매개변수에 대한 자세한 내용은 [텍스트 생성 전략](../generation_strategies) 페이지를 확인하세요.
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
->>> outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = TFAutoModelForCausalLM.from_pretrained("my_awesome_eli5_clm-model")
+>> > outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 생성된 토큰 ID를 다시 텍스트로 디코딩하세요:

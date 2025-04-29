@@ -15,8 +15,8 @@
 import tempfile
 import unittest
 
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, QuantoConfig
-from transformers.testing_utils import (
+from myTransformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, QuantoConfig
+from myTransformers.testing_utils import (
     require_accelerate,
     require_optimum_quanto,
     require_read_token,
@@ -24,13 +24,13 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_accelerate_available, is_optimum_quanto_available, is_torch_available
+from myTransformers.utils import is_accelerate_available, is_optimum_quanto_available, is_torch_available
 
 
 if is_torch_available():
     import torch
 
-    from transformers import LlamaForCausalLM
+    from myTransformers import LlamaForCausalLM
 
 if is_accelerate_available():
     from accelerate import init_empty_weights
@@ -38,7 +38,7 @@ if is_accelerate_available():
 if is_optimum_quanto_available():
     from optimum.quanto import QLayerNorm, QLinear
 
-    from transformers.integrations.quanto import replace_with_quanto_layers
+    from myTransformers.integrations.quanto import replace_with_quanto_layers
 
 
 class QuantoConfigTest(unittest.TestCase):
@@ -263,7 +263,7 @@ class QuantoQuantizationTest(unittest.TestCase):
             device_map=self.device_map,
             torch_dtype=torch.float32,
         )
-        # we do not quantize the lm_head since we don't do that in transformers
+        # we do not quantize the lm_head since we don't do that in myTransformers
         quantize(model.transformer, weights=w_mapping[self.weights])
         freeze(model.transformer)
         self.check_same_model(model, self.quantized_model)
@@ -273,7 +273,7 @@ class QuantoQuantizationTest(unittest.TestCase):
     def test_load_from_quanto_saved(self):
         from optimum.quanto import freeze, qint4, qint8, quantize
 
-        from transformers import QuantoConfig
+        from myTransformers import QuantoConfig
 
         w_mapping = {"int8": qint8, "int4": qint4}
         model = AutoModelForCausalLM.from_pretrained(
@@ -281,7 +281,7 @@ class QuantoQuantizationTest(unittest.TestCase):
             device_map=self.device_map,
             torch_dtype=torch.float32,
         )
-        # we do not quantize the lm_head since we don't do that in transformers
+        # we do not quantize the lm_head since we don't do that in myTransformers
         quantize(model.transformer, weights=w_mapping[self.weights])
         freeze(model.transformer)
 
@@ -437,7 +437,7 @@ class QuantoQuantizationActivationTest(unittest.TestCase):
         )
         with self.assertRaises(ValueError) as e:
             AutoModelForCausalLM.from_pretrained("bigscience/bloom-560m", quantization_config=quantization_config)
-        self.assertIn("We don't support quantizing the activations with transformers library", str(e.exception))
+        self.assertIn("We don't support quantizing the activations with myTransformers library", str(e.exception))
 
 
 @require_optimum_quanto

@@ -29,9 +29,8 @@ Poi definire gli `outputs`. Stessa strategia degli `inputs`. Più è seplice e m
 Si parte ereditando la classe base `Pipeline`. con i 4 metodi che bisogna implementare `preprocess`,
 `_forward`, `postprocess` e `_sanitize_parameters`.
 
-
 ```python
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 class MyPipeline(Pipeline):
@@ -116,7 +115,7 @@ per facilitarne l'uso (ad esempio file audio, possono essere nomi di file, URL o
 Per registrar il tuo `new-task` alla lista dei tasks supportati, devi aggiungerlo al `PIPELINE_REGISTRY`:
 
 ```python
-from transformers.pipelines import PIPELINE_REGISTRY
+from myTransformers.pipelines import PIPELINE_REGISTRY
 
 PIPELINE_REGISTRY.register_pipeline(
     "new-task",
@@ -145,7 +144,7 @@ python. Per esempio, supponiamo di voler utilizzare una pipeline personalizzata 
 ```py
 import numpy as np
 
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 def softmax(outputs):
@@ -182,8 +181,8 @@ L'implementazione è agnostica al framework, e lavorerà sia con modelli PyTorch
 
 ```py
 from pair_classification import PairClassificationPipeline
-from transformers.pipelines import PIPELINE_REGISTRY
-from transformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
+from myTransformers.pipelines import PIPELINE_REGISTRY
+from myTransformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
 
 PIPELINE_REGISTRY.register_pipeline(
     "pair-classification",
@@ -197,7 +196,7 @@ Una volta fatto, possiamo usarla con un modello pretrained. L'istanza `sgugger/f
 fine-tuned sul dataset MRPC, che classifica le coppie di frasi come parafrasi o no.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline("pair-classification", model="sgugger/finetuned-bert-mrpc")
 ```
@@ -214,7 +213,7 @@ insieme al salvataggio del modello e del tokenizer della pipeline, prima di push
 `trust_remote_code=True`:
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline(model="{your_username}/test-dynamic-pipeline", trust_remote_code=True)
 ```

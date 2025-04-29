@@ -47,7 +47,7 @@ BLIP、BLIP-2、InstructBLIP などの最近のモデルは、VQA を生成タ�
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 モデルをコミュニティと共有することをお勧めします。 Hugging Face アカウントにログインして、🤗 ハブにアップロードします。
 プロンプトが表示されたら、トークンを入力してログインします。
@@ -176,9 +176,9 @@ Dataset({
 [`ViltProcessor`] は、BERT トークナイザーと ViLT 画像プロセッサを便利な単一プロセッサにラップします。
 
 ```py
->>> from transformers import ViltProcessor
+>> > from myTransformers import ViltProcessor
 
->>> processor = ViltProcessor.from_pretrained(model_checkpoint)
+>> > processor = ViltProcessor.from_pretrained(model_checkpoint)
 ```
 
 データを前処理するには、[`ViltProcessor`] を使用して画像と質問をエンコードする必要があります。プロセッサーは使用します
@@ -234,11 +234,10 @@ Dataset({
 
 最後のステップとして、[`DefaultDataCollat​​or`] を使用してサンプルのバッチを作成します。
 
-
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 ## Train the model
@@ -247,9 +246,10 @@ Dataset({
 ラベルマッピングとともに:
 
 ```py
->>> from transformers import ViltForQuestionAnswering
+>> > from myTransformers import ViltForQuestionAnswering
 
->>> model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label, label2id=label2id)
+>> > model = ViltForQuestionAnswering.from_pretrained(model_checkpoint, num_labels=len(id2label), id2label=id2label,
+                                                      label2id=label2id)
 ```
 
 この時点で残っているステップは 3 つだけです。
@@ -257,34 +257,48 @@ Dataset({
 1. [`TrainingArguments`] でトレーニング ハイパーパラメータを定義します。
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> repo_id = "MariaK/vilt_finetuned_200"
+>> > repo_id = "MariaK/vilt_finetuned_200"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 2. トレーニング引数をモデル、データセット、プロセッサー、データ照合器とともに [`Trainer`] に渡します。
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=processed_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = processed_dataset,
+...
+processing_class = processor,
 ... )
 ```
 
@@ -306,9 +320,9 @@ ViLT モデルを微調整し、🤗 Hub にアップロードしたので、そ
 推論用に微調整されたモデルを試す方法は、それを [`pipeline`] で使用することです。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
+>> > pipe = pipeline("visual-question-answering", model="MariaK/vilt_finetuned_200")
 ```
 
 このガイドのモデルは 200 の例でのみトレーニングされているため、多くを期待しないでください。少なくともそれがあるかどうか見てみましょう
@@ -362,15 +376,14 @@ Predicted answer: down
 このモデルを VQA に使用する方法を説明しましょう。まず、モデルをロードしましょう。ここではモデルを明示的に送信します。
 GPU (利用可能な場合)。これは [`Trainer`] が自動的に処理するため、トレーニング時に事前に行う必要はありませんでした。
 
-
 ```py
->>> from transformers import AutoProcessor, Blip2ForConditionalGeneration
->>> import torch
+>> > from myTransformers import AutoProcessor, Blip2ForConditionalGeneration
+>> > import torch
 
->>> processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
->>> model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
->>> device = "cuda" if torch.cuda.is_available() else "cpu"
->>> model.to(device)
+>> > processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
+>> > model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
+>> > device = "cuda" if torch.cuda.is_available() else "cpu"
+>> > model.to(device)
 ```
 
 モデルは画像とテキストを入力として受け取るため、VQA データセットの最初の例とまったく同じ画像と質問のペアを使用してみましょう。

@@ -47,9 +47,10 @@ Depending on your task, there are several ways you can use the static kv-cache.
 2. Call [torch.compile](./perf_torch_compile) to compile the forward pass with the static kv-cache.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # To prevent long warnings :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -77,9 +78,10 @@ Under the hood, [`~GenerationMixin.generate`] attempts to reuse the same cache o
 Directly initialize a [`StaticCache`] object and pass it to the `past_key_values` parameter in [`~GenerationMixin.generate`]. The [`StaticCache`] keeps the cache contents, so you can pass it to a new [`~GenerationMixin.generate`] call to continue generation, similar to a dynamic cache.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, StaticCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, StaticCache
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # To prevent long warnings :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -95,7 +97,7 @@ past_key_values = StaticCache(
     config=model.config,
     max_batch_size=1,
     # If you plan to reuse the cache, make sure the cache length is large enough for all cases
-    max_cache_len=prompt_length+(model.generation_config.max_new_tokens*2),
+    max_cache_len=prompt_length + (model.generation_config.max_new_tokens * 2),
     device=model.device,
     dtype=model.dtype
 )
@@ -108,7 +110,8 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 new_input_ids = outputs
 outputs = model.generate(new_input_ids, past_key_values=past_key_values)
 print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
-['The theory of special relativity states 1. The speed of light is constant in all inertial reference frames. 2. The speed of light is constant in all inertial reference frames. 3.']
+[
+    'The theory of special relativity states 1. The speed of light is constant in all inertial reference frames. 2. The speed of light is constant in all inertial reference frames. 3.']
 ```
 
 > [!TIP]
@@ -117,8 +120,8 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 Another option for using [`StaticCache`] is to pass it to a models forward pass using the same `past_key_values` argument. This allows you to write your own custom decoding function to decode the next token given the current token, position, and cache position of previously generated tokens.
 
 ```py
-from transformers import LlamaTokenizer, LlamaForCausalLM, StaticCache, logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import LlamaTokenizer, LlamaForCausalLM, StaticCache, logging
+from myTransformers.testing_utils import CaptureLogger
 import torch
 from accelerate.test_utils.testing import get_backend
 
@@ -128,11 +131,12 @@ prompts = [
 ]
 
 NUM_TOKENS_TO_GENERATE = 40
-torch_device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+torch_device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 
 tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", pad_token="</s>", padding_side="right")
 model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf", device_map="sequential")
 inputs = tokenizer(prompts, return_tensors="pt", padding=True).to(model.device)
+
 
 def decode_one_tokens(model, cur_token, input_pos, cache_position, past_key_values):
     logits = model(
@@ -193,9 +197,10 @@ text
 Compiling the entire [`~GenerationMixin.generate`] function also compiles the input preparation logit processor operations, and more, in addition to the forward pass. With this approach, you don't need to initialize [`StaticCache`] or set the [cache_implementation](https://hf.co/docs/transformers/main_classes/text_generation#transformers.GenerationConfig.cache_implementation) parameter.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # To prevent long warnings :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -242,11 +247,11 @@ Enable speculative decoding by loading an assistant model and passing it to [`~G
 <hfoption id="greedy search">
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from accelerate.test_utils.testing import get_backend
 
-device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 
 tokenizer = AutoTokenizer.from_pretrained("facebook/opt-1.3b")
 inputs = tokenizer("Einstein's theory of relativity states", return_tensors="pt").to(device)
@@ -264,11 +269,11 @@ tokenizer.batch_decode(outputs, skip_special_tokens=True)
 For speculative sampling decoding, add the [do_sample](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.GenerationConfig.do_sample) and [temperature](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.GenerationConfig.temperature) parameters to [`~GenerationMixin.generate`].
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from accelerate.test_utils.testing import get_backend
 
-device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 
 tokenizer = AutoTokenizer.from_pretrained("facebook/opt-1.3b")
 inputs = tokenizer("Einstein's theory of relativity states", return_tensors="pt").to(device)
@@ -293,11 +298,11 @@ To enable prompt lookup decoding, specify the number of tokens that should be ov
 <hfoption id="greedy decoding">
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from accelerate.test_utils.testing import get_backend
 
-device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 
 tokenizer = AutoTokenizer.from_pretrained("facebook/opt-1.3b")
 inputs = tokenizer("The second law of thermodynamics states", return_tensors="pt").to(device)
@@ -315,11 +320,11 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 For prompt lookup decoding with sampling, add the [do_sample](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.GenerationConfig.do_sample) and [temperature](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.GenerationConfig.temperature) parameters to [`~GenerationMixin.generate`].
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from accelerate.test_utils.testing import get_backend
 
-device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
 
 tokenizer = AutoTokenizer.from_pretrained("facebook/opt-1.3b")
 inputs = tokenizer("The second law of thermodynamics states", return_tensors="pt").to(device)
@@ -344,7 +349,7 @@ FlashAttention and [FlashAttention-2](./perf_infer_gpu_one#flashattention-2) bre
 To use FlashAttention-2, set [attn_implementation](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.PreTrainedModel.from_pretrained.attn_implementation) to `"flash_attention_2"` in [`~PreTrainedModel.from_pretrained`].
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quant_config = BitsAndBytesConfig(load_in_8bit=True)
 model = AutoModelForCausalLM.from_pretrained(
@@ -367,7 +372,7 @@ Use the [torch.nn.attention.sdpa_kernel](https://pytorch.org/docs/stable/generat
 ```py
 import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(
     "google/gemma-2b",
@@ -399,7 +404,7 @@ Use the Model Memory Calculator below to estimate and compare how much memory is
 To load a model in half-precision, set the [torch_dtype](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.PreTrainedModel.from_pretrained.torch_dtype) parameter in [`~transformers.AutoModelForCausalLM.from_pretrained`] to `torch.bfloat16`. This requires 13.74GB of memory.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 model = AutoModelForCausalLM.from_pretrained(
@@ -410,7 +415,7 @@ model = AutoModelForCausalLM.from_pretrained(
 To load a quantized model (8-bit or 4-bit), try [bitsandbytes](https://hf.co/docs/bitsandbytes) and set the [load_in_4bit](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.BitsAndBytesConfig.load_in_4bit) or [load_in_8bit](https://hf.co/docs/transformers/main/en/main_classes/text_generation#transformers.BitsAndBytesConfig.load_in_8bit) parameters to `True`. Loading the model in 8-bits only requires 6.87 GB of memory.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
 quant_config = BitsAndBytesConfig(load_in_8bit=True)

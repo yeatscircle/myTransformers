@@ -19,10 +19,10 @@ from io import BytesIO
 
 import requests
 
-from transformers import OmDetTurboConfig, is_torch_available, is_vision_available
-from transformers.feature_extraction_utils import BatchFeature
-from transformers.file_utils import cached_property
-from transformers.testing_utils import (
+from myTransformers import OmDetTurboConfig, is_torch_available, is_vision_available
+from myTransformers.feature_extraction_utils import BatchFeature
+from myTransformers.file_utils import cached_property
+from myTransformers.testing_utils import (
     require_timm,
     require_torch,
     require_torch_accelerator,
@@ -40,13 +40,13 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import OmDetTurboForObjectDetection
+    from myTransformers import OmDetTurboForObjectDetection
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoProcessor
+    from myTransformers import AutoProcessor
 
 
 class OmDetTurboModelTester:

@@ -17,7 +17,7 @@ import json
 import os
 import unittest
 
-from transformers.models.roc_bert.tokenization_roc_bert import (
+from myTransformers.models.roc_bert.tokenization_roc_bert import (
     VOCAB_FILES_NAMES,
     RoCBertBasicTokenizer,
     RoCBertTokenizer,
@@ -26,7 +26,7 @@ from transformers.models.roc_bert.tokenization_roc_bert import (
     _is_punctuation,
     _is_whitespace,
 )
-from transformers.testing_utils import require_tokenizers, slow
+from myTransformers.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, filter_non_english
 

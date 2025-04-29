@@ -29,7 +29,7 @@ rendered properly in your Markdown viewer.
 我们将采用一些我们可能想要调整的 ResNet 类的参数举例。不同的配置将为我们提供不同类型可能的 ResNet 模型。在确认其中一些参数的有效性后，我们只需存储这些参数。
 
 ```python
-from transformers import PretrainedConfig
+from myTransformers import PretrainedConfig
 from typing import List
 
 
@@ -37,17 +37,17 @@ class ResnetConfig(PretrainedConfig):
     model_type = "resnet"
 
     def __init__(
-        self,
-        block_type="bottleneck",
-        layers: List[int] = [3, 4, 6, 3],
-        num_classes: int = 1000,
-        input_channels: int = 3,
-        cardinality: int = 1,
-        base_width: int = 64,
-        stem_width: int = 64,
-        stem_type: str = "",
-        avg_down: bool = False,
-        **kwargs,
+            self,
+            block_type="bottleneck",
+            layers: List[int] = [3, 4, 6, 3],
+            num_classes: int = 1000,
+            input_channels: int = 3,
+            cardinality: int = 1,
+            base_width: int = 64,
+            stem_width: int = 64,
+            stem_type: str = "",
+            avg_down: bool = False,
+            **kwargs,
     ):
         if block_type not in ["basic", "bottleneck"]:
             raise ValueError(f"`block_type` must be 'basic' or bottleneck', got {block_type}.")
@@ -97,10 +97,9 @@ resnet50d_config = ResnetConfig.from_pretrained("custom-resnet")
 正如之前提到的，我们只会编写一个松散的模型包装，以使示例保持简洁。在编写此类之前，只需要建立起块类型（block types）与实际块类（block classes）之间的映射。然后，通过将所有内容传递给ResNet类，从配置中定义模型：
 
 ```py
-from transformers import PreTrainedModel
+from myTransformers import PreTrainedModel
 from timm.models.resnet import BasicBlock, Bottleneck, ResNet
 from .configuration_resnet import ResnetConfig
-
 
 BLOCK_MAPPING = {"basic": BasicBlock, "bottleneck": Bottleneck}
 
@@ -272,7 +271,7 @@ resnet50d.push_to_hub("custom-resnet50d")
 可以使用自动类（auto-classes）和 `from_pretrained` 方法，使用模型仓库里带有自定义代码的配置、模型或分词器文件。所有上传到 Hub 的文件和代码都会进行恶意软件扫描（有关更多信息，请参阅 [Hub 安全](https://huggingface.co/docs/hub/security#malware-scanning) 文档）, 但你仍应查看模型代码和作者，以避免在你的计算机上执行恶意代码。 设置 `trust_remote_code=True` 以使用带有自定义代码的模型：
 
 ```py
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("sgugger/custom-resnet50d", trust_remote_code=True)
 ```
@@ -295,7 +294,7 @@ model = AutoModelForImageClassification.from_pretrained(
 只要你的配置 `model_type` 属性与现有模型类型不同，并且你的模型类有正确的 `config_class` 属性，你可以像这样将它们添加到自动类中：
 
 ```py
-from transformers import AutoConfig, AutoModel, AutoModelForImageClassification
+from myTransformers import AutoConfig, AutoModel, AutoModelForImageClassification
 
 AutoConfig.register("resnet", ResnetConfig)
 AutoModel.register(ResnetConfig, ResnetModel)

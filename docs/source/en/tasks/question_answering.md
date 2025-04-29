@@ -39,7 +39,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 We encourage you to login to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to login:
@@ -91,9 +91,9 @@ There are several important fields here:
 The next step is to load a DistilBERT tokenizer to process the `question` and `context` fields:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 There are a few preprocessing steps particular to question answering tasks you should be aware of:
@@ -197,9 +197,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load DistilBERT with [`AutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 At this point, only three steps remain:
@@ -247,24 +247,27 @@ If you aren't familiar with finetuning a model with Keras, take a look at the ba
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 2
->>> total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
->>> optimizer, schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_warmup_steps=0,
-...     num_train_steps=total_train_steps,
+>> > batch_size = 16
+>> > num_epochs = 2
+>> > total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
+>> > optimizer, schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_warmup_steps = 0,
+...
+num_train_steps = total_train_steps,
 ... )
 ```
 
 Then you can load DistilBERT with [`TFAutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Convert your datasets to the `tf.data.Dataset` format with [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -296,11 +299,13 @@ Configure the model for training with [`compile`](https://keras.io/api/models/mo
 The last thing to setup before you start training is to provide a way to push your model to the Hub. This can be done by specifying where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_qa_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_qa_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -341,10 +346,10 @@ Come up with a question and some context you'd like the model to predict:
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for question answering with your model, and pass your text to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
->>> question_answerer(question=question, context=context)
+>> > question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
+>> > question_answerer(question=question, context=context)
 {'score': 0.2058267742395401,
  'start': 10,
  'end': 95,
@@ -358,21 +363,22 @@ You can also manually replicate the results of the `pipeline` if you'd like:
 Tokenize the text and return PyTorch tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, context, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, context, return_tensors="pt")
 ```
 
 Pass your inputs to the model and return the `logits`:
 
 ```py
->>> import torch
->>> from transformers import AutoModelForQuestionAnswering
+>> > import torch
+>> > from myTransformers import AutoModelForQuestionAnswering
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> with torch.no_grad():
-...     outputs = model(**inputs)
+>> > model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > with torch.no_grad():
+    ...
+outputs = model(**inputs)
 ```
 
 Get the highest probability from the model output for the start and end positions:
@@ -394,19 +400,19 @@ Decode the predicted tokens to get the answer:
 Tokenize the text and return TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, context, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, context, return_tensors="tf")
 ```
 
 Pass your inputs to the model and return the `logits`:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> outputs = model(**inputs)
+>> > model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > outputs = model(**inputs)
 ```
 
 Get the highest probability from the model output for the start and end positions:

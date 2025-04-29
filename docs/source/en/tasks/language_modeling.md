@@ -41,7 +41,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 We encourage you to log in to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to log in:
@@ -101,9 +101,9 @@ tasks is you don't need labels (also known as an unsupervised task) because the 
 The next step is to load a DistilGPT2 tokenizer to process the `text` subfield:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 ```
 
 You'll notice from the example above, the `text` field is actually nested inside `answers`. This means you'll need to
@@ -194,10 +194,10 @@ sentences to the longest length in a batch during collation, instead of padding 
 Use the end-of-sequence token as the padding token and set `mlm=False`. This will use the inputs as labels shifted to the right by one element:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 ```
 
 </pt>
@@ -205,9 +205,9 @@ Use the end-of-sequence token as the padding token and set `mlm=False`. This wil
 Use the end-of-sequence token as the padding token and set `mlm=False`. This will use the inputs as labels shifted to the right by one element:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 
 </tf>
@@ -227,9 +227,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load DistilGPT2 with [`AutoModelForCausalLM`]:
 
 ```py
->>> from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCausalLM, TrainingArguments, Trainer
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 At this point, only three steps remain:
@@ -284,17 +284,17 @@ If you aren't familiar with finetuning a model with Keras, take a look at the [b
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Then you can load DistilGPT2 with [`TFAutoModelForCausalLM`]:
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 Convert your datasets to the `tf.data.Dataset` format with [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -326,11 +326,13 @@ Configure the model for training with [`compile`](https://keras.io/api/models/mo
 This can be done by specifying where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_clm-model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_clm-model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -365,11 +367,12 @@ Come up with a prompt you'd like to generate text from:
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for text generation with your model, and pass your text to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline("text-generation", model="username/my_awesome_eli5_clm-model")
->>> generator(prompt)
-[{'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
+>> > generator = pipeline("text-generation", model="username/my_awesome_eli5_clm-model")
+>> > generator(prompt)
+[{
+     'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
 ```
 
 <frameworkcontent>
@@ -377,20 +380,20 @@ The simplest way to try out your finetuned model for inference is to use it in a
 Tokenize the text and return the `input_ids` as PyTorch tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="pt").input_ids
 ```
 
 Use the [`~generation.GenerationMixin.generate`] method to generate text.
 For more details about the different text generation strategies and parameters for controlling generation, check out the [Text generation strategies](../generation_strategies) page.
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = AutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 Decode the generated token ids back into text:
@@ -404,19 +407,19 @@ Decode the generated token ids back into text:
 Tokenize the text and return the `input_ids` as TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="tf").input_ids
 ```
 
 Use the [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] method to create the summarization. For more details about the different text generation strategies and parameters for controlling generation, check out the [Text generation strategies](../generation_strategies) page.
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
->>> outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = TFAutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 Decode the generated token ids back into text:

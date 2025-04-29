@@ -59,7 +59,7 @@ You can install Transformers with pip or uv.
 [pip](https://pip.pypa.io/en/stable/) is a package installer for Python. Install Transformers with pip in your newly created virtual environment.
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 </hfoption>
@@ -68,7 +68,7 @@ pip install transformers
 [uv](https://docs.astral.sh/uv/) is a fast Rust-based Python package and project manager.
 
 ```bash
-uv pip install transformers
+uv pip install myTransformers
 ```
 
 </hfoption>
@@ -88,8 +88,8 @@ To install a CPU-only version of Transformers and a machine learning framework, 
 <hfoption id="PyTorch">
 
 ```bash
-pip install 'transformers[torch]'
-uv pip install 'transformers[torch]'
+pip install 'myTransformers[torch]'
+uv pip install 'myTransformers[torch]'
 ```
 
 </hfoption>
@@ -105,16 +105,16 @@ brew install pkg-config
 Install TensorFlow 2.0.
 
 ```bash
-pip install 'transformers[tf-cpu]'
-uv pip install 'transformers[tf-cpu]'
+pip install 'myTransformers[tf-cpu]'
+uv pip install 'myTransformers[tf-cpu]'
 ```
 
 </hfoption>
 <hfoption id="Flax">
 
 ```bash
-pip install 'transformers[flax]'
-uv pip install 'transformers[flax]'
+pip install 'myTransformers[flax]'
+uv pip install 'myTransformers[flax]'
 ```
 
 </hfoption>
@@ -152,7 +152,7 @@ An [editable install](https://pip.pypa.io/en/stable/topics/local-project-install
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -162,7 +162,7 @@ pip install -e .
 Update your local version of Transformers with the latest changes in the main repository with the following command.
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -171,7 +171,7 @@ git pull
 [conda](https://docs.conda.io/projects/conda/en/stable/#) is a language-agnostic package manager. Install Transformers from the [conda-forge](https://anaconda.org/conda-forge/transformers) channel in your newly created virtual environment.
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## Set up
@@ -217,7 +217,7 @@ python examples/pytorch/language-modeling/run_clm.py --model_name_or_path meta-l
 Another option for only loading cached files is to set `local_files_only=True` in [`~PreTrainedModel.from_pretrained`].
 
 ```py
-from transformers import LlamaForCausalLM
+from myTransformers import LlamaForCausalLM
 
 model = LlamaForCausalLM.from_pretrained("./path/to/local/directory", local_files_only=True)
 ```

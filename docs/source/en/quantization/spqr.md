@@ -28,7 +28,7 @@ The [SpQR]((https://hf.co/papers/2306.03078)) quantization algorithm involves a 
 Load a SpQR-quantized model with [`~PreTrainedModel.from_pretrained`].
 
 ```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 quantized_model = AutoModelForCausalLM.from_pretrained(

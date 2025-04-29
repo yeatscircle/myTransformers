@@ -23,7 +23,7 @@ They have the same API as the base image processors and can be used as drop-in r
 To use a fast image processor, you need to install the `torchvision` library, and set the `use_fast` argument to `True` when instantiating the image processor:
 
 ```python
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
 
 processor = AutoImageProcessor.from_pretrained("facebook/detr-resnet-50", use_fast=True)
 ```
@@ -33,7 +33,7 @@ When using a fast image processor, you can also set the `device` argument to spe
 
 ```python
 from torchvision.io import read_image
-from transformers import DetrImageProcessorFast
+from myTransformers import DetrImageProcessorFast
 
 images = read_image("image.jpg")
 processor = DetrImageProcessorFast.from_pretrained("facebook/detr-resnet-50")

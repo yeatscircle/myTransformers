@@ -23,12 +23,12 @@ RUN git lfs install
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
 ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
 
 # 1. Put several commands in a single `RUN` to avoid image/layer exporting issue. Could be revised in the future.
 # 2. Regarding `torch` part, We might need to specify proper versions for `torchvision` and `torchaudio`.
 #    Currently, let's not bother to specify their versions explicitly (so installed with their latest release versions).
-RUN python3 -m pip install --no-cache-dir -U tensorflow==2.13 protobuf==3.20.3 "tensorflow_text<2.16" "tensorflow_probability<0.22" && python3 -m pip install --no-cache-dir -e ./transformers[dev,onnxruntime] && [ ${#PYTORCH} -gt 0 -a "$PYTORCH" != "pre" ] && VERSION='torch=='$PYTORCH'.*' ||  VERSION='torch'; echo "export VERSION='$VERSION'" >> ~/.profile && echo torch=$VERSION && [ "$PYTORCH" != "pre" ] && python3 -m pip install --no-cache-dir -U $VERSION torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/$CUDA || python3 -m pip install --no-cache-dir -U --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/$CUDA
+RUN python3 -m pip install --no-cache-dir -U tensorflow==2.13 protobuf==3.20.3 "tensorflow_text<2.16" "tensorflow_probability<0.22" && python3 -m pip install --no-cache-dir -e ./myTransformers[dev,onnxruntime] && [ ${#PYTORCH} -gt 0 -a "$PYTORCH" != "pre" ] && VERSION='torch=='$PYTORCH'.*' ||  VERSION='torch'; echo "export VERSION='$VERSION'" >> ~/.profile && echo torch=$VERSION && [ "$PYTORCH" != "pre" ] && python3 -m pip install --no-cache-dir -U $VERSION torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/$CUDA || python3 -m pip install --no-cache-dir -U --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/$CUDA
 
 RUN python3 -m pip uninstall -y flax jax
 
@@ -71,6 +71,6 @@ RUN python3 -m pip install --no-cache-dir g2p-en
 # For Some bitsandbytes tests
 RUN python3 -m pip install --no-cache-dir einops
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop

@@ -37,7 +37,7 @@ The example below demonstrates how to predict the `[MASK]` token with [`Pipeline
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
     task="fill-mask",
@@ -52,7 +52,7 @@ pipeline("The capital of France is [MASK].")
 
 ```py
 import torch
-from transformers import AutoModelForMaskedLM, AutoTokenizer
+from myTransformers import AutoModelForMaskedLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(
     "google/mobilebert-uncased",
@@ -79,7 +79,7 @@ print(f"The predicted token is: {predicted_token}")
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "The capital of France is [MASK]." | transformers-cli run --task fill-mask --model google/mobilebert-uncased --device 0
+echo -e "The capital of France is [MASK]." | myTransformers-cli run --task fill-mask --model google/mobilebert-uncased --device 0
 ```
 
 </hfoption>

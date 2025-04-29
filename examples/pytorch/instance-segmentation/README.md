@@ -130,7 +130,7 @@ import requests
 import matplotlib.pyplot as plt
 
 from PIL import Image
-from transformers import Mask2FormerForUniversalSegmentation, Mask2FormerImageProcessor
+from myTransformers import Mask2FormerForUniversalSegmentation, Mask2FormerImageProcessor
 
 # Load image
 image = Image.open(requests.get("http://farm4.staticflickr.com/3017/3071497290_31f0393363_z.jpg", stream=True).raw)

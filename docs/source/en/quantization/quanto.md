@@ -23,7 +23,7 @@ Quanto is also compatible with [torch.compile](https://pytorch.org/tutorials/int
 Install Quanto with the following command.
 
 ```bash
-pip install optimum-quanto accelerate transformers
+pip install optimum-quanto accelerate myTransformers
 ```
 
 Quantize a model by creating a [`QuantoConfig`] and specifying the `weights` parameter to quantize to. This works for any model in any modality as long as it contains [torch.nn.Linear](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html) layers.
@@ -32,13 +32,13 @@ Quantize a model by creating a [`QuantoConfig`] and specifying the `weights` par
 > The Transformers integration only supports weight quantization. Use the Quanto library directly if you need activation quantization, calibration, or QAT.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, QuantoConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, QuantoConfig
 
 quant_config = QuantoConfig(weights="int8")
 model = transformers.AutoModelForCausalLM.from_pretrained(
-    "meta-llama/Llama-3.1-8B", 
-    torch_dtype="auto", 
-    device_map="auto", 
+    "meta-llama/Llama-3.1-8B",
+    torch_dtype="auto",
+    device_map="auto",
     quantization_config=quant_config
 )
 ```
@@ -49,14 +49,14 @@ Wrap a Quanto model with [torch.compile](https://pytorch.org/tutorials/intermedi
 
 ```py
 import torch
-from transformers import AutoModelForSpeechSeq2Seq, QuantoConfig
+from myTransformers import AutoModelForSpeechSeq2Seq, QuantoConfig
 
 quant_config = QuantoConfig(weights="int8")
 model = AutoModelForSpeechSeq2Seq.from_pretrained(
-  "openai/whisper-large-v2",
-  torch_dtype="auto",
-  device_map="auto",
-  quantization_config=quant_config
+    "openai/whisper-large-v2",
+    torch_dtype="auto",
+    device_map="auto",
+    quantization_config=quant_config
 )
 
 model = torch.compile(model)

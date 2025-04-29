@@ -8,8 +8,8 @@ RUN apt install -y git libsndfile1-dev tesseract-ocr espeak-ng python3 python3-p
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
 ARG REF=main
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
-RUN python3 -m pip install --no-cache-dir -e ./transformers[dev-tensorflow,testing]
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
+RUN python3 -m pip install --no-cache-dir -e ./myTransformers[dev-tensorflow,testing]
 
 # If set to nothing, will install the latest version
 ARG TENSORFLOW='2.13'
@@ -20,6 +20,6 @@ RUN python3 -m pip install -U "itsdangerous<2.1.0"
 
 RUN python3 -m pip install --no-cache-dir -U "tensorflow_probability<0.22"
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop

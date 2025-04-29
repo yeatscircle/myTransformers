@@ -48,10 +48,10 @@ The simplest way to try out inference with a model supporting zero-shot image cl
 Instantiate a pipeline from a [checkpoint on the Hugging Face Hub](https://huggingface.co/models?pipeline_tag=zero-shot-image-classification&sort=downloads):
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "openai/clip-vit-large-patch14"
->>> detector = pipeline(model=checkpoint, task="zero-shot-image-classification")
+>> > checkpoint = "openai/clip-vit-large-patch14"
+>> > detector = pipeline(model=checkpoint, task="zero-shot-image-classification")
 ```
 
 Next, choose an image you'd like to classify.
@@ -92,10 +92,10 @@ Start by loading the model and associated processor from a [checkpoint on the Hu
 Here we'll use the same checkpoint as before:
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForZeroShotImageClassification
+>> > from myTransformers import AutoProcessor, AutoModelForZeroShotImageClassification
 
->>> model = AutoModelForZeroShotImageClassification.from_pretrained(checkpoint)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForZeroShotImageClassification.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 ```
 
 Let's take a different image to switch things up.

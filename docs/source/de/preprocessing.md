@@ -43,9 +43,9 @@ Laden Sie einen vortrainierten Tokenizer mit der Klasse [AutoTokenizer], um schn
 Laden Sie einen vortrainierten Tokenizer mit [`AutoTokenizer.from_pretrained`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 ```
 
 Dann übergeben Sie Ihren Satz an den Tokenizer:
@@ -273,9 +273,9 @@ Der nächste Schritt ist das Laden eines Merkmalsextraktors, um die Eingabe zu n
 Laden Sie den Merkmalsextraktor mit [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 Übergeben Sie das Audio-"Array" an den Feature-Extraktor. Wir empfehlen auch, das Argument `sampling_rate` im Feature Extractor hinzuzufügen, um eventuell auftretende stille Fehler besser zu beheben.
@@ -357,9 +357,9 @@ Als Nächstes sehen Sie sich das Bild mit dem Merkmal 🤗 Datensätze [Bild](ht
 Laden Sie den Merkmalsextraktor mit [`AutoImageProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 ### Datenerweiterung
@@ -479,9 +479,9 @@ Erinnern Sie sich an den früheren Abschnitt über die Verarbeitung von Audiodat
 Ein Processor kombiniert einen Feature-Extraktor und einen Tokenizer. Laden Sie einen Processor mit [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
 ```
 
 1. Erstellen Sie eine Funktion, die die Audiodaten zu `input_values` verarbeitet und den Text zu `labels` tokenisiert. Dies sind Ihre Eingaben für das Modell:

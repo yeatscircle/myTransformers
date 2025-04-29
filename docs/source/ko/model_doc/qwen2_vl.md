@@ -45,24 +45,23 @@ alt="drawing" width="600"/>
 ```python
 
 import torch
-from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
+from myTransformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
 
 # 사용 가능한 장치에서 모델을 반 정밀도(half-precision)로 로드
 model = Qwen2VLForConditionalGeneration.from_pretrained("Qwen/Qwen2-VL-7B-Instruct", device_map="auto")
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-7B-Instruct")
 
-
 conversation = [
     {
-        "role":"user",
-        "content":[
+        "role": "user",
+        "content": [
             {
-                "type":"image",
+                "type": "image",
                 "url": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg"
             },
             {
-                "type":"text",
-                "text":"Describe this image."
+                "type": "text",
+                "text": "Describe this image."
             }
         ]
     }
@@ -81,8 +80,6 @@ output_ids = model.generate(**inputs, max_new_tokens=128)
 generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(inputs.input_ids, output_ids)]
 output_text = processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)
 print(output_text)
-
-
 
 # 비디오
 conversation = [
@@ -103,7 +100,6 @@ inputs = processor.apply_chat_template(
     return_dict=True,
     return_tensors="pt"
 ).to(model.device)
-
 
 # 추론: 아웃풋 생성
 output_ids = model.generate(**inputs, max_new_tokens=128)
@@ -265,11 +261,11 @@ pip install -U flash-attn --no-build-isolation
 Flash Attention-2를 사용하여 모델을 로드하고 실행하려면, 다음과 같이 모델을 로드할 때 `attn_implementation="flash_attention_2"` 옵션을 추가하면 됩니다:
 
 ```python
-from transformers import Qwen2VLForConditionalGeneration
+from myTransformers import Qwen2VLForConditionalGeneration
 
 model = Qwen2VLForConditionalGeneration.from_pretrained(
-    "Qwen/Qwen2-VL-7B-Instruct", 
-    torch_dtype=torch.bfloat16, 
+    "Qwen/Qwen2-VL-7B-Instruct",
+    torch_dtype=torch.bfloat16,
     attn_implementation="flash_attention_2",
 )
 ```

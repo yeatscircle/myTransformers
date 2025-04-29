@@ -41,11 +41,11 @@ From here, estimate the model size by multiplying 70B * 3-bits / 8-bits/byte for
 Load a VPTQ quantized model with [`~PreTrainedModel.from_pretrained`].
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 quantized_model = AutoModelForCausalLM.from_pretrained(
     "VPTQ-community/Meta-Llama-3.1-70B-Instruct-v16-k65536-65536-woft",
-    torch_dtype="auto", 
+    torch_dtype="auto",
     device_map="auto"
 )
 ```

@@ -28,7 +28,7 @@ Transformers can export a model to TorchScript by:
 The dummy inputs are used in the forward pass, and as the input values are propagated through each layer, PyTorch tracks the different operations executed on each tensor. The recorded operations are used to create the model trace. Once it is recorded, it is serialized into a TorchScript program.
 
 ```py
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")

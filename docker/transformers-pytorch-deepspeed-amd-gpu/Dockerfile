@@ -36,13 +36,13 @@ WORKDIR /
 
 # Invalidate docker cache from here if new commit is available.
 ADD https://api.github.com/repos/huggingface/transformers/git/refs/heads/main version.json
-RUN git clone https://github.com/huggingface/transformers && cd transformers && git checkout $REF
+RUN git clone https://github.com/huggingface/transformers && cd myTransformers && git checkout $REF
 
-RUN python3 -m pip install --no-cache-dir ./transformers[accelerate,testing,sentencepiece,sklearn]
+RUN python3 -m pip install --no-cache-dir ./myTransformers[accelerate,testing,sentencepiece,sklearn]
 
-# When installing in editable mode, `transformers` is not recognized as a package.
-# this line must be added in order for python to be aware of transformers.
-RUN cd transformers && python3 setup.py develop
+# When installing in editable mode, `myTransformers` is not recognized as a package.
+# this line must be added in order for python to be aware of myTransformers.
+RUN cd myTransformers && python3 setup.py develop
 
 RUN python3 -c "from deepspeed.launcher.runner import main"
 

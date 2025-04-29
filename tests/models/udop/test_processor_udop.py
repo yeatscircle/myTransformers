@@ -16,7 +16,7 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import (
+from myTransformers import (
     PreTrainedTokenizer,
     PreTrainedTokenizerBase,
     PreTrainedTokenizerFast,
@@ -24,14 +24,14 @@ from transformers import (
     UdopTokenizer,
     UdopTokenizerFast,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_pytesseract,
     require_sentencepiece,
     require_tokenizers,
     require_torch,
     slow,
 )
-from transformers.utils import cached_property, is_pytesseract_available, is_torch_available
+from myTransformers.utils import cached_property, is_pytesseract_available, is_torch_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -43,7 +43,7 @@ if is_torch_available():
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv3ImageProcessor
+    from myTransformers import LayoutLMv3ImageProcessor
 
 
 @require_pytesseract

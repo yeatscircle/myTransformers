@@ -16,9 +16,9 @@ import tempfile
 import unittest
 from tempfile import TemporaryDirectory
 
-from transformers import AddedToken, CamembertTokenizer, CamembertTokenizerFast
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
-from transformers.utils import is_torch_available
+from myTransformers import AddedToken, CamembertTokenizer, CamembertTokenizerFast
+from myTransformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow
+from myTransformers.utils import is_torch_available
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

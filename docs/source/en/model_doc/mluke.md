@@ -48,7 +48,7 @@ This model was contributed by [ryo0634](https://huggingface.co/ryo0634). The ori
 One can directly plug in the weights of mLUKE into a LUKE model, like so:
 
 ```python
-from transformers import LukeModel
+from myTransformers import LukeModel
 
 model = LukeModel.from_pretrained("studio-ousia/mluke-base")
 ```
@@ -56,7 +56,7 @@ model = LukeModel.from_pretrained("studio-ousia/mluke-base")
 Note that mLUKE has its own tokenizer, [`MLukeTokenizer`]. You can initialize it as follows:
 
 ```python
-from transformers import MLukeTokenizer
+from myTransformers import MLukeTokenizer
 
 tokenizer = MLukeTokenizer.from_pretrained("studio-ousia/mluke-base")
 ```

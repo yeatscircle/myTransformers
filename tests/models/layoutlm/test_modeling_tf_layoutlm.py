@@ -18,8 +18,8 @@ import unittest
 
 import numpy as np
 
-from transformers import LayoutLMConfig, is_tf_available
-from transformers.testing_utils import require_tf, slow
+from myTransformers import LayoutLMConfig, is_tf_available
+from myTransformers.testing_utils import require_tf, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_attention_mask
@@ -29,7 +29,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers.models.layoutlm.modeling_tf_layoutlm import (
+    from myTransformers.models.layoutlm.modeling_tf_layoutlm import (
         TFLayoutLMForMaskedLM,
         TFLayoutLMForQuestionAnswering,
         TFLayoutLMForSequenceClassification,

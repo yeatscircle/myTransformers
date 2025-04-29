@@ -75,7 +75,7 @@ pip install deepspeed
 または`tansformers`, `extras`経由:
 
 ```bash
-pip install transformers[deepspeed]
+pip install myTransformers[deepspeed]
 ```
 
 または、[DeepSpeed の GitHub ページ](https://github.com/deepspeedai/DeepSpeed#installation) で詳細を確認してください。
@@ -1643,7 +1643,7 @@ fp16 ウェイトはトレーニングを再開するのに適していますが
 少なくとも 1 つのチェックポイントを保存していて、最新のチェックポイントを使用したい場合は、次の手順を実行できます。
 
 ```python
-from transformers.trainer_utils import get_last_checkpoint
+from myTransformers.trainer_utils import get_last_checkpoint
 from deepspeed.utils.zero_to_fp32 import load_state_dict_from_zero_checkpoint
 
 checkpoint_dir = get_last_checkpoint(trainer.args.output_dir)
@@ -1744,7 +1744,7 @@ DeepSpeed/ZeRO-3 は、既存の RAM に収まらない可能性のある数兆�
 コンテキスト マネージャー (関数デコレーターでもあります)。次のようになります。
 
 ```python
-from transformers import T5ForConditionalGeneration, T5Config
+from myTransformers import T5ForConditionalGeneration, T5Config
 import deepspeed
 
 with deepspeed.zero.Init():
@@ -1761,7 +1761,7 @@ with deepspeed.zero.Init():
 `from_pretrained`。考えられるシーケンスの例を次に示します。
 
 ```python
-from transformers import AutoModel, Trainer, TrainingArguments
+from myTransformers import AutoModel, Trainer, TrainingArguments
 
 training_args = TrainingArguments(..., deepspeed=ds_config)
 model = AutoModel.from_pretrained("google-t5/t5-small")
@@ -1846,7 +1846,7 @@ Deepspeed ZeRO はメモリを CPU (および NVMe) にオフロードできる�
 単一の GPU で `bigscience/T0_3B`を微調整するために必要なメモリの量を見積もってみましょう。
 
 ```bash
-$ python -c 'from transformers import AutoModel; \
+$ python -c 'from myTransformers import AutoModel; \
 from deepspeed.runtime.zero.stage3 import estimate_zero3_model_states_mem_needs_all_live; \
 model = AutoModel.from_pretrained("bigscience/T0_3B"); \
 estimate_zero3_model_states_mem_needs_all_live(model, num_gpus_per_node=1, num_nodes=1)'
@@ -1872,7 +1872,7 @@ SW: Model with 2783M total params, 65M largest layer params.
 たとえば、2 つの GPU に対して同じことを繰り返してみましょう。
 
 ```bash
-$ python -c 'from transformers import AutoModel; \
+$ python -c 'from myTransformers import AutoModel; \
 from deepspeed.runtime.zero.stage3 import estimate_zero3_model_states_mem_needs_all_live; \
 model = AutoModel.from_pretrained("bigscience/T0_3B"); \
 estimate_zero3_model_states_mem_needs_all_live(model, num_gpus_per_node=2, num_nodes=1)'
@@ -1912,7 +1912,7 @@ SW: Model with 2783M total params, 65M largest layer params.
 
    ```bash
     python -c 'import torch; print(f"torch: {torch.__version__}")'
-    python -c 'import transformers; print(f"transformers: {transformers.__version__}")'
+    python -c 'import myTransformers; print(f"myTransformers: {myTransformers.__version__}")'
     python -c 'import deepspeed; print(f"deepspeed: {deepspeed.__version__}")'
     ```
 
@@ -2013,10 +2013,9 @@ Deepspeed ZeRO-1 または ZeRO-2 を使用している場合は、`HfDeepSpeedC
 
 たとえば、事前トレーニングされたモデルの場合は次のようになります。
 
-
 ```python
-from transformers.integrations import HfDeepSpeedConfig
-from transformers import AutoModel
+from myTransformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoModel
 import deepspeed
 
 ds_config = {...}  # deepspeed config object or path to the file
@@ -2028,10 +2027,9 @@ engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
 
 または、事前トレーニングされていないモデルの場合:
 
-
 ```python
-from transformers.integrations import HfDeepSpeedConfig
-from transformers import AutoModel, AutoConfig
+from myTransformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoModel, AutoConfig
 import deepspeed
 
 ds_config = {...}  # deepspeed config object or path to the file
@@ -2061,7 +2059,6 @@ engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
 
 1. 十分な GPU メモリがある場合は、CPU オフロードを無効にします (速度が低下するため)。
 2. Ampere または新しい GPU を所有している場合は、処理を高速化するために bf16 を有効にします。そのハードウェアがない場合は、bf16 混合精度で事前トレーニングされたモデル (ほとんどの t5 モデルなど) を使用しない限り、fp16 を有効にすることができます。これらは通常、fp16 でオーバーフローし、出力としてガベージが表示されます。
-
 
 ```python
 #!/usr/bin/env python
@@ -2099,8 +2096,8 @@ engine = deepspeed.initialize(model=model, config_params=ds_config, ...)
 # python -m torch.distributed.run --nproc_per_node=2 t0.py
 
 
-from transformers import AutoTokenizer, AutoConfig, AutoModelForSeq2SeqLM
-from transformers.integrations import HfDeepSpeedConfig
+from myTransformers import AutoTokenizer, AutoConfig, AutoModelForSeq2SeqLM
+from myTransformers.integrations import HfDeepSpeedConfig
 import deepspeed
 import os
 import torch
@@ -2166,7 +2163,7 @@ ds_config = {
 }
 # fmt: on
 
-# next line instructs transformers to partition the model directly over multiple gpus using
+# next line instructs myTransformers to partition the model directly over multiple gpus using
 # deepspeed.zero.Init when model's `from_pretrained` method is called.
 #
 # **it has to be run before loading the model AutoModelForSeq2SeqLM.from_pretrained(model_name)**

@@ -36,12 +36,12 @@ Audio classification is a task that labels audio data from a predefined set of c
 * music classification: label music with a genre label ("metal", "hip-hop", "country")
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
->>> preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
+>> > preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.4532, 'label': 'hap'},
  {'score': 0.3622, 'label': 'sad'},
  {'score': 0.0943, 'label': 'neu'},
@@ -55,10 +55,10 @@ Automatic speech recognition (ASR) transcribes speech into text. It is one of th
 But one of the key challenges Transformer architectures have helped with is in low-resource languages. By pretraining on large amounts of speech data, finetuning the model on only one hour of labeled speech data in a low-resource language can still produce high-quality results compared to previous ASR systems trained on 100x more labeled data.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
->>> transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
+>> > transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
 {'text': ' I have a dream that one day this nation will rise up and live out the true meaning of its creed.'}
 ```
 
@@ -81,14 +81,15 @@ Image classification labels an entire image from a predefined set of classes. Li
 * ecology: label images of animal or plant species to monitor wildlife populations or track endangered species
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="image-classification")
->>> preds = classifier(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > classifier = pipeline(task="image-classification")
+>> > preds = classifier(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.4335, 'label': 'lynx, catamount'}
 {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}
 {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}
@@ -105,14 +106,15 @@ Unlike image classification, object detection identifies multiple objects within
 * defect detection: detect cracks or structural damage in buildings, and manufacturing defects
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> detector = pipeline(task="object-detection")
->>> preds = detector(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > detector = pipeline(task="object-detection")
+>> > preds = detector(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
->>> preds
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
+>> > preds
 [{'score': 0.9865,
   'label': 'cat',
   'box': {'xmin': 178, 'ymin': 154, 'xmax': 882, 'ymax': 598}}]
@@ -128,14 +130,15 @@ Image segmentation is a pixel-level task that assigns every pixel in an image to
 Segmentation tasks are helpful in self-driving vehicles to create a pixel-level map of the world around them so they can navigate safely around pedestrians and other vehicles. It is also useful for medical imaging, where the task's finer granularity can help identify abnormal cells or organ features. Image segmentation can also be used in ecommerce to virtually try on clothes or create augmented reality experiences by overlaying objects in the real world through your camera.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> segmenter = pipeline(task="image-segmentation")
->>> preds = segmenter(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > segmenter = pipeline(task="image-segmentation")
+>> > preds = segmenter(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.9879, 'label': 'LABEL_184'}
 {'score': 0.9973, 'label': 'snow'}
 {'score': 0.9972, 'label': 'cat'}
@@ -151,11 +154,12 @@ There are two approaches to depth estimation:
 * monocular: depths are estimated from a single image
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> depth_estimator = pipeline(task="depth-estimation")
->>> preds = depth_estimator(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > depth_estimator = pipeline(task="depth-estimation")
+>> > preds = depth_estimator(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
 ```
 
@@ -171,12 +175,12 @@ Like classification tasks in any modality, text classification labels a sequence
 * content classification: label text according to some topic to help organize and filter information in news and social media feeds (`weather`, `sports`, `finance`, etc.)
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="sentiment-analysis")
->>> preds = classifier("Hugging Face is the best thing since sliced bread!")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="sentiment-analysis")
+>> > preds = classifier("Hugging Face is the best thing since sliced bread!")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.9991, 'label': 'POSITIVE'}]
 ```
 
@@ -190,22 +194,28 @@ Two common types of token classification are:
 * part-of-speech tagging (POS): label a token according to its part-of-speech like noun, verb, or adjective. POS is useful for helping translation systems understand how two identical words are grammatically different (bank as a noun versus bank as a verb).
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="ner")
->>> preds = classifier("Hugging Face is a French company based in New York City.")
->>> preds = [
-...     {
-...         "entity": pred["entity"],
-...         "score": round(pred["score"], 4),
-...         "index": pred["index"],
-...         "word": pred["word"],
-...         "start": pred["start"],
-...         "end": pred["end"],
-...     }
-...     for pred in preds
-... ]
->>> print(*preds, sep="\n")
+>> > classifier = pipeline(task="ner")
+>> > preds = classifier("Hugging Face is a French company based in New York City.")
+>> > preds = [
+    ...     {
+        ...         "entity": pred["entity"],
+...
+"score": round(pred["score"], 4),
+...
+"index": pred["index"],
+...
+"word": pred["word"],
+...
+"start": pred["start"],
+...
+"end": pred["end"],
+...}
+...
+for pred in preds
+        ... ]
+>> > print(*preds, sep="\n")
 {'entity': 'I-ORG', 'score': 0.9968, 'index': 1, 'word': 'Hu', 'start': 0, 'end': 2}
 {'entity': 'I-ORG', 'score': 0.9293, 'index': 2, 'word': '##gging', 'start': 2, 'end': 7}
 {'entity': 'I-ORG', 'score': 0.9763, 'index': 3, 'word': 'Face', 'start': 8, 'end': 12}
@@ -224,19 +234,21 @@ There are two common types of question answering:
 * extractive: given a question and some context, the answer is a span of text from the context the model must extract
 * abstractive: given a question and some context, the answer is generated from the context; this approach is handled by the [`Text2TextGenerationPipeline`] instead of the [`QuestionAnsweringPipeline`] shown below
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline(task="question-answering")
->>> preds = question_answerer(
-...     question="What is the name of the repository?",
-...     context="The name of the repository is huggingface/transformers",
+>> > question_answerer = pipeline(task="question-answering")
+>> > preds = question_answerer(
+    ...
+question = "What is the name of the repository?",
+...
+context = "The name of the repository is huggingface/myTransformers",
 ... )
->>> print(
-...     f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
+>> > print(
+    ...
+f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
 ... )
-score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
+score: 0.9327, start: 30, end: 54, answer: huggingface / transformers
 ```
 
 ### Summarization
@@ -249,13 +261,15 @@ Like question answering, there are two types of summarization:
 * abstractive: generate the target summary (which may include new words not in the input document) from the original text; the [`SummarizationPipeline`] uses the abstractive approach
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline(task="summarization")
->>> summarizer(
-...     "In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
+>> > summarizer = pipeline(task="summarization")
+>> > summarizer(
+    ...
+"In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
 ... )
-[{'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
+[{
+     'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
 ```
 
 ### Translation
@@ -265,11 +279,11 @@ Translation converts a sequence of text in one language to another. It is import
 In the early days, translation models were mostly monolingual, but recently, there has been increasing interest in multilingual models that can translate between many pairs of languages.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
->>> translator = pipeline(task="translation", model="google-t5/t5-small")
->>> translator(text)
+>> > text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
+>> > translator = pipeline(task="translation", model="google-t5/t5-small")
+>> > translator(text)
 [{'translation_text': "Hugging Face est une tribune communautaire de l'apprentissage des machines."}]
 ```
 
@@ -282,7 +296,7 @@ There are two types of language modeling:
 * causal: the model's objective is to predict the next token in a sequence, and future tokens are masked
 
     ```py
-    >>> from transformers import pipeline
+    >>> from myTransformers import pipeline
 
     >>> prompt = "Hugging Face is a community-based open-source platform for machine learning."
     >>> generator = pipeline(task="text-generation")
@@ -319,19 +333,21 @@ Although multimodal models work with different data types or modalities, interna
 Document question answering is a task that answers natural language questions from a document. Unlike a token-level question answering task which takes text as input, document question answering takes an image of a document as input along with a question about the document and returns an answer. Document question answering can be used to parse structured documents and extract key information from it. In the example below, the total amount and change due can be extracted from a receipt.
 
 ```py
->>> from transformers import pipeline
->>> from PIL import Image
->>> import requests
+>> > from myTransformers import pipeline
+>> > from PIL import Image
+>> > import requests
 
->>> url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
->>> preds = doc_question_answerer(
-...     question="What is the total amount?",
-...     image=image,
+>> > doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
+>> > preds = doc_question_answerer(
+    ...
+question = "What is the total amount?",
+...
+image = image,
 ... )
->>> preds
+>> > preds
 [{'score': 0.8531, 'answer': '17,000', 'start': 4, 'end': 4}]
 ```
 

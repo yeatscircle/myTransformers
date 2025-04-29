@@ -18,9 +18,9 @@ import unittest
 from packaging import version
 from parameterized import parameterized
 
-from transformers import AutoTokenizer, LlamaConfig, StaticCache, is_torch_available, set_seed
-from transformers.generation.configuration_utils import GenerationConfig
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, LlamaConfig, StaticCache, is_torch_available, set_seed
+from myTransformers.generation.configuration_utils import GenerationConfig
+from myTransformers.testing_utils import (
     Expectations,
     cleanup,
     require_read_token,
@@ -39,7 +39,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         LlamaForCausalLM,
         LlamaForQuestionAnswering,
         LlamaForSequenceClassification,
@@ -47,7 +47,7 @@ if is_torch_available():
         LlamaModel,
         LlamaTokenizer,
     )
-    from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding
+    from myTransformers.models.llama.modeling_llama import LlamaRotaryEmbedding
 
 
 class LlamaModelTester:
@@ -405,7 +405,7 @@ class LlamaModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixi
         original_model(**model_inputs)
 
         # from a config with parameters in a bad range ('factor' should be >= 1.0) -> ⚠️ throws a warning
-        with self.assertLogs("transformers.modeling_rope_utils", level="WARNING") as logs:
+        with self.assertLogs("myTransformers.modeling_rope_utils", level="WARNING") as logs:
             config = _reinitialize_config(base_config, {"rope_scaling": {"rope_type": "linear", "factor": -999.0}})
             original_model = LlamaForCausalLM(config).to(torch_device)
             original_model(**model_inputs)
@@ -413,7 +413,7 @@ class LlamaModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixi
             self.assertIn("factor field", logs.output[0])
 
         # from a config with unknown parameters ('foo' isn't a rope option) -> ⚠️ throws a warning
-        with self.assertLogs("transformers.modeling_rope_utils", level="WARNING") as logs:
+        with self.assertLogs("myTransformers.modeling_rope_utils", level="WARNING") as logs:
             config = _reinitialize_config(
                 base_config, {"rope_scaling": {"rope_type": "linear", "factor": 10.0, "foo": "bar"}}
             )
@@ -636,7 +636,7 @@ class LlamaIntegrationTest(unittest.TestCase):
         if version.parse(torch.__version__) < version.parse("2.4.0"):
             self.skipTest(reason="This test requires torch >= 2.4 to run.")
 
-        from transformers.integrations.executorch import (
+        from myTransformers.integrations.executorch import (
             TorchExportableModuleWithStaticCache,
             convert_and_export_with_cache,
         )

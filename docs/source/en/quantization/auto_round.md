@@ -69,7 +69,7 @@ For 2 bits, we recommend using `auto-round-best` or `auto-round`.
 This setting offers a better trade-off between accuracy and tuning cost, and is recommended in all scenarios.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 from auto_round import AutoRound
 
 model_name = "facebook/opt-125m"
@@ -99,8 +99,9 @@ autoround.quantize_and_save(output_dir, format='auto_round')
 
 ### AutoRoundBest recipe
 This setting provides the best accuracy in most scenarios but is 4–5× slower than the standard AutoRound recipe. It is especially recommended for 2-bit quantization and is a good choice if sufficient resources are available.
+
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 from auto_round import AutoRound
 
 model_name = "facebook/opt-125m"
@@ -129,7 +130,7 @@ autoround.quantize_and_save(output_dir, format='auto_round')
 This setting offers the best speed (2 - 3X faster than AutoRound), but it may cause a significant accuracy drop for small models and 2-bit quantization. It is recommended for 4-bit settings and models larger than 3B.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 from auto_round import AutoRound
 
 model_name = "facebook/opt-125m"
@@ -174,7 +175,7 @@ AutoRound automatically selects the best available backend based on the installe
 Supports 2, 4, and 8 bits. We recommend using intel-extension-for-pytorch (IPEX) for 4 bits inference.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_name = "OPEA/Qwen2.5-1.5B-Instruct-int4-sym-inc"
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu", torch_dtype="auto")
@@ -193,7 +194,7 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50, do_sample=Fal
 Supports 4 bits only. We recommend using intel-extension-for-pytorch (IPEX) for inference.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_name = "OPEA/Qwen2.5-1.5B-Instruct-int4-sym-inc"
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="xpu", torch_dtype="auto")
@@ -212,7 +213,7 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50, do_sample=Fal
 Supports 2, 3, 4, and 8 bits. We recommend using GPTQModel for 4 and 8 bits inference.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_name = "OPEA/Qwen2.5-1.5B-Instruct-int4-sym-inc"
 model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cuda", torch_dtype="auto")
@@ -234,11 +235,12 @@ The backend may not always be the most suitable for certain devices.
 You can specify your preferred backend such as "ipex" for CPU and CPU, "marlin/exllamav2/triton" for CUDA, according to your needs or hardware compatibility. Please note that additional corresponding libraries may be required.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, AutoRoundConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, AutoRoundConfig
 
 model_name = "OPEA/Qwen2.5-1.5B-Instruct-int4-sym-inc"
 quantization_config = AutoRoundConfig(backend="ipex")
-model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu", quantization_config=quantization_config, torch_dtype="auto")
+model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu", quantization_config=quantization_config,
+                                             torch_dtype="auto")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 text = "There is a girl who likes adventure,"
 inputs = tokenizer(text, return_tensors="pt").to(model.device)
@@ -255,11 +257,12 @@ print(tokenizer.decode(model.generate(**inputs, max_new_tokens=50, do_sample=Fal
 Most GPTQ/AWQ models can be converted to the AutoRound format for better compatibility and support with Intel devices. Please note that the quantization config will be changed if the model is serialized.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, AutoRoundConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, AutoRoundConfig
 
 model_name = "ybelkada/opt-125m-gptq-4bit"
 quantization_config = AutoRoundConfig()
-model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu", quantization_config=quantization_config, torch_dtype="auto")
+model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu", quantization_config=quantization_config,
+                                             torch_dtype="auto")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 text = "There is a girl who likes adventure,"
 inputs = tokenizer(text, return_tensors="pt").to(model.device)

@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'src/transformers/models/*/modeling_*'
+      - '../../src/myTransformers/models/*/modeling_*'
 
 jobs:
   notify_new_model:
@@ -42,7 +42,7 @@ jobs:
         with:
           # Slack channel id, channel name, or user id to post message.
           # See also: https://api.slack.com/methods/chat.postMessage#channels
-          channel-id: transformers-new-model-notification
+          channel-id: myTransformers-new-model-notification
           # For posting a rich message using Block Kit
           payload: |
             {

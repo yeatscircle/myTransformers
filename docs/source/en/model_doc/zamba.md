@@ -37,7 +37,7 @@ Zamba-7B-v1 is a hybrid between state-space models (Specifically [Mamba](https:/
 
 Zamba requires you use `transformers` version 4.46.0 or higher:
 ```bash
-pip install transformers>=4.45.0
+pip install myTransformers>=4.45.0
 ```
 
 In order to run optimized Mamba implementations, you first need to install `mamba-ssm` and `causal-conv1d`:
@@ -52,7 +52,7 @@ You can run the model not using the optimized Mamba kernels, but it is **not** r
 ## Inference
 
 ```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 tokenizer = AutoTokenizer.from_pretrained("Zyphra/Zamba-7B-v1")

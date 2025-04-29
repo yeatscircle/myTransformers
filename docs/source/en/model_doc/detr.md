@@ -123,18 +123,20 @@ required for the training to be possible, since the Hungarian matching is comput
 There are three ways to instantiate a DETR model (depending on what you prefer):
 
 Option 1: Instantiate DETR with pre-trained weights for entire model
-```py
->>> from transformers import DetrForObjectDetection
 
->>> model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
+```py
+>> > from myTransformers import DetrForObjectDetection
+
+>> > model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
 ```
 
 Option 2: Instantiate DETR with randomly initialized weights for Transformer, but pre-trained weights for backbone
-```py
->>> from transformers import DetrConfig, DetrForObjectDetection
 
->>> config = DetrConfig()
->>> model = DetrForObjectDetection(config)
+```py
+>> > from myTransformers import DetrConfig, DetrForObjectDetection
+
+>> > config = DetrConfig()
+>> > model = DetrForObjectDetection(config)
 ```
 Option 3: Instantiate DETR with randomly initialized weights for backbone + Transformer
 ```py

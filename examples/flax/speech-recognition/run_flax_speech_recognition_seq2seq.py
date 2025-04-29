@@ -42,8 +42,8 @@ from huggingface_hub import HfApi
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoFeatureExtractor,
     AutoProcessor,
@@ -53,9 +53,9 @@ from transformers import (
     Seq2SeqTrainingArguments,
     is_tensorboard_available,
 )
-from transformers.file_utils import get_full_repo_name
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.file_utils import get_full_repo_name
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risk.
@@ -99,7 +99,7 @@ class ModelArguments:
     use_auth_token: bool = field(
         default=False,
         metadata={
-            "help": "Will use the token generated when running `transformers-cli login` (necessary to use this script "
+            "help": "Will use the token generated when running `myTransformers-cli login` (necessary to use this script "
             "with private models)."
         },
     )
@@ -267,7 +267,7 @@ class FlaxDataCollatorSpeechSeq2SeqWithPadding:
             The processor used for processing the data.
         decoder_start_token_id (:obj: `int`)
             The begin-of-sentence of the decoder.
-        input_padding (:obj:`bool`, :obj:`str` or :class:`~transformers.tokenization_utils_base.PaddingStrategy`, `optional`, defaults to :obj:`True`):
+        input_padding (:obj:`bool`, :obj:`str` or :class:`~myTransformers.tokenization_utils_base.PaddingStrategy`, `optional`, defaults to :obj:`True`):
             Select a strategy to pad the returned input sequences (according to the model's padding side and padding index)
             among:
             * :obj:`True` or :obj:`'longest'`: Pad to the longest sequence in the batch (or no padding if only a single
@@ -276,7 +276,7 @@ class FlaxDataCollatorSpeechSeq2SeqWithPadding:
               maximum acceptable input length for the model if that argument is not provided.
             * :obj:`False` or :obj:`'do_not_pad'` (default): No padding (i.e., can output a batch with sequences of
               different lengths).
-        target_padding (:obj:`bool`, :obj:`str` or :class:`~transformers.tokenization_utils_base.PaddingStrategy`, `optional`, defaults to :obj:`True`):
+        target_padding (:obj:`bool`, :obj:`str` or :class:`~myTransformers.tokenization_utils_base.PaddingStrategy`, `optional`, defaults to :obj:`True`):
             Select a strategy to pad the returned target sequences (according to the model's padding side and padding index).
             See above for details.
         max_input_length (:obj:`float`, `optional`):
@@ -381,7 +381,7 @@ def create_learning_rate_fn(
 
 def main():
     # 1. Parse input arguments
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
@@ -409,10 +409,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     logger.info("Training/evaluation parameters %s", training_args)
 

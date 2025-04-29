@@ -66,7 +66,7 @@ Esta sección demuestra cómo guardar y cargar modelos, así como cómo usar la 
 Para exportar un `BertModel` con TorchScript, instancia `BertModel` a partir de la clase `BertConfig` y luego guárdalo en disco bajo el nombre de archivo `traced_bert.pt`:
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 enc = BertTokenizer.from_pretrained("bert-base-uncased")
@@ -151,7 +151,7 @@ El uso de AWS Neuron para convertir modelos requiere un [entorno de Neuron SDK](
 Convierte un modelo para AWS NEURON utilizando el mismo código de [Uso de TorchScript en Python](torchscript#using-torchscript-in-python) para trazar un `BertModel`. Importa la extensión del framework `torch.neuron` para acceder a los componentes del Neuron SDK a través de una API de Python:
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 import torch.neuron
 ```

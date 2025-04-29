@@ -154,12 +154,15 @@ Condividi un modello nell'Hub con [`PushToHubCallback`]. Nella funzione [`PushTo
 - L'`hub_model_id`, che è il tuo username sull'Hub e il nome del modello.
 
 ```py
->>> from transformers import PushToHubCallback
+>> > from myTransformers import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="./il_path_dove_salvare_il_tuo_modello",
-...     tokenizer=tokenizer,
-...     hub_model_id="il-tuo-username/il-mio-bellissimo-modello",
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "./il_path_dove_salvare_il_tuo_modello",
+...
+tokenizer = tokenizer,
+...
+hub_model_id = "il-tuo-username/il-mio-bellissimo-modello",
 ... )
 ```
 
@@ -184,9 +187,9 @@ Specifica il nome del tuo modello in `push_to_hub`:
 Questo crea un repository sotto il proprio username con il nome del modello `il-mio-bellissimo-modello`. Ora chiunque può caricare il tuo modello con la funzione `from_pretrained`:
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> model = AutoModel.from_pretrained("il-tuo-username/il-mio-bellissimo-modello")
+>> > model = AutoModel.from_pretrained("il-tuo-username/il-mio-bellissimo-modello")
 ```
 
 Se fai parte di un'organizzazione e vuoi invece condividere un modello sotto il nome dell'organizzazione, aggiungi il parametro `organization`:

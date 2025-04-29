@@ -30,7 +30,7 @@ This guide shows you how to quickly start chatting with Transformers from the co
 Chat with a model directly from the command line as shown below. It launches an interactive session with a model. Enter `clear` to reset the conversation, `exit` to terminate the session, and `help` to display all the command options.
 
 ```bash
-transformers-cli chat --model_name_or_path Qwen/Qwen2.5-0.5B-Instruct
+myTransformers-cli chat --model_name_or_path Qwen/Qwen2.5-0.5B-Instruct
 ```
 
 <div class="flex justify-center">
@@ -40,7 +40,7 @@ transformers-cli chat --model_name_or_path Qwen/Qwen2.5-0.5B-Instruct
 For a full list of options, run the command below.
 
 ```bash
-transformers-cli chat -h
+myTransformers-cli chat -h
 ```
 
 The chat is implemented on top of the [AutoClass](./model_doc/auto), using tooling from [text generation](./llm_tutorial) and [chat](./chat_templating).
@@ -65,9 +65,10 @@ Create the [`TextGenerationPipeline`] and pass `chat` to it. For large models, s
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
-pipeline = pipeline(task="text-generation", model="meta-llama/Meta-Llama-3-8B-Instruct", torch_dtype=torch.bfloat16, device_map="auto")
+pipeline = pipeline(task="text-generation", model="meta-llama/Meta-Llama-3-8B-Instruct", torch_dtype=torch.bfloat16,
+                    device_map="auto")
 response = pipeline(chat, max_new_tokens=512)
 print(response[0]["generated_text"][-1]["content"])
 ```
@@ -130,10 +131,11 @@ Transformers load models in full precision by default, and for a 8B model, this 
 Create a [`BitsAndBytesConfig`] with your desired quantization settings and pass it to the pipelines `model_kwargs` parameter. The example below quantizes a model to 8-bits.
 
 ```py
-from transformers import pipeline, BitsAndBytesConfig
+from myTransformers import pipeline, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-pipeline = pipeline(task="text-generation", model="meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto", model_kwargs={"quantization_config": quantization_config})
+pipeline = pipeline(task="text-generation", model="meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto",
+                    model_kwargs={"quantization_config": quantization_config})
 ```
 
 In general, larger models are slower in addition to requiring more memory because text generation is bottlenecked by **memory bandwidth** instead of compute power. Each active parameter must be read from memory for every generated token. For a 16GB model, 16GB must be read from memory for every generated token.

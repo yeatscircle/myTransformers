@@ -26,7 +26,7 @@ This guide will show you a few ways to optimize inference on a CPU.
 Optimum provides the [`~optimum.onnxruntime.ORTModel`] class for loading ONNX models. For example, load the [optimum/roberta-base-squad2](https://hf.co/optimum/roberta-base-squad2) checkpoint for question answering inference. This checkpoint contains a [model.onnx](https://hf.co/optimum/roberta-base-squad2/blob/main/model.onnx) file.
 
 ```py
-from transformers import AutoTokenizer, pipeline
+from myTransformers import AutoTokenizer, pipeline
 from optimum.onnxruntime import ORTModelForQuestionAnswering
 
 onnx_qa = pipeline("question-answering", model="optimum/roberta-base-squad2", tokenizer="deepset/roberta-base-squad2")
@@ -52,7 +52,7 @@ pred = onnx_qa(question, context)
 BetterTransformer is available through Optimum with [`~PreTrainedModel.to_bettertransformer`].
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("bigscience/bloom")
 model = model.to_bettertransformer()

@@ -39,8 +39,8 @@ import tensorflow as tf
 from datasets import load_dataset
 from sklearn.model_selection import train_test_split
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     CONFIG_NAME,
     TF2_WEIGHTS_NAME,
@@ -54,8 +54,8 @@ from transformers import (
     create_optimizer,
     set_seed,
 )
-from transformers.utils import send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.utils import send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 logger = logging.getLogger(__name__)
@@ -273,7 +273,7 @@ def main():
     # accelerator.is_local_main_process is only True for one process per machine.
     logger.setLevel(logging.INFO)
     datasets.utils.logging.set_verbosity_warning()
-    transformers.utils.logging.set_verbosity_info()
+    myTransformers.utils.logging.set_verbosity_info()
     # endregion
 
     # If passed along, set the training seed now.

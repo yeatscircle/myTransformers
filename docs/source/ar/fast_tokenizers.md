@@ -25,9 +25,9 @@
 دعونا نرى كيف يمكننا الاستفادة من كائن (مُجزئ النصوص) في مكتبة 🤗 Transformers. تسمح فئة [`PreTrainedTokenizerFast`] سهولة إنشاء *tokenizer*، من خلال قبول كائن *المُجزئ النصوص*  مُهيّأ مُسبقًا كمعامل:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 ```
 
 يمكن الآن استخدام هذا الكائن مع جميع الطرق المُشتركة بين مُجزّئي النّصوص  لـ 🤗 Transformers! انتقل إلى [صفحة مُجزّئ  النّصوص](main_classes/tokenizer) لمزيد من المعلومات.
@@ -43,9 +43,9 @@
 يمكن تمرير المسار الذي حفظنا به هذا الملف إلى طريقة تهيئة [`PreTrainedTokenizerFast`] باستخدام المُعامل  `tokenizer_file`:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
 ```
 
 يمكن الآن استخدام هذا الكائن مع جميع الطرق التي تشترك فيها مُجزّئي  النّصوص لـ 🤗 Transformers! انتقل إلى [صفحة مُجزّئ النص](main_classes/tokenizer) لمزيد من المعلومات.

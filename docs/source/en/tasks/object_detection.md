@@ -41,7 +41,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install -q datasets transformers accelerate timm
+pip install -q datasets myTransformers accelerate timm
 pip install -q -U albumentations>=1.4.5 torchmetrics pycocotools
 ```
 
@@ -202,16 +202,21 @@ to replicate when doing inference or finetuning a pre-trained image model.
 Instantiate the image processor from the same checkpoint as the model you want to finetune.
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> MAX_SIZE = IMAGE_SIZE
+>> > MAX_SIZE = IMAGE_SIZE
 
->>> image_processor = AutoImageProcessor.from_pretrained(
-...     MODEL_NAME,
-...     do_resize=True,
-...     size={"max_height": MAX_SIZE, "max_width": MAX_SIZE},
-...     do_pad=True,
-...     pad_size={"height": MAX_SIZE, "width": MAX_SIZE},
+>> > image_processor = AutoImageProcessor.from_pretrained(
+    ...
+MODEL_NAME,
+...
+do_resize = True,
+...
+size = {"max_height": MAX_SIZE, "max_width": MAX_SIZE},
+...
+do_pad = True,
+...
+pad_size = {"height": MAX_SIZE, "width": MAX_SIZE},
 ... )
 ```
 
@@ -388,10 +393,15 @@ Object detection models are commonly evaluated with a set of <a href="https://co
 Intermediate format of boxes used for training is `YOLO` (normalized) but we will compute metrics for boxes in `Pascal VOC` (absolute) format in order to correctly handle box areas. Let's define a function that converts bounding boxes to `Pascal VOC` format:
 
 ```py
->>> from transformers.image_transforms import center_to_corners_format
+>> > from myTransformers.image_transforms import center_to_corners_format
 
->>> def convert_bbox_yolo_to_pascal(boxes, image_size):
-...     """
+>> >
+
+def convert_bbox_yolo_to_pascal(boxes, image_size):
+
+
+    ...
+"""
 ...     Convert bounding boxes from YOLO format (x_center, y_center, width, height) in range [0, 1]
 ...     to Pascal VOC format (x_min, y_min, x_max, y_max) in absolute coordinates.
 
@@ -402,14 +412,18 @@ Intermediate format of boxes used for training is `YOLO` (normalized) but we wil
 ...     Returns:
 ...         torch.Tensor: Bounding boxes in Pascal VOC format (x_min, y_min, x_max, y_max)
 ...     """
-...     # convert center to corners format
-...     boxes = center_to_corners_format(boxes)
+...  # convert center to corners format
+...
+boxes = center_to_corners_format(boxes)
 
-...     # convert to absolute coordinates
-...     height, width = image_size
-...     boxes = boxes * torch.tensor([[width, height, width, height]])
+...  # convert to absolute coordinates
+...
+height, width = image_size
+...
+boxes = boxes * torch.tensor([[width, height, width, height]])
 
-...     return boxes
+...
+return boxes
 ```
 
 Then, in `compute_metrics` function we collect `predicted` and `target` bounding boxes, scores and labels from evaluation loop results and pass it to the scoring function.
@@ -514,13 +528,17 @@ When loading the model from the same checkpoint that you used for the preprocess
 and `id2label` maps that you created earlier from the dataset's metadata. Additionally, we specify `ignore_mismatched_sizes=True` to replace the existing classification head with a new one.
 
 ```py
->>> from transformers import AutoModelForObjectDetection
+>> > from myTransformers import AutoModelForObjectDetection
 
->>> model = AutoModelForObjectDetection.from_pretrained(
-...     MODEL_NAME,
-...     id2label=id2label,
-...     label2id=label2id,
-...     ignore_mismatched_sizes=True,
+>> > model = AutoModelForObjectDetection.from_pretrained(
+    ...
+MODEL_NAME,
+...
+id2label = id2label,
+...
+label2id = label2id,
+...
+ignore_mismatched_sizes = True,
 ... )
 ```
 
@@ -535,46 +553,71 @@ If you wish to share your model by pushing to the Hub, set `push_to_hub` to `Tru
 Face to upload your model).
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(
-...     output_dir="detr_finetuned_cppe5",
-...     num_train_epochs=30,
-...     fp16=False,
-...     per_device_train_batch_size=8,
-...     dataloader_num_workers=4,
-...     learning_rate=5e-5,
-...     lr_scheduler_type="cosine",
-...     weight_decay=1e-4,
-...     max_grad_norm=0.01,
-...     metric_for_best_model="eval_map",
-...     greater_is_better=True,
-...     load_best_model_at_end=True,
-...     eval_strategy="epoch",
-...     save_strategy="epoch",
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     eval_do_concat_batches=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = "detr_finetuned_cppe5",
+...
+num_train_epochs = 30,
+...
+fp16 = False,
+...
+per_device_train_batch_size = 8,
+...
+dataloader_num_workers = 4,
+...
+learning_rate = 5e-5,
+...
+lr_scheduler_type = "cosine",
+...
+weight_decay = 1e-4,
+...
+max_grad_norm = 0.01,
+...
+metric_for_best_model = "eval_map",
+...
+greater_is_better = True,
+...
+load_best_model_at_end = True,
+...
+eval_strategy = "epoch",
+...
+save_strategy = "epoch",
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+eval_do_concat_batches = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 Finally, bring everything together, and call [`~transformers.Trainer.train`]:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=cppe5["train"],
-...     eval_dataset=cppe5["validation"],
-...     processing_class=image_processor,
-...     data_collator=collate_fn,
-...     compute_metrics=eval_compute_metrics_fn,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = cppe5["train"],
+...
+eval_dataset = cppe5["validation"],
+...
+processing_class = image_processor,
+...
+data_collator = collate_fn,
+...
+compute_metrics = eval_compute_metrics_fn,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 <div>
 
@@ -1476,14 +1519,14 @@ These results can be further improved by adjusting the hyperparameters in [`Trai
 Now that you have finetuned a model, evaluated it, and uploaded it to the Hugging Face Hub, you can use it for inference.
 
 ```py
->>> import torch
->>> import requests
+>> > import torch
+>> > import requests
 
->>> from PIL import Image, ImageDraw
->>> from transformers import AutoImageProcessor, AutoModelForObjectDetection
+>> > from PIL import Image, ImageDraw
+>> > from myTransformers import AutoImageProcessor, AutoModelForObjectDetection
 
->>> url = "https://images.pexels.com/photos/8413299/pexels-photo-8413299.jpeg?auto=compress&cs=tinysrgb&w=630&h=375&dpr=2"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://images.pexels.com/photos/8413299/pexels-photo-8413299.jpeg?auto=compress&cs=tinysrgb&w=630&h=375&dpr=2"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 ```
 
 Load model and image processor from the Hugging Face Hub (skip to use already trained in this session):

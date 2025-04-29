@@ -17,8 +17,8 @@ The model has been trained on 23 languages: English, French, Spanish, Italian, G
 The model and tokenizer can be loaded via:
 
 ```python
-# pip install transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM
+# pip install myTransformers
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "CohereForAI/c4ai-command-r7b-12-2024"
 tokenizer = AutoTokenizer.from_pretrained(model_id)

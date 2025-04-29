@@ -32,7 +32,7 @@ Para executar com êxito a versão mais recente dos scripts de exemplo, você pr
 
 ```bash
 git clone https://github.com/huggingface/transformers
-cd transformers
+cd myTransformers
 pip install .
 ```
 

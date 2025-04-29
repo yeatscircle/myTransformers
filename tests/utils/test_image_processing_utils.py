@@ -21,9 +21,9 @@ from pathlib import Path
 from huggingface_hub import HfFolder
 from requests.exceptions import HTTPError
 
-from transformers import AutoImageProcessor, ViTImageProcessor
-from transformers.image_processing_utils import get_size_dict
-from transformers.testing_utils import TOKEN, TemporaryHubRepo, get_tests_dir, is_staging_test
+from myTransformers import AutoImageProcessor, ViTImageProcessor
+from myTransformers.image_processing_utils import get_size_dict
+from myTransformers.testing_utils import TOKEN, TemporaryHubRepo, get_tests_dir, is_staging_test
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "utils"))

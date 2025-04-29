@@ -37,9 +37,9 @@ specific language governing permissions and limitations under the License.
 1. [`pipeline`]を作成し、推論タスクを指定して始めます：
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline(task="automatic-speech-recognition")
+>> > generator = pipeline(task="automatic-speech-recognition")
 ```
 
 2. [`pipeline`]に入力テキストを渡します：
@@ -180,7 +180,7 @@ for out in pipe(data()):
 
 ```py
 # KeyDataset is a util that will just output the item we're interested in.
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers.pipelines.pt_utils import KeyDataset
 from datasets import load_dataset
 
 pipe = pipeline(model="hf-internal-testing/tiny-random-wav2vec2", device=0)
@@ -207,15 +207,19 @@ for out in pipe(KeyDataset(dataset, "audio")):
 ![pipeline-cat-chonk](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg)
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vision_classifier = pipeline(model="google/vit-base-patch16-224")
->>> preds = vision_classifier(
-...     images="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > vision_classifier = pipeline(model="google/vit-base-patch16-224")
+>> > preds = vision_classifier(
+    ...
+images = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
-[{'score': 0.4335, 'label': 'lynx, catamount'}, {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}, {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'}, {'score': 0.0229, 'label': 'tiger cat'}]
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
+[{'score': 0.4335, 'label': 'lynx, catamount'},
+ {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'},
+ {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'},
+ {'score': 0.0229, 'label': 'tiger cat'}]
 ```
 
 ## Text pipeline
@@ -223,16 +227,19 @@ for out in pipe(KeyDataset(dataset, "audio")):
 [`pipeline`]を使用することは、NLPタスクに対してほぼ同じです。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> # This model is a `zero-shot-classification` model.
->>> # It will classify text, except you are free to choose any label you might imagine
->>> classifier = pipeline(model="facebook/bart-large-mnli")
->>> classifier(
-...     "I have a problem with my iphone that needs to be resolved asap!!",
-...     candidate_labels=["urgent", "not urgent", "phone", "tablet", "computer"],
+>> >  # This model is a `zero-shot-classification` model.
+>> >  # It will classify text, except you are free to choose any label you might imagine
+>> > classifier = pipeline(model="facebook/bart-large-mnli")
+>> > classifier(
+    ...
+"I have a problem with my iphone that needs to be resolved asap!!",
+...
+candidate_labels = ["urgent", "not urgent", "phone", "tablet", "computer"],
 ... )
-{'sequence': 'I have a problem with my iphone that needs to be resolved asap!!', 'labels': ['urgent', 'phone', 'computer', 'not urgent', 'tablet'], 'scores': [0.504, 0.479, 0.013, 0.003, 0.002]}
+{'sequence': 'I have a problem with my iphone that needs to be resolved asap!!',
+ 'labels': ['urgent', 'phone', 'computer', 'not urgent', 'tablet'], 'scores': [0.504, 0.479, 0.013, 0.003, 0.002]}
 ```
 
 ## Multimodal pipeline
@@ -243,15 +250,17 @@ for out in pipe(KeyDataset(dataset, "audio")):
 例えば、この[請求書画像](https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png)を使用する場合：
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vqa = pipeline(model="impira/layoutlm-document-qa")
->>> output = vqa(
-...     image="https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png",
-...     question="What is the invoice number?",
+>> > vqa = pipeline(model="impira/layoutlm-document-qa")
+>> > output = vqa(
+    ...
+image = "https://huggingface.co/spaces/impira/docquery/resolve/2359223c1837a7587402bda0f2643382a6eefeab/invoice.png",
+...
+question = "What is the invoice number?",
 ... )
->>> output[0]["score"] = round(output[0]["score"], 3)
->>> output
+>> > output[0]["score"] = round(output[0]["score"], 3)
+>> > output
 [{'score': 0.425, 'answer': 'us-001', 'start': 16, 'end': 16}]
 ```
 
@@ -275,7 +284,7 @@ pip install pytesseract
 ```python
 # pip install accelerate
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(model="facebook/opt-1.3b", torch_dtype=torch.bfloat16, device_map="auto")
 output = pipe("これは素晴らしい例です！", do_sample=True, top_p=0.95)
@@ -286,7 +295,7 @@ output = pipe("これは素晴らしい例です！", do_sample=True, top_p=0.95
 ```py
 # pip install accelerate bitsandbytes
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(model="facebook/opt-1.3b", device_map="auto", model_kwargs={"load_in_8bit": True})
 output = pipe("This is a cool example!", do_sample=True, top_p=0.95)

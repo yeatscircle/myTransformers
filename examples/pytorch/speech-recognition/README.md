@@ -456,7 +456,7 @@ cd wav2vec2-2-bart-base
 Next, run the following script **inside** the just cloned repo:
 
 ```python
-from transformers import SpeechEncoderDecoderModel, AutoFeatureExtractor, AutoTokenizer, Wav2Vec2Processor
+from myTransformers import SpeechEncoderDecoderModel, AutoFeatureExtractor, AutoTokenizer, Wav2Vec2Processor
 
 # checkpoints to leverage
 encoder_id = "facebook/wav2vec2-base"
@@ -464,7 +464,9 @@ decoder_id = "facebook/bart-base"
 
 # load and save speech-encoder-decoder model
 # set some hyper-parameters for training and evaluation
-model = SpeechEncoderDecoderModel.from_encoder_decoder_pretrained(encoder_id, decoder_id, encoder_add_adapter=True, encoder_feat_proj_dropout=0.0, encoder_layerdrop=0.0, max_length=200, num_beams=5)
+model = SpeechEncoderDecoderModel.from_encoder_decoder_pretrained(encoder_id, decoder_id, encoder_add_adapter=True,
+                                                                  encoder_feat_proj_dropout=0.0, encoder_layerdrop=0.0,
+                                                                  max_length=200, num_beams=5)
 model.config.decoder_start_token_id = model.decoder.config.bos_token_id
 model.config.pad_token_id = model.decoder.config.pad_token_id
 model.config.eos_token_id = model.decoder.config.eos_token_id
@@ -486,7 +488,7 @@ git add . && git commit -m "upload model files" && git push
 and link the official `run_speech_recognition_seq2seq.py` script to the folder:
 
 ```bash
-ln -s $(realpath <path/to/transformers>/examples/pytorch/speech-recognition/run_speech_recognition_seq2seq.py) ./
+ln -s $(realpath <path/to/myTransformers>/examples/pytorch/speech-recognition/run_speech_recognition_seq2seq.py) ./
 ```
 
 Note that we have added a randomly initialized _adapter layer_ to `wav2vec2-base` with the argument

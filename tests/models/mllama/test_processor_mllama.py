@@ -19,9 +19,9 @@ import unittest
 
 import numpy as np
 
-from transformers import MllamaProcessor
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_vision_available
+from myTransformers import MllamaProcessor
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 

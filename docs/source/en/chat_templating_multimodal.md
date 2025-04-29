@@ -50,21 +50,22 @@ messages = [
 Create a [`ImageTextToTextPipeline`] and pass the chat to it. For large models, setting [device_map=“auto”](./models#big-model-inference) helps load the model quicker and automatically places it on the fastest device available. Changing the data type to [torch.bfloat16](./models#model-data-type) also helps save memory.
 
 > [!TIP]
-> The [`ImageTextToTextPipeline`] accepts chats in the OpenAI format to make inference easier and more accessible. 
+> The [`ImageTextToTextPipeline`] accepts chats in the OpenAI format to make inference easier and more accessible.
 
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
-pipeline = pipeline("image-text-to-text", model="llava-hf/llava-onevision-qwen2-0.5b-ov-hf", device="cuda", torch_dtype=torch.float16)
+pipeline = pipeline("image-text-to-text", model="llava-hf/llava-onevision-qwen2-0.5b-ov-hf", device="cuda",
+                    torch_dtype=torch.float16)
 pipeline(text=messages, max_new_tokens=50, return_full_text=False)
 [{'input_text': [{'role': 'system',
-    'content': [{'type': 'text',
-      'text': 'You are a friendly chatbot who always responds in the style of a pirate'}]},
-   {'role': 'user',
-    'content': [{'type': 'image',
-      'url': 'http://images.cocodataset.org/val2017/000000039769.jpg'},
-     {'type': 'text', 'text': 'What are these?'}]}],
+                  'content': [{'type': 'text',
+                               'text': 'You are a friendly chatbot who always responds in the style of a pirate'}]},
+                 {'role': 'user',
+                  'content': [{'type': 'image',
+                               'url': 'http://images.cocodataset.org/val2017/000000039769.jpg'},
+                              {'type': 'text', 'text': 'What are these?'}]}],
   'generated_text': 'The image shows two cats lying on a pink surface, which appears to be a cushion or a soft blanket. The cat on the left has a striped coat, typical of tabby cats, and is lying on its side with its head resting on the'}]
 ```
 
@@ -76,19 +77,20 @@ For multimodal models that accept images like [LLaVA](./model_doc/llava), includ
 - For images, it can be a link to the image (`"url"`), a file path (`"path"`), or `"base64"`. Images are automatically loaded, processed, and prepared into pixel values as inputs to the model.
 
 ```python
-from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-0.5b-ov-hf")
 processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-0.5b-ov-hf")
 
 messages = [
     {
-      "role": "system",
-      "content": [{"type": "text", "text": "You are a friendly chatbot who always responds in the style of a pirate"}],
+        "role": "system",
+        "content": [
+            {"type": "text", "text": "You are a friendly chatbot who always responds in the style of a pirate"}],
     },
     {
-      "role": "user",
-      "content": [
+        "role": "user",
+        "content": [
             {"type": "image", "url": "http://images.cocodataset.org/val2017/000000039769.jpg"},
             {"type": "text", "text": "What are these?"},
         ],
@@ -116,7 +118,7 @@ Some vision models also support video inputs. The message format is very similar
 > Loading a video from `"url"` is only supported by the PyAV or Decord backends.
 
 ```python
-from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
 
 model_id = "llava-hf/llava-onevision-qwen2-0.5b-ov-hf"
 model = LlavaOnevisionForConditionalGeneration.from_pretrained(model_id)
@@ -124,13 +126,15 @@ processor = AutoProcessor.from_pretrained(model_id)
 
 messages = [
     {
-      "role": "system",
-      "content": [{"type": "text", "text": "You are a friendly chatbot who always responds in the style of a pirate"}],
+        "role": "system",
+        "content": [
+            {"type": "text", "text": "You are a friendly chatbot who always responds in the style of a pirate"}],
     },
     {
-      "role": "user",
-      "content": [
-            {"type": "video", "url": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_10MB.mp4"},
+        "role": "user",
+        "content": [
+            {"type": "video",
+             "url": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_10MB.mp4"},
             {"type": "text", "text": "What do you see in this video?"},
         ],
     },

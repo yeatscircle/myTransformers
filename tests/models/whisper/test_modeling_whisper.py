@@ -27,9 +27,9 @@ import pytest
 from huggingface_hub import hf_hub_download
 from parameterized import parameterized
 
-import transformers
-from transformers import WhisperConfig
-from transformers.testing_utils import (
+import myTransformers
+from myTransformers import WhisperConfig
+from myTransformers.testing_utils import (
     is_flaky,
     require_flash_attn,
     require_non_xpu,
@@ -42,8 +42,8 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property, is_torch_available, is_torchaudio_available
-from transformers.utils.import_utils import is_datasets_available
+from myTransformers.utils import cached_property, is_torch_available, is_torchaudio_available
+from myTransformers.utils.import_utils import is_datasets_available
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -58,7 +58,7 @@ if is_datasets_available():
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         WhisperFeatureExtractor,
         WhisperForAudioClassification,
         WhisperForCausalLM,
@@ -67,11 +67,11 @@ if is_torch_available():
         WhisperProcessor,
         set_seed,
     )
-    from transformers.generation import (
+    from myTransformers.generation import (
         GenerateEncoderDecoderOutput,
     )
-    from transformers.generation.logits_process import LogitsProcessor
-    from transformers.models.whisper.modeling_whisper import WhisperDecoder, WhisperEncoder, sinusoids
+    from myTransformers.generation.logits_process import LogitsProcessor
+    from myTransformers.models.whisper.modeling_whisper import WhisperDecoder, WhisperEncoder, sinusoids
 
     class DummyTimestampLogitProcessor(LogitsProcessor):
         """This processor fakes the correct timestamps tokens pattern [TOK_1] [TOK_2] ... [TOK_N] [TIME_STAMP_TOK_1] [TIME_STAMP_TOK_2] [TOK_N+1] ..."""
@@ -1446,10 +1446,10 @@ class WhisperModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMi
 @require_torchaudio
 class WhisperModelIntegrationTests(unittest.TestCase):
     def setUp(self):
-        self._unpatched_generation_mixin_generate = transformers.GenerationMixin.generate
+        self._unpatched_generation_mixin_generate = myTransformers.GenerationMixin.generate
 
     def tearDown(self):
-        transformers.GenerationMixin.generate = self._unpatched_generation_mixin_generate
+        myTransformers.GenerationMixin.generate = self._unpatched_generation_mixin_generate
 
     @cached_property
     def default_processor(self):
@@ -1470,7 +1470,7 @@ class WhisperModelIntegrationTests(unittest.TestCase):
                 check_args_fn(*args, **kwargs)
             return test._unpatched_generation_mixin_generate(self, *args, **kwargs)
 
-        transformers.GenerationMixin.generate = generate
+        myTransformers.GenerationMixin.generate = generate
 
     @slow
     def test_tiny_logits_librispeech(self):

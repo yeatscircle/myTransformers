@@ -25,9 +25,9 @@ import unittest.mock as mock
 from huggingface_hub import HfFolder, snapshot_download
 from requests.exceptions import HTTPError
 
-from transformers import is_tf_available
-from transformers.configuration_utils import PretrainedConfig
-from transformers.testing_utils import (  # noqa: F401
+from myTransformers import is_tf_available
+from myTransformers.configuration_utils import PretrainedConfig
+from myTransformers.testing_utils import (  # noqa: F401
     TOKEN,
     USER,
     CaptureLogger,
@@ -37,7 +37,7 @@ from transformers.testing_utils import (  # noqa: F401
     require_tf,
     slow,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     SAFE_WEIGHTS_INDEX_NAME,
     SAFE_WEIGHTS_NAME,
     TF2_WEIGHTS_INDEX_NAME,
@@ -54,15 +54,15 @@ if is_tf_available():
     import numpy as np
     import tensorflow as tf
 
-    from transformers import (
+    from myTransformers import (
         BertConfig,
         RagRetriever,
         TFBertForSequenceClassification,
         TFBertModel,
         TFRagModel,
     )
-    from transformers.modeling_tf_utils import keras, tf_shard_checkpoint, unpack_inputs
-    from transformers.tf_utils import stable_softmax
+    from myTransformers.modeling_tf_utils import keras, tf_shard_checkpoint, unpack_inputs
+    from myTransformers.tf_utils import stable_softmax
 
     tf.config.experimental.enable_tensor_float_32_execution(False)
 
@@ -585,7 +585,7 @@ class TFModelPushToHubTester(unittest.TestCase):
             model.build_in_name_scope()
 
             logging.set_verbosity_info()
-            logger = logging.get_logger("transformers.utils.hub")
+            logger = logging.get_logger("myTransformers.utils.hub")
             with CaptureLogger(logger) as cl:
                 model.push_to_hub(tmp_repo.repo_id, token=self._token)
             logging.set_verbosity_warning()

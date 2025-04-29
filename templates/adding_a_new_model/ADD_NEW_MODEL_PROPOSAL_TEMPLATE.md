@@ -284,8 +284,8 @@ If any of the mentioned aspects above are **not** clear to you, now is a great t
     repository as a remote:
 
     ```bash
-    git clone https://github.com/[your Github handle]/transformers.git
-    cd transformers
+    git clone https://github.com/[your Github handle]/myTransformers.git
+    cd myTransformers
     git remote add upstream https://github.com/huggingface/transformers.git
     ```
 
@@ -672,8 +672,14 @@ implementation of *[camelcase name of model]*, *i.e.* the following command
 should work:
 
 ```python
-from transformers import [camelcase name of model]Model, [camelcase name of model]Config
-model = [camelcase name of model]Model([camelcase name of model]Config())
+from myTransformers import
+
+[camelcase name of model]
+Model, [camelcase name of model]
+Config
+model = [camelcase name of model]
+Model([camelcase name of model]
+Config())
 ```
 
 The above command will create a model according to the default
@@ -1012,10 +1018,14 @@ the original repository, an analogous script for 🤗 Transformers should
 be created. It should look similar to this:
 
 ```python
-from transformers import [camelcase name of model]Tokenizer
+from myTransformers import
+
+[camelcase name of model]
+Tokenizer
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 
-tokenizer = [camelcase name of model]Tokenizer.from_pretrained("/path/to/tokenizer/folder/")
+tokenizer = [camelcase name of model]
+Tokenizer.from_pretrained("/path/to/tokenizer/folder/")
 
 input_ids = tokenizer(input_str).input_ids
 ```

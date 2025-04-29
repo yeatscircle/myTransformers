@@ -31,7 +31,7 @@
 قبل أن تبدأ، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate seqeval
+pip install myTransformers datasets evaluate seqeval
 ```
 
 نحن نشجعك على تسجيل الدخول إلى حساب HuggingFace الخاص بك حتى تتمكن من تحميل ومشاركة نموذجك مع المجتمع. عندما يُطلب منك، أدخل رمزك لتسجيل الدخول:
@@ -97,9 +97,9 @@ pip install transformers datasets evaluate seqeval
 الخطوة التالية هي تحميل مُجزِّئ النصوص DistilBERT للمعالجة المسبقة لحقل `tokens`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 كما رأيت في حقل `tokens` المثال أعلاه، يبدو أن المدخل قد تم تحليله بالفعل. لكن المدخل  لم يُجزأ بعد ويتعيّن عليك ضبط `is_split_into_words=True` لتقسيم الكلمات إلى كلمات فرعية. على سبيل المثال:
@@ -257,10 +257,11 @@ pip install transformers datasets evaluate seqeval
 أنت مستعد الآن لبدء تدريب نموذجك! قم بتحميل DistilBERT مع [`AutoModelForTokenClassification`] إلى جانب عدد التصنيفات المتوقعة، وخريطة التسميات:
 
 ```py
->>> from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = AutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -312,26 +313,31 @@ pip install transformers datasets evaluate seqeval
 للتعديل على نموذج في TensorFlow، ابدأ بإعداد دالة محسن، وجدول معدل التعلم، وبعض معلمات التدريب:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 3
->>> num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=0.01,
-...     num_warmup_steps=0,
+>> > batch_size = 16
+>> > num_train_epochs = 3
+>> > num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = 0.01,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 ثم يمكنك تحميل DistilBERT مع [`TFAutoModelForTokenClassification`] إلى جانب عدد التسميات المتوقعة، وتخطيطات التسميات:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -366,19 +372,21 @@ pip install transformers datasets evaluate seqeval
 مرر دالة `compute_metrics` الخاصة بك إلى [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 حدد مكان دفع نموذجك والمحلل اللغوي في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_wnut_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_wnut_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -419,10 +427,10 @@ pip install transformers datasets evaluate seqeval
 أبسط طريقة لتجربة نموذجك المُدرب مسبقًا للاستدلال هي استخدامه في [`pipeline`]. قم بتنفيذ `pipeline` لتصنيف الكيانات المسماة مع نموذجك، ومرر نصك إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
->>> classifier(text)
+>> > classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
+>> > classifier(text)
 [{'entity': 'B-location',
   'score': 0.42658573,
   'index': 2,
@@ -462,20 +470,21 @@ pip install transformers datasets evaluate seqeval
 قسّم النص إلى رموز وأرجع المُوتّرات بلغة PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 مرر مدخلاتك إلى النموذج واحصل على `logits`:
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأعلى، واستخدم جدول `id2label` الخاصة بالنموذج لتحويلها إلى تسمية نصية:
@@ -507,19 +516,19 @@ pip install transformers datasets evaluate seqeval
 قسّم النص إلى رموز وأرجع المُوتّرات ب TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 مرر مدخلاتك إلى النموذج واحصل على `logits`:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > logits = model(**inputs).logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأعلى، واستخدم جدول `id2label` الخاصة بالنموذج لتحويلها إلى تسمية نصية:

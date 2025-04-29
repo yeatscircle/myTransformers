@@ -56,7 +56,7 @@ The model can accept both images and videos as input, but you should use only on
 
 ```python
 import torch
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 
 processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM2-256M-Video-Instruct")
 model = AutoModelForImageTextToText.from_pretrained(
@@ -68,7 +68,7 @@ model = AutoModelForImageTextToText.from_pretrained(
 conversation = [
     {
         "role": "user",
-        "content":[
+        "content": [
             {"type": "image", "url": "http://images.cocodataset.org/val2017/000000039769.jpg"},
             {"type": "text", "text": "Describe this image."}
         ]
@@ -86,7 +86,6 @@ inputs = processor.apply_chat_template(
 output_ids = model.generate(**inputs, max_new_tokens=128)
 generated_texts = processor.batch_decode(output_ids, skip_special_tokens=True)
 print(generated_texts)
-
 
 # Video
 conversation = [
@@ -118,7 +117,7 @@ The model can batch inputs composed of several images/videos and text. Here is a
 
 ```python
 import torch
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 
 processor = AutoProcessor.from_pretrained("HuggingFaceTB/SmolVLM2-256M-Video-Instruct")
 model = AutoModelForImageTextToText.from_pretrained(
@@ -152,9 +151,8 @@ conversation2 = [
 
 # Conversation with pure text
 conversation3 = [
-    {"role": "user","content": "who are you?"}
+    {"role": "user", "content": "who are you?"}
 ]
-
 
 conversations = [conversation1, conversation2, conversation3]
 inputs = processor.apply_chat_template(

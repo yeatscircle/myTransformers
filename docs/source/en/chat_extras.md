@@ -64,11 +64,12 @@ Load a model and tokenizer that supports tool-use like [NousResearch/Hermes-2-Pr
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained( "NousResearch/Hermes-2-Pro-Llama-3-8B")
-tokenizer = AutoTokenizer.from_pretrained( "NousResearch/Hermes-2-Pro-Llama-3-8B")
-model = AutoModelForCausalLM.from_pretrained( "NousResearch/Hermes-2-Pro-Llama-3-8B", torch_dtype=torch.bfloat16, device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained("NousResearch/Hermes-2-Pro-Llama-3-8B")
+tokenizer = AutoTokenizer.from_pretrained("NousResearch/Hermes-2-Pro-Llama-3-8B")
+model = AutoModelForCausalLM.from_pretrained("NousResearch/Hermes-2-Pro-Llama-3-8B", torch_dtype=torch.bfloat16,
+                                             device_map="auto")
 ```
 
 Create a chat message.
@@ -151,7 +152,8 @@ print(tokenizer.decode(out[0][len(inputs["input_ids"][0]):]))
 The JSON schema is automatically generated behind the scenes as long as your function follows the [rules](#tools) listed earlier above. But you can use [get_json_schema](https://github.com/huggingface/transformers/blob/14561209291255e51c55260306c7d00c159381a5/src/transformers/utils/chat_template_utils.py#L205) to manually convert a schema for more visibility or debugging.
 
 ```py
-from transformers.utils import get_json_schema
+from myTransformers.utils import get_json_schema
+
 
 def multiply(a: float, b: float):
     """
@@ -162,6 +164,7 @@ def multiply(a: float, b: float):
         b: The second number to multiply
     """
     return a * b
+
 
 schema = get_json_schema(multiply)
 print(schema)
@@ -265,12 +268,12 @@ documents = [
 Set `chat_template="rag"` in [`~PreTrainedTokenizerBase.apply_chat_template`] and generate a response.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 # Load the model and tokenizer
 tokenizer = AutoTokenizer.from_pretrained("CohereForAI/c4ai-command-r-v01-4bit")
 model = AutoModelForCausalLM.from_pretrained("CohereForAI/c4ai-command-r-v01-4bit", device_map="auto")
-device = model.device # Get the device the model is loaded on
+device = model.device  # Get the device the model is loaded on
 
 # Define conversation input
 conversation = [
@@ -291,7 +294,7 @@ generated_tokens = model.generate(
     max_new_tokens=100,
     do_sample=True,
     temperature=0.3,
-    )
+)
 
 # Decode and print the generated text along with generation prompt
 generated_text = tokenizer.decode(generated_tokens[0])

@@ -19,7 +19,7 @@ This uses `tests_fetcher.get_all_doctest_files` then groups the test files by th
 The files in `docs/source/en/model_doc` or `docs/source/en/tasks` are **NOT** grouped together with other files in the
 same directory: the objective is to run doctest against them in independent GitHub Actions jobs.
 
-Assume we are under `transformers` root directory:
+Assume we are under `myTransformers` root directory:
 To get a map (dictionary) between directory (or file) paths and the corresponding files
 ```bash
 python utils/split_doctest_jobs.py

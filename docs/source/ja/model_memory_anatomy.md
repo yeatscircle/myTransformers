@@ -21,7 +21,7 @@ limitations under the License.
 まずは、GPUの利用例とモデルのトレーニング実行に関する示唆に富む例を探求することから始めましょう。デモンストレーションのために、いくつかのライブラリをインストールする必要があります:
 
 ```bash
-pip install transformers datasets accelerate nvidia-ml-py3
+pip install myTransformers datasets accelerate nvidia-ml-py3
 ```
 
 `nvidia-ml-py3` ライブラリは、Python内からモデルのメモリ使用状況をモニターすることを可能にします。おそらく、ターミナルでの `nvidia-smi` コマンドについてはお聞きかもしれませんが、このライブラリを使用すると、Pythonから同じ情報にアクセスできます。
@@ -90,14 +90,15 @@ GPU memory occupied: 1343 MB.
 
 まず、`google-bert/bert-large-uncased` モデルを読み込みます。モデルの重みを直接GPUに読み込むことで、重みだけがどれだけのスペースを使用しているかを確認できます。
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
-
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
->>> print_gpu_utilization()
-GPU memory occupied: 2631 MB.
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
+>> > print_gpu_utilization()
+GPU
+memory
+occupied: 2631
+MB.
 ```
 
 モデルの重みだけで、GPUメモリを1.3 GB使用していることがわかります。正確な数値は、使用している具体的なGPUに依存します。新しいGPUでは、モデルの重みが最適化された方法で読み込まれるため、モデルの使用を高速化することがあるため、モデルがより多くのスペースを占有することがあります。さて、`nvidia-smi` CLIと同じ結果が得られるかを簡単に確認することもできます。
@@ -153,17 +154,15 @@ default_args = {
 
 [`Trainer`] を使用して、GPU パフォーマンスの最適化テクニックを使用せずにバッチサイズ 4 でモデルをトレーニングしましょう：
 
-
 ```py
->>> from transformers import TrainingArguments, Trainer, logging
+>> > from myTransformers import TrainingArguments, Trainer, logging
 
->>> logging.set_verbosity_error()
+>> > logging.set_verbosity_error()
 
-
->>> training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
->>> trainer = Trainer(model=model, args=training_args, train_dataset=ds)
->>> result = trainer.train()
->>> print_summary(result)
+>> > training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
+>> > trainer = Trainer(model=model, args=training_args, train_dataset=ds)
+>> > result = trainer.train()
+>> > print_summary(result)
 ```
 
 ```

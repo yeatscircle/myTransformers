@@ -18,14 +18,14 @@ import unittest
 
 import numpy as np
 
-from transformers import Emu3Processor, GPT2TokenizerFast
-from transformers.utils import is_vision_available
+from myTransformers import Emu3Processor, GPT2TokenizerFast
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import Emu3ImageProcessor
+    from myTransformers import Emu3ImageProcessor
 
 
 class Emu3ProcessorTest(ProcessorTesterMixin, unittest.TestCase):

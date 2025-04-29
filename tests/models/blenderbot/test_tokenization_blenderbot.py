@@ -16,9 +16,9 @@
 
 import unittest
 
-from transformers import BlenderbotTokenizer, BlenderbotTokenizerFast
-from transformers.testing_utils import require_jinja
-from transformers.utils import cached_property
+from myTransformers import BlenderbotTokenizer, BlenderbotTokenizerFast
+from myTransformers.testing_utils import require_jinja
+from myTransformers.utils import cached_property
 
 
 class Blenderbot3BTokenizerTests(unittest.TestCase):

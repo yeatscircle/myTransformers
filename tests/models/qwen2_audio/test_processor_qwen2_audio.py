@@ -15,9 +15,9 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import AutoProcessor, AutoTokenizer, Qwen2AudioProcessor, WhisperFeatureExtractor
-from transformers.testing_utils import require_torch, require_torchaudio
-from transformers.utils import is_torch_available
+from myTransformers import AutoProcessor, AutoTokenizer, Qwen2AudioProcessor, WhisperFeatureExtractor
+from myTransformers.testing_utils import require_torch, require_torchaudio
+from myTransformers.utils import is_torch_available
 
 from ...test_processing_common import ProcessorTesterMixin
 

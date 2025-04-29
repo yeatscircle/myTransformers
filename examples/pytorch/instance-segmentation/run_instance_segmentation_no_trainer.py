@@ -37,16 +37,16 @@ from torch.utils.data import DataLoader
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoImageProcessor,
     AutoModelForUniversalSegmentation,
     SchedulerType,
     get_scheduler,
 )
-from transformers.image_processing_utils import BatchFeature
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.image_processing_utils import BatchFeature
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 logger = logging.getLogger(__name__)
@@ -58,7 +58,7 @@ require_version("datasets>=2.0.0", "To fix: pip install -r examples/pytorch/inst
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Finetune a transformers model for instance segmentation task")
+    parser = argparse.ArgumentParser(description="Finetune a myTransformers model for instance segmentation task")
 
     parser.add_argument(
         "--model_name_or_path",
@@ -366,11 +366,11 @@ def setup_logging(accelerator: Accelerator) -> None:
 
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
         logger.setLevel(logging.INFO)
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
 
 def handle_repository_creation(accelerator: Accelerator, args: argparse.Namespace):

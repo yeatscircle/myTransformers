@@ -33,19 +33,19 @@ source .env/bin/activate
 الآن أنت مستعد لتثبيت 🤗 Transformers باستخدام الأمر التالي:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 للحصول على الدعم الخاص بـ CPU فقط، يمكنك تثبيت 🤗 Transformers ومكتبة التعلم العميق في خطوة واحدة. على سبيل المثال، قم بتثبيت 🤗 Transformers وPyTorch باستخدام:
 
 ```bash
-pip install 'transformers[torch]'
+pip install 'myTransformers[torch]'
 ```
 
 🤗 Transformers وTensorFlow 2.0:
 
 ```bash
-pip install 'transformers[tf-cpu]'
+pip install 'myTransformers[tf-cpu]'
 ```
 
 <Tip warning={true}>
@@ -63,7 +63,7 @@ brew install pkg-config
 🤗 Transformers وFlax:
 
 ```bash
-pip install 'transformers[flax]'
+pip install 'myTransformers[flax]'
 ```
 
 أخيرًا، تحقق مما إذا كان 🤗 Transformers قد تم تثبيته بشكل صحيح عن طريق تشغيل الأمر التالي. سيقوم بتنزيل نموذج مدرب مسبقًا:
@@ -111,7 +111,7 @@ python -c "from transformers import pipeline; print(pipeline('sentiment-analysis
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -126,7 +126,7 @@ pip install -e .
 الآن يمكنك تحديث المستنسخ الخاص بك بسهولة إلى أحدث إصدار من 🤗 Transformers باستخدام الأمر التالي:
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -137,7 +137,7 @@ git pull
 قم بالتثبيت من قناة conda `conda-forge`:
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## إعداد ذاكرة التخزين المؤقت
@@ -174,7 +174,7 @@ python examples/pytorch/translation/run_translation.py --model_name_or_path goog
 يمكنك أيضًا تجاوز تحميل نموذج من Hub من كل استدعاء [`~PreTrainedModel.from_pretrained`] باستخدام معلمة [`local_files_only`]. عندما يتم تعيينها على `True`، يتم تحميل الملفات المحلية فقط:
 
 ```py
-from transformers import T5Model
+from myTransformers import T5Model
 
 model = T5Model.from_pretrained("./path/to/local/directory", local_files_only=True)
 ```
@@ -195,7 +195,7 @@ model = T5Model.from_pretrained("./path/to/local/directory", local_files_only=Tr
     1. قم بتنزيل ملفاتك مسبقًا باستخدام [`PreTrainedModel.from_pretrained`]:
 
     ```py
-    >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    >>> from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
     >>> tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     >>> model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
@@ -234,9 +234,9 @@ model = T5Model.from_pretrained("./path/to/local/directory", local_files_only=Tr
 بمجرد تنزيل ملفك وتخزينه مؤقتًا محليًا، حدد مساره المحلي الخاص به لتحميله واستخدامه:
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
+>> > config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
 ```
 
 <Tip>

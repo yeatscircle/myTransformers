@@ -41,28 +41,32 @@ The original code can be found [here](https://github.com/state-spaces/mamba).
 
 # Usage
 
-### A simple generation example: 
+### A simple generation example:
+
 ```python 
-from transformers import Mamba2Config, Mamba2ForCausalLM, AutoTokenizer
+from myTransformers import Mamba2Config, Mamba2ForCausalLM, AutoTokenizer
 import torch
+
 model_id = 'mistralai/Mamba-Codestral-7B-v0.1'
 tokenizer = AutoTokenizer.from_pretrained(model_id, revision='refs/pr/9', from_slow=True, legacy=False)
 model = Mamba2ForCausalLM.from_pretrained(model_id, revision='refs/pr/9')
-input_ids = tokenizer("Hey how are you doing?", return_tensors= "pt")["input_ids"]
+input_ids = tokenizer("Hey how are you doing?", return_tensors="pt")["input_ids"]
 
 out = model.generate(input_ids, max_new_tokens=10)
 print(tokenizer.batch_decode(out))
 ```
 
-Here's a draft script for finetuning: 
+Here's a draft script for finetuning:
+
 ```python 
 from trl import SFTTrainer
 from peft import LoraConfig
-from transformers import AutoTokenizer, Mamba2ForCausalLM, TrainingArguments
+from myTransformers import AutoTokenizer, Mamba2ForCausalLM, TrainingArguments
+
 model_id = 'mistralai/Mamba-Codestral-7B-v0.1'
 tokenizer = AutoTokenizer.from_pretrained(model_id, revision='refs/pr/9', from_slow=True, legacy=False)
 tokenizer.pad_token = tokenizer.eos_token
-tokenizer.padding_side = "left" #enforce padding side left
+tokenizer.padding_side = "left"  # enforce padding side left
 
 model = Mamba2ForCausalLM.from_pretrained(model_id, revision='refs/pr/9')
 dataset = load_dataset("Abirate/english_quotes", split="train")
@@ -77,11 +81,11 @@ training_args = TrainingArguments(
     logging_steps=10,
     learning_rate=2e-3
 )
-lora_config =  LoraConfig(
-        r=8,
-        target_modules=["embeddings", "in_proj", "out_proj"],
-        task_type="CAUSAL_LM",
-        bias="none"
+lora_config = LoraConfig(
+    r=8,
+    target_modules=["embeddings", "in_proj", "out_proj"],
+    task_type="CAUSAL_LM",
+    bias="none"
 )
 trainer = SFTTrainer(
     model=model,

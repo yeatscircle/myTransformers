@@ -16,8 +16,8 @@
 import tempfile
 import unittest
 
-from transformers import is_torch_available
-from transformers.testing_utils import (
+from myTransformers import is_torch_available
+from myTransformers.testing_utils import (
     require_deterministic_for_xpu,
     require_torch,
     require_torch_sdpa,
@@ -35,14 +35,14 @@ if is_torch_available():
     import numpy as np
     import torch
 
-    from transformers import (
+    from myTransformers import (
         BertLMHeadModel,
         SpeechEncoderDecoderConfig,
         SpeechEncoderDecoderModel,
         Wav2Vec2Model,
     )
-    from transformers.modeling_outputs import BaseModelOutput
-    from transformers.models.speech_to_text.modeling_speech_to_text import Speech2TextEncoder
+    from myTransformers.modeling_outputs import BaseModelOutput
+    from myTransformers.models.speech_to_text.modeling_speech_to_text import Speech2TextEncoder
 
 
 @require_torch

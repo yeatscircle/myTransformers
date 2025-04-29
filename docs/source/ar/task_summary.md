@@ -20,12 +20,12 @@
 * تصنيف الموسيقى: وضع علامة على الموسيقى بتسمية النوع ("ميتال"، "هيب هوب"، "كانتري")
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
->>> preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="audio-classification", model="superb/hubert-base-superb-er")
+>> > preds = classifier("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.4532, 'label': 'hap'},
  {'score': 0.3622, 'label': 'sad'},
  {'score': 0.0943, 'label': 'neu'},
@@ -38,10 +38,10 @@
 ولكن أحد التحديات الرئيسية التي ساعدت نماذج المحولات (Transformer) في التغلب عليها هو التعامل مع اللغات منخفضة الموارد. فمن خلال التدريب المسبق على كميات كبيرة من بيانات الصوتية، يُمكن ضبط النموذج بدقة (Fine-tuning) باستخدام ساعة واحدة فقط من بيانات الكلام المُوسم في لغة منخفضة الموارد إلى نتائج عالية الجودة مقارنة بأنظمة ASR السابقة التي تم تدريبها على بيانات موسومة أكثر بـ 100 مرة.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
->>> transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
+>> > transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-small")
+>> > transcriber("https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac")
 {'text': ' I have a dream that one day this nation will rise up and live out the true meaning of its creed.'}
 ```
 
@@ -64,14 +64,15 @@
 * علم البيئة: تصنيف صور الأنواع الحيوانية أو النباتية لرصد أعداد  الكائنات الحية أو تتبع الأنواع المهددة بالانقراض
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="image-classification")
->>> preds = classifier(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > classifier = pipeline(task="image-classification")
+>> > preds = classifier(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.4335, 'label': 'lynx, catamount'}
 {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}
 {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}
@@ -88,14 +89,15 @@
 * اكتشاف العيوب: اكتشاف الشقوق أو الأضرار الهيكلية في المباني، وعيوب التصنيع
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> detector = pipeline(task="object-detection")
->>> preds = detector(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > detector = pipeline(task="object-detection")
+>> > preds = detector(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
->>> preds
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"], "box": pred["box"]} for pred in preds]
+>> > preds
 [{'score': 0.9865,
   'label': 'cat',
   'box': {'xmin': 178, 'ymin': 154, 'xmax': 882, 'ymax': 598}}]
@@ -111,14 +113,15 @@
 تُعد مهام تجزئة الصور مفيدة في المركبات ذاتية القيادة على إنشاء خريطة على مستوى البكسل للعالم من حولها حتى تتمكن من التنقل بأمان حول المشاة والمركبات الأخرى. كما أنها مفيدة للتصوير الطبي، حيث يمكن للدقة العالية لهذ المهمة أن تساعد في تحديد الخلايا غير الطبيعية أو خصائص الأعضاء. يمكن أيضًا استخدام تجزئة الصور في التجارة الإلكترونية لتجربة الملابس افتراضيًا أو إنشاء تجارب الواقع المُعزز من خلال تراكب الأجسام في العالم الحقيقي من خلال الكاميرا الهاتف الخاصة بك.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> segmenter = pipeline(task="image-segmentation")
->>> preds = segmenter(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > segmenter = pipeline(task="image-segmentation")
+>> > preds = segmenter(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> print(*preds, sep="\n")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > print(*preds, sep="\n")
 {'score': 0.9879, 'label': 'LABEL_184'}
 {'score': 0.9973, 'label': 'snow'}
 {'score': 0.9972, 'label': 'cat'}
@@ -134,11 +137,12 @@
 * التصوير الأحادي (Monocular): يتم تقدير العمق من صورة واحدة.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> depth_estimator = pipeline(task="depth-estimation")
->>> preds = depth_estimator(
-...     "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > depth_estimator = pipeline(task="depth-estimation")
+>> > preds = depth_estimator(
+    ...
+"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
 ```
 
@@ -154,12 +158,12 @@
 * تصنيف المحتوى (Content Classification): تصنيف النص وفقًا لبعض الموضوعات للمساعدة في تنظيم وتصفية المعلومات في الأخبار وموجزات الوسائط الاجتماعية (`الطقس`، `الرياضة`، `التمويل`، إلخ).
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="sentiment-analysis")
->>> preds = classifier("Hugging Face is the best thing since sliced bread!")
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
+>> > classifier = pipeline(task="sentiment-analysis")
+>> > preds = classifier("Hugging Face is the best thing since sliced bread!")
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
 [{'score': 0.9991, 'label': 'POSITIVE'}]
 ```
 
@@ -173,22 +177,28 @@
 * ترميز الأجزاء اللغوية (POS): تصنيف الرموز وفقًا للدورها النحوي مثل الاسم أو الفعل أو الصفة. POS مفيد لمساعدة أنظمة الترجمة على فهم كيفية اختلاف كلمتين متطابقتين نحويًا  (مثل كلمة "عَلَمَ" كاسم و "عَلِمَ" كفعل).
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline(task="ner")
->>> preds = classifier("Hugging Face is a French company based in New York City.")
->>> preds = [
-...     {
-...         "entity": pred["entity"],
-...         "score": round(pred["score"], 4),
-...         "index": pred["index"],
-...         "word": pred["word"],
-...         "start": pred["start"],
-...         "end": pred["end"],
-...     }
-...     for pred in preds
-... ]
->>> print(*preds, sep="\n")
+>> > classifier = pipeline(task="ner")
+>> > preds = classifier("Hugging Face is a French company based in New York City.")
+>> > preds = [
+    ...     {
+        ...         "entity": pred["entity"],
+...
+"score": round(pred["score"], 4),
+...
+"index": pred["index"],
+...
+"word": pred["word"],
+...
+"start": pred["start"],
+...
+"end": pred["end"],
+...}
+...
+for pred in preds
+        ... ]
+>> > print(*preds, sep="\n")
 {'entity': 'I-ORG', 'score': 0.9968, 'index': 1, 'word': 'Hu', 'start': 0, 'end': 2}
 {'entity': 'I-ORG', 'score': 0.9293, 'index': 2, 'word': '##gging', 'start': 2, 'end': 7}
 {'entity': 'I-ORG', 'score': 0.9763, 'index': 3, 'word': 'Face', 'start': 8, 'end': 12}
@@ -206,19 +216,21 @@
 * الاستخراجية (Extractive): بالنظر إلى سؤال وسياق مُعيّن، فإن الإجابة هي مقطع نصيّ مُستخرج من السياق الذي يُحلّله النموذج.
 * التجريدية (Abstractive): بالنظر إلى سؤال وسياق مُعيّن، يتم إنشاء الإجابة من السياق؛ يتعامل نهج [`Text2TextGenerationPipeline`] مع هذا النهج بدلاً من [`QuestionAnsweringPipeline`] الموضح أدناه
 
-
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline(task="question-answering")
->>> preds = question_answerer(
-...     question="What is the name of the repository?",
-...     context="The name of the repository is huggingface/transformers",
+>> > question_answerer = pipeline(task="question-answering")
+>> > preds = question_answerer(
+    ...
+question = "What is the name of the repository?",
+...
+context = "The name of the repository is huggingface/myTransformers",
 ... )
->>> print(
-...     f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
+>> > print(
+    ...
+f"score: {round(preds['score'], 4)}, start: {preds['start']}, end: {preds['end']}, answer: {preds['answer']}"
 ... )
-score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
+score: 0.9327, start: 30, end: 54, answer: huggingface / transformers
 ```
 
 ### التلخيص
@@ -231,13 +243,15 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 * التجريدي (Abstractive): إنشاء ملخص مستهدف (الذي قد يتضمن كلمات جديدة غير موجودة في النص الأصلي) انطلاقًا من النص الأصلي؛ يستخدم نهج التلخيص التجريدي [`SummarizationPipeline`]
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> summarizer = pipeline(task="summarization")
->>> summarizer(
-...     "In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
+>> > summarizer = pipeline(task="summarization")
+>> > summarizer(
+    ...
+"In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles."
 ... )
-[{'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
+[{
+     'summary_text': ' The Transformer is the first sequence transduction model based entirely on attention . It replaces the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention . For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers .'}]
 ```
 
 ### الترجمة
@@ -247,11 +261,11 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 في الأيام الأولى، كانت نماذج الترجمة في الغالب أحادية اللغة، ولكن مؤخرًا، كان هناك اهتمام متزايد بالنماذج متعددة اللغات التي يمكنها الترجمة بين العديد من أزواج اللغات.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
->>> translator = pipeline(task="translation", model="google-t5/t5-small")
->>> translator(text)
+>> > text = "translate English to French: Hugging Face is a community-based open-source platform for machine learning."
+>> > translator = pipeline(task="translation", model="google-t5/t5-small")
+>> > translator(text)
 [{'translation_text': "Hugging Face est une tribune communautaire de l'apprentissage des machines."}]
 ```
 
@@ -264,11 +278,11 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 * السببية(Causal): هدف النموذج هو التنبؤ بالرمز (Token)  التالي في التسلسل، ويتم إخفاء الرموز المستقبلية (Masking).
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> prompt = "Hugging Face is a community-based open-source platform for machine learning."
->>> generator = pipeline(task="text-generation")
->>> generator(prompt)  # doctest: +SKIP
+>> > prompt = "Hugging Face is a community-based open-source platform for machine learning."
+>> > generator = pipeline(task="text-generation")
+>> > generator(prompt)  # doctest: +SKIP
 ```
 
 * المقنّع (Masked): هدف النموذج هو التنبؤ برمز مُخفيّ ضمن التسلسل مع الوصول الكامل إلى الرموز  الأخرى في التسلسل
@@ -304,19 +318,21 @@ score: 0.9327, start: 30, end: 54, answer: huggingface/transformers
 الإجابة على أسئلة المستندات  (Document Question Answering) هي مهمة تقوم بالإجابة على أسئلة اللغة الطبيعية من مستند مُعطى. على عكس مهمة الإجابة على الأسئلة على مستوى الرموز (Token-Level) التي تأخذ نصًا كمدخل، فإن الإجابة على أسئلة المستندات تأخذ صورة لمستند كمدخل بالإضافة إلى سؤال هذا حول المستند وتعيد الإجابة. يمكن استخدام الإجابة على أسئلة المستندات لتفسير المستندات المُنسّقة واستخراج المعلومات الرئيسية منها. في المثال أدناه، يمكن استخراج المبلغ الإجمالي والمبلغ المُسترد من إيصال الدفع..
 
 ```py
->>> from transformers import pipeline
->>> from PIL import Image
->>> import requests
+>> > from myTransformers import pipeline
+>> > from PIL import Image
+>> > import requests
 
->>> url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "https://huggingface.co/datasets/hf-internal-testing/example-documents/resolve/main/jpeg_images/2.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
->>> preds = doc_question_answerer(
-...     question="ما هو المبلغ الإجمالي؟",
-...     image=image,
+>> > doc_question_answerer = pipeline("document-question-answering", model="magorshunov/layoutlm-invoices")
+>> > preds = doc_question_answerer(
+    ...
+question = "ما هو المبلغ الإجمالي؟",
+...
+image = image,
 ... )
->>> preds
+>> > preds
 [{'score': 0.8531, 'answer': '17,000', 'start': 4, 'end': 4}]
 ```
 

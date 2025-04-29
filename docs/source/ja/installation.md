@@ -52,25 +52,25 @@ Windowsで仮想環境を起動します
 これで、次のコマンドで🤗 Transformersをインストールする準備が整いました:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 CPU対応のみ必要な場合、🤗 TransformersとDeep Learningライブラリを1行でインストールできるようになっていて便利です。例えば、🤗 TransformersとPyTorchを以下のように一緒にインストールできます:
 
 ```bash
-pip install transformers[torch]
+pip install myTransformers[torch]
 ```
 
 🤗 TransformersとTensorFlow 2.0:
 
 ```bash
-pip install transformers[tf-cpu]
+pip install myTransformers[tf-cpu]
 ```
 
 🤗 TransformersとFlax:
 
 ```bash
-pip install transformers[flax]
+pip install myTransformers[flax]
 ```
 
 最後に、以下のコマンドを実行することで🤗 Transformersが正しくインストールされているかを確認します。学習済みモデルがダウンロードされます:
@@ -112,7 +112,7 @@ python -c "from transformers import pipeline; print(pipeline('sentiment-analysis
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -127,7 +127,7 @@ pip install -e .
 これで、次のコマンドで簡単にクローンを🤗 Transformersの最新版に更新できます:
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -138,7 +138,7 @@ Python環境は次回の実行時に🤗 Transformersの`main`バージョンを
 `conda-forge`のcondaチャンネルからインストールします:
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## キャッシュの設定
@@ -193,7 +193,7 @@ python examples/pytorch/translation/run_translation.py --model_name_or_path goog
     1. [`PreTrainedModel.from_pretrained`]で前もってファイルをダウンロードします:
 
     ```py
-    >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    >>> from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
     >>> tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     >>> model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
@@ -232,9 +232,9 @@ python examples/pytorch/translation/run_translation.py --model_name_or_path goog
 ファイルがダウンロードされ、ローカルにキャッシュされたら、そのローカルパスを指定してファイルをロードして使用します:
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
+>> > config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
 ```
 
 <Tip>

@@ -17,8 +17,8 @@ import math
 import unittest
 from unittest.util import safe_repr
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, FalconMambaConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, FalconMambaConfig, is_torch_available
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_torch,
     require_torch_accelerator,
@@ -37,14 +37,14 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         FalconMambaForCausalLM,
         FalconMambaModel,
     )
-    from transformers.cache_utils import MambaCache
+    from myTransformers.cache_utils import MambaCache
 
 
-# Copied from transformers.tests.models.mamba.MambaModelTester with Mamba->FalconMamba,mamba->falcon_mamba
+# Copied from myTransformers.tests.models.mamba.MambaModelTester with Mamba->FalconMamba,mamba->falcon_mamba
 class FalconMambaModelTester:
     def __init__(
         self,
@@ -262,7 +262,7 @@ class FalconMambaModelTester:
 
 
 @require_torch
-# Copied from transformers.tests.models.mamba.MambaModelTest with Mamba->Falcon,mamba->falcon_mamba,FalconMambaCache->MambaCache
+# Copied from myTransformers.tests.models.mamba.MambaModelTest with Mamba->Falcon,mamba->falcon_mamba,FalconMambaCache->MambaCache
 class FalconMambaModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixin, unittest.TestCase):
     all_model_classes = (FalconMambaModel, FalconMambaForCausalLM) if is_torch_available() else ()
     has_attentions = False  # FalconMamba does not support attentions

@@ -20,8 +20,8 @@ import tempfile
 import unittest
 from functools import lru_cache
 
-from transformers import AddedToken, BatchEncoding, ByT5Tokenizer
-from transformers.utils import cached_property, is_tf_available, is_torch_available
+from myTransformers import AddedToken, BatchEncoding, ByT5Tokenizer
+from myTransformers.utils import cached_property, is_tf_available, is_torch_available
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 

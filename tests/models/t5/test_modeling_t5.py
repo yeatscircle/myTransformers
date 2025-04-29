@@ -19,10 +19,10 @@ import pickle
 import tempfile
 import unittest
 
-from transformers import T5Config, is_torch_available
-from transformers.models.auto.modeling_auto import MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES
-from transformers.pytorch_utils import is_torch_greater_or_equal_than_2_4
-from transformers.testing_utils import (
+from myTransformers import T5Config, is_torch_available
+from myTransformers.models.auto.modeling_auto import MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES
+from myTransformers.pytorch_utils import is_torch_greater_or_equal_than_2_4
+from myTransformers.testing_utils import (
     cleanup,
     require_accelerate,
     require_sentencepiece,
@@ -32,8 +32,8 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
-from transformers.utils.fx import symbolic_trace
+from myTransformers.utils import cached_property
+from myTransformers.utils.fx import symbolic_trace
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -45,7 +45,7 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         ByT5Tokenizer,
         T5EncoderModel,
@@ -581,7 +581,7 @@ class T5ModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixin, 
         self.config_tester = ConfigTester(self, config_class=T5Config, d_model=37)
 
     # `QAPipelineTests` is not working well with slow tokenizers (for some models) and we don't want to touch the file
-    # `src/transformers/data/processors/squad.py` (where this test fails for this model)
+    # `src/myTransformers/data/processors/squad.py` (where this test fails for this model)
     def is_pipeline_test_to_skip(
         self,
         pipeline_test_case_name,
@@ -1089,7 +1089,7 @@ class T5EncoderOnlyModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.Tes
             return True
 
         # `T5EncoderOnlyModelTest` is not working well with slow tokenizers (for some models) and we don't want to touch the file
-        # `src/transformers/data/processors/squad.py` (where this test fails for this model)
+        # `src/myTransformers/data/processors/squad.py` (where this test fails for this model)
         if pipeline_test_case_name == "TokenClassificationPipelineTests" and not tokenizer_name.endswith("Fast"):
             return True
 
@@ -1706,7 +1706,7 @@ class T5ModelIntegrationTests(unittest.TestCase):
         if not is_torch_greater_or_equal_than_2_4:
             self.skipTest("This test requires torch >= 2.4 to run.")
 
-        from transformers.integrations.executorch import Seq2SeqLMEncoderExportableModule
+        from myTransformers.integrations.executorch import Seq2SeqLMEncoderExportableModule
 
         model_id = "google-t5/t5-small"
         device = "cpu"
@@ -1742,8 +1742,8 @@ class T5ModelIntegrationTests(unittest.TestCase):
         if not is_torch_greater_or_equal_than_2_4:
             self.skipTest("This test requires torch >= 2.4 to run.")
 
-        from transformers import AutoModelForSeq2SeqLM, T5ForConditionalGeneration
-        from transformers.integrations.executorch import Seq2SeqLMDecoderExportableModuleWithStaticCache
+        from myTransformers import AutoModelForSeq2SeqLM, T5ForConditionalGeneration
+        from myTransformers.integrations.executorch import Seq2SeqLMDecoderExportableModuleWithStaticCache
 
         model_id = "google-t5/t5-small"
 
@@ -1803,8 +1803,8 @@ class T5ModelIntegrationTests(unittest.TestCase):
         if not is_torch_greater_or_equal_than_2_4:
             self.skipTest("This test requires torch >= 2.4 to run.")
 
-        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, T5ForConditionalGeneration
-        from transformers.integrations.executorch import Seq2SeqLMExportableModule
+        from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer, T5ForConditionalGeneration
+        from myTransformers.integrations.executorch import Seq2SeqLMExportableModule
 
         device = "cpu"
         batch_size = 1

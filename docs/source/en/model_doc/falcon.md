@@ -38,10 +38,10 @@ The example below demonstrates how to generate text with [`Pipeline`], [`AutoMod
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
-    task="text-generation", 
+    task="text-generation",
     model="tiiuae/falcon-7b-instruct",
     torch_dtype=torch.bfloat16,
     device=0
@@ -59,7 +59,7 @@ pipeline(
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("tiiuae/falcon-7b-instruct")
 model = AutoModelForCausalLM.from_pretrained(
@@ -80,7 +80,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 
 ```bash
 # pip install -U flash-attn --no-build-isolation
-transformers-cli chat --model_name_or_path tiiuae/falcon-7b-instruct --torch_dtype auto --attn_implementation flash_attention_2 --device 0
+myTransformers-cli chat --model_name_or_path tiiuae/falcon-7b-instruct --torch_dtype auto --attn_implementation flash_attention_2 --device 0
 ```
 
 </hfoption>
@@ -92,7 +92,7 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to only quan
 
 ```python
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,

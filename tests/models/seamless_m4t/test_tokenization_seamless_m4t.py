@@ -14,7 +14,7 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     SPIECE_UNDERLINE,
     AddedToken,
     BatchEncoding,
@@ -23,7 +23,7 @@ from transformers import (
     SeamlessM4TTokenizerFast,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     get_tests_dir,
     nested_simplify,
     require_sentencepiece,
@@ -38,7 +38,7 @@ SAMPLE_VOCAB = get_tests_dir("fixtures/test_sentencepiece.model")
 
 
 if is_torch_available():
-    from transformers.models.m2m_100.modeling_m2m_100 import shift_tokens_right
+    from myTransformers.models.m2m_100.modeling_m2m_100 import shift_tokens_right
 
 EN_CODE = 256047
 RO_CODE = 256145
@@ -186,7 +186,7 @@ class SeamlessM4TTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         # Simple with no truncation
                         # Reset warnings
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer(seq_1, padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"]), model_max_length)
                         self.assertEqual(len(cm.records), 1)
@@ -198,7 +198,7 @@ class SeamlessM4TTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
                         )
 
                         tokenizer.deprecation_warnings = {}
-                        with self.assertLogs("transformers", level="WARNING") as cm:
+                        with self.assertLogs("myTransformers", level="WARNING") as cm:
                             output = tokenizer([seq_1], padding=padding_state, truncation=False)
                             self.assertNotEqual(len(output["input_ids"][0]), model_max_length)
                         self.assertEqual(len(cm.records), 1)

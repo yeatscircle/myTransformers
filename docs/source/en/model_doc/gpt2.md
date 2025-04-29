@@ -42,7 +42,7 @@ The example below demonstrates how to generate text with [`Pipeline`] or the [`A
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(task="text-generation", model="openai-community/gpt2", torch_dtype=torch.float16, device=0)
 pipeline("Hello, I'm a language model")
@@ -52,12 +52,13 @@ pipeline("Hello, I'm a language model")
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
-model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa")
+model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2", torch_dtype=torch.float16, device_map="auto",
+                                             attn_implementation="sdpa")
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2")
 
-input_ids = tokenzier("Hello, I'm a language model". return_tensors="pt").to("cuda")
+input_ids = tokenzier("Hello, I'm a language model".return_tensors = "pt").to("cuda")
 
 output = model.generate(**input_ids, cache_implementation="static")
 print(tokenizer.decode(output[0], skip_special_tokens=True))
@@ -67,7 +68,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "Hello, I'm a language model" | transformers-cli run --task text-generation --model openai-community/gpt2 --device 0
+echo -e "Hello, I'm a language model" | myTransformers-cli run --task text-generation --model openai-community/gpt2 --device 0
 ```
 
 </hfoption>
@@ -79,19 +80,19 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to only quan
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
 
 quantization_config = BitsAndBytesConfig(
-    load_in_4bit=True,  
-    bnb_4bit_quant_type="nf4",  
-    bnb_4bit_compute_dtype="float16",  
-    bnb_4bit_use_double_quant=True 
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype="float16",
+    bnb_4bit_use_double_quant=True
 )
 
 model = AutoModelForCausalLM.from_pretrained(
     "openai-community/gpt2-xl",
     quantization_config=quantization_config,
-    device_map="auto"  
+    device_map="auto"
 )
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2-xl")

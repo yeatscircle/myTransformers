@@ -41,11 +41,11 @@ Gli embeddings linguistici sono rappresentati come un tensore delle stesse dimen
 In questo esempio, carica il checkpoint `FacebookAI/xlm-clm-enfr-1024` (Modellazione causale del linguaggio, Inglese-Francese):
 
 ```py
->>> import torch
->>> from transformers import XLMTokenizer, XLMWithLMHeadModel
+>> > import torch
+>> > from myTransformers import XLMTokenizer, XLMWithLMHeadModel
 
->>> tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
->>> model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
 ```
 
 L'attributo `lang2id` del tokenizer mostra il linguaggio del modello e il suo ids:
@@ -116,13 +116,13 @@ Il seguente modello M2M100 può essere usato per compiti multilingue:
 In questo esempio, carica il checkpoint `facebook/m2m100_418M`  per tradurre dal cinese all'inglese. Puoi impostare la lingua di partenza nel tokenizer:
 
 ```py
->>> from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+>> > from myTransformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
 
->>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
->>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+>> > tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
+>> > model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 ```
 
 Applica il tokenizer al testo:
@@ -152,13 +152,13 @@ Il seguente modello MBart può essere usato per compiti multilingue:
 In questo esempio, carica il checkpoint `facebook/mbart-large-50-many-to-many-mmt` per tradurre dal finlandese all'inglese. Puoi impostare la lingua di partenza nel tokenizer:
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 ```
 
 Applica il tokenizer sul testo:

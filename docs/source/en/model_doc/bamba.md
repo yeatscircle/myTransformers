@@ -52,7 +52,7 @@ Tips:
 ## BambaForCausalLM
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model = AutoModelForCausalLM.from_pretrained("ibm-fms/Bamba-9B")
 tokenizer = AutoTokenizer.from_pretrained("ibm-fms/Bamba-9B")

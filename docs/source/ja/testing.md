@@ -187,7 +187,7 @@ Returns:
 Example:
     ```python
     >>> import torch
-    >>> from transformers import WhisperModel, WhisperFeatureExtractor
+    >>> from myTransformers import WhisperModel, WhisperFeatureExtractor
     >>> from datasets import load_dataset
 
     >>> model = WhisperModel.from_pretrained("openai/whisper-base")
@@ -478,7 +478,7 @@ def test_integration_foo():
 - 利用可能な GPU の数:
 
 ```python
-from transformers.testing_utils import get_gpu_count
+from myTransformers.testing_utils import get_gpu_count
 
 n_gpu = get_gpu_count()  # works with torch and tf
 ```
@@ -698,7 +698,7 @@ pytest test_this2.py::test_floor[negative--1.5--2.0] test_this2.py::test_floor[i
 これらを使用し始めるには、テストが `transformers.test_utils.TestCasePlus` のサブクラスに存在することを確認するだけです。例：
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -709,7 +709,7 @@ class PathExampleTest(TestCasePlus):
 もし、`pathlib` を介してパスを操作する必要がない場合、または単に文字列としてパスが必要な場合は、`pathlib` オブジェクトに `str()` を呼び出すか、`_str` で終わるアクセサを使用できます。例：
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -727,9 +727,8 @@ class PathExampleTest(TestCasePlus):
 
 以下はその使用例です：
 
-
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class ExamplesTests(TestCasePlus):
@@ -781,10 +780,9 @@ def test_whatever(self):
 
 別のテストからインポートするために一時的に `sys.path` をオーバーライドする必要がある場合、`ExtendSysPath` コンテキストマネージャを使用できます。例：
 
-
 ```python
 import os
-from transformers.testing_utils import ExtendSysPath
+from myTransformers.testing_utils import ExtendSysPath
 
 bindir = os.path.abspath(os.path.dirname(__file__))
 with ExtendSysPath(f"{bindir}/.."):
@@ -886,9 +884,10 @@ class TestClass():
 
 テストライブラリは着実に成長しており、テストの一部は数分かかります。そのため、CIでテストスイートの完了を待つのは1時間待つ余裕がないことがあります。したがって、いくつかの例外を除いて、遅いテストは以下の例のようにマークすべきです：
 
-
 ```python no-style
-from transformers.testing_utils import slow
+from myTransformers.testing_utils import slow
+
+
 @slow
 def test_integration_foo():
 ```
@@ -1013,9 +1012,8 @@ stdout をキャプチャする際の重要な潜在的な問題は、通常の 
 
 しかし、その後、`\r` が含まれているかどうかにかかわらず、すべての操作を自動的に処理するヘルパーコンテキストマネージャラッパーがあります。したがって、次のように簡単に行えます：
 
-
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 with CaptureStdout() as cs:
     function_that_writes_to_stdout()
@@ -1025,7 +1023,7 @@ print(cs.out)
 完全なテスト例は次のとおりです。
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 msg = "Secret message\r"
 final = "Hello World"
@@ -1037,7 +1035,7 @@ assert cs.out == final + "\n", f"captured: {cs.out}, expecting {final}"
 `stderr` をキャプチャしたい場合は、代わりに `CaptureStderr` クラスを使用してください。
 
 ```python
-from transformers.testing_utils import CaptureStderr
+from myTransformers.testing_utils import CaptureStderr
 
 with CaptureStderr() as cs:
     function_that_writes_to_stderr()
@@ -1047,7 +1045,7 @@ print(cs.err)
 両方のストリームを一度にキャプチャする必要がある場合は、親の `CaptureStd` クラスを使用します。
 
 ```python
-from transformers.testing_utils import CaptureStd
+from myTransformers.testing_utils import CaptureStd
 
 with CaptureStd() as cs:
     function_that_writes_to_stdout_and_stderr()
@@ -1063,12 +1061,12 @@ print(cs.err, cs.out)
 ロガーの出力を検証する必要がある場合は、`CaptureLogger`を使用できます。
 
 ```python
-from transformers import logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import logging
+from myTransformers.testing_utils import CaptureLogger
 
 msg = "Testing 1, 2, 3"
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers.models.bart.tokenization_bart")
+logger = logging.get_logger("myTransformers.models.bart.tokenization_bart")
 with CaptureLogger(logger) as cl:
     logger.info(msg)
 assert cl.out, msg + "\n"
@@ -1080,7 +1078,7 @@ assert cl.out, msg + "\n"
 `transformers.testing_utils.mockenv`
 
 ```python
-from transformers.testing_utils import mockenv
+from myTransformers.testing_utils import mockenv
 
 
 class HfArgumentParserTest(unittest.TestCase):
@@ -1093,7 +1091,7 @@ class HfArgumentParserTest(unittest.TestCase):
 複数のローカル パス。ヘルパー クラス `transformers.test_utils.TestCasePlus` が役に立ちます。
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class EnvExampleTest(TestCasePlus):

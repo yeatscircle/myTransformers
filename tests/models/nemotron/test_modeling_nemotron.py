@@ -19,8 +19,8 @@ import unittest
 
 import pytest
 
-from transformers import NemotronConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import NemotronConfig, is_torch_available
+from myTransformers.testing_utils import (
     Expectations,
     is_flaky,
     require_flash_attn,
@@ -40,7 +40,7 @@ from ...test_configuration_common import ConfigTester
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         NemotronForCausalLM,
         NemotronForQuestionAnswering,

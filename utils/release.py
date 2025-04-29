@@ -52,7 +52,7 @@ import packaging.version
 
 # All paths are defined with the intent that this script should be run from the root of the repo.
 PATH_TO_EXAMPLES = "examples/"
-PATH_TO_MODELS = "src/transformers/models"
+PATH_TO_MODELS = "src/myTransformers/models"
 # This maps a type of file to the pattern to look for when searching where the version is defined, as well as the
 # template to follow when replacing it with the new version.
 REPLACE_PATTERNS = {
@@ -62,7 +62,7 @@ REPLACE_PATTERNS = {
 }
 # This maps a type of file to its path in Transformers
 REPLACE_FILES = {
-    "init": "src/transformers/__init__.py",
+    "init": "src/myTransformers/__init__.py",
     "setup": "setup.py",
 }
 README_FILE = "README.md"

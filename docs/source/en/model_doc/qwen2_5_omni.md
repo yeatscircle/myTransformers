@@ -50,7 +50,7 @@ The model can accept text, images, audio and videos as input. Here's an example 
 
 ```python
 import soundfile as sf
-from transformers import Qwen2_5OmniForConditionalGeneration, Qwen2_5OmniProcessor
+from myTransformers import Qwen2_5OmniForConditionalGeneration, Qwen2_5OmniProcessor
 
 model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
     "Qwen/Qwen2.5-Omni-7B",
@@ -63,7 +63,8 @@ conversations = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -103,10 +104,10 @@ print(text)
 
 ### Text-only generation
 
-To generate only text output and save compute by not loading the audio generation model, we can use `Qwen2_5OmniThinkerForConditionalGeneration` model.  
+To generate only text output and save compute by not loading the audio generation model, we can use `Qwen2_5OmniThinkerForConditionalGeneration` model.
 
 ```python
-from transformers import Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniProcessor
+from myTransformers import Qwen2_5OmniThinkerForConditionalGeneration, Qwen2_5OmniProcessor
 
 model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
     "Qwen/Qwen2.5-Omni-7B",
@@ -119,7 +120,8 @@ conversations = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -145,7 +147,6 @@ inputs = processor.apply_chat_template(
     use_audio_in_video=True,
 ).to(model.device)
 
-
 text_ids = model.generate(**inputs, use_audio_in_video=True)
 text = processor.batch_decode(text_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
 
@@ -163,7 +164,7 @@ The model can batch inputs composed of mixed samples of various types such as te
 
 ```python
 import soundfile as sf
-from transformers import Qwen2_5OmniForConditionalGeneration, Qwen2_5OmniProcessor
+from myTransformers import Qwen2_5OmniForConditionalGeneration, Qwen2_5OmniProcessor
 
 model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
     "Qwen/Qwen2.5-Omni-7B",
@@ -177,7 +178,8 @@ conversation1 = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -193,7 +195,8 @@ conversation2 = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -209,7 +212,8 @@ conversation3 = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -218,13 +222,13 @@ conversation3 = [
     }
 ]
 
-
 # Conversation with mixed media
 conversation4 = [
     {
         "role": "system",
         "content": [
-            {"type": "text", "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
+            {"type": "text",
+             "text": "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech."}
         ],
     },
     {
@@ -330,7 +334,7 @@ Also, you should have hardware that is compatible with FlashAttention 2. Read mo
 To load and run a model using FlashAttention-2, add `attn_implementation="flash_attention_2"` when loading the model:
 
 ```python
-from transformers import Qwen2_5OmniForConditionalGeneration
+from myTransformers import Qwen2_5OmniForConditionalGeneration
 
 model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
     "Qwen/Qwen2.5-Omni-7B",

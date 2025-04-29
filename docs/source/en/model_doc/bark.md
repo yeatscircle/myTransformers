@@ -42,7 +42,7 @@ Bark can be optimized with just a few extra lines of code, which **significantly
 You can speed up inference and reduce memory footprint by 50% simply by loading the model in half-precision.
 
 ```python
-from transformers import BarkModel
+from myTransformers import BarkModel
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -113,13 +113,14 @@ At batch size 8, on an NVIDIA A100, Flash Attention 2 is also 10% faster than Be
 You can combine optimization techniques, and use CPU offload, half-precision and Flash Attention 2 (or 🤗 Better Transformer) all at once.
 
 ```python
-from transformers import BarkModel
+from myTransformers import BarkModel
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # load in fp16 and use Flash Attention 2
-model = BarkModel.from_pretrained("suno/bark-small", torch_dtype=torch.float16, attn_implementation="flash_attention_2").to(device)
+model = BarkModel.from_pretrained("suno/bark-small", torch_dtype=torch.float16,
+                                  attn_implementation="flash_attention_2").to(device)
 
 # enable CPU offload
 model.enable_cpu_offload()
@@ -133,17 +134,17 @@ Suno offers a library of voice presets in a number of languages [here](https://s
 These presets are also uploaded in the hub [here](https://huggingface.co/suno/bark-small/tree/main/speaker_embeddings) or [here](https://huggingface.co/suno/bark/tree/main/speaker_embeddings).
 
 ```python
->>> from transformers import AutoProcessor, BarkModel
+>> > from myTransformers import AutoProcessor, BarkModel
 
->>> processor = AutoProcessor.from_pretrained("suno/bark")
->>> model = BarkModel.from_pretrained("suno/bark")
+>> > processor = AutoProcessor.from_pretrained("suno/bark")
+>> > model = BarkModel.from_pretrained("suno/bark")
 
->>> voice_preset = "v2/en_speaker_6"
+>> > voice_preset = "v2/en_speaker_6"
 
->>> inputs = processor("Hello, my dog is cute", voice_preset=voice_preset)
+>> > inputs = processor("Hello, my dog is cute", voice_preset=voice_preset)
 
->>> audio_array = model.generate(**inputs)
->>> audio_array = audio_array.cpu().numpy().squeeze()
+>> > audio_array = model.generate(**inputs)
+>> > audio_array = audio_array.cpu().numpy().squeeze()
 ```
 
 Bark can generate highly realistic, **multilingual** speech as well as other audio - including music, background noise and simple sound effects. 

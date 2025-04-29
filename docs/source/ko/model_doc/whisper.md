@@ -36,7 +36,7 @@ Whisper 모델은 Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, Christine 
 - 모델과 프로세서를 변환하려면 다음을 사용하는 것이 좋습니다:
 
 ```bash
-python src/transformers/models/whisper/convert_openai_to_hf.py --checkpoint_path "" --pytorch_dump_folder_path "Arthur/whisper-3" --convert_preprocessor True
+python src/myTransformers/models/whisper/convert_openai_to_hf.py --checkpoint_path "" --pytorch_dump_folder_path "Arthur/whisper-3" --convert_preprocessor True
 ```
 스크립트는 OpenAI 체크포인트에서 필요한 모든 매개변수를 자동으로 결정합니다. OpenAI 변환을 수행하려면 `tiktoken` 라이브러리를 설치해야 합니다.
 라이브러리를 설치해야 OpenAI 토큰화기를 `tokenizers` 버전으로 변환할 수 있습니다.

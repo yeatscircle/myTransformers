@@ -17,13 +17,13 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_tf,
     require_torch,
     require_torchvision,
     require_vision,
 )
-from transformers.utils import is_tf_available, is_torch_available, is_vision_available
+from myTransformers.utils import is_tf_available, is_torch_available, is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin, prepare_image_inputs
 
@@ -31,17 +31,17 @@ from ...test_processing_common import ProcessorTesterMixin, prepare_image_inputs
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoProcessor, SamImageProcessor, SamProcessor
+    from myTransformers import AutoProcessor, SamImageProcessor, SamProcessor
 
 if is_torch_available():
     import torch
 
-    from transformers.models.sam.image_processing_sam import _mask_to_rle_pytorch
+    from myTransformers.models.sam.image_processing_sam import _mask_to_rle_pytorch
 
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers.models.sam.image_processing_sam import _mask_to_rle_tf
+    from myTransformers.models.sam.image_processing_sam import _mask_to_rle_tf
 
 
 @require_vision

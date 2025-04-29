@@ -32,7 +32,7 @@ LLM 또는 대규모 언어 모델은 텍스트 생성의 핵심 구성 요소�
 시작하기 전에 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers bitsandbytes>=0.39.0 -q
+pip install myTransformers bitsandbytes>=0.39.0 -q
 ```
 
 
@@ -77,10 +77,11 @@ LLM과 자기회귀 생성을 함께 사용할 때 핵심적인 부분은 이 �
 먼저, 모델을 불러오세요.
 
 ```python
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -94,12 +95,12 @@ LLM과 자기회귀 생성을 함께 사용할 때 핵심적인 부분은 이 �
 이어서 텍스트 입력을 [토크나이저](tokenizer_summary)으로 전처리하세요.
 
 ```python
->>> from transformers import AutoTokenizer
->>> import torch
+>> > from myTransformers import AutoTokenizer
+>> > import torch
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
->>> device = "cuda" if torch.cuda.is_available() else "cpu"
->>> model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to(device)
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
+>> > device = "cuda" if torch.cuda.is_available() else "cpu"
+>> > model_inputs = tokenizer(["A list of colors: red, blue"], return_tensors="pt").to(device)
 ```
 
 `model_inputs` 변수에는 토큰화된 텍스트 입력과 함께 어텐션 마스크가 들어 있습니다. [`~generation.GenerationMixin.generate`]는 어텐션 마스크가 제공되지 않았을 경우에도 이를 추론하려고 노력하지만, 최상의 성능을 위해서는 가능하면 어텐션 마스크를 전달하는 것을 권장합니다. 
@@ -120,12 +121,13 @@ LLM과 자기회귀 생성을 함께 사용할 때 핵심적인 부분은 이 �
 [생성 전략](generation_strategies)이 많고, 기본값이 항상 사용 사례에 적합하지 않을 수 있습니다. 출력이 예상과 다를 때 흔히 발생하는 문제와 이를 해결하는 방법에 대한 목록을 만들었습니다.
 
 ```py
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
->>> tokenizer.pad_token = tokenizer.eos_token  # Mistral has no pad token by default
->>> model = AutoModelForCausalLM.from_pretrained(
-...     "mistralai/Mistral-7B-v0.1", device_map="auto", load_in_4bit=True
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
+>> > tokenizer.pad_token = tokenizer.eos_token  # Mistral has no pad token by default
+>> > model = AutoModelForCausalLM.from_pretrained(
+    ...
+"mistralai/Mistral-7B-v0.1", device_map = "auto", load_in_4bit = True
 ... )
 ```
 
@@ -153,20 +155,20 @@ LLM과 자기회귀 생성을 함께 사용할 때 핵심적인 부분은 이 �
 기본적으로 [`~generation.GenerationConfig`] 파일에서 별도로 지정하지 않으면, `generate`는 각 반복에서 가장 확률이 높은 토큰을 선택합니다(그리디 디코딩). 하려는 작업에 따라 이 방법은 바람직하지 않을 수 있습니다. 예를 들어, 챗봇이나 에세이 작성과 같은 창의적인 작업은 샘플링이 적합할 수 있습니다. 반면, 오디오를 텍스트로 변환하거나 번역과 같은 입력 기반 작업은 그리디 디코딩이 더 적합할 수 있습니다. `do_sample=True`로 샘플링을 활성화할 수 있으며, 이 주제에 대한 자세한 내용은 이 [블로그 포스트](https://huggingface.co/blog/how-to-generate)에서 볼 수 있습니다.
 
 ```python
->>> # Set seed or reproducibility -- you don't need this unless you want full reproducibility
->>> from transformers import set_seed
->>> set_seed(0)
+>> >  # Set seed or reproducibility -- you don't need this unless you want full reproducibility
+>> > from myTransformers import set_seed
+>> > set_seed(0)
 
->>> model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
+>> > model_inputs = tokenizer(["I am a cat."], return_tensors="pt").to("cuda")
 
->>> # LLM + greedy decoding = repetitive, boring output
->>> generated_ids = model.generate(**model_inputs)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # LLM + greedy decoding = repetitive, boring output
+>> > generated_ids = model.generate(**model_inputs)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat. I am a cat. I am a cat. I am a cat'
 
->>> # With sampling, the output becomes more creative!
->>> generated_ids = model.generate(**model_inputs, do_sample=True)
->>> tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+>> >  # With sampling, the output becomes more creative!
+>> > generated_ids = model.generate(**model_inputs, do_sample=True)
+>> > tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 'I am a cat.\nI just need to be. I am always.\nEvery time'
 ```
 

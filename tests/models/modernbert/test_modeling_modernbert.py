@@ -19,9 +19,9 @@ import unittest
 import pytest
 from packaging import version
 
-from transformers import AutoTokenizer, ModernBertConfig, is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, ModernBertConfig, is_torch_available
+from myTransformers.models.auto import get_values
+from myTransformers.testing_utils import (
     CaptureLogger,
     require_flash_attn,
     require_torch,
@@ -38,7 +38,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MODEL_FOR_PRETRAINING_MAPPING,
         ModernBertForMaskedLM,
         ModernBertForQuestionAnswering,
@@ -332,7 +332,7 @@ class ModernBertModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCa
         input_ids[0, 0] = config.pad_token_id
 
         # Check for warnings if the attention_mask is missing.
-        logger = logging.get_logger("transformers.modeling_utils")
+        logger = logging.get_logger("myTransformers.modeling_utils")
         # clear cache so we can test the warning is emitted (from `warning_once`).
         logger.warning_once.cache_clear()
 

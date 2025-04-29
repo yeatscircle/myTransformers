@@ -53,7 +53,7 @@ This model was contributed by [amyeroberts](https://huggingface.co/amyeroberts) 
 At inference time, it's advised to use the processor's `apply_chat_template` method, which correctly formats the prompt for the model:
 
 ```python
-from transformers import AutoProcessor, LlavaForConditionalGeneration
+from myTransformers import AutoProcessor, LlavaForConditionalGeneration
 
 model_id = "mistral-community/pixtral-12b"
 processor = AutoProcessor.from_pretrained(model_id)
@@ -61,12 +61,12 @@ model = LlavaForConditionalGeneration.from_pretrained(model_id, device_map="cuda
 
 chat = [
     {
-      "role": "user", "content": [
-        {"type": "text", "content": "Can this animal"}, 
-        {"type": "image", "url": "https://picsum.photos/id/237/200/300"}, 
-        {"type": "text", "content": "live here?"}, 
+        "role": "user", "content": [
+        {"type": "text", "content": "Can this animal"},
+        {"type": "image", "url": "https://picsum.photos/id/237/200/300"},
+        {"type": "text", "content": "live here?"},
         {"type": "image", "url": "https://picsum.photos/seed/picsum/200/300"}
-      ]
+    ]
     }
 ]
 

@@ -16,8 +16,8 @@
 import math
 import unittest
 
-from transformers import MptConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import MptConfig, is_torch_available
+from myTransformers.testing_utils import (
     Expectations,
     require_bitsandbytes,
     require_deterministic_for_xpu,
@@ -36,7 +36,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         MptForCausalLM,
         MptForQuestionAnswering,

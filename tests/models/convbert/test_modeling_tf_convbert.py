@@ -17,8 +17,8 @@ import os
 import tempfile
 import unittest
 
-from transformers import ConvBertConfig, is_tf_available
-from transformers.testing_utils import require_tf, slow
+from myTransformers import ConvBertConfig, is_tf_available
+from myTransformers.testing_utils import require_tf, slow
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_tf_common import TFModelTesterMixin, ids_tensor, random_attention_mask
@@ -28,7 +28,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_tf_available():
     import tensorflow as tf
 
-    from transformers import (
+    from myTransformers import (
         TFConvBertForMaskedLM,
         TFConvBertForMultipleChoice,
         TFConvBertForQuestionAnswering,
@@ -36,7 +36,7 @@ if is_tf_available():
         TFConvBertForTokenClassification,
         TFConvBertModel,
     )
-    from transformers.modeling_tf_utils import keras
+    from myTransformers.modeling_tf_utils import keras
 
 
 class TFConvBertModelTester:

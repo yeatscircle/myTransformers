@@ -20,7 +20,7 @@ rendered properly in your Markdown viewer.
 Wrap a model with torch.compile to compile and return an optimized model.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
 compiled_model = torch.compile(model)
@@ -40,7 +40,7 @@ The `mode` parameter offers several performance options for compiling. Try diffe
 - `max-autotune` offers the fastest speed, but compilation takes longer.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
 compiled_model = torch.compile(model, mode="reduce-overhead")
@@ -51,7 +51,7 @@ compiled_model = torch.compile(model, mode="reduce-overhead")
 Fullgraph attempts to compile the entire model into a single graph to maximize performance. torch.compile raises an error if it encounters a graph break, which means it can't compile the model into a single graph.
 
 ```py
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
 compiled_model = torch.compile(model, mode="reduce-overhead", fullgraph=True)

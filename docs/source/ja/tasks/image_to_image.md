@@ -29,13 +29,13 @@ Image-to-Image タスクは、アプリケーションが画像を受信し、�
 必要なライブラリをインストールすることから始めましょう。
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 [Swin2SR モデル](https://huggingface.co/caidas/swin2SR-lightweight-x2-64) を使用してパイプラインを初期化できるようになりました。次に、イメージを使用してパイプラインを呼び出すことで、パイプラインを推論できます。現時点では、[Swin2SR モデル](https://huggingface.co/models?sort=trending&search=swin2sr) のみがこのパイプラインでサポートされています。
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 pipe = pipeline(task="image-to-image", model="caidas/swin2SR-lightweight-x2-64", device=device)
@@ -73,7 +73,7 @@ print(upscaled.size)
 パイプラインを使用せずに自分で推論を実行したい場合は、トランスフォーマーの `Swin2SRForImageSuperResolution` クラスと `Swin2SRImageProcessor` クラスを使用できます。これには同じモデルのチェックポイントを使用します。モデルとプロセッサを初期化しましょう。
 
 ```python
-from transformers import Swin2SRForImageSuperResolution, Swin2SRImageProcessor 
+from myTransformers import Swin2SRForImageSuperResolution, Swin2SRImageProcessor
 
 model = Swin2SRForImageSuperResolution.from_pretrained("caidas/swin2SR-lightweight-x2-64").to(device)
 processor = Swin2SRImageProcessor("caidas/swin2SR-lightweight-x2-64")

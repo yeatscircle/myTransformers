@@ -31,7 +31,7 @@ In questo documento, cercheremo di spiegare quali sono i vari controlli e le lor
 Nota che tutti richiedono un'installazione dev:
 
 ```bash
-pip install transformers[dev]
+pip install myTransformers[dev]
 ```
 
 o un'installazione modificabile:

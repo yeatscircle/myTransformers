@@ -85,22 +85,24 @@ Make also sure that you have a hardware that is compatible with Flash-Attention 
 To load and run a model using Flash Attention 2, refer to the snippet below:
 
 ```python
->>> import torch
->>> from transformers import OPTForCausalLM, GPT2Tokenizer
->>> device = "cuda" # the device to load the model onto
+>> > import torch
+>> > from myTransformers import OPTForCausalLM, GPT2Tokenizer
+>> > device = "cuda"  # the device to load the model onto
 
->>> model = OPTForCausalLM.from_pretrained("facebook/opt-350m", torch_dtype=torch.float16, attn_implementation="flash_attention_2")
->>> tokenizer = GPT2Tokenizer.from_pretrained("facebook/opt-350m")
+>> > model = OPTForCausalLM.from_pretrained("facebook/opt-350m", torch_dtype=torch.float16,
+                                            attn_implementation="flash_attention_2")
+>> > tokenizer = GPT2Tokenizer.from_pretrained("facebook/opt-350m")
 
->>> prompt = ("A chat between a curious human and the Statue of Liberty.\n\nHuman: What is your name?\nStatue: I am the "
-              "Statue of Liberty.\nHuman: Where do you live?\nStatue: New York City.\nHuman: How long have you lived "
-              "there?")
+>> > prompt = (
+    "A chat between a curious human and the Statue of Liberty.\n\nHuman: What is your name?\nStatue: I am the "
+    "Statue of Liberty.\nHuman: Where do you live?\nStatue: New York City.\nHuman: How long have you lived "
+    "there?")
 
->>> model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
->>> model.to(device)
+>> > model_inputs = tokenizer([prompt], return_tensors="pt").to(device)
+>> > model.to(device)
 
->>> generated_ids = model.generate(**model_inputs, max_new_tokens=30, do_sample=False)
->>> tokenizer.batch_decode(generated_ids)[0]
+>> > generated_ids = model.generate(**model_inputs, max_new_tokens=30, do_sample=False)
+>> > tokenizer.batch_decode(generated_ids)[0]
 '</s>A chat between a curious human and the Statue of Liberty.\n\nHuman: What is your name?\nStatue: I am the Statue of Liberty.\nHuman: Where do you live?\nStatue: New York City.\nHuman: How long have you lived there?\nStatue: I have lived here for about a year.\nHuman: What is your favorite place to eat?\nStatue: I love'
 ```
 
@@ -130,7 +132,8 @@ SDPA is used by default for `torch>=2.1.1` when an implementation is available, 
 `attn_implementation="sdpa"` in `from_pretrained()` to explicitly request SDPA to be used.
 
 ```python
-from transformers import OPTForCausalLM
+from myTransformers import OPTForCausalLM
+
 model = OPTForCausalLM.from_pretrained("facebook/opt-350m", torch_dtype=torch.float16, attn_implementation="sdpa")
 ...
 ```

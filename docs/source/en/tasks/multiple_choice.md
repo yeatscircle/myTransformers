@@ -28,7 +28,7 @@ This guide will show you how to:
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 We encourage you to login to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to login:
@@ -77,9 +77,9 @@ While it looks like there are a lot of fields here, it is actually pretty straig
 The next step is to load a BERT tokenizer to process the sentence starts and the four possible endings:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 The preprocessing function you want to create needs to:
@@ -113,9 +113,10 @@ To apply the preprocessing function over the entire dataset, use 🤗 Datasets [
 ```
 
 To create a batch of examples, it's more efficient to *dynamically pad* the sentences to the longest length in a batch during collation, instead of padding the whole dataset to the maximum length. [`DataCollatorForMultipleChoice`] flattens all the model inputs, applies padding, and then unflattens the results.
+
 ```py
->>> from transformers import DataCollatorForMultipleChoice
->>> collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
+>> > from myTransformers import DataCollatorForMultipleChoice
+>> > collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
 ```
 
 ## Evaluate
@@ -155,9 +156,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load BERT with [`AutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
 
->>> model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 At this point, only three steps remain:
@@ -208,20 +209,20 @@ If you aren't familiar with finetuning a model with Keras, take a look at the ba
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 2
->>> total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
->>> optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_train_epochs = 2
+>> > total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
+>> > optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 Then you can load BERT with [`TFAutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 Convert your datasets to the `tf.data.Dataset` format with [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -254,19 +255,21 @@ The last two things to setup before you start training is to compute the accurac
 Pass your `compute_metrics` function to [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 Specify where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -312,21 +315,21 @@ Come up with some text and two candidate answers:
 Tokenize each prompt and candidate answer pair and return PyTorch tensors. You should also create some `labels`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
->>> labels = torch.tensor(0).unsqueeze(0)
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
+>> > labels = torch.tensor(0).unsqueeze(0)
 ```
 
 Pass your inputs and labels to the model and return the `logits`:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice
+>> > from myTransformers import AutoModelForMultipleChoice
 
->>> model = AutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
->>> outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
->>> logits = outputs.logits
+>> > model = AutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
+>> > outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
+>> > logits = outputs.logits
 ```
 
 Get the class with the highest probability:
@@ -341,21 +344,21 @@ Get the class with the highest probability:
 Tokenize each prompt and candidate answer pair and return TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
 ```
 
 Pass your inputs to the model and return the `logits`:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
->>> inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
->>> outputs = model(inputs)
->>> logits = outputs.logits
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
+>> > outputs = model(inputs)
+>> > logits = outputs.logits
 ```
 
 Get the class with the highest probability:

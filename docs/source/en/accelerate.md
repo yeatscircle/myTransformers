@@ -66,7 +66,7 @@ use_cpu: false
 Pass the path to the saved configuration file to [`TrainingArguments`], and from there, pass your [`TrainingArguments`] to [`Trainer`].
 
 ```py
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(
     output_dir="your-model",

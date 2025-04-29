@@ -74,14 +74,14 @@ Several versions of the model weights are available on Hugging Face:
 ### Requirements
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 ### Example
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "microsoft/bitnet-b1.58-2B-4T"
 
@@ -97,11 +97,13 @@ messages = [
     {"role": "system", "content": "You are a helpful AI assistant."},
     {"role": "user", "content": "How are you?"},
 ]
-chat_input = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(model.device)
+chat_input = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(
+    model.device)
 
 # Generate response
 chat_outputs = model.generate(chat_input, max_new_tokens=50)
-response = tokenizer.decode(chat_outputs[0][chat_input.shape[-1]:], skip_special_tokens=True) # Decode only the response part
+response = tokenizer.decode(chat_outputs[0][chat_input.shape[-1]:],
+                            skip_special_tokens=True)  # Decode only the response part
 print("\nAssistant Response:", response)
 ```
 

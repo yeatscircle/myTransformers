@@ -22,13 +22,13 @@ from datasets import load_dataset
 
 from tests.test_configuration_common import ConfigTester
 from tests.test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
-from transformers import (
+from myTransformers import (
     is_torch_available,
 )
-from transformers.models.colpali.configuration_colpali import ColPaliConfig
-from transformers.models.colpali.modeling_colpali import ColPaliForRetrieval, ColPaliForRetrievalOutput
-from transformers.models.colpali.processing_colpali import ColPaliProcessor
-from transformers.testing_utils import (
+from myTransformers.models.colpali.configuration_colpali import ColPaliConfig
+from myTransformers.models.colpali.modeling_colpali import ColPaliForRetrieval, ColPaliForRetrievalOutput
+from myTransformers.models.colpali.processing_colpali import ColPaliProcessor
+from myTransformers.testing_utils import (
     require_torch,
     require_vision,
     slow,

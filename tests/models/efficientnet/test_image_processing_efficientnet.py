@@ -17,9 +17,9 @@ import unittest
 
 import numpy as np
 
-from transformers.image_utils import PILImageResampling
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import (
+from myTransformers.image_utils import PILImageResampling
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import (
     is_torch_available,
     is_torchvision_available,
     is_vision_available,
@@ -32,10 +32,10 @@ if is_torch_available():
     import torch
 
 if is_vision_available():
-    from transformers import EfficientNetImageProcessor
+    from myTransformers import EfficientNetImageProcessor
 
     if is_torchvision_available():
-        from transformers import EfficientNetImageProcessorFast
+        from myTransformers import EfficientNetImageProcessorFast
 
 
 class EfficientNetImageProcessorTester:

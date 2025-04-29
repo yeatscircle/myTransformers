@@ -35,30 +35,31 @@ model on any pair of 200 languages at a minor cost to supervised performance.*
 Previous behaviour:
 
 ```python
->>> from transformers import NllbTokenizer
+>> > from myTransformers import NllbTokenizer
 
->>> tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
->>> tokenizer("How was your day?").input_ids
+>> > tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
+>> > tokenizer("How was your day?").input_ids
 [13374, 1398, 4260, 4039, 248130, 2, 256047]
 
->>> # 2: '</s>'
->>> # 256047 : 'eng_Latn'
+>> >  # 2: '</s>'
+>> >  # 256047 : 'eng_Latn'
 ```
 New behaviour
 
 ```python
->>> from transformers import NllbTokenizer
+>> > from myTransformers import NllbTokenizer
 
->>> tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
->>> tokenizer("How was your day?").input_ids
+>> > tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
+>> > tokenizer("How was your day?").input_ids
 [256047, 13374, 1398, 4260, 4039, 248130, 2]
  ```
 
 Enabling the old behaviour can be done as follows:
-```python
->>> from transformers import NllbTokenizer
 
->>> tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M", legacy_behaviour=True)
+```python
+>> > from myTransformers import NllbTokenizer
+
+>> > tokenizer = NllbTokenizer.from_pretrained("facebook/nllb-200-distilled-600M", legacy_behaviour=True)
 ```
 
 For more details, feel free to check the linked [PR](https://github.com/huggingface/transformers/pull/22313) and [Issue](https://github.com/huggingface/transformers/issues/19943).
@@ -98,19 +99,26 @@ Note that we're using the BCP-47 code for French `fra_Latn`. See [here](https://
 for the list of all BCP-47 in the Flores 200 dataset.
 
 ```python
->>> from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+>> > from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M")
 
->>> article = "UN Chief says there is no military solution in Syria"
->>> inputs = tokenizer(article, return_tensors="pt")
+>> > article = "UN Chief says there is no military solution in Syria"
+>> > inputs = tokenizer(article, return_tensors="pt")
 
->>> translated_tokens = model.generate(
-...     **inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("fra_Latn"), max_length=30
-... )
->>> tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
-Le chef de l'ONU dit qu'il n'y a pas de solution militaire en Syrie
+>> > translated_tokens = model.generate(
+    ... ** inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("fra_Latn"), max_length=30
+    ...)
+>> > tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
+Le
+chef
+de
+l
+'ONU dit qu'
+il
+n
+'y a pas de solution militaire en Syrie
 ```
 
 ### Generating from any other language than English
@@ -121,21 +129,27 @@ you should specify the BCP-47 code in the `src_lang` keyword argument of the tok
 See example below for a translation from romanian to german:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+>> > from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained(
-...     "facebook/nllb-200-distilled-600M", token=True, src_lang="ron_Latn"
+>> > tokenizer = AutoTokenizer.from_pretrained(
+    ...
+"facebook/nllb-200-distilled-600M", token = True, src_lang = "ron_Latn"
 ... )
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", token=True)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", token=True)
 
->>> article = "Şeful ONU spune că nu există o soluţie militară în Siria"
->>> inputs = tokenizer(article, return_tensors="pt")
+>> > article = "Şeful ONU spune că nu există o soluţie militară în Siria"
+>> > inputs = tokenizer(article, return_tensors="pt")
 
->>> translated_tokens = model.generate(
-...     **inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("deu_Latn"), max_length=30
-... )
->>> tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
-UN-Chef sagt, es gibt keine militärische Lösung in Syrien
+>> > translated_tokens = model.generate(
+    ... ** inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("deu_Latn"), max_length=30
+    ...)
+>> > tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
+UN - Chef
+sagt, es
+gibt
+keine
+militärische
+Lösung in Syrien
 ```
 
 ## Resources
@@ -171,19 +185,20 @@ pip install -U flash-attn --no-build-isolation
 To load a model using Flash Attention 2, we can pass the argument `attn_implementation="flash_attention_2"` to [`.from_pretrained`](https://huggingface.co/docs/transformers/main/en/main_classes/model#transformers.PreTrainedModel.from_pretrained). You can use either `torch.float16` or `torch.bfloat16` precision.
 
 ```python
->>> import torch
->>> from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+>> > import torch
+>> > from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", torch_dtype=torch.float16, attn_implementation="flash_attention_2").to("cuda").eval()
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", torch_dtype=torch.float16,
+                                                   attn_implementation="flash_attention_2").to("cuda").eval()
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
 
->>> article = "Şeful ONU spune că nu există o soluţie militară în Siria"
->>> inputs = tokenizer(article, return_tensors="pt").to("cuda")
+>> > article = "Şeful ONU spune că nu există o soluţie militară în Siria"
+>> > inputs = tokenizer(article, return_tensors="pt").to("cuda")
 
->>> translated_tokens = model.generate(
-...     **inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("deu_Latn"), max_length=30
-... )
->>> tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
+>> > translated_tokens = model.generate(
+    ... ** inputs, forced_bos_token_id=tokenizer.convert_tokens_to_ids("deu_Latn"), max_length=30
+    ...)
+>> > tokenizer.batch_decode(translated_tokens, skip_special_tokens=True)[0]
 "UN-Chef sagt, es gibt keine militärische Lösung in Syrien"
 ```
 
@@ -206,8 +221,10 @@ SDPA is used by default for `torch>=2.1.1` when an implementation is available, 
 `attn_implementation="sdpa"` in `from_pretrained()` to explicitly request SDPA to be used.
 
 ```python
-from transformers import AutoModelForSeq2SeqLM
-model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", torch_dtype=torch.float16, attn_implementation="sdpa")
+from myTransformers import AutoModelForSeq2SeqLM
+
+model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M", torch_dtype=torch.float16,
+                                              attn_implementation="sdpa")
 ...
 ```
 

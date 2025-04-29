@@ -138,7 +138,7 @@
   - local: tiktoken
     title: التوافق مع ملفات TikToken
   - local: modular_transformers
-    title: الوحدات النمطية في `transformers`
+    title: الوحدات النمطية في `myTransformers`
   - local: how_to_hack_models
     title: اختراق النموذج (الكتابة فوق فئة لاستخدامك)
   title: أدلة المطورين

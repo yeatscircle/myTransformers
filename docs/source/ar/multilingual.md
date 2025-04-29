@@ -23,11 +23,11 @@
 في هذا المثال، قم بتحميل نسخة `FacebookAI/xlm-clm-enfr-1024` ( نمذجة اللغة السببية، الإنجليزية-الفرنسية):
 
 ```py
->>> import torch
->>> from transformers import XLMTokenizer, XLMWithLMHeadModel
+>> > import torch
+>> > from myTransformers import XLMTokenizer, XLMWithLMHeadModel
 
->>> tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
->>> model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
 ```
 
 تُظهر خاصية `lang2id` في المجزىء اللغات وأرقام تعريفها في هذا النموذج:
@@ -98,13 +98,13 @@
 في هذا المثال، قم بتحميل نسحة  `facebook/m2m100_418M` لترجمة النص من الصينية إلى الإنجليزية. يمكنك تعيين اللغة المصدر في المجزىء اللغوى:
 
 ```py
->>> from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+>> > from myTransformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
 
->>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
->>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+>> > tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
+>> > model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 ```
 
 تقسيم النّص إلى رموز:
@@ -134,13 +134,13 @@
 في هذا المثال، قم بتحميل نسخة `facebook/mbart-large-50-many-to-many-mmt` لترجمة النص من الفنلندية إلى الإنجليزية. يمكنك تعيين اللغة المصدر في المجزىء:
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 ```
 
 تقسيم النّص إلى رموز:

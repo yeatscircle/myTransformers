@@ -1,5 +1,5 @@
 name: "\U0001F680 Feature request"
-description: Submit a proposal/request for a new transformers feature
+description: Submit a proposal/request for a new myTransformers feature
 labels: [ "Feature request" ]
 body:
   - type: textarea

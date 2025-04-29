@@ -36,16 +36,16 @@ The examples below demonstrate how to generate text with [`Pipeline`], [`AutoMod
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
-    "text-generation", 
+    "text-generation",
     model="tiiuae/falcon-mamba-7b-instruct",
     torch_dtype=torch.bfloat16,
     device=0
 )
 pipeline(
-    "Explain the difference between transformers and SSMs",
+    "Explain the difference between myTransformers and SSMs",
     max_length=100,
     do_sample=True,
     temperature=0.7
@@ -57,7 +57,7 @@ pipeline(
 
 ```py
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("tiiuae/falcon-mamba-7b-instruct")
 model = AutoModelForCausalLM.from_pretrained(
@@ -66,7 +66,7 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 )
 
-input_ids = tokenizer("Explain the difference between transformers and SSMs", return_tensors="pt").to("cuda")
+input_ids = tokenizer("Explain the difference between myTransformers and SSMs", return_tensors="pt").to("cuda")
 
 output = model.generate(**input_ids, max_new_tokens=100, cache_implementation="static")
 print(tokenizer.decode(output[0], skip_special_tokens=True))
@@ -76,7 +76,7 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 <hfoption id="transformers-cli">
 
 ```bash
-transformers-cli chat --model_name_or_path tiiuae/falcon-mamba-7b-instruct --torch_dtype auto --device 0
+myTransformers-cli chat --model_name_or_path tiiuae/falcon-mamba-7b-instruct --torch_dtype auto --device 0
 ```
 
 </hfoption>
@@ -88,7 +88,7 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to quantize 
 
 ```python
 import torch
-from transformers import AutoTokenizer, FalconMambaForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, FalconMambaForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,

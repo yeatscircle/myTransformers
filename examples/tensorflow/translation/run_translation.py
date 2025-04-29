@@ -30,8 +30,8 @@ import numpy as np
 import tensorflow as tf
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoTokenizer,
     DataCollatorForSeq2Seq,
@@ -48,9 +48,9 @@ from transformers import (
     create_optimizer,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.trainer_utils import get_last_checkpoint
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 # region Dependencies and constants
@@ -265,7 +265,7 @@ class DataTrainingArguments:
 
 def main():
     # region Argument parsing
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -290,7 +290,7 @@ def main():
     )
     logger.setLevel(logging.INFO)
     datasets.utils.logging.set_verbosity(logging.INFO)
-    transformers.utils.logging.set_verbosity(logging.INFO)
+    myTransformers.utils.logging.set_verbosity(logging.INFO)
 
     # Log on each process the small summary:
     logger.info(f"Training/evaluation parameters {training_args}")

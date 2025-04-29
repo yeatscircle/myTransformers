@@ -19,9 +19,9 @@ import unittest
 import pytest
 from packaging import version
 
-from transformers import AutoTokenizer, Qwen2Config, is_torch_available, set_seed
-from transformers.generation.configuration_utils import GenerationConfig
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, Qwen2Config, is_torch_available, set_seed
+from myTransformers.generation.configuration_utils import GenerationConfig
+from myTransformers.testing_utils import (
     backend_empty_cache,
     require_bitsandbytes,
     require_flash_attn,
@@ -41,7 +41,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Qwen2ForCausalLM,
         Qwen2ForQuestionAnswering,
         Qwen2ForSequenceClassification,
@@ -447,7 +447,7 @@ class Qwen2IntegrationTest(unittest.TestCase):
         if version.parse(torch.__version__) < version.parse("2.4.0"):
             self.skipTest(reason="This test requires torch >= 2.4 to run.")
 
-        from transformers.integrations.executorch import (
+        from myTransformers.integrations.executorch import (
             TorchExportableModuleWithStaticCache,
             convert_and_export_with_cache,
         )

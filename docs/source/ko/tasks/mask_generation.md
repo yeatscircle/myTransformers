@@ -39,7 +39,7 @@ SAM은 대규모 데이터를 다룰 수 있는 강력한 분할 기반 모델�
 먼저, `transformers`를 설치해 봅시다:
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## 마스크 생성 파이프라인[[mask-generation-pipeline]]
@@ -47,10 +47,10 @@ pip install -q transformers
 마스크 생성 모델로 추론하는 가장 쉬운 방법은 `mask-generation` 파이프라인을 사용하는 것입니다.
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "facebook/sam-vit-base"
->>> mask_generator = pipeline(model=checkpoint, task="mask-generation")
+>> > checkpoint = "facebook/sam-vit-base"
+>> > mask_generator = pipeline(model=checkpoint, task="mask-generation")
 ```
 
 이미지를 예시로 봅시다.
@@ -119,7 +119,7 @@ plt.show()
 파이프라인 없이도 모델을 사용할 수 있습니다. 이를 위해 모델과 프로세서를 초기화해야 합니다.
 
 ```python
-from transformers import SamModel, SamProcessor
+from myTransformers import SamModel, SamProcessor
 import torch
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

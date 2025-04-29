@@ -34,7 +34,7 @@ DePlot は、`Pix2Struct` アーキテクチャの Visual Question Answering サ
 - `google/deplot`: ChartQA データセットで微調整された DePlot
 
 ```python
-from transformers import AutoProcessor, Pix2StructForConditionalGeneration
+from myTransformers import AutoProcessor, Pix2StructForConditionalGeneration
 import requests
 from PIL import Image
 
@@ -51,8 +51,9 @@ print(processor.decode(predictions[0], skip_special_tokens=True))
 ## Fine-tuning
 
 DePlot を微調整するには、pix2struct [微調整ノートブック](https://github.com/huggingface/notebooks/blob/main/examples/image_captioning_pix2struct.ipynb) を参照してください。 `Pix2Struct` モデルの場合、Adafactor とコサイン学習率スケジューラを使用してモデルを微調整すると、収束が高速化されることがわかりました。
+
 ```python
-from transformers.optimization import Adafactor, get_cosine_schedule_with_warmup
+from myTransformers.optimization import Adafactor, get_cosine_schedule_with_warmup
 
 optimizer = Adafactor(self.parameters(), scale_parameter=False, relative_step=False, lr=0.01, weight_decay=1e-05)
 scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=1000, num_training_steps=40000)

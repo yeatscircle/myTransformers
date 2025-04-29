@@ -15,9 +15,9 @@ import unittest
 from functools import lru_cache
 
 from tests.test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
-from transformers import SplinterTokenizerFast, is_tf_available, is_torch_available
-from transformers.models.splinter import SplinterTokenizer
-from transformers.testing_utils import get_tests_dir, slow
+from myTransformers import SplinterTokenizerFast, is_tf_available, is_torch_available
+from myTransformers.models.splinter import SplinterTokenizer
+from myTransformers.testing_utils import get_tests_dir, slow
 
 
 SAMPLE_VOCAB = get_tests_dir("fixtures/vocab.txt")
@@ -39,7 +39,7 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     test_sentencepiece_ignore_case = False
     pre_trained_model_path = "tau/splinter-base"
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.setUp
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.setUp
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -64,14 +64,14 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         pretrained_name = pretrained_name or cls.tmpdirname
         return cls.rust_tokenizer_class.from_pretrained(pretrained_name, **kwargs)
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_get_vocab
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_get_vocab
     def test_get_vocab(self):
         vocab_keys = list(self.get_tokenizer().get_vocab().keys())
         self.assertEqual(vocab_keys[0], "[PAD]")
         self.assertEqual(vocab_keys[1], "[SEP]")
         self.assertEqual(vocab_keys[2], "[MASK]")
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_convert_token_and_id
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_convert_token_and_id
     def test_convert_token_and_id(self):
         token = "[PAD]"
         token_id = 0
@@ -83,7 +83,7 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         tokenizer = self.get_tokenizer()
         self.assertEqual(tokenizer.question_token_id, tokenizer.convert_tokens_to_ids(tokenizer.question_token))
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_full_tokenizer
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_full_tokenizer
     def test_full_tokenizer(self):
         tokenizer = self.get_tokenizer()
         test_str = "This is a test"
@@ -109,7 +109,7 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         token_ids = tokenizer.convert_tokens_to_ids(tokens)
         self.assertListEqual(token_ids, expected_token_ids)
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_rust_and_python_full_tokenizers
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_rust_and_python_full_tokenizers
     def test_rust_and_python_full_tokenizers(self):
         tokenizer = self.get_tokenizer()
         rust_tokenizer = self.get_rust_tokenizer()
@@ -123,7 +123,7 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         rust_ids = rust_tokenizer.encode(sequence)
         self.assertListEqual(ids, rust_ids)
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_max_length
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_max_length
     def test_max_length(self):
         max_length = 20
         tokenizer = self.get_tokenizer()
@@ -143,7 +143,7 @@ class SplinterTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
         self.assertEqual(len(tokenized["token_type_ids"][0]), max_length)
         self.assertEqual(len(tokenized["token_type_ids"][1]), max_length)
 
-    # Copied from transformers.models.siglip.SiglipTokenizationTest.test_tokenizer_integration
+    # Copied from myTransformers.models.siglip.SiglipTokenizationTest.test_tokenizer_integration
     # fmt:skip
     @slow
     def test_tokenizer_integration(self):

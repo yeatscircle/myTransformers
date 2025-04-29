@@ -17,8 +17,8 @@ import unittest
 
 import pytest
 
-from transformers import MixtralConfig, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import MixtralConfig, is_torch_available
+from myTransformers.testing_utils import (
     require_flash_attn,
     require_torch,
     require_torch_accelerator,
@@ -36,7 +36,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MixtralForCausalLM,
         MixtralForQuestionAnswering,
         MixtralForSequenceClassification,

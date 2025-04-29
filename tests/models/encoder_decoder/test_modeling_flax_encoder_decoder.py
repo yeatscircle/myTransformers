@@ -18,8 +18,8 @@ import unittest
 
 import numpy as np
 
-from transformers import is_flax_available
-from transformers.testing_utils import require_flax, slow
+from myTransformers import is_flax_available
+from myTransformers.testing_utils import require_flax, slow
 
 from ...test_modeling_flax_common import ids_tensor
 from ..bart.test_modeling_flax_bart import FlaxBartStandaloneDecoderModelTester
@@ -28,7 +28,7 @@ from ..gpt2.test_modeling_flax_gpt2 import FlaxGPT2ModelTester
 
 
 if is_flax_available():
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         EncoderDecoderConfig,
         FlaxBartForCausalLM,

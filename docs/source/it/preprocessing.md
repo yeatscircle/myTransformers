@@ -43,9 +43,9 @@ Iniziamo subito caricando un tokenizer preaddestrato con la classe [`AutoTokeniz
 Carica un tokenizer preaddestrato con [`AutoTokenizer.from_pretrained`]:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 ```
 
 Poi inserisci le tue frasi nel tokenizer:
@@ -258,9 +258,9 @@ Il prossimo passo è caricare un estrattore di caratteristiche per normalizzare 
 Carica l'estrattore delle caratteristiche con [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 Inserisci l' `array` audio nell'estrattore delle caratteristiche. Noi raccomandiamo sempre di aggiungere il parametro `sampling_rate` nell'estrattore delle caratteristiche per correggere meglio qualche errore, dovuto ai silenzi, che potrebbe verificarsi.
@@ -342,9 +342,9 @@ Secondo passo, dai uno sguardo alle immagini usando la caratteristica [`Image`](
 Carica l'estrattore di caratteristiche [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("google/vit-base-patch16-224")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 ### Data augmentation
@@ -464,9 +464,9 @@ Ricorda dalla sezione precedente sull'elaborazione dei dati audio, tu dovresti s
 Un processor combina un estrattore di caratteristiche e un tokenizer. Carica un processor con [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
 ```
 
 1. Crea una funzione che processi i dati audio in `input_values`, e tokenizza il testo in `labels`. Questi sono i tuoi input per il modello:

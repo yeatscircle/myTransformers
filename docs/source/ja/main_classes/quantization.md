@@ -72,7 +72,8 @@ quantization = GPTQConfig(bits=4, dataset = dataset, tokenizer=tokenizer)
 `from_pretrained` を使用し、`quantization_config` を設定することでモデルを量子化できます。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
+
 model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=gptq_config)
 ```
 
@@ -81,7 +82,8 @@ model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=gptq_
 CPU オフロードの使用中に GPU の使用量を最大化したい場合は、`device_map = "auto"` を設定できます。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
+
 model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto", quantization_config=gptq_config)
 ```
 
@@ -121,14 +123,16 @@ quantized_model.save_pretrained("opt-125m-gptq")
 属性 `quantization_config` がモデル設定オブジェクトに存在することを確認して、プッシュされた重みが量子化されていることを確認します。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
+
 model = AutoModelForCausalLM.from_pretrained("{your_username}/opt-125m-gptq")
 ```
 
 必要以上のメモリを割り当てずにモデルをより速くロードしたい場合は、`device_map` 引数は量子化モデルでも機能します。 `accelerate`ライブラリがインストールされていることを確認してください。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
+
 model = AutoModelForCausalLM.from_pretrained("{your_username}/opt-125m-gptq", device_map="auto")
 ```
 
@@ -176,7 +180,7 @@ GPTQ を使用してモデルを量子化する方法と、peft を使用して�
 モデルが 🤗 Accelerate による読み込みをサポートし、`torch.nn.Linear` レイヤーが含まれている限り、 [`~PreTrainedModel.from_pretrained`] メソッドを呼び出すときに `load_in_8bit` または `load_in_4bit` 引数を使用してモデルを量子化できます。これはどのようなモダリティでも同様に機能するはずです。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model_8bit = AutoModelForCausalLM.from_pretrained("facebook/opt-350m", load_in_8bit=True)
 model_4bit = AutoModelForCausalLM.from_pretrained("facebook/opt-350m", load_in_4bit=True)
@@ -185,11 +189,12 @@ model_4bit = AutoModelForCausalLM.from_pretrained("facebook/opt-350m", load_in_4
 デフォルトでは、他のすべてのモジュール (例: `torch.nn.LayerNorm`) は `torch.float16` に変換されますが、その `dtype` を変更したい場合は、`torch_dtype` 引数を上書きできます。
 
 ```python
->>> import torch
->>> from transformers import AutoModelForCausalLM
+>> > import torch
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model_8bit = AutoModelForCausalLM.from_pretrained("facebook/opt-350m", load_in_8bit=True, torch_dtype=torch.float32)
->>> model_8bit.model.decoder.layers[-1].final_layer_norm.weight.dtype
+>> > model_8bit = AutoModelForCausalLM.from_pretrained("facebook/opt-350m", load_in_8bit=True,
+                                                       torch_dtype=torch.float32)
+>> > model_8bit.model.decoder.layers[-1].final_layer_norm.weight.dtype
 torch.float32
 ```
 
@@ -224,8 +229,8 @@ torch.float32
 `.from_pretrained` メソッドを呼び出すときに `load_in_4bit=True` を使用すると、メモリ使用量を (おおよそ) 4 で割ることができます。
 
 ```python
-# pip install transformers accelerate bitsandbytes
-from transformers import AutoModelForCausalLM, AutoTokenizer
+# pip install myTransformers accelerate bitsandbytes
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "bigscience/bloom-1b7"
 
@@ -244,8 +249,8 @@ model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto", load_i
 `.from_pretrained` メソッドを呼び出すときに `load_in_8bit=True` 引数を使用すると、メモリ要件をおよそ半分にしてモデルをロードできます。
 
 ```python
-# pip install transformers accelerate bitsandbytes
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+# pip install myTransformers accelerate bitsandbytes
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 model_id = "bigscience/bloom-1b7"
 
@@ -279,7 +284,7 @@ compute dtype は、計算中に使用される dtype を変更するために�
 
 ```python
 import torch
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
 ```
@@ -289,7 +294,7 @@ quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dty
 NF4 データ型を使用することもできます。これは、正規分布を使用して初期化された重みに適合した新しい 4 ビット データ型です。その実行のために:
 
 ```python
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 nf4_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -304,7 +309,7 @@ model_nf4 = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=n
 また、ネストされた量子化手法を使用することをお勧めします。これにより、パフォーマンスを追加することなく、より多くのメモリが節約されます。経験的な観察から、これにより、NVIDIA-T4 16GB 上でシーケンス長 1024、バッチ サイズ 1、勾配累積ステップ 4 の llama-13b モデルを微調整することが可能になります。
 
 ```python
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 double_quant_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -321,9 +326,10 @@ model_double_quant = AutoModelForCausalLM.from_pretrained(model_id, quantization
 この機能を使用できるようにするには、必ず `bitsandbytes>0.37.2` を使用してください (この記事の執筆時点では、`bitsandbytes==0.38.0.post1` でテストしました)。
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-model = AutoModelForCausalLM.from_pretrained("bigscience/bloom-560m", quantization_config=BitsAndBytesConfig(load_in_8bit=True))
+model = AutoModelForCausalLM.from_pretrained("bigscience/bloom-560m",
+                                             quantization_config=BitsAndBytesConfig(load_in_8bit=True))
 tokenizer = AutoTokenizer.from_pretrained("bigscience/bloom-560m")
 
 model.push_to_hub("bloom-560m-8bit")
@@ -340,7 +346,7 @@ model.push_to_hub("bloom-560m-8bit")
 `from_pretrained`メソッドを使用して、ハブから量子化モデルをロードできます。属性 `quantization_config` がモデル設定オブジェクトに存在することを確認して、プッシュされた重みが量子化されていることを確認します。
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model = AutoModelForCausalLM.from_pretrained("{your_username}/bloom-560m-8bit", device_map="auto")
 ```
@@ -359,7 +365,7 @@ model = AutoModelForCausalLM.from_pretrained("{your_username}/bloom-560m-8bit", 
 まず、`transformers` から [`BitsAndBytesConfig`] をロードし、属性 `llm_int8_enable_fp32_cpu_offload` を `True` に設定します。
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(llm_int8_enable_fp32_cpu_offload=True)
 ```
@@ -394,7 +400,7 @@ model_8bit = AutoModelForCausalLM.from_pretrained(
 この引数は、モデルの推論速度に影響を与える可能性があります。このパラメータを試してみて、ユースケースに最適なパラメータを見つけることをお勧めします。
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 model_id = "bigscience/bloom-1b7"
 
@@ -415,7 +421,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 一部のモデルには、安定性を確保するために 8 ビットに変換する必要がないモジュールがいくつかあります。たとえば、ジュークボックス モデルには、スキップする必要があるいくつかの `lm_head` モジュールがあります。 `llm_int8_skip_modules` で遊んでみる
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 model_id = "bigscience/bloom-1b7"
 

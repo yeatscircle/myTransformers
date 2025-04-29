@@ -135,11 +135,11 @@ limitations under the License.
 لاستخدام نموذج على الفور على إدخال معين (نص أو صورة أو صوت، ...)، نوفر واجهة برمجة التطبيقات (API) الخاصة بـ `pipeline`. تجمع خطوط الأنابيب بين نموذج مُدرب مسبقًا ومعالجة ما قبل التدريب التي تم استخدامها أثناء تدريب هذا النموذج. فيما يلي كيفية استخدام خط أنابيب بسرعة لتصنيف النصوص الإيجابية مقابل السلبية:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # خصص خط أنابيب للتحليل الشعوري
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('We are very happy to introduce pipeline to the transformers repository.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('We are very happy to introduce pipeline to the myTransformers repository.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -187,25 +187,27 @@ limitations under the License.
 يمكنك معرفة المزيد حول المهام التي تدعمها واجهة برمجة التطبيقات (API) الخاصة بـ `pipeline` في [هذا البرنامج التعليمي](https://huggingface.co/docs/transformers/task_summary).
 
 بالإضافة إلى `pipeline`، لاستخدام أي من النماذج المُدربة مسبقًا على مهمتك، كل ما عليك هو ثلاثة أسطر من التعليمات البرمجية. فيما يلي إصدار PyTorch:
+
 ```python
->>> from transformers import AutoTokenizer، AutoModel
+>> > from myTransformers import AutoTokenizer، AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!"، return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!"، return_tensors = "pt")
+>> > outputs = model(**inputs)
 ```
 
 وهنا رمز مماثل لـ TensorFlow:
+
 ```python
->>> from transformers import AutoTokenizer، TFAutoModel
+>> > from myTransformers import AutoTokenizer، TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Hello world!"، return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Hello world!"، return_tensors = "tf")
+>> > outputs = model(**inputs)
 ```
 
 المُعلم مسؤول عن جميع المعالجة المسبقة التي يتوقعها النموذج المُدرب مسبقًا ويمكن استدعاؤه مباشرة على سلسلة واحدة (كما هو موضح في الأمثلة أعلاه) أو قائمة. سيقوم بإخراج قاموس يمكنك استخدامه في التعليمات البرمجية لأسفل أو تمريره مباشرة إلى نموذجك باستخدام عامل فك التعبئة **.
@@ -257,7 +259,7 @@ limitations under the License.
 عندما يتم تثبيت إحدى هذه المكتبات الخلفية، يمكن تثبيت 🤗 Transformers باستخدام pip كما يلي:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 إذا كنت ترغب في اللعب مع الأمثلة أو تحتاج إلى أحدث إصدار من التعليمات البرمجية ولا يمكنك الانتظار حتى يتم إصدار إصدار جديد، فيجب [تثبيت المكتبة من المصدر](https://huggingface.co/docs/transformers/installation#installing-from-source).
@@ -267,7 +269,7 @@ pip install transformers
 يمكن تثبيت 🤗 Transformers باستخدام conda كما يلي:
 
 ```shell script
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_ملاحظة:_** تم إيقاف تثبيت `transformers` من قناة `huggingface`.

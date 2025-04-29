@@ -40,23 +40,24 @@ Its architecture is based on [Encodec](model_doc/encodec) with several major dif
 Here is a quick example of how to encode and decode an audio using this model:
 
 ```python 
->>> from datasets import load_dataset, Audio
->>> from transformers import MimiModel, AutoFeatureExtractor
->>> librispeech_dummy = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
+>> > from datasets import load_dataset, Audio
+>> > from myTransformers import MimiModel, AutoFeatureExtractor
+>> > librispeech_dummy = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation")
 
->>> # load model and feature extractor
->>> model = MimiModel.from_pretrained("kyutai/mimi")
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("kyutai/mimi")
+>> >  # load model and feature extractor
+>> > model = MimiModel.from_pretrained("kyutai/mimi")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("kyutai/mimi")
 
->>> # load audio sample
->>> librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=feature_extractor.sampling_rate))
->>> audio_sample = librispeech_dummy[-1]["audio"]["array"]
->>> inputs = feature_extractor(raw_audio=audio_sample, sampling_rate=feature_extractor.sampling_rate, return_tensors="pt")
+>> >  # load audio sample
+>> > librispeech_dummy = librispeech_dummy.cast_column("audio", Audio(sampling_rate=feature_extractor.sampling_rate))
+>> > audio_sample = librispeech_dummy[-1]["audio"]["array"]
+>> > inputs = feature_extractor(raw_audio=audio_sample, sampling_rate=feature_extractor.sampling_rate,
+                                return_tensors="pt")
 
->>> encoder_outputs = model.encode(inputs["input_values"], inputs["padding_mask"])
->>> audio_values = model.decode(encoder_outputs.audio_codes, inputs["padding_mask"])[0]
->>> # or the equivalent with a forward pass
->>> audio_values = model(inputs["input_values"], inputs["padding_mask"]).audio_values
+>> > encoder_outputs = model.encode(inputs["input_values"], inputs["padding_mask"])
+>> > audio_values = model.decode(encoder_outputs.audio_codes, inputs["padding_mask"])[0]
+>> >  # or the equivalent with a forward pass
+>> > audio_values = model(inputs["input_values"], inputs["padding_mask"]).audio_values
 ```
 
 This model was contributed by [Yoach Lacombe (ylacombe)](https://huggingface.co/ylacombe).

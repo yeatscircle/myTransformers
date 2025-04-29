@@ -38,7 +38,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -93,9 +93,9 @@ pip install transformers datasets evaluate
 マスクされた言語モデリングの場合、次のステップは、`text`サブフィールドを処理するために DistilRoBERTa トークナイザーをロードすることです。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
 ```
 
 上の例からわかるように、`text`フィールドは実際には`answers`内にネストされています。これは、次のことを行う必要があることを意味します
@@ -179,21 +179,20 @@ pip install transformers datasets evaluate
 シーケンス終了トークンをパディング トークンとして使用し、データを反復するたびにランダムにトークンをマスクするために `mlm_probability` を指定します。
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 ```
 </pt>
 <tf>
 
 シーケンス終了トークンをパディング トークンとして使用し、データを反復するたびにランダムにトークンをマスクするために `mlm_probability` を指定します。
 
-
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -211,9 +210,9 @@ pip install transformers datasets evaluate
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForMaskedLM`] を使用して DistilRoBERTa をロードします。
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 この時点で残っている手順は次の 3 つだけです。
@@ -271,17 +270,17 @@ Keras を使用したモデルの微調整に慣れていない場合は、[こ�
 TensorFlow でモデルを微調整するには、オプティマイザー関数、学習率スケジュール、およびいくつかのトレーニング ハイパーパラメーターをセットアップすることから始めます。
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 次に、[`TFAutoModelForMaskedLM`] を使用して DistilRoBERTa をロードできます。
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] を使用して、データセットを `tf.data.Dataset` 形式に変換します。
@@ -314,11 +313,13 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 This can be done by specifying where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_mlm_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_mlm_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -356,10 +357,10 @@ This can be done by specifying where to push your model and tokenizer in the [`~
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用してフィルマスクの`pipeline`をインスタンス化し、テキストをそれに渡します。必要に応じて、`top_k`パラメータを使用して、返す予測の数を指定できます。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> mask_filler = pipeline("fill-mask", "stevhliu/my_awesome_eli5_mlm_model")
->>> mask_filler(text, top_k=3)
+>> > mask_filler = pipeline("fill-mask", "stevhliu/my_awesome_eli5_mlm_model")
+>> > mask_filler(text, top_k=3)
 [{'score': 0.5150994658470154,
   'token': 21300,
   'token_str': ' spiral',
@@ -380,21 +381,21 @@ This can be done by specifying where to push your model and tokenizer in the [`~
 テキストをトークン化し、`input_ids`を PyTorch テンソルとして返します。 `<mask>` トークンの位置も指定する必要があります。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="pt")
->>> mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
+>> > mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
 ```
 
 入力をモデルに渡し、マスクされたトークンの`logits`を返します。
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = AutoModelForMaskedLM.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 次に、マスクされた 3 つのトークンを最も高い確率で返し、出力します。
@@ -415,22 +416,21 @@ The Milky Way is a small galaxy.
 テキストをトークン化し、`input_ids`を TensorFlow テンソルとして返します。 `<mask>` トークンの位置も指定する必要があります。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="tf")
->>> mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
+>> > mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
 ```
 
 入力をモデルに渡し、マスクされたトークンの`logits`を返します。
 
-
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = TFAutoModelForMaskedLM.from_pretrained("stevhliu/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 次に、マスクされた 3 つのトークンを最も高い確率で返し、出力します。

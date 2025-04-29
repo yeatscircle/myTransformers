@@ -85,19 +85,19 @@ optimum-cli export onnx --model local_path --task question-answering distilbert_
 生成的 `model.onnx` 文件可以在支持 ONNX 标准的 [许多加速引擎（accelerators）](https://onnx.ai/supported-tools.html#deployModel) 之一上运行。例如，我们可以使用 [ONNX Runtime](https://onnxruntime.ai/) 加载和运行模型，如下所示：
 
 ```python
->>> from transformers import AutoTokenizer
->>> from optimum.onnxruntime import ORTModelForQuestionAnswering
+>> > from myTransformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForQuestionAnswering
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 从 Hub 导出 TensorFlow 检查点的过程也一样。例如，以下是从 [Keras 组织](https://huggingface.co/keras-io) 导出纯 TensorFlow 检查点的命令：
 
 ```bash
-optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_squad_onnx/
+optimum-cli export onnx --model keras-io/myTransformers-qa distilbert_base_cased_squad_onnx/
 ```
 
 ### 使用 `optimum.onnxruntime` 将 🤗 Transformers 模型导出为 ONNX
@@ -105,19 +105,19 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 除了 CLI 之外，你还可以使用代码将 🤗 Transformers 模型导出为 ONNX，如下所示：
 
 ```python
->>> from optimum.onnxruntime import ORTModelForSequenceClassification
->>> from transformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer
 
->>> model_checkpoint = "distilbert_base_uncased_squad"
->>> save_directory = "onnx/"
+>> > model_checkpoint = "distilbert_base_uncased_squad"
+>> > save_directory = "onnx/"
 
->>> # 从 transformers 加载模型并将其导出为 ONNX
->>> ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
->>> tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+>> >  # 从 myTransformers 加载模型并将其导出为 ONNX
+>> > ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
->>> # 保存 onnx 模型以及分词器
->>> ort_model.save_pretrained(save_directory)
->>> tokenizer.save_pretrained(save_directory)
+>> >  # 保存 onnx 模型以及分词器
+>> > ort_model.save_pretrained(save_directory)
+>> > tokenizer.save_pretrained(save_directory)
 ```
 
 ### 导出尚未支持的架构的模型
@@ -135,47 +135,47 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 要使用 `transformers.onnx` 将 🤗 Transformers 模型导出为 ONNX，请安装额外的依赖项：
 
 ```bash
-pip install transformers[onnx]
+pip install myTransformers[onnx]
 ```
 
 将 `transformers.onnx` 包作为 Python 模块使用，以使用现成的配置导出检查点：
 
 ```bash
-python -m transformers.onnx --model=distilbert/distilbert-base-uncased onnx/
+python -m myTransformers.onnx --model=distilbert/distilbert-base-uncased onnx/
 ```
 
 以上代码将导出由 `--model` 参数定义的检查点的 ONNX 图。传入任何 🤗 Hub 上或者存储与本地的检查点。生成的 `model.onnx` 文件可以在支持 ONNX 标准的众多加速引擎上运行。例如，使用 ONNX Runtime 加载并运行模型，如下所示：
 
 ```python
->>> from transformers import AutoTokenizer
->>> from onnxruntime import InferenceSession
+>> > from myTransformers import AutoTokenizer
+>> > from onnxruntime import InferenceSession
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
->>> session = InferenceSession("onnx/model.onnx")
->>> # ONNX Runtime expects NumPy arrays as input
->>> inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
->>> outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > session = InferenceSession("onnx/model.onnx")
+>> >  # ONNX Runtime expects NumPy arrays as input
+>> > inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
+>> > outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
 ```
 
 可以通过查看每个模型的 ONNX 配置来获取所需的输出名（例如 `["last_hidden_state"]`）。例如，对于 DistilBERT，可以用以下代码获取输出名称：
 
 ```python
->>> from transformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
+>> > from myTransformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
 
->>> config = DistilBertConfig()
->>> onnx_config = DistilBertOnnxConfig(config)
->>> print(list(onnx_config.outputs.keys()))
+>> > config = DistilBertConfig()
+>> > onnx_config = DistilBertOnnxConfig(config)
+>> > print(list(onnx_config.outputs.keys()))
 ["last_hidden_state"]
 ```
 
 从 Hub 导出 TensorFlow 检查点的过程也一样。导出纯 TensorFlow 检查点的示例代码如下：
 
 ```bash
-python -m transformers.onnx --model=keras-io/transformers-qa onnx/
+python -m myTransformers.onnx --model=keras-io/myTransformers-qa onnx/
 ```
 
 要导出本地存储的模型，请将模型的权重和分词器文件保存在同一目录中（例如 `local-pt-checkpoint`），然后通过将 `transformers.onnx` 包的 `--model` 参数指向该目录，将其导出为 ONNX：
 
 ```bash
-python -m transformers.onnx --model=local-pt-checkpoint onnx/
+python -m myTransformers.onnx --model=local-pt-checkpoint onnx/
 ```

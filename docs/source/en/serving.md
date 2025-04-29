@@ -51,7 +51,7 @@ By default, vLLM serves the native implementation and if it doesn't exist, it fa
 ```shell
 vllm serve Qwen/Qwen2.5-1.5B-Instruct \
     --task generate \
-    --model-impl transformers \
+    --model-impl myTransformers \
 ```
 
 Add the `trust-remote-code` parameter to enable loading a remote code model.
@@ -59,6 +59,6 @@ Add the `trust-remote-code` parameter to enable loading a remote code model.
 ```shell
 vllm serve Qwen/Qwen2.5-1.5B-Instruct \
     --task generate \
-    --model-impl transformers \
+    --model-impl myTransformers \
     --trust-remote-code \
 ```

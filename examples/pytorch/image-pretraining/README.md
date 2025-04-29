@@ -68,7 +68,7 @@ Here, we train for 100 epochs with a learning rate of 2e-5. Note that the SimMIM
 We can also for instance replicate the pre-training of a Swin Transformer using the same architecture as used by the SimMIM authors. For this, we first create a custom configuration and save it locally:
 
 ```python
-from transformers import SwinConfig
+from myTransformers import SwinConfig
 
 IMAGE_SIZE = 192
 PATCH_SIZE = 4

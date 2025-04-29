@@ -156,8 +156,8 @@ BrandNewBertの論文がある場合、その説明を読むための時間を�
 2. ローカルディスクにある`transformers`フォークをクローンし、ベースリポジトリをリモートとして追加します：
 
 ```bash
-git clone https://github.com/[your Github handle]/transformers.git
-cd transformers
+git clone https://github.com/[your Github handle]/myTransformers.git
+cd myTransformers
 git remote add upstream https://github.com/huggingface/transformers.git
 ```
 
@@ -300,7 +300,7 @@ original_output = model.predict(input_ids)
 次に、ついに新しいコードを🤗 Transformersに追加できます。🤗 Transformersのフォークのクローンに移動してください：
 
 ```bash
-cd transformers
+cd myTransformers
 ```
 
 特別なケースとして、既存のモデルと完全に一致するアーキテクチャのモデルを追加する場合、
@@ -312,7 +312,7 @@ cd transformers
 既存のモデル:
 
 ```bash
-transformers-cli add-new-model-like
+myTransformers-cli add-new-model-like
 ```
 
 モデルの基本情報を入力するためのアンケートが表示されます。
@@ -391,7 +391,7 @@ PR上でのほとんどの質問はGitHub上で行うことをお勧めします
 この時点で動作する必要があるのは、🤗 Transformersの"brand_new_bert"の実装をインスタンス化できることだけです。つまり、以下のコマンドが機能する必要があります：
 
 ```python
-from transformers import BrandNewBertModel, BrandNewBertConfig
+from myTransformers import BrandNewBertModel, BrandNewBertConfig
 
 model = BrandNewBertModel(BrandNewBertConfig())
 ```
@@ -660,7 +660,7 @@ input_ids = model.tokenize(input_str)
 以下のように見えるべきです：
 
 ```python
-from transformers import BrandNewBertTokenizer
+from myTransformers import BrandNewBertTokenizer
 
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 

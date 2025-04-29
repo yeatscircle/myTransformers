@@ -131,11 +131,11 @@ Si vous possédez ou utilisez un projet que vous pensez devoir figurer dans la l
 Pour utiliser immédiatement un modèle sur une entrée donnée (texte, image, audio,...), nous fournissons l'API `pipeline`. Les pipelines regroupent un modèle pré-entraîné avec la préparation des données qui a été utilisée lors de l'entraînement de ce modèle. Voici comment utiliser rapidement un pipeline pour classer des textes en positif ou négatif :
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Allouer un pipeline pour l'analyse de sentiment
->>> classifieur = pipeline('sentiment-analysis')
->>> classifieur("Nous sommes très heureux d'introduire le pipeline dans le référentiel transformers.")
+>> > classifieur = pipeline('sentiment-analysis')
+>> > classifieur("Nous sommes très heureux d'introduire le pipeline dans le référentiel myTransformers.")
 [{'label': 'POSITIF', 'score': 0.9996980428695679}]
 ```
 
@@ -144,18 +144,18 @@ La deuxième ligne de code télécharge et met en cache le modèle pré-entraîn
 De nombreuses tâches ont une pipeline pré-entraîné prêt à l'emploi, en NLP, mais aussi en vision par ordinateur et en parole. Par exemple, nous pouvons facilement extraire les objets détectés dans une image :
 
 ```python
->>> import requests
->>> from PIL import Image
->>> from transformers import pipeline
+>> > import requests
+>> > from PIL import Image
+>> > from myTransformers import pipeline
 
 # Télécharger une image avec de jolis chats
->>> url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/coco_sample.png"
->>> donnees_image = requests.get(url, stream=True).raw
->>> image = Image.open(donnees_image)
+>> > url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/coco_sample.png"
+>> > donnees_image = requests.get(url, stream=True).raw
+>> > image = Image.open(donnees_image)
 
 # Allouer un pipeline pour la détection d'objets
->>> detecteur_objets = pipeline('object-detection')
->>> detecteur_objets(image)
+>> > detecteur_objets = pipeline('object-detection')
+>> > detecteur_objets(image)
 [{'score': 0.9982201457023621,
   'label': 'télécommande',
   'box': {'xmin': 40, 'ymin': 70, 'xmax': 175, 'ymax': 117}},
@@ -185,10 +185,10 @@ Vous pouvez en savoir plus sur les tâches supportées par l'API pipeline dans [
 En plus de `pipeline`, pour télécharger et utiliser n'importe lequel des modèles pré-entraînés sur votre tâche donnée, il suffit de trois lignes de code. Voici la version PyTorch :
 
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
 inputs = tokenizer("Bonjour le monde !", return_tensors="pt")
 outputs = model(**inputs)
@@ -197,7 +197,7 @@ outputs = model(**inputs)
 Et voici le code équivalent pour TensorFlow :
 
 ```python
-from transformers import AutoTokenizer, TFAutoModel
+from myTransformers import AutoTokenizer, TFAutoModel
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
@@ -255,7 +255,7 @@ Veuillez vous référer à la page d'installation de [TensorFlow](https://www.te
 Lorsqu'un de ces backends est installé, 🤗 Transformers peut être installé avec pip comme suit :
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 Si vous souhaitez jouer avec les exemples ou avez besoin de la dernière version du code et ne pouvez pas attendre une nouvelle version, vous devez [installer la bibliothèque à partir de la source](https://huggingface.co/docs/transformers/installation#installing-from-source).
@@ -265,7 +265,7 @@ Si vous souhaitez jouer avec les exemples ou avez besoin de la dernière version
 🤗 Transformers peut être installé avec conda comme suit :
 
 ```shell
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_NOTE:_** L'installation de `transformers` depuis le canal `huggingface` est obsolète.

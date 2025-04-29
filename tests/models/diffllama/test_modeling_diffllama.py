@@ -21,8 +21,8 @@ import pytest
 from packaging import version
 from parameterized import parameterized
 
-from transformers import AutoTokenizer, DiffLlamaConfig, StaticCache, is_torch_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, DiffLlamaConfig, StaticCache, is_torch_available, set_seed
+from myTransformers.testing_utils import (
     backend_empty_cache,
     cleanup,
     require_bitsandbytes,
@@ -45,14 +45,14 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         DiffLlamaForCausalLM,
         DiffLlamaForQuestionAnswering,
         DiffLlamaForSequenceClassification,
         DiffLlamaForTokenClassification,
         DiffLlamaModel,
     )
-    from transformers.models.diffllama.modeling_diffllama import (
+    from myTransformers.models.diffllama.modeling_diffllama import (
         DiffLlamaRotaryEmbedding,
     )
 
@@ -412,7 +412,7 @@ class DiffLlamaModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTester
         original_model(**model_inputs)
 
         # from a config with parameters in a bad range ('factor' should be >= 1.0) -> ⚠️ throws a warning
-        with self.assertLogs("transformers.modeling_rope_utils", level="WARNING") as logs:
+        with self.assertLogs("myTransformers.modeling_rope_utils", level="WARNING") as logs:
             config = _reinitialize_config(base_config, {"rope_scaling": {"rope_type": "linear", "factor": -999.0}})
             original_model = DiffLlamaForCausalLM(config).to(torch_device)
             original_model(**model_inputs)
@@ -420,7 +420,7 @@ class DiffLlamaModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTester
             self.assertIn("factor field", logs.output[0])
 
         # from a config with unknown parameters ('foo' isn't a rope option) -> ⚠️ throws a warning
-        with self.assertLogs("transformers.modeling_rope_utils", level="WARNING") as logs:
+        with self.assertLogs("myTransformers.modeling_rope_utils", level="WARNING") as logs:
             config = _reinitialize_config(
                 base_config, {"rope_scaling": {"rope_type": "linear", "factor": 10.0, "foo": "bar"}}
             )

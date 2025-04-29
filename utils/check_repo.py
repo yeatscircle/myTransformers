@@ -42,19 +42,19 @@ from importlib.machinery import ModuleSpec
 from pathlib import Path
 from typing import List, Tuple
 
-from transformers import is_flax_available, is_tf_available, is_torch_available
-from transformers.models.auto.auto_factory import get_values
-from transformers.models.auto.configuration_auto import CONFIG_MAPPING_NAMES
-from transformers.models.auto.feature_extraction_auto import FEATURE_EXTRACTOR_MAPPING_NAMES
-from transformers.models.auto.image_processing_auto import IMAGE_PROCESSOR_MAPPING_NAMES
-from transformers.models.auto.processing_auto import PROCESSOR_MAPPING_NAMES
-from transformers.models.auto.tokenization_auto import TOKENIZER_MAPPING_NAMES
-from transformers.utils import ENV_VARS_TRUE_VALUES, direct_transformers_import
+from myTransformers import is_flax_available, is_tf_available, is_torch_available
+from myTransformers.models.auto.auto_factory import get_values
+from myTransformers.models.auto.configuration_auto import CONFIG_MAPPING_NAMES
+from myTransformers.models.auto.feature_extraction_auto import FEATURE_EXTRACTOR_MAPPING_NAMES
+from myTransformers.models.auto.image_processing_auto import IMAGE_PROCESSOR_MAPPING_NAMES
+from myTransformers.models.auto.processing_auto import PROCESSOR_MAPPING_NAMES
+from myTransformers.models.auto.tokenization_auto import TOKENIZER_MAPPING_NAMES
+from myTransformers.utils import ENV_VARS_TRUE_VALUES, direct_transformers_import
 
 
 # All paths are set with the intent you should run this script from the root of the repo with the command
 # python utils/check_repo.py
-PATH_TO_TRANSFORMERS = "src/transformers"
+PATH_TO_TRANSFORMERS = "src/myTransformers"
 PATH_TO_TESTS = "tests"
 PATH_TO_DOC = "docs/source/en"
 
@@ -396,7 +396,7 @@ MODEL_TYPE_TO_DOC_MAPPING = OrderedDict(
 )
 
 
-# This is to make sure the transformers module imported is the one in the repo.
+# This is to make sure the myTransformers module imported is the one in the repo.
 transformers = direct_transformers_import(PATH_TO_TRANSFORMERS)
 
 
@@ -430,10 +430,10 @@ def check_missing_backends():
 
 def check_model_list():
     """
-    Checks the model listed as subfolders of `models` match the models available in `transformers.models`.
+    Checks the model listed as subfolders of `models` match the models available in `myTransformers.models`.
     """
-    # Get the models from the directory structure of `src/transformers/models/`
-    import transformers as tfrs
+    # Get the models from the directory structure of `src/myTransformers/models/`
+    import myTransformers as tfrs
 
     models_dir = os.path.join(PATH_TO_TRANSFORMERS, "models")
     _models = []
@@ -449,7 +449,7 @@ def check_model_list():
 
             _models.append(model)
 
-    # Get the models in the submodule `transformers.models`
+    # Get the models in the submodule `myTransformers.models`
     models = [model for model in dir(tfrs.models) if not model.startswith("__")]
 
     missing_models = sorted(set(_models).difference(models))
@@ -462,7 +462,7 @@ def check_model_list():
 # If some modeling modules should be ignored for all checks, they should be added in the nested list
 # _ignore_modules of this function.
 def get_model_modules() -> List[str]:
-    """Get all the model modules inside the transformers library (except deprecated models)."""
+    """Get all the model modules inside the myTransformers library (except deprecated models)."""
     _ignore_modules = [
         "modeling_auto",
         "modeling_encoder_decoder",
@@ -1137,7 +1137,7 @@ def check_public_method_exists(documented_methods_map):
         if len(nested_path) > 1:
             nested_submodules = nested_path[:-1]
             for submodule_name in nested_submodules:
-                if submodule_name == "transformers":
+                if submodule_name == "myTransformers":
                     continue
 
                 try:

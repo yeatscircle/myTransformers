@@ -16,8 +16,8 @@ from custom_init_isort import sort_imports_in_all_inits
 from git import Repo
 from packaging import version
 
-from transformers import CONFIG_MAPPING, logging
-from transformers import __version__ as current_version
+from myTransformers import CONFIG_MAPPING, logging
+from myTransformers import __version__ as current_version
 
 
 REPO_PATH = Path(os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
@@ -27,11 +27,11 @@ logger = logging.get_logger(__name__)
 
 
 def get_last_stable_minor_release():
-    # Get the last stable release of transformers
+    # Get the last stable release of myTransformers
     url = "https://pypi.org/pypi/transformers/json"
     release_data = requests.get(url).json()
 
-    # Find the last stable release of of transformers (version below current version)
+    # Find the last stable release of of myTransformers (version below current version)
     major_version, minor_version, patch_version, _ = current_version.split(".")
     last_major_minor = f"{major_version}.{int(minor_version) - 1}"
     last_stable_minor_releases = [
@@ -50,7 +50,7 @@ def build_tip_message(last_stable_release):
 This model is in maintenance mode only, we don't accept any new PRs changing its code.
 """
         + f"""If you run into any issues running this model, please reinstall the last version that supported this model: v{last_stable_release}.
-You can do so by running the following command: `pip install -U transformers=={last_stable_release}`.
+You can do so by running the following command: `pip install -U myTransformers=={last_stable_release}`.
 
 </Tip>"""
     )
@@ -93,7 +93,7 @@ def get_model_doc_path(model: str) -> Tuple[Optional[str], Optional[str]]:
 def extract_model_info(model):
     model_info = {}
     model_doc_path, model_doc_name = get_model_doc_path(model)
-    model_path = REPO_PATH / f"src/transformers/models/{model}"
+    model_path = REPO_PATH / f"src/myTransformers/models/{model}"
 
     if model_doc_path is None:
         print(f"Model doc path does not exist for {model}")
@@ -125,7 +125,7 @@ def update_relative_imports(filename, model):
 
 
 def remove_copied_from_statements(model):
-    model_path = REPO_PATH / f"src/transformers/models/{model}"
+    model_path = REPO_PATH / f"src/myTransformers/models/{model}"
     for file in os.listdir(model_path):
         if file == "__pycache__":
             continue
@@ -144,8 +144,8 @@ def remove_copied_from_statements(model):
 
 
 def move_model_files_to_deprecated(model):
-    model_path = REPO_PATH / f"src/transformers/models/{model}"
-    deprecated_model_path = REPO_PATH / f"src/transformers/models/deprecated/{model}"
+    model_path = REPO_PATH / f"src/myTransformers/models/{model}"
+    deprecated_model_path = REPO_PATH / f"src/myTransformers/models/deprecated/{model}"
 
     if not os.path.exists(deprecated_model_path):
         os.makedirs(deprecated_model_path)
@@ -177,7 +177,7 @@ def update_main_init_file(models):
     Args:
         models (List[str]): The models to mark as deprecated
     """
-    filename = REPO_PATH / "src/transformers/__init__.py"
+    filename = REPO_PATH / "src/myTransformers/__init__.py"
     with open(filename, "r") as f:
         init_file = f.read()
 
@@ -271,7 +271,7 @@ def add_models_to_deprecated_models_in_config_auto(models):
     Add the models to the DEPRECATED_MODELS list in configuration_auto.py and sorts the list
     to be in alphabetical order.
     """
-    filepath = REPO_PATH / "src/transformers/models/auto/configuration_auto.py"
+    filepath = REPO_PATH / "src/myTransformers/models/auto/configuration_auto.py"
     with open(filepath, "r") as f:
         config_auto = f.read()
 
@@ -344,7 +344,7 @@ def deprecate_models(models):
         print("Removing #Copied from statements from model's files")
         remove_copied_from_statements(model)
 
-        # Move the model file to deprecated: src/transformers/models/model -> src/transformers/models/deprecated/model
+        # Move the model file to deprecated: src/myTransformers/models/model -> src/myTransformers/models/deprecated/model
         print("Moving model files to deprecated for model")
         move_model_files_to_deprecated(model)
 
@@ -359,7 +359,7 @@ def deprecate_models(models):
     # Remove model references from other files
     print("Removing model references from other files")
     remove_model_references_from_file(
-        "src/transformers/models/__init__.py", models, lambda line, model: model == line.strip().strip(",")
+        "src/myTransformers/models/__init__.py", models, lambda line, model: model == line.strip().strip(",")
     )
     remove_model_references_from_file(
         "utils/slow_documentation_tests.txt", models, lambda line, model: "/" + model + "/" in line

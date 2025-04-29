@@ -58,7 +58,7 @@ Install torchao from PyPi or the PyTorch index with the following commands.
 ```bash
 # Updating 🤗 Transformers to the latest version, as the example script below uses the new auto compilation
 # Stable release from Pypi which will default to CUDA 12.6
-pip install --upgrade torchao transformers
+pip install --upgrade torchao myTransformers
 ```
 </hfoption> 
 <hfoption id="PyTorch Index">
@@ -282,10 +282,9 @@ Note: autoquant is for GPU only right now.
 
 Create a [`TorchAoConfig`] and set to `"autoquant"`. Set the `cache_implementation` to `"static"` to automatically [torch.compile](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html) the forward method. Finally, call `finalize_autoquant` on the quantized model to finalize the quantization and log the input shapes.
 
-
 ```py
 import torch
-from transformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
+from myTransformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
 
 quantization_config = TorchAoConfig("autoquant", min_sqnr=None)
 quantized_model = AutoModelForCausalLM.from_pretrained(
@@ -336,9 +335,10 @@ tokenizer.push_to_hub(f"{USER_ID}/llama3-8b-int4wo-128")
 ## Loading quantized models
 
 Loading a quantized model depends on the quantization scheme. For quantization schemes, like int8 and float8, you can quantize the model on any device and also load it on any device. The example below demonstrates quantizing a model on the CPU and then loading it on CUDA.
+
 ```py
 import torch
-from transformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
+from myTransformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
 from torchao.quantization import Int8WeightOnlyConfig
 
 quant_config = Int8WeightOnlyConfig(group_size=128)
@@ -357,8 +357,8 @@ quantized_model.save_pretrained(output_dir, safe_serialization=False)
 
 # reload the quantized model
 reloaded_model = AutoModelForCausalLM.from_pretrained(
-    output_dir, 
-    device_map="auto", 
+    output_dir,
+    device_map="auto",
     torch_dtype=torch.bfloat16
 )
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
@@ -373,7 +373,7 @@ For int4, the model can only be loaded on the same device it was quantized on be
 
 ```py
 import torch
-from transformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
+from myTransformers import TorchAoConfig, AutoModelForCausalLM, AutoTokenizer
 from torchao.quantization import Int4WeightOnlyConfig
 from torchao.dtypes import Int4CPULayout
 
@@ -393,8 +393,8 @@ quantized_model.save_pretrained(output_dir, safe_serialization=False)
 
 # reload the quantized model
 reloaded_model = AutoModelForCausalLM.from_pretrained(
-    output_dir, 
-    device_map="cpu", 
+    output_dir,
+    device_map="cpu",
     torch_dtype=torch.bfloat16
 )
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")

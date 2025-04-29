@@ -14,15 +14,15 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     MODEL_FOR_DOCUMENT_QUESTION_ANSWERING_MAPPING,
     AutoTokenizer,
     is_torch_available,
     is_vision_available,
 )
-from transformers.pipelines import DocumentQuestionAnsweringPipeline, pipeline
-from transformers.pipelines.document_question_answering import apply_tesseract
-from transformers.testing_utils import (
+from myTransformers.pipelines import DocumentQuestionAnsweringPipeline, pipeline
+from myTransformers.pipelines.document_question_answering import apply_tesseract
+from myTransformers.testing_utils import (
     is_pipeline_test,
     nested_simplify,
     require_detectron2,
@@ -43,7 +43,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers.image_utils import load_image
+    from myTransformers.image_utils import load_image
 else:
 
     class Image:

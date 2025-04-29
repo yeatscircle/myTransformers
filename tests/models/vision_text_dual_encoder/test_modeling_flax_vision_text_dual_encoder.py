@@ -19,8 +19,8 @@ import unittest
 
 import numpy as np
 
-from transformers.testing_utils import require_flax, require_torch, require_vision, slow
-from transformers.utils import is_flax_available, is_vision_available
+from myTransformers.testing_utils import require_flax, require_torch, require_vision, slow
+from myTransformers.utils import is_flax_available, is_vision_available
 
 from ...test_modeling_flax_common import floats_tensor, ids_tensor, random_attention_mask
 from ..bert.test_modeling_flax_bert import FlaxBertModelTester
@@ -29,7 +29,7 @@ from ..vit.test_modeling_flax_vit import FlaxViTModelTester
 
 
 if is_flax_available():
-    from transformers import (
+    from myTransformers import (
         FlaxBertModel,
         FlaxCLIPVisionModel,
         FlaxVisionTextDualEncoderModel,

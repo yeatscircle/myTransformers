@@ -19,14 +19,14 @@ import numpy as np
 import requests
 from packaging import version
 
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_torch,
     require_torch_gpu,
     require_vision,
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available, is_torchvision_available, is_vision_available
+from myTransformers.utils import is_torch_available, is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -37,10 +37,10 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import PixtralImageProcessor
+    from myTransformers import PixtralImageProcessor
 
     if is_torchvision_available():
-        from transformers import PixtralImageProcessorFast
+        from myTransformers import PixtralImageProcessorFast
 
 
 class PixtralImageProcessingTester:

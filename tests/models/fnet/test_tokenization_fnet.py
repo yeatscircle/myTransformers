@@ -14,9 +14,9 @@
 
 import unittest
 
-from transformers import FNetTokenizer, FNetTokenizerFast
-from transformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow, tooslow
-from transformers.tokenization_utils import AddedToken
+from myTransformers import FNetTokenizer, FNetTokenizerFast
+from myTransformers.testing_utils import get_tests_dir, require_sentencepiece, require_tokenizers, slow, tooslow
+from myTransformers.tokenization_utils import AddedToken
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

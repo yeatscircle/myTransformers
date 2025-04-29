@@ -31,8 +31,8 @@ import datasets
 import torch
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -45,8 +45,8 @@ from transformers import (
     default_data_collator,
     set_seed,
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import send_example_telemetry
+from myTransformers.trainer_utils import get_last_checkpoint
+from myTransformers.utils import send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -208,7 +208,7 @@ class DataTrainingArguments:
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -249,9 +249,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.set_verbosity(log_level)
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
 
     # Log on each process the small summary:
     logger.warning(
@@ -530,9 +530,9 @@ from datasets import load_dataset, load_metric
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 
-import transformers
+import myTransformers
 from accelerate import Accelerator
-from transformers import (
+from myTransformers import (
     CONFIG_MAPPING,
     MODEL_MAPPING,
     AutoConfig,
@@ -545,7 +545,7 @@ from transformers import (
     get_scheduler,
     set_seed,
 )
-from transformers.utils import send_example_telemetry
+from myTransformers.utils import send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -558,7 +558,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 {% endif %}
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Finetune a transformers model on a text classification task")
+    parser = argparse.ArgumentParser(description="Finetune a myTransformers model on a text classification task")
     parser.add_argument(
         "--dataset_name",
         type=str,
@@ -717,10 +717,10 @@ def main():
     logger.setLevel(logging.INFO if accelerator.is_local_main_process else logging.ERROR)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

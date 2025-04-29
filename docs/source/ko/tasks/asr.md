@@ -37,7 +37,7 @@ Siri와 Alexa와 같은 가상 어시스턴트는 ASR 모델을 사용하여 일
 시작하기 전에 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate jiwer
+pip install myTransformers datasets evaluate jiwer
 ```
 
 Hugging Face 계정에 로그인하면 모델을 업로드하고 커뮤니티에 공유할 수 있습니다. 토큰을 입력하여 로그인하세요.
@@ -109,9 +109,9 @@ DatasetDict({
 다음으로 오디오 신호를 처리하기 위한 Wav2Vec2 프로세서를 가져옵니다:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 MInDS-14 데이터 세트의 샘플링 레이트는 8000kHz이므로([데이터 세트 카드](https://huggingface.co/datasets/PolyAI/minds14)에서 확인), 사전 훈련된 Wav2Vec2 모델을 사용하려면 데이터 세트를 16000kHz로 리샘플링해야 합니다:
@@ -243,12 +243,15 @@ MInDS-14 데이터 세트의 샘플링 레이트는 8000kHz이므로([데이터 
 이제 모델 훈련을 시작할 준비가 되었습니다! [`AutoModelForCTC`]로 Wav2Vec2를 가져오세요. `ctc_loss_reduction` 매개변수로 CTC 손실에 적용할 축소(reduction) 방법을 지정하세요. 기본값인 합계 대신 평균을 사용하는 것이 더 좋은 경우가 많습니다:
 
 ```py
->>> from transformers import AutoModelForCTC, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCTC, TrainingArguments, Trainer
 
->>> model = AutoModelForCTC.from_pretrained(
-...     "facebook/wav2vec2-base",
-...     ctc_loss_reduction="mean",
-...     pad_token_id=processor.tokenizer.pad_token_id,
+>> > model = AutoModelForCTC.from_pretrained(
+    ...
+"facebook/wav2vec2-base",
+...
+ctc_loss_reduction = "mean",
+...
+pad_token_id = processor.tokenizer.pad_token_id,
 ... )
 ```
 
@@ -325,10 +328,10 @@ MInDS-14 데이터 세트의 샘플링 레이트는 8000kHz이므로([데이터 
 추론을 위해 미세 조정된 모델을 시험해보는 가장 간단한 방법은 [`pipeline`]을 사용하는 것입니다. 모델을 사용하여 자동 음성 인식을 위한 `pipeline`을 인스턴스화하고 오디오 파일을 전달하세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
->>> transcriber(audio_file)
+>> > transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
+>> > transcriber(audio_file)
 {'text': 'I WOUD LIKE O SET UP JOINT ACOUNT WTH Y PARTNER'}
 ```
 
@@ -345,20 +348,21 @@ MInDS-14 데이터 세트의 샘플링 레이트는 8000kHz이므로([데이터 
 오디오 파일과 텍스트를 전처리하고 PyTorch 텐서로 `input`을 반환할 프로세서를 가져오세요:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 입력을 모델에 전달하고 로짓을 반환하세요:
 
 ```py
->>> from transformers import AutoModelForCTC
+>> > from myTransformers import AutoModelForCTC
 
->>> model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 가장 높은 확률의 `input_ids`를 예측하고, 프로세서를 사용하여 예측된 `input_ids`를 다시 텍스트로 디코딩하세요:

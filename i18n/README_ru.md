@@ -134,11 +134,11 @@ Hugging Face Hub. Мы хотим, чтобы Transformers позволил ра
 Для использования модели на заданном входе (текст, изображение, звук, ...) мы предоставляем API `pipeline`. Конвейеры объединяют предварительно обученную модель с препроцессингом, который использовался при ее обучении. Вот как можно быстро использовать конвейер для классификации положительных и отрицательных текстов:
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Выделение конвейера для анализа настроений
->>> classifier = pipeline('sentiment-analysis')
->>> classifier('Мы очень рады представить конвейер в transformers.')
+>> > classifier = pipeline('sentiment-analysis')
+>> > classifier('Мы очень рады представить конвейер в myTransformers.')
 [{'label': 'POSITIVE', 'score': 0.9996980428695679}]
 ```
 
@@ -186,25 +186,27 @@ Hugging Face Hub. Мы хотим, чтобы Transformers позволил ра
 Подробнее о задачах, поддерживаемых API `pipeline`, можно узнать в [этом учебном пособии](https://huggingface.co/docs/transformers/task_sum)
 
 В дополнение к `pipeline`, для загрузки и использования любой из предварительно обученных моделей в заданной задаче достаточно трех строк кода. Вот версия для PyTorch:
+
 ```python
->>> from transformers import AutoTokenizer, AutoModel
+>> > from myTransformers import AutoTokenizer, AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Привет мир!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Привет мир!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 А вот эквивалентный код для TensorFlow:
+
 ```python
->>> from transformers import AutoTokenizer, TFAutoModel
+>> > from myTransformers import AutoTokenizer, TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModel.from_pretrained("google-bert/bert-base-uncased")
 
->>> inputs = tokenizer("Привет мир!", return_tensors="tf")
->>> outputs = model(**inputs)
+>> > inputs = tokenizer("Привет мир!", return_tensors="tf")
+>> > outputs = model(**inputs)
 ```
 
 Токенизатор отвечает за всю предварительную обработку, которую ожидает предварительно обученная модель, и может быть вызван непосредственно с помощью одной строки (как в приведенных выше примерах) или на списке. В результате будет получен словарь, который можно использовать в последующем коде или просто напрямую передать в модель с помощью оператора распаковки аргументов **.
@@ -256,7 +258,7 @@ Hugging Face Hub. Мы хотим, чтобы Transformers позволил ра
 После установки одного из этих бэкендов 🤗 Transformers может быть установлен с помощью pip следующим образом:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 Если вы хотите поиграть с примерами или вам нужен самый современный код и вы не можете ждать нового релиза, вы должны [установить библиотеку из исходного кода](https://huggingface.co/docs/transformers/installation#installing-from-source).
@@ -266,7 +268,7 @@ pip install transformers
 Установить Transformers с помощью conda можно следующим образом:
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 > **_ЗАМЕТКА:_** Установка `transformers` через канал `huggingface` устарела.

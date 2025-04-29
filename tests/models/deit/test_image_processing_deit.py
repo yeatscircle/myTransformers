@@ -15,17 +15,17 @@
 
 import unittest
 
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torchvision_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
 
 if is_vision_available():
-    from transformers import DeiTImageProcessor
+    from myTransformers import DeiTImageProcessor
 
     if is_torchvision_available():
-        from transformers import DeiTImageProcessorFast
+        from myTransformers import DeiTImageProcessorFast
 
 
 class DeiTImageProcessingTester:

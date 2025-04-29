@@ -19,9 +19,9 @@ import os
 import unittest
 from functools import lru_cache
 
-from transformers import AddedToken, RobertaTokenizer, RobertaTokenizerFast
-from transformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_tokenizers, slow
+from myTransformers import AddedToken, RobertaTokenizer, RobertaTokenizerFast
+from myTransformers.models.roberta.tokenization_roberta import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import require_tokenizers, slow
 
 from ...test_tokenization_common import TokenizerTesterMixin, use_cache_if_possible
 

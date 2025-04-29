@@ -16,15 +16,15 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import AutoProcessor, Llama4Processor, PreTrainedTokenizerFast
-from transformers.testing_utils import require_vision
-from transformers.utils import is_vision_available
+from myTransformers import AutoProcessor, Llama4Processor, PreTrainedTokenizerFast
+from myTransformers.testing_utils import require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import Llama4ImageProcessorFast
+    from myTransformers import Llama4ImageProcessorFast
 
 
 @require_vision

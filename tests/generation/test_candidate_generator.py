@@ -5,13 +5,13 @@ from unittest.mock import MagicMock
 
 import torch
 
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
-from transformers.generation.candidate_generator import (
+from myTransformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
+from myTransformers.generation.candidate_generator import (
     AssistantToTargetTranslator,
     AssistantVocabTranslatorCache,
     UniversalSpeculativeDecodingGenerator,
 )
-from transformers.testing_utils import require_torch, torch_device
+from myTransformers.testing_utils import require_torch, torch_device
 
 
 @require_torch

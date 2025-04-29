@@ -39,7 +39,7 @@ LayoutLMv2는 토큰의 마지막 은닉층 위에 질의 응답 헤드를 추�
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요. LayoutLMv2는 detectron2, torchvision 및 테서랙트를 필요로 합니다.
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 
 ```bash
@@ -151,9 +151,9 @@ DatasetDict({
 이미지 데이터를 처리할 수 있는 이미지 프로세서와 텍스트 데이터를 인코딩할 수 있는 토크나이저를 결합한 [`LayoutLMv2Processor`]를 가져오는 것부터 시작해 보겠습니다.
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained(model_checkpoint)
+>> > processor = AutoProcessor.from_pretrained(model_checkpoint)
 ```
 
 ### 문서 이미지 전처리 [[preprocessing-document-images]]
@@ -358,9 +358,9 @@ end_index 18
 * [`~Trainer.train`]을 호출해서 모델을 미세 조정합니다.
 
 ```py
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
 ```
 
 [`TrainingArguments`]에서 `output_dir`을 사용하여 모델을 저장할 위치를 지정하고, 적절한 하이퍼파라미터를 설정합니다.
@@ -368,48 +368,64 @@ end_index 18
 이 경우 `output_dir`은 모델의 체크포인트를 푸시할 레포지토리의 이름이 됩니다.
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> # 본인의 레포지토리 ID로 바꾸세요
->>> repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
+>> >  # 본인의 레포지토리 ID로 바꾸세요
+>> > repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     eval_strategy="steps",
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+eval_strategy = "steps",
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 간단한 데이터 콜레이터를 정의하여 예제를 함께 배치합니다.
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 마지막으로, 모든 것을 한 곳에 모아 [`~Trainer.train`]을 호출합니다:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=encoded_train_dataset,
-...     eval_dataset=encoded_test_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = encoded_train_dataset,
+...
+eval_dataset = encoded_test_dataset,
+...
+processing_class = processor,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 
 최종 모델을 🤗 Hub에 추가하려면, 모델 카드를 생성하고 `push_to_hub`를 호출합니다:
@@ -438,10 +454,10 @@ end_index 18
 그 다음, 모델로 문서 질의 응답을 하기 위해 파이프라인을 인스턴스화하고 이미지 + 질문 조합을 전달합니다.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> qa_pipeline(image, question)
+>> > qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > qa_pipeline(image, question)
 [{'score': 0.9949808120727539,
   'answer': 'Lee A. Waller',
   'start': 55,
@@ -456,21 +472,27 @@ end_index 18
 5. 토크나이저로 답변을 디코딩합니다.
 
 ```py
->>> import torch
->>> from transformers import AutoProcessor
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > import torch
+>> > from myTransformers import AutoProcessor
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
 
->>> with torch.no_grad():
-...     encoding = processor(image.convert("RGB"), question, return_tensors="pt")
-...     outputs = model(**encoding)
-...     start_logits = outputs.start_logits
-...     end_logits = outputs.end_logits
-...     predicted_start_idx = start_logits.argmax(-1).item()
-...     predicted_end_idx = end_logits.argmax(-1).item()
+>> > with torch.no_grad():
+    ...
+encoding = processor(image.convert("RGB"), question, return_tensors="pt")
+...
+outputs = model(**encoding)
+...
+start_logits = outputs.start_logits
+...
+end_logits = outputs.end_logits
+...
+predicted_start_idx = start_logits.argmax(-1).item()
+...
+predicted_end_idx = end_logits.argmax(-1).item()
 
->>> processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx : predicted_end_idx + 1])
+>> > processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx: predicted_end_idx + 1])
 'lee a. waller'
 ```

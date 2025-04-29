@@ -14,9 +14,9 @@
 import binascii
 import unittest
 
-from transformers import MyT5Tokenizer
-from transformers.testing_utils import slow
-from transformers.utils import is_tf_available, is_torch_available
+from myTransformers import MyT5Tokenizer
+from myTransformers.testing_utils import slow
+from myTransformers.utils import is_tf_available, is_torch_available
 
 from ...test_tokenization_common import TokenizerTesterMixin
 

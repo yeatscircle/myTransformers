@@ -24,10 +24,10 @@ import numpy as np
 from huggingface_hub import hf_hub_download
 from parameterized import parameterized
 
-from transformers import is_torch_available
-from transformers.models.auto import get_values
-from transformers.testing_utils import is_flaky, require_torch, slow, torch_device
-from transformers.utils import check_torch_load_is_safe
+from myTransformers import is_torch_available
+from myTransformers.models.auto import get_values
+from myTransformers.testing_utils import is_flaky, require_torch, slow, torch_device
+from myTransformers.utils import check_torch_load_is_safe
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
@@ -39,7 +39,7 @@ TOLERANCE = 1e-4
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MODEL_FOR_TIME_SERIES_CLASSIFICATION_MAPPING,
         MODEL_FOR_TIME_SERIES_REGRESSION_MAPPING,
         PatchTSMixerConfig,
@@ -49,7 +49,7 @@ if is_torch_available():
         PatchTSMixerForTimeSeriesClassification,
         PatchTSMixerModel,
     )
-    from transformers.models.patchtsmixer.modeling_patchtsmixer import (
+    from myTransformers.models.patchtsmixer.modeling_patchtsmixer import (
         PatchTSMixerEncoder,
         PatchTSMixerForPredictionHead,
         PatchTSMixerForPredictionOutput,

@@ -2,7 +2,7 @@ import os
 import unittest
 from pathlib import Path
 
-from transformers.utils.import_utils import define_import_structure, spread_import_structure
+from myTransformers.utils.import_utils import define_import_structure, spread_import_structure
 
 
 import_structures = Path("import_structures")
@@ -33,7 +33,7 @@ def fetch__all__(file_content):
 
 class TestImportStructures(unittest.TestCase):
     base_transformers_path = Path(__file__).parent.parent.parent
-    models_path = base_transformers_path / "src" / "transformers" / "models"
+    models_path = base_transformers_path / "src" / "myTransformers" / "models"
     models_import_structure = spread_import_structure(define_import_structure(models_path))
 
     # TODO: Lysandre

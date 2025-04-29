@@ -42,7 +42,7 @@ This model was contributed by [nielsr](https://huggingface.co/nielsr). The origi
 UPerNet is a general framework for semantic segmentation. It can be used with any vision backbone, like so:
 
 ```py
-from transformers import SwinConfig, UperNetConfig, UperNetForSemanticSegmentation
+from myTransformers import SwinConfig, UperNetConfig, UperNetForSemanticSegmentation
 
 backbone_config = SwinConfig(out_features=["stage1", "stage2", "stage3", "stage4"])
 
@@ -53,7 +53,7 @@ model = UperNetForSemanticSegmentation(config)
 To use another vision backbone, like [ConvNeXt](convnext), simply instantiate the model with the appropriate backbone:
 
 ```py
-from transformers import ConvNextConfig, UperNetConfig, UperNetForSemanticSegmentation
+from myTransformers import ConvNextConfig, UperNetConfig, UperNetForSemanticSegmentation
 
 backbone_config = ConvNextConfig(out_features=["stage1", "stage2", "stage3", "stage4"])
 

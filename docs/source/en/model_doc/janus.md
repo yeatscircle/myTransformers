@@ -44,11 +44,11 @@ Here is the example of visual understanding with a single image.
 > Note that the model has been trained with a specific prompt format for chatting. Use `processor.apply_chat_template(my_conversation_dict)` to correctly format your prompts.
 
 ```python
-import torch  
-from PIL import Image  
-import requests  
+import torch
+from PIL import Image
+import requests
 
-from transformers import JanusForConditionalGeneration, JanusProcessor  
+from myTransformers import JanusForConditionalGeneration, JanusProcessor
 
 model_id = "deepseek-community/Janus-Pro-1B"
 # Prepare Input for generation.
@@ -56,17 +56,17 @@ messages = [
     {
         "role": "user",
         "content": [
-            {'type':'image', 'url': 'http://images.cocodataset.org/val2017/000000039769.jpg'},
-            {'type':"text", "text":"What do you see in this image?."}
+            {'type': 'image', 'url': 'http://images.cocodataset.org/val2017/000000039769.jpg'},
+            {'type': "text", "text": "What do you see in this image?."}
         ]
     },
 ]
 
 # Set generation mode to `text` to perform text generation.
 processor = JanusProcessor.from_pretrained(model_id)
-model = JanusForConditionalGeneration.from_pretrained(model_id,     
-        torch_dtype=torch.bfloat16,
-        device_map="auto")
+model = JanusForConditionalGeneration.from_pretrained(model_id,
+                                                      torch_dtype=torch.bfloat16,
+                                                      device_map="auto")
 
 inputs = processor.apply_chat_template(
     messages,
@@ -77,7 +77,7 @@ inputs = processor.apply_chat_template(
     return_tensors="pt",
 ).to(model.device, dtype=torch.bfloat16)
 
-output = model.generate(**inputs, max_new_tokens=40,generation_mode='text',do_sample=True)
+output = model.generate(**inputs, max_new_tokens=40, generation_mode='text', do_sample=True)
 text = processor.decode(output[0], skip_special_tokens=True)
 print(text)
 ```
@@ -91,7 +91,7 @@ import torch
 from PIL import Image
 import requests
 
-from transformers import JanusForConditionalGeneration, JanusProcessor
+from myTransformers import JanusForConditionalGeneration, JanusProcessor
 
 model_id = "deepseek-community/Janus-Pro-1B"
 
@@ -152,15 +152,15 @@ Janus can also generate images given a prompt.
 
 ```python
 import torch
-from transformers import JanusForConditionalGeneration, JanusProcessor
+from myTransformers import JanusForConditionalGeneration, JanusProcessor
 
 # Set generation mode to `image` to prepare inputs for image generation..
 
 model_id = "deepseek-community/Janus-Pro-1B"
 processor = JanusProcessor.from_pretrained(model_id)
 model = JanusForConditionalGeneration.from_pretrained(model_id,
-        torch_dtype=torch.bfloat16,
-        device_map="auto")
+                                                      torch_dtype=torch.bfloat16,
+                                                      device_map="auto")
 
 messages = [
     {
@@ -168,11 +168,11 @@ messages = [
         "content": [
             {"type": "text", "text": "A dog running under the rain."},
         ],
-     }
+    }
 ]
 
 prompt = processor.apply_chat_template(messages, add_generation_prompt=True)
-inputs = processor(text=prompt,generation_mode="image",return_tensors="pt").to(model.device, dtype=torch.bfloat16)
+inputs = processor(text=prompt, generation_mode="image", return_tensors="pt").to(model.device, dtype=torch.bfloat16)
 
 # Set num_return_sequence parameter to generate multiple images per prompt.
 model.generation_config.num_return_sequences = 2
@@ -183,7 +183,7 @@ outputs = model.generate(**inputs,
                          )
 # Perform post-processing on the generated token ids.
 decoded_image = model.decode_image_tokens(outputs)
-images = processor.postprocess(list(decoded_image.float()),return_tensors="PIL.Image.Image")
+images = processor.postprocess(list(decoded_image.float()), return_tensors="PIL.Image.Image")
 # Save the image
 for i, image in enumerate(images['pixel_values']):
     image.save(f"result{i}.png")

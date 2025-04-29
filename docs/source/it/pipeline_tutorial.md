@@ -35,9 +35,9 @@ Nonostante ogni compito abbia una [`pipeline`] associata, è più semplice utili
 1. Inizia creando una [`pipeline`] e specificando il compito su cui fare inferenza:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline(task="text-generation")
+>> > generator = pipeline(task="text-generation")
 ```
 
 2. Inserisci il testo in input nella [`pipeline`]:
@@ -74,18 +74,18 @@ Qualsiasi parametro addizionale per il tuo compito può essere incluso nella [`p
 La [`pipeline`] accetta qualsiasi modello dal [Model Hub](https://huggingface.co/models). Ci sono tag nel Model Hub che consentono di filtrare i modelli per attività. Una volta che avrai scelto il modello appropriato, caricalo usando la corrispondente classe `AutoModelFor` e [`AutoTokenizer`]. Ad esempio, carica la classe [`AutoModelForCausalLM`] per un compito di causal language modeling:
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForCausalLM
+>> > from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 Crea una [`pipeline`] per il tuo compito, specificando il modello e il tokenizer che hai caricato:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline(task="text-generation", model=model, tokenizer=tokenizer)
+>> > generator = pipeline(task="text-generation", model=model, tokenizer=tokenizer)
 ```
 
 Inserisci il testo di input nella [`pipeline`] per generare del testo:
@@ -115,10 +115,11 @@ Per esempio, classifichiamo le emozioni in questo clip audio:
 Trova un modello per la [classificazione audio](https://huggingface.co/models?pipeline_tag=audio-classification) sul Model Hub per eseguire un compito di riconoscimento automatico delle emozioni e caricalo nella [`pipeline`]:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> audio_classifier = pipeline(
-...     task="audio-classification", model="ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
+>> > audio_classifier = pipeline(
+    ...
+task = "audio-classification", model = "ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition"
 ... )
 ```
 
@@ -140,13 +141,17 @@ Specifica la tua attività e inserisci l'immagine nel classificatore. L'immagine
 ![pipeline-cat-chonk](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg)
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> vision_classifier = pipeline(task="image-classification")
->>> preds = vision_classifier(
-...     images="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
+>> > vision_classifier = pipeline(task="image-classification")
+>> > preds = vision_classifier(
+    ...
+images = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 ... )
->>> preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
->>> preds
-[{'score': 0.4335, 'label': 'lynx, catamount'}, {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'}, {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'}, {'score': 0.0229, 'label': 'tiger cat'}]
+>> > preds = [{"score": round(pred["score"], 4), "label": pred["label"]} for pred in preds]
+>> > preds
+[{'score': 0.4335, 'label': 'lynx, catamount'},
+ {'score': 0.0348, 'label': 'cougar, puma, catamount, mountain lion, painter, panther, Felis concolor'},
+ {'score': 0.0324, 'label': 'snow leopard, ounce, Panthera uncia'}, {'score': 0.0239, 'label': 'Egyptian cat'},
+ {'score': 0.0229, 'label': 'tiger cat'}]
 ```

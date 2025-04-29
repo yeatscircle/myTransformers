@@ -64,7 +64,7 @@ Bart 모델은 2019년 10월 29일 Mike Lewis, Yinhan Liu, Naman Goyal, Marjan G
 `facebook/bart-base`와 `facebook/bart-large` 체크포인트는 멀티 토큰 마스크를 채우는데 사용될 수 있습니다.
 
 ```python
-from transformers import BartForConditionalGeneration, BartTokenizer
+from myTransformers import BartForConditionalGeneration, BartTokenizer
 
 model = BartForConditionalGeneration.from_pretrained("facebook/bart-large", forced_bos_token_id=0)
 tok = BartTokenizer.from_pretrained("facebook/bart-large")

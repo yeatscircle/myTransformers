@@ -41,11 +41,11 @@ XLM 有十个不同的检查点，其中只有一个是单语言的。剩下的�
 在此示例中，加载 `FacebookAI/xlm-clm-enfr-1024` 检查点（因果语言建模，英语-法语）：
 
 ```py
->>> import torch
->>> from transformers import XLMTokenizer, XLMWithLMHeadModel
+>> > import torch
+>> > from myTransformers import XLMTokenizer, XLMWithLMHeadModel
 
->>> tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
->>> model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
 ```
 
 分词器的 `lang2id` 属性显示了该模型的语言及其对应的id：
@@ -116,13 +116,13 @@ XLM-RoBERTa 使用 100 种语言的 2.5TB 新创建和清理的 CommonCrawl 数�
 在此示例中，加载 `facebook/m2m100_418M` 检查点以将中文翻译为英文。你可以在分词器中设置源语言：
 
 ```py
->>> from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+>> > from myTransformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
 
->>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
->>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+>> > tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
+>> > model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 ```
 
 对文本进行分词：
@@ -152,13 +152,13 @@ M2M100 强制将目标语言 id 作为第一个生成的标记，以进行到目
 在此示例中，加载  `facebook/mbart-large-50-many-to-many-mmt` 检查点以将芬兰语翻译为英语。 你可以在分词器中设置源语言：
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 ```
 
 对文本进行分词：

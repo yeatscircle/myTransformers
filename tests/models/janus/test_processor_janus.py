@@ -19,9 +19,9 @@ import unittest
 
 import numpy as np
 
-from transformers import AutoProcessor, AutoTokenizer, JanusProcessor
-from transformers.models.janus.convert_janus_weights_to_hf import CHAT_TEMPLATE
-from transformers.utils import is_vision_available
+from myTransformers import AutoProcessor, AutoTokenizer, JanusProcessor
+from myTransformers.models.janus.convert_janus_weights_to_hf import CHAT_TEMPLATE
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 

@@ -24,13 +24,13 @@ In the example below, Mistral-7B-Instruct and Zephyr-7B are finetuned from the s
 <hfoption id="Mistral">
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 chat = [
-  {"role": "user", "content": "Hello, how are you?"},
-  {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-  {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    {"role": "user", "content": "I'd like to show off how chat templating works!"},
 ]
 
 tokenizer.apply_chat_template(chat, tokenize=False)
@@ -43,13 +43,13 @@ tokenizer.apply_chat_template(chat, tokenize=False)
 <hfoption id="Zephyr">
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
 chat = [
-  {"role": "user", "content": "Hello, how are you?"},
-  {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-  {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    {"role": "user", "content": "I'd like to show off how chat templating works!"},
 ]
 
 tokenizer.apply_chat_template(chat, tokenize=False)
@@ -71,15 +71,16 @@ Pass your messages to [`apply_chat_template`] to tokenize and format them. You c
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
-model = AutoModelForCausalLM.from_pretrained("HuggingFaceH4/zephyr-7b-beta", device_map="auto", torch_dtype=torch.bfloat16)
+model = AutoModelForCausalLM.from_pretrained("HuggingFaceH4/zephyr-7b-beta", device_map="auto",
+                                             torch_dtype=torch.bfloat16)
 
 messages = [
-    {"role": "system", "content": "You are a friendly chatbot who always responds in the style of a pirate",},
+    {"role": "system", "content": "You are a friendly chatbot who always responds in the style of a pirate", },
     {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
- ]
+]
 tokenized_chat = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
 print(tokenizer.decode(tokenized_chat[0]))
 ```
@@ -193,7 +194,7 @@ Training a model with a chat template is a good way to ensure a chat template ma
 An example of preprocessing a dataset with a chat template is shown below.
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 from datasets import Dataset
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
@@ -208,7 +209,8 @@ chat2 = [
 ]
 
 dataset = Dataset.from_dict({"chat": [chat1, chat2]})
-dataset = dataset.map(lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
+dataset = dataset.map(
+    lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
 print(dataset['formatted_chat'][0])
 ```
 ```md

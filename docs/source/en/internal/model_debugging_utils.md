@@ -42,8 +42,9 @@ Add this context manager as follows to debug a model:
 import torch
 from PIL import Image
 import requests
-from transformers import LlavaProcessor, LlavaForConditionalGeneration
-from transformers.model_debugging_utils import model_addition_debugger_context
+from myTransformers import LlavaProcessor, LlavaForConditionalGeneration
+from myTransformers.model_debugging_utils import model_addition_debugger_context
+
 torch.random.manual_seed(673)
 
 # load pretrained model and processor
@@ -62,10 +63,10 @@ inputs = processor(text=prompt, images=random_image, return_tensors="pt")
 
 # call forward method (not .generate!)
 with model_addition_debugger_context(
-  model,
-  debug_path="optional_path_to_your_directory",
-  do_prune_layers=False # This will output ALL the layers of a model.
-  ):
+        model,
+        debug_path="optional_path_to_your_directory",
+        do_prune_layers=False  # This will output ALL the layers of a model.
+):
     output = model.forward(**inputs)
 
 ```

@@ -24,9 +24,9 @@ To change the level of verbosity, just use one of the direct setters. For instan
 to the INFO level.
 
 ```python
-import transformers
+import myTransformers
 
-transformers.logging.set_verbosity_info()
+myTransformers.logging.set_verbosity_info()
 ```
 
 You can also use the environment variable `TRANSFORMERS_VERBOSITY` to override the default verbosity. You can set it
@@ -47,10 +47,10 @@ TRANSFORMERS_NO_ADVISORY_WARNINGS=1 ./myprogram.py
 Here is an example of how to use the same logger as the library in your own module or script:
 
 ```python
-from transformers.utils import logging
+from myTransformers.utils import logging
 
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers")
+logger = logging.get_logger("myTransformers")
 logger.info("INFO")
 logger.warning("WARN")
 ```

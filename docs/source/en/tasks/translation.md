@@ -36,7 +36,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate sacrebleu
+pip install myTransformers datasets evaluate sacrebleu
 ```
 
 We encourage you to login to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to login:
@@ -81,10 +81,10 @@ Then take a look at an example:
 The next step is to load a T5 tokenizer to process the English-French language pairs:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 The preprocessing function you want to create needs to:
@@ -190,9 +190,9 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load T5 with [`AutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 At this point, only three steps remain:
@@ -244,17 +244,17 @@ If you aren't familiar with finetuning a model with Keras, take a look at the ba
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import AdamWeightDecay
+>> > from myTransformers import AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Then you can load T5 with [`TFAutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 Convert your datasets to the `tf.data.Dataset` format with [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -288,19 +288,21 @@ The last two things to setup before you start training is to compute the SacreBL
 Pass your `compute_metrics` function to [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_test_set)
 ```
 
 Specify where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_opus_books_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_opus_books_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -341,13 +343,13 @@ Come up with some text you'd like to translate to another language. For T5, you 
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for translation with your model, and pass your text to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Change `xx` to the language of the input and `yy` to the language of the desired output.
 # Examples: "en" for English, "fr" for French, "de" for German, "es" for Spanish, "zh" for Chinese, etc; translation_en_to_fr translates English to French
 # You can view all the lists of languages here - https://huggingface.co/languages
->>> translator = pipeline("translation_xx_to_yy", model="username/my_awesome_opus_books_model")
->>> translator(text)
+>> > translator = pipeline("translation_xx_to_yy", model="username/my_awesome_opus_books_model")
+>> > translator(text)
 [{'translation_text': 'Legumes partagent des ressources avec des bactéries azotantes.'}]
 ```
 
@@ -358,19 +360,19 @@ You can also manually replicate the results of the `pipeline` if you'd like:
 Tokenize the text and return the `input_ids` as PyTorch tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 Use the [`~generation.GenerationMixin.generate`] method to create the translation. For more details about the different text generation strategies and parameters for controlling generation, check out the [Text Generation](../main_classes/text_generation) API.
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 Decode the generated token ids back into text:
@@ -384,19 +386,19 @@ Decode the generated token ids back into text:
 Tokenize the text and return the `input_ids` as TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 Use the [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] method to create the translation. For more details about the different text generation strategies and parameters for controlling generation, check out the [Text Generation](../main_classes/text_generation) API.
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("username/my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 Decode the generated token ids back into text:

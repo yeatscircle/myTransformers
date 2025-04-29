@@ -40,7 +40,7 @@ The example below demonstrates how to classify an image with [`Pipeline`] or the
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
     task="image-classification",
@@ -58,7 +58,7 @@ pipeline(images="https://huggingface.co/datasets/huggingface/documentation-image
 import torch
 import requests
 from PIL import Image
-from transformers import AutoModelForImageClassification, AutoImageProcessor
+from myTransformers import AutoModelForImageClassification, AutoImageProcessor
 
 image_processor = AutoImageProcessor.from_pretrained(
     "google/vit-base-patch16-224",
@@ -75,7 +75,7 @@ image = Image.open(requests.get(url, stream=True).raw)
 inputs = image_processor(image, return_tensors="pt").to("cuda")
 
 with torch.no_grad():
-  logits = model(**inputs).logits
+    logits = model(**inputs).logits
 predicted_class_id = logits.argmax(dim=-1).item()
 
 class_labels = model.config.id2label

@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from transformers import (
+from myTransformers import (
     AutoModelForSeq2SeqLM,
     BertTokenizer,
     DataCollatorForSeq2Seq,
@@ -21,8 +21,8 @@ from transformers import (
     Seq2SeqTrainingArguments,
     T5Tokenizer,
 )
-from transformers.testing_utils import TestCasePlus, require_sentencepiece, require_torch, slow
-from transformers.utils import is_datasets_available
+from myTransformers.testing_utils import TestCasePlus, require_sentencepiece, require_torch, slow
+from myTransformers.utils import is_datasets_available
 
 
 if is_datasets_available():

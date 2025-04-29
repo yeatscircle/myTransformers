@@ -56,7 +56,7 @@ Example of how to use the processor on chat messages:
 ```python
 import requests
 from PIL import Image
-from transformers import Idefics2Processor, Idefics2ForConditionalGeneration
+from myTransformers import Idefics2Processor, Idefics2ForConditionalGeneration
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -98,7 +98,7 @@ print("Generated text:", generated_text)
 ```python
 import requests
 from PIL import Image
-from transformers import Idefics2Processor, Idefics2ForConditionalGeneration
+from myTransformers import Idefics2Processor, Idefics2ForConditionalGeneration
 import torch
 
 url_1 = "http://images.cocodataset.org/val2017/000000039769.jpg"
@@ -116,12 +116,12 @@ messages = [{
         {"type": "image"},
     ],
 },
-{
-    "role": "assistant",
-    "content": [
-        {"type": "text", "text": "The difference is that one image is about dogs and the other one about cats."},
-    ],
-}]
+    {
+        "role": "assistant",
+        "content": [
+            {"type": "text", "text": "The difference is that one image is about dogs and the other one about cats."},
+        ],
+    }]
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

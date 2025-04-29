@@ -41,11 +41,11 @@ XLM には10の異なるチェックポイントがあり、そのうちの1つ�
 この例では、`FacebookAI/xlm-clm-enfr-1024` チェックポイントをロードします (因果言語モデリング、英語-フランス語)。
 
 ```py
->>> import torch
->>> from transformers import XLMTokenizer, XLMWithLMHeadModel
+>> > import torch
+>> > from myTransformers import XLMTokenizer, XLMWithLMHeadModel
 
->>> tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
->>> model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > tokenizer = XLMTokenizer.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
+>> > model = XLMWithLMHeadModel.from_pretrained("FacebookAI/xlm-clm-enfr-1024")
 ```
 
 トークナイザーの `lang2id` 属性は、このモデルの言語とその ID を表示します。
@@ -116,13 +116,13 @@ XLM-RoBERTa は、100の言語で新しく作成およびクリーニングさ�
 この例では、`facebook/m2m100_418M` チェックポイントをロードして、中国語から英語に翻訳します。 トークナイザーでソース言語を設定できます。
 
 ```py
->>> from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+>> > from myTransformers import M2M100ForConditionalGeneration, M2M100Tokenizer
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > chinese_text = "不要插手巫師的事務, 因為他們是微妙的, 很快就會發怒."
 
->>> tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
->>> model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+>> > tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M", src_lang="zh")
+>> > model = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
 ```
 
 テキストをトークン化します。
@@ -152,13 +152,13 @@ M2M100 は、最初に生成されたトークンとしてターゲット言語 
 この例では、`facebook/mbart-large-50-many-to-many-mmt` チェックポイントをロードして、フィンランド語を英語に翻訳します。トークナイザーでソース言語を設定できます。
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
->>> fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
+>> > en_text = "Do not meddle in the affairs of wizards, for they are subtle and quick to anger."
+>> > fi_text = "Älä sekaannu velhojen asioihin, sillä ne ovat hienovaraisia ja nopeasti vihaisia."
 
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="fi_FI")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 ```
 
 テキストをトークン化します。

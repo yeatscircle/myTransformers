@@ -18,16 +18,16 @@ import pickle
 import tempfile
 import unittest
 
-from transformers import UMT5Config, is_torch_available
-from transformers.models.auto.modeling_auto import MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES
-from transformers.testing_utils import (
+from myTransformers import UMT5Config, is_torch_available
+from myTransformers.models.auto.modeling_auto import MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES
+from myTransformers.testing_utils import (
     require_sentencepiece,
     require_tokenizers,
     require_torch,
     slow,
     torch_device,
 )
-from transformers.utils.fx import symbolic_trace
+from myTransformers.utils.fx import symbolic_trace
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -39,7 +39,7 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         UMT5EncoderModel,
         UMT5ForConditionalGeneration,
@@ -279,7 +279,7 @@ class UMT5ModelTest(ModelTesterMixin, GenerationTesterMixin, PipelineTesterMixin
         self.model_tester = UMT5ModelTester(self)
 
     # `QAPipelineTests` is not working well with slow tokenizers (for some models) and we don't want to touch the file
-    # `src/transformers/data/processors/squad.py` (where this test fails for this model)
+    # `src/myTransformers/data/processors/squad.py` (where this test fails for this model)
     def is_pipeline_test_to_skip(
         self,
         pipeline_test_case_name,
@@ -724,7 +724,7 @@ class UMT5EncoderOnlyModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.T
             return True
 
         # `UMT5EncoderOnlyModelTest` is not working well with slow tokenizers (for some models) and we don't want to touch the file
-        # `src/transformers/data/processors/squad.py` (where this test fails for this model)
+        # `src/myTransformers/data/processors/squad.py` (where this test fails for this model)
         if pipeline_test_case_name == "TokenClassificationPipelineTests" and not tokenizer_name.endswith("Fast"):
             return True
 

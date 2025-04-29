@@ -76,7 +76,8 @@ The model can accept both images and videos as input. Here's an example code for
 import av
 import torch
 import numpy as np
-from transformers import VideoLlavaForConditionalGeneration, VideoLlavaProcessor
+from myTransformers import VideoLlavaForConditionalGeneration, VideoLlavaProcessor
+
 
 def read_video_pyav(container, indices):
     '''
@@ -98,12 +99,15 @@ def read_video_pyav(container, indices):
             frames.append(frame)
     return np.stack([x.to_ndarray(format="rgb24") for x in frames])
 
+
 # Load the model in half-precision
-model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-LLaVA-7B-hf", torch_dtype=torch.float16, device_map="auto")
+model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-LLaVA-7B-hf", torch_dtype=torch.float16,
+                                                           device_map="auto")
 processor = VideoLlavaProcessor.from_pretrained("LanguageBind/Video-LLaVA-7B-hf")
 
 # Load the video as an np.arrau, sampling uniformly 8 frames
-video_path = hf_hub_download(repo_id="raushan-testing-hf/videos-test", filename="sample_demo_1.mp4", repo_type="dataset")
+video_path = hf_hub_download(repo_id="raushan-testing-hf/videos-test", filename="sample_demo_1.mp4",
+                             repo_type="dataset")
 container = av.open(video_path)
 total_frames = container.streams.video[0].frames
 indices = np.arange(0, total_frames, total_frames / 8).astype(int)
@@ -163,9 +167,8 @@ We value your feedback to help identify bugs before the full release! Check out 
 
 Load the quantized model by simply adding [`BitsAndBytesConfig`](../main_classes/quantization#transformers.BitsAndBytesConfig) as shown below:
 
-
 ```python
-from transformers import VideoLlavaForConditionalGeneration, BitsAndBytesConfig
+from myTransformers import VideoLlavaForConditionalGeneration, BitsAndBytesConfig
 
 # specify how to quantize the model
 quantization_config = BitsAndBytesConfig(
@@ -174,7 +177,8 @@ quantization_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 
-model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-LLaVA-7B-hf", quantization_config=quantization_config, device_map="auto")
+model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-LLaVA-7B-hf",
+                                                           quantization_config=quantization_config, device_map="auto")
 ```
 
 
@@ -193,11 +197,11 @@ Also, you should have a hardware that is compatible with Flash-Attention 2. Read
 To load and run a model using Flash Attention-2, simply add `attn_implementation="flash_attention_2"` when loading the model as follows:
 
 ```python
-from transformers import VideoLlavaForConditionalGeneration
+from myTransformers import VideoLlavaForConditionalGeneration
 
 model = VideoLlavaForConditionalGeneration.from_pretrained(
-    "LanguageBind/Video-LLaVA-7B-hf", 
-    torch_dtype=torch.float16, 
+    "LanguageBind/Video-LLaVA-7B-hf",
+    torch_dtype=torch.float16,
     attn_implementation="flash_attention_2",
 ).to(0)
 ```

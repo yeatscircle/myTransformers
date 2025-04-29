@@ -42,7 +42,7 @@ LayoutLMv2 は、最後の非表示のヘッダーの上に質問応答ヘッド
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。 LayoutLMv2 は detectron2、torchvision、tesseract に依存します。
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 
 ```bash
@@ -160,9 +160,9 @@ DatasetDict({
 モデルの期待に従って前処理されます。まず、[`LayoutLMv2Processor`] をロードします。これは、画像データを処理できる画像プロセッサとテキスト データをエンコードできるトークナイザーを内部で組み合わせています。
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained(model_checkpoint)
+>> > processor = AutoProcessor.from_pretrained(model_checkpoint)
 ```
 
 ### Preprocessing document images
@@ -375,9 +375,9 @@ end_index 18
 * [`~Trainer.train`] を呼び出してモデルを微調整します。
 
 ```py
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
 ```
 
 [`TrainingArguments`] で、`output_dir` を使用してモデルの保存場所を指定し、必要に応じてハイパーパラメーターを構成します。
@@ -385,48 +385,64 @@ end_index 18
 この場合、`output_dir`はモデルのチェックポイントがプッシュされるリポジトリの名前にもなります。
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> # REPLACE THIS WITH YOUR REPO ID
->>> repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
+>> >  # REPLACE THIS WITH YOUR REPO ID
+>> > repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     eval_strategy="steps",
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+eval_strategy = "steps",
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 サンプルをまとめてバッチ処理するための単純なデータ照合器を定義します。
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 最後に、すべてをまとめて、[`~Trainer.train`] を呼び出します。
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=encoded_train_dataset,
-...     eval_dataset=encoded_test_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = encoded_train_dataset,
+...
+eval_dataset = encoded_test_dataset,
+...
+processing_class = processor,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 
 最終モデルを 🤗 Hub に追加するには、モデル カードを作成し、`push_to_hub` を呼び出します。
@@ -456,10 +472,10 @@ LayoutLMv2 モデルを微調整し、🤗 ハブにアップロードしたの�
 モデルを使用して質問への回答を文書化し、画像と質問の組み合わせをモデルに渡します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> qa_pipeline(image, question)
+>> > qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > qa_pipeline(image, question)
 [{'score': 0.9949808120727539,
   'answer': 'Lee A. Waller',
   'start': 55,
@@ -475,21 +491,27 @@ LayoutLMv2 モデルを微調整し、🤗 ハブにアップロードしたの�
 5. トークナイザーを使用して回答をデコードします。
 
 ```py
->>> import torch
->>> from transformers import AutoProcessor
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > import torch
+>> > from myTransformers import AutoProcessor
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
 
->>> with torch.no_grad():
-...     encoding = processor(image.convert("RGB"), question, return_tensors="pt")
-...     outputs = model(**encoding)
-...     start_logits = outputs.start_logits
-...     end_logits = outputs.end_logits
-...     predicted_start_idx = start_logits.argmax(-1).item()
-...     predicted_end_idx = end_logits.argmax(-1).item()
+>> > with torch.no_grad():
+    ...
+encoding = processor(image.convert("RGB"), question, return_tensors="pt")
+...
+outputs = model(**encoding)
+...
+start_logits = outputs.start_logits
+...
+end_logits = outputs.end_logits
+...
+predicted_start_idx = start_logits.argmax(-1).item()
+...
+predicted_end_idx = end_logits.argmax(-1).item()
 
->>> processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx : predicted_end_idx + 1])
+>> > processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx: predicted_end_idx + 1])
 'lee a. waller'
 ```

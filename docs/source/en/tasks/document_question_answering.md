@@ -42,7 +42,7 @@ of information answers the question. The context comes from the output of an OCR
 Before you begin, make sure you have all the necessary libraries installed. LayoutLMv2 depends on detectron2, torchvision and tesseract.
 
 ```bash
-pip install -q transformers datasets
+pip install -q myTransformers datasets
 ```
 
 ```bash
@@ -158,9 +158,9 @@ The Document Question Answering task is a multimodal task, and you need to make 
 are preprocessed according to the model's expectations. Let's start by loading the [`LayoutLMv2Processor`], which internally combines an image processor that can handle image data and a tokenizer that can encode text data.
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained(model_checkpoint)
+>> > processor = AutoProcessor.from_pretrained(model_checkpoint)
 ```
 
 ### Preprocessing document images
@@ -372,9 +372,9 @@ Training involves the following steps:
 * Call [`~Trainer.train`] to finetune your model.
 
 ```py
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained(model_checkpoint)
 ```
 
 In the [`TrainingArguments`] use `output_dir` to specify where to save your model, and configure hyperparameters as you see fit.
@@ -382,48 +382,64 @@ If you wish to share your model with the community, set `push_to_hub` to `True` 
 In this case the `output_dir` will also be the name of the repo where your model checkpoint will be pushed.
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> # REPLACE THIS WITH YOUR REPO ID
->>> repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
+>> >  # REPLACE THIS WITH YOUR REPO ID
+>> > repo_id = "MariaK/layoutlmv2-base-uncased_finetuned_docvqa"
 
->>> training_args = TrainingArguments(
-...     output_dir=repo_id,
-...     per_device_train_batch_size=4,
-...     num_train_epochs=20,
-...     save_steps=200,
-...     logging_steps=50,
-...     eval_strategy="steps",
-...     learning_rate=5e-5,
-...     save_total_limit=2,
-...     remove_unused_columns=False,
-...     push_to_hub=True,
+>> > training_args = TrainingArguments(
+    ...
+output_dir = repo_id,
+...
+per_device_train_batch_size = 4,
+...
+num_train_epochs = 20,
+...
+save_steps = 200,
+...
+logging_steps = 50,
+...
+eval_strategy = "steps",
+...
+learning_rate = 5e-5,
+...
+save_total_limit = 2,
+...
+remove_unused_columns = False,
+...
+push_to_hub = True,
 ... )
 ```
 
 Define a simple data collator to batch examples together.
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+>> > data_collator = DefaultDataCollator()
 ```
 
 Finally, bring everything together, and call [`~Trainer.train`]:
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     data_collator=data_collator,
-...     train_dataset=encoded_train_dataset,
-...     eval_dataset=encoded_test_dataset,
-...     processing_class=processor,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+data_collator = data_collator,
+...
+train_dataset = encoded_train_dataset,
+...
+eval_dataset = encoded_test_dataset,
+...
+processing_class = processor,
 ... )
 
->>> trainer.train()
+>> > trainer.train()
 ```
 
 To add the final model to 🤗 Hub, create a model card and call `push_to_hub`:
@@ -453,10 +469,10 @@ Next, instantiate a pipeline for
 document question answering with your model, and pass the image + question combination to it.
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> qa_pipeline(image, question)
+>> > qa_pipeline = pipeline("document-question-answering", model="MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > qa_pipeline(image, question)
 [{'score': 0.9949808120727539,
   'answer': 'Lee A. Waller',
   'start': 55,
@@ -472,21 +488,27 @@ which token is at the end of the answer. Both have shape (batch_size, sequence_l
 5. Decode the answer with the tokenizer.
 
 ```py
->>> import torch
->>> from transformers import AutoProcessor
->>> from transformers import AutoModelForDocumentQuestionAnswering
+>> > import torch
+>> > from myTransformers import AutoProcessor
+>> > from myTransformers import AutoModelForDocumentQuestionAnswering
 
->>> processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
->>> model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > processor = AutoProcessor.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
+>> > model = AutoModelForDocumentQuestionAnswering.from_pretrained("MariaK/layoutlmv2-base-uncased_finetuned_docvqa")
 
->>> with torch.no_grad():
-...     encoding = processor(image.convert("RGB"), question, return_tensors="pt")
-...     outputs = model(**encoding)
-...     start_logits = outputs.start_logits
-...     end_logits = outputs.end_logits
-...     predicted_start_idx = start_logits.argmax(-1).item()
-...     predicted_end_idx = end_logits.argmax(-1).item()
+>> > with torch.no_grad():
+    ...
+encoding = processor(image.convert("RGB"), question, return_tensors="pt")
+...
+outputs = model(**encoding)
+...
+start_logits = outputs.start_logits
+...
+end_logits = outputs.end_logits
+...
+predicted_start_idx = start_logits.argmax(-1).item()
+...
+predicted_end_idx = end_logits.argmax(-1).item()
 
->>> processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx : predicted_end_idx + 1])
+>> > processor.tokenizer.decode(encoding.input_ids.squeeze()[predicted_start_idx: predicted_end_idx + 1])
 'lee a. waller'
 ```

@@ -70,35 +70,35 @@ Model checkpoints:
 CANINE works on raw characters, so it can be used **without a tokenizer**:
 
 ```python
->>> from transformers import CanineModel
->>> import torch
+>> > from myTransformers import CanineModel
+>> > import torch
 
->>> model = CanineModel.from_pretrained("google/canine-c")  # model pre-trained with autoregressive character loss
+>> > model = CanineModel.from_pretrained("google/canine-c")  # model pre-trained with autoregressive character loss
 
->>> text = "hello world"
->>> # use Python's built-in ord() function to turn each character into its unicode code point id
->>> input_ids = torch.tensor([[ord(char) for char in text]])
+>> > text = "hello world"
+>> >  # use Python's built-in ord() function to turn each character into its unicode code point id
+>> > input_ids = torch.tensor([[ord(char) for char in text]])
 
->>> outputs = model(input_ids)  # forward pass
->>> pooled_output = outputs.pooler_output
->>> sequence_output = outputs.last_hidden_state
+>> > outputs = model(input_ids)  # forward pass
+>> > pooled_output = outputs.pooler_output
+>> > sequence_output = outputs.last_hidden_state
 ```
 
 For batched inference and training, it is however recommended to make use of the tokenizer (to pad/truncate all
 sequences to the same length):
 
 ```python
->>> from transformers import CanineTokenizer, CanineModel
+>> > from myTransformers import CanineTokenizer, CanineModel
 
->>> model = CanineModel.from_pretrained("google/canine-c")
->>> tokenizer = CanineTokenizer.from_pretrained("google/canine-c")
+>> > model = CanineModel.from_pretrained("google/canine-c")
+>> > tokenizer = CanineTokenizer.from_pretrained("google/canine-c")
 
->>> inputs = ["Life is like a box of chocolates.", "You never know what you gonna get."]
->>> encoding = tokenizer(inputs, padding="longest", truncation=True, return_tensors="pt")
+>> > inputs = ["Life is like a box of chocolates.", "You never know what you gonna get."]
+>> > encoding = tokenizer(inputs, padding="longest", truncation=True, return_tensors="pt")
 
->>> outputs = model(**encoding)  # forward pass
->>> pooled_output = outputs.pooler_output
->>> sequence_output = outputs.last_hidden_state
+>> > outputs = model(**encoding)  # forward pass
+>> > pooled_output = outputs.pooler_output
+>> > sequence_output = outputs.last_hidden_state
 ```
 
 ## Resources

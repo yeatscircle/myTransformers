@@ -30,7 +30,8 @@
 ```python
 import torch
 import torch.nn as nn
-from transformers.models.sam.modeling_sam import SamVisionAttention
+from myTransformers.models.sam.modeling_sam import SamVisionAttention
+
 
 class SamVisionAttentionSplit(SamVisionAttention, nn.Module):
     def __init__(self, config, window_size):
@@ -54,17 +55,25 @@ class SamVisionAttentionSplit(SamVisionAttention, nn.Module):
                 state_dict[key.replace("qkv.", "v.")] = v
                 # وضع علامة على مفتاح qkv القديم للحذف
                 keys_to_delete.append(key)
-        
+
         # حذف مفاتيح qkv القديمة
         for key in keys_to_delete:
             del state_dict[key]
 
     def forward(self, hidden_states: torch.Tensor, output_attentions=False) -> torch.Tensor:
         batch_size, height, width, _ = hidden_states.shape
-        qkv_shapes = (batch_size *  self.num_attention_heads,  height * width, -1)
-        query = self.q(hidden_states).reshape((batch_size,  height * width,self.num_attention_heads, -1)).permute(0,2,1,3).reshape(qkv_shapes)
-        key = self.k(hidden_states).reshape((batch_size,  height * width,self.num_attention_heads, -1)).permute(0,2,1,3).reshape(qkv_shapes)
-        value = self.v(hidden_states).reshape((batch_size,  height * width,self.num_attention_heads, -1)).permute(0,2,1,3).reshape(qkv_shapes)
+        qkv_shapes = (batch_size * self.num_attention_heads, height * width, -1)
+        query = self.q(hidden_states).reshape((batch_size, height * width, self.num_attention_heads, -1)).permute(0, 2,
+                                                                                                                  1,
+                                                                                                                  3).reshape(
+            qkv_shapes)
+        key = self.k(hidden_states).reshape((batch_size, height * width, self.num_attention_heads, -1)).permute(0, 2, 1,
+                                                                                                                3).reshape(
+            qkv_shapes)
+        value = self.v(hidden_states).reshape((batch_size, height * width, self.num_attention_heads, -1)).permute(0, 2,
+                                                                                                                  1,
+                                                                                                                  3).reshape(
+            qkv_shapes)
 
         attn_weights = (query * self.scale) @ key.transpose(-2, -1)
 
@@ -97,8 +106,8 @@ class SamVisionAttentionSplit(SamVisionAttention, nn.Module):
 استبدل فئة `SamVisionAttention` الأصلية بفئتك المخصصة بحيث يستخدم النموذج آلية الانتباه المعدلة.
 
 ```python
-from transformers import SamModel
-from transformers.models.sam import modeling_sam
+from myTransformers import SamModel
+from myTransformers.models.sam import modeling_sam
 
 # استبدال فئة الاهتمام في وحدة نمطية modeling_sam
 modeling_sam.SamVisionAttention = SamVisionAttentionSplit

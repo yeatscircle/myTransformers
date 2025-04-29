@@ -47,14 +47,14 @@ You can run FastSpeech2Conformer locally with the 🤗 Transformers library.
 
 ```bash
 pip install --upgrade pip
-pip install --upgrade transformers g2p-en
+pip install --upgrade myTransformers g2p-en
 ```
 
 2. Run inference via the Transformers modelling code with the model and hifigan separately
 
 ```python
 
-from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerModel, FastSpeech2ConformerHifiGan
+from myTransformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerModel, FastSpeech2ConformerHifiGan
 import soundfile as sf
 
 tokenizer = FastSpeech2ConformerTokenizer.from_pretrained("espnet/fastspeech2_conformer")
@@ -74,7 +74,7 @@ sf.write("speech.wav", waveform.squeeze().detach().numpy(), samplerate=22050)
 3. Run inference via the Transformers modelling code with the model and hifigan combined
 
 ```python
-from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
+from myTransformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
 import soundfile as sf
 
 tokenizer = FastSpeech2ConformerTokenizer.from_pretrained("espnet/fastspeech2_conformer")
@@ -89,8 +89,9 @@ sf.write("speech.wav", waveform.squeeze().detach().numpy(), samplerate=22050)
 ```
 
 4. Run inference with a pipeline and specify which vocoder to use
+
 ```python
-from transformers import pipeline, FastSpeech2ConformerHifiGan
+from myTransformers import pipeline, FastSpeech2ConformerHifiGan
 import soundfile as sf
 
 vocoder = FastSpeech2ConformerHifiGan.from_pretrained("espnet/fastspeech2_conformer_hifigan")

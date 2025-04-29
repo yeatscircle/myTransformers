@@ -32,12 +32,12 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./docker/transformers-all-latest-gpu
+          context: ./docker/myTransformers-all-latest-gpu
           build-args: |
             REF=main
             PYTORCH=pre
           push: true
-          tags: huggingface/transformers-all-latest-torch-nightly-gpu
+          tags: huggingface/myTransformers-all-latest-torch-nightly-gpu
 
   nightly-torch-deepspeed-docker:
     name: "Nightly PyTorch + DeepSpeed"
@@ -60,8 +60,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./docker/transformers-pytorch-deepspeed-nightly-gpu
+          context: ./docker/myTransformers-pytorch-deepspeed-nightly-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-deepspeed-nightly-gpu
+          tags: huggingface/myTransformers-pytorch-deepspeed-nightly-gpu

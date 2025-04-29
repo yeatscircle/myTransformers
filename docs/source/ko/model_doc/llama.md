@@ -30,14 +30,14 @@ LLaMA 모델은 Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, 
 - 가중치를 다운로드한 후에는 이를 [변환 스크립트](https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/convert_llama_weights_to_hf.py)를 사용하여 Hugging Face Transformers 형식으로 변환해야합니다. 변환 스크립트를 실행하려면 아래의 예시 명령어를 참고하세요:
 
 ```bash
-python src/transformers/models/llama/convert_llama_weights_to_hf.py \
+python src/myTransformers/models/llama/convert_llama_weights_to_hf.py \
     --input_dir /path/to/downloaded/llama/weights --model_size 7B --output_dir /output/path
 ```
 
 - 변환을 하였다면 모델과 토크나이저는 다음과 같이 로드할 수 있습니다:
 
 ```python
-from transformers import LlamaForCausalLM, LlamaTokenizer
+from myTransformers import LlamaForCausalLM, LlamaTokenizer
 
 tokenizer = LlamaTokenizer.from_pretrained("/output/path")
 model = LlamaForCausalLM.from_pretrained("/output/path")

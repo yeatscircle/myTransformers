@@ -18,8 +18,8 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import PhimoeConfig, StaticCache, is_torch_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import PhimoeConfig, StaticCache, is_torch_available, set_seed
+from myTransformers.testing_utils import (
     is_flaky,
     require_torch,
     slow,
@@ -35,7 +35,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         PhimoeForCausalLM,
         PhimoeForSequenceClassification,

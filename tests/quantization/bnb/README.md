@@ -19,7 +19,7 @@ The following instructions are tested with 2 NVIDIA-Tesla T4 GPUs. To run succes
 conda create --name int8-testing python==3.8
 pip install bitsandbytes>=0.31.5
 pip install accelerate>=0.12.0
-pip install transformers>=4.23.0
+pip install myTransformers>=4.23.0
 ```
 if `transformers>=4.23.0` is not released yet, then use:
 ```bash
@@ -47,7 +47,7 @@ conda create --name int8-testing python==3.8
 conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
 pip install bitsandbytes>=0.31.5
 pip install accelerate>=0.12.0
-pip install transformers>=4.23.0
+pip install myTransformers>=4.23.0
 ```
 For the latest pytorch instructions please see [this](https://pytorch.org/get-started/locally/)
 

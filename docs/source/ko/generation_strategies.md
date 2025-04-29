@@ -41,11 +41,12 @@ generate 메소드에 입력되는 값들은 모델의 데이터 형태에 따�
 모델을 명시적으로 로드할 때, `model.generation_config`을 통해 제공되는 생성 설정을 검사할 수 있습니다.
 
 ```python
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
->>> model.generation_config
-GenerationConfig {
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model.generation_config
+GenerationConfig
+{
     "bos_token_id": 50256,
     "eos_token_id": 50256,
 }
@@ -79,39 +80,45 @@ GenerationConfig {
 * 모델의 저장소에 설정을 업로드하기 위해 `push_to_hub`를 `True`로 설정합니다.
 
 ```python
->>> from transformers import AutoModelForCausalLM, GenerationConfig
+>> > from myTransformers import AutoModelForCausalLM, GenerationConfig
 
->>> model = AutoModelForCausalLM.from_pretrained("my_account/my_model")  # doctest: +SKIP
->>> generation_config = GenerationConfig(
-...     max_new_tokens=50, do_sample=True, top_k=50, eos_token_id=model.config.eos_token_id
+>> > model = AutoModelForCausalLM.from_pretrained("my_account/my_model")  # doctest: +SKIP
+>> > generation_config = GenerationConfig(
+    ...
+max_new_tokens = 50, do_sample = True, top_k = 50, eos_token_id = model.config.eos_token_id
 ... )
->>> generation_config.save_pretrained("my_account/my_model", push_to_hub=True)  # doctest: +SKIP
+>> > generation_config.save_pretrained("my_account/my_model", push_to_hub=True)  # doctest: +SKIP
 ```
 
 단일 디렉토리에 여러 생성 설정을 저장할 수 있으며, 이때 [`GenerationConfig.save_pretrained`]의 `config_file_name` 인자를 사용합니다. 나중에 [`GenerationConfig.from_pretrained`]로 이들을 인스턴스화할 수 있습니다. 이는 단일 모델에 대해 여러 생성 설정을 저장하고 싶을 때 유용합니다(예: 샘플링을 이용한 창의적 텍스트 생성을 위한 하나, 빔 탐색을 이용한 요약을 위한 다른 하나 등). 모델에 설정 파일을 추가하기 위해 적절한 Hub 권한을 가지고 있어야 합니다.
 
 ```python
->>> from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
+>> > from myTransformers import AutoModelForSeq2SeqLM, AutoTokenizer, GenerationConfig
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-small")
->>> model = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-small")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
 
->>> translation_generation_config = GenerationConfig(
-...     num_beams=4,
-...     early_stopping=True,
-...     decoder_start_token_id=0,
-...     eos_token_id=model.config.eos_token_id,
-...     pad_token=model.config.pad_token_id,
+>> > translation_generation_config = GenerationConfig(
+    ...
+num_beams = 4,
+...
+early_stopping = True,
+...
+decoder_start_token_id = 0,
+...
+eos_token_id = model.config.eos_token_id,
+...
+pad_token = model.config.pad_token_id,
 ... )
 
->>> # 팁: Hub에 push하려면 `push_to_hub=True`를 추가
->>> translation_generation_config.save_pretrained("/tmp", "translation_generation_config.json")
+>> >  # 팁: Hub에 push하려면 `push_to_hub=True`를 추가
+>> > translation_generation_config.save_pretrained("/tmp", "translation_generation_config.json")
 
->>> # 명명된 생성 설정 파일을 사용하여 생성을 매개변수화할 수 있습니다.
->>> generation_config = GenerationConfig.from_pretrained("/tmp", "translation_generation_config.json")
->>> inputs = tokenizer("translate English to French: Configuration files are easy to use!", return_tensors="pt")
->>> outputs = model.generate(**inputs, generation_config=generation_config)
->>> print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
+>> >  # 명명된 생성 설정 파일을 사용하여 생성을 매개변수화할 수 있습니다.
+>> > generation_config = GenerationConfig.from_pretrained("/tmp", "translation_generation_config.json")
+>> > inputs = tokenizer("translate English to French: Configuration files are easy to use!", return_tensors="pt")
+>> > outputs = model.generate(**inputs, generation_config=generation_config)
+>> > print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 ['Les fichiers de configuration sont faciles à utiliser!']
 ```
 
@@ -128,16 +135,18 @@ GenerationConfig {
 실제로 다양한 목적을 위해 자체 스트리밍 클래스를 만들 수 있습니다! 또한, 기본적인 스트리밍 클래스들도 준비되어 있어 바로 사용할 수 있습니다. 예를 들어, [`TextStreamer`] 클래스를 사용하여 `generate()`의 출력을 화면에 한 단어씩 스트리밍할 수 있습니다:
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
 
->>> tok = AutoTokenizer.from_pretrained("openai-community/gpt2")
->>> model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2")
->>> inputs = tok(["An increasing sequence: one,"], return_tensors="pt")
->>> streamer = TextStreamer(tok)
+>> > tok = AutoTokenizer.from_pretrained("openai-community/gpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("openai-community/gpt2")
+>> > inputs = tok(["An increasing sequence: one,"], return_tensors="pt")
+>> > streamer = TextStreamer(tok)
 
->>> # 스트리머는 평소와 같은 출력값을 반환할 뿐만 아니라 생성된 텍스트도 표준 출력(stdout)으로 출력합니다.
->>> _ = model.generate(**inputs, streamer=streamer, max_new_tokens=20)
-An increasing sequence: one, two, three, four, five, six, seven, eight, nine, ten, eleven,
+>> >  # 스트리머는 평소와 같은 출력값을 반환할 뿐만 아니라 생성된 텍스트도 표준 출력(stdout)으로 출력합니다.
+>> > _ = model.generate(**inputs, streamer=streamer, max_new_tokens=20)
+An
+increasing
+sequence: one, two, three, four, five, six, seven, eight, nine, ten, eleven,
 ```
 
 ## 디코딩 전략[[decoding-strategies]]
@@ -151,17 +160,17 @@ An increasing sequence: one, two, three, four, five, six, seven, eight, nine, te
 [`generate`]는 기본적으로 탐욕 탐색 디코딩을 사용하므로 이를 활성화하기 위해 별도의 매개변수를 지정할 필요가 없습니다. 이는 `num_beams`가 1로 설정되고 `do_sample=False`로 되어 있다는 의미입니다."
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> prompt = "I look forward to"
->>> checkpoint = "distilbert/distilgpt2"
+>> > prompt = "I look forward to"
+>> > checkpoint = "distilbert/distilgpt2"
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
->>> outputs = model.generate(**inputs)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > outputs = model.generate(**inputs)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['I look forward to seeing you all again!\n\n\n\n\n\n\n\n\n\n\n']
 ```
 
@@ -170,20 +179,38 @@ An increasing sequence: one, two, three, four, five, six, seven, eight, nine, te
 2022년 논문 [A Contrastive Framework for Neural Text Generation](https://arxiv.org/abs/2202.06417)에서 제안된 대조 탐색 디코딩 전략은 반복되지 않으면서도 일관된 긴 출력을 생성하는 데 있어 우수한 결과를 보였습니다. 대조 탐색이 작동하는 방식을 알아보려면 [이 블로그 포스트](https://huggingface.co/blog/introducing-csearch)를 확인하세요. 대조 탐색의 동작을 가능하게 하고 제어하는 두 가지 주요 매개변수는 `penalty_alpha`와 `top_k`입니다:
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForCausalLM
+>> > from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
->>> checkpoint = "openai-community/gpt2-large"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > checkpoint = "openai-community/gpt2-large"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
 
->>> prompt = "Hugging Face Company is"
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > prompt = "Hugging Face Company is"
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> outputs = model.generate(**inputs, penalty_alpha=0.6, top_k=4, max_new_tokens=100)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > outputs = model.generate(**inputs, penalty_alpha=0.6, top_k=4, max_new_tokens=100)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['Hugging Face Company is a family owned and operated business. We pride ourselves on being the best
-in the business and our customer service is second to none.\n\nIf you have any questions about our
-products or services, feel free to contact us at any time. We look forward to hearing from you!']
+ in the business and our customer service is second to none.\n\nIf
+you
+have
+any
+questions
+about
+our
+products or services, feel
+free
+to
+contact
+us
+at
+any
+time.We
+look
+forward
+to
+hearing
+from you!']
 ```
 
 ### 다항 샘플링(Multinomial sampling)[[multinomial-sampling]]
@@ -193,20 +220,20 @@ products or services, feel free to contact us at any time. We look forward to he
 다항 샘플링을 활성화하려면 `do_sample=True` 및 `num_beams=1`을 설정하세요.
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForCausalLM, set_seed
->>> set_seed(0)  # 재현성을 위해
+>> > from myTransformers import AutoTokenizer, AutoModelForCausalLM, set_seed
+>> > set_seed(0)  # 재현성을 위해
 
->>> checkpoint = "openai-community/gpt2-large"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > checkpoint = "openai-community/gpt2-large"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
 
->>> prompt = "Today was an amazing day because"
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > prompt = "Today was an amazing day because"
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> outputs = model.generate(**inputs, do_sample=True, num_beams=1, max_new_tokens=100)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > outputs = model.generate(**inputs, do_sample=True, num_beams=1, max_new_tokens=100)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['Today was an amazing day because when you go to the World Cup and you don\'t, or when you don\'t get invited,
-that\'s a terrible feeling."']
+ that\'s a terrible feeling."']
 ```
 
 ### 빔 탐색(Beam-search) 디코딩[[beam-search-decoding]]
@@ -216,20 +243,21 @@ that\'s a terrible feeling."']
 이 디코딩 전략을 활성화하려면 `num_beams` (추적할 가설 수라고도 함)를 1보다 크게 지정하세요.
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> prompt = "It is astonishing how one can"
->>> checkpoint = "openai-community/gpt2-medium"
+>> > prompt = "It is astonishing how one can"
+>> > checkpoint = "openai-community/gpt2-medium"
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
 
->>> outputs = model.generate(**inputs, num_beams=5, max_new_tokens=50)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > outputs = model.generate(**inputs, num_beams=5, max_new_tokens=50)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['It is astonishing how one can have such a profound impact on the lives of so many people in such a short period of
-time."\n\nHe added: "I am very proud of the work I have been able to do in the last few years.\n\n"I have']
+ time."\n\nHe added: "I am very proud of the work I have been able to do in the last few years.\n\n
+"I have']
 ```
 
 ### 빔 탐색 다항 샘플링(Beam-search multinomial sampling)[[beam-search-multinomial-sampling]]
@@ -237,19 +265,19 @@ time."\n\nHe added: "I am very proud of the work I have been able to do in the l
 이 디코딩 전략은 이름에서 알 수 있듯이 빔 탐색과 다항 샘플링을 결합한 것입니다. 이 디코딩 전략을 사용하기 위해서는 `num_beams`를 1보다 큰 값으로 설정하고, `do_sample=True`로 설정해야 합니다.
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, set_seed
->>> set_seed(0)  # 재현성을 위해
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM, set_seed
+>> > set_seed(0)  # 재현성을 위해
 
->>> prompt = "translate English to German: The house is wonderful."
->>> checkpoint = "google-t5/t5-small"
+>> > prompt = "translate English to German: The house is wonderful."
+>> > checkpoint = "google-t5/t5-small"
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
->>> outputs = model.generate(**inputs, num_beams=5, do_sample=True)
->>> tokenizer.decode(outputs[0], skip_special_tokens=True)
+>> > outputs = model.generate(**inputs, num_beams=5, do_sample=True)
+>> > tokenizer.decode(outputs[0], skip_special_tokens=True)
 'Das Haus ist wunderbar.'
 ```
 
@@ -258,35 +286,41 @@ time."\n\nHe added: "I am very proud of the work I have been able to do in the l
 다양한 빔 탐색(Decoding) 전략은 선택할 수 있는 더 다양한 빔 시퀀스 집합을 생성할 수 있게 해주는 빔 탐색 전략의 확장입니다. 이 방법은 어떻게 작동하는지 알아보려면, [다양한 빔 탐색: 신경 시퀀스 모델에서 다양한 솔루션 디코딩하기](https://arxiv.org/pdf/1610.02424.pdf)를 참조하세요. 이 접근 방식은 세 가지 주요 매개변수를 가지고 있습니다: `num_beams`, `num_beam_groups`, 그리고 `diversity_penalty`. 다양성 패널티는 그룹 간에 출력이 서로 다르게 하기 위한 것이며, 각 그룹 내에서 빔 탐색이 사용됩니다.
 
 ```python
->>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
->>> checkpoint = "google/pegasus-xsum"
->>> prompt = (
-...     "The Permaculture Design Principles are a set of universal design principles "
-...     "that can be applied to any location, climate and culture, and they allow us to design "
-...     "the most efficient and sustainable human habitation and food production systems. "
-...     "Permaculture is a design system that encompasses a wide variety of disciplines, such "
-...     "as ecology, landscape design, environmental science and energy conservation, and the "
-...     "Permaculture design principles are drawn from these various disciplines. Each individual "
-...     "design principle itself embodies a complete conceptual framework based on sound "
-...     "scientific principles. When we bring all these separate  principles together, we can "
-...     "create a design system that both looks at whole systems, the parts that these systems "
-...     "consist of, and how those parts interact with each other to create a complex, dynamic, "
-...     "living system. Each design principle serves as a tool that allows us to integrate all "
-...     "the separate parts of a design, referred to as elements, into a functional, synergistic, "
-...     "whole system, where the elements harmoniously interact and work together in the most "
-...     "efficient way possible."
-... )
+>> > checkpoint = "google/pegasus-xsum"
+>> > prompt = (
+    ...     "The Permaculture Design Principles are a set of universal design principles "
+..."that can be applied to any location, climate and culture, and they allow us to design "
+..."the most efficient and sustainable human habitation and food production systems. "
+..."Permaculture is a design system that encompasses a wide variety of disciplines, such "
+..."as ecology, landscape design, environmental science and energy conservation, and the "
+..."Permaculture design principles are drawn from these various disciplines. Each individual "
+..."design principle itself embodies a complete conceptual framework based on sound "
+..."scientific principles. When we bring all these separate  principles together, we can "
+..."create a design system that both looks at whole systems, the parts that these systems "
+..."consist of, and how those parts interact with each other to create a complex, dynamic, "
+..."living system. Each design principle serves as a tool that allows us to integrate all "
+..."the separate parts of a design, referred to as elements, into a functional, synergistic, "
+..."whole system, where the elements harmoniously interact and work together in the most "
+..."efficient way possible."
+...)
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 
->>> outputs = model.generate(**inputs, num_beams=5, num_beam_groups=5, max_new_tokens=30, diversity_penalty=1.0)
->>> tokenizer.decode(outputs[0], skip_special_tokens=True)
+>> > outputs = model.generate(**inputs, num_beams=5, num_beam_groups=5, max_new_tokens=30, diversity_penalty=1.0)
+>> > tokenizer.decode(outputs[0], skip_special_tokens=True)
 'The Design Principles are a set of universal design principles that can be applied to any location, climate and
-culture, and they allow us to design the'
+culture, and they
+allow
+us
+to
+design
+the
+'
 ```
 
 이 가이드에서는 다양한 디코딩 전략을 가능하게 하는 주요 매개변수를 보여줍니다. [`generate`] 메서드에 대한 고급 매개변수가 존재하므로 [`generate`] 메서드의 동작을 더욱 세부적으로 제어할 수 있습니다. 사용 가능한 매개변수의 전체 목록은 [API 문서](./main_classes/text_generation.md)를 참조하세요.
@@ -300,38 +334,38 @@ culture, and they allow us to design the'
 보조 디코딩을 활성화하려면 모델과 함께 `assistant_model` 인수를 설정하세요.
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
->>> prompt = "Alice and Bob"
->>> checkpoint = "EleutherAI/pythia-1.4b-deduped"
->>> assistant_checkpoint = "EleutherAI/pythia-160m-deduped"
+>> > prompt = "Alice and Bob"
+>> > checkpoint = "EleutherAI/pythia-1.4b-deduped"
+>> > assistant_checkpoint = "EleutherAI/pythia-160m-deduped"
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
->>> assistant_model = AutoModelForCausalLM.from_pretrained(assistant_checkpoint)
->>> outputs = model.generate(**inputs, assistant_model=assistant_model)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > assistant_model = AutoModelForCausalLM.from_pretrained(assistant_checkpoint)
+>> > outputs = model.generate(**inputs, assistant_model=assistant_model)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['Alice and Bob are sitting in a bar. Alice is drinking a beer and Bob is drinking a']
 ```
 
 샘플링 방법과 함께 보조 디코딩을 사용하는 경우 다항 샘플링과 마찬가지로 `temperature` 인수를 사용하여 무작위성을 제어할 수 있습니다. 그러나 보조 디코딩에서는 `temperature`를 낮추면 대기 시간을 개선하는 데 도움이 될 수 있습니다.
 
 ```python
->>> from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
->>> set_seed(42)  # 재현성을 위해
+>> > from myTransformers import AutoModelForCausalLM, AutoTokenizer, set_seed
+>> > set_seed(42)  # 재현성을 위해
 
->>> prompt = "Alice and Bob"
->>> checkpoint = "EleutherAI/pythia-1.4b-deduped"
->>> assistant_checkpoint = "EleutherAI/pythia-160m-deduped"
+>> > prompt = "Alice and Bob"
+>> > checkpoint = "EleutherAI/pythia-1.4b-deduped"
+>> > assistant_checkpoint = "EleutherAI/pythia-160m-deduped"
 
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
->>> inputs = tokenizer(prompt, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > inputs = tokenizer(prompt, return_tensors="pt")
 
->>> model = AutoModelForCausalLM.from_pretrained(checkpoint)
->>> assistant_model = AutoModelForCausalLM.from_pretrained(assistant_checkpoint)
->>> outputs = model.generate(**inputs, assistant_model=assistant_model, do_sample=True, temperature=0.5)
->>> tokenizer.batch_decode(outputs, skip_special_tokens=True)
+>> > model = AutoModelForCausalLM.from_pretrained(checkpoint)
+>> > assistant_model = AutoModelForCausalLM.from_pretrained(assistant_checkpoint)
+>> > outputs = model.generate(**inputs, assistant_model=assistant_model, do_sample=True, temperature=0.5)
+>> > tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['Alice and Bob, who were both in their early twenties, were both in the process of']
 ```

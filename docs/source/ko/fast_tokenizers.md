@@ -43,9 +43,9 @@ rendered properly in your Markdown viewer.
 [`PreTrainedTokenizerFast`] 클래스는 인스턴스화된 *토크나이저* 객체를 인수로 받아 쉽게 인스턴스화할 수 있습니다:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 ```
 
 이제 `fast_tokenizer` 객체는 🤗 Transformers 토크나이저에서 공유하는 모든 메소드와 함께 사용할 수 있습니다! 자세한 내용은 [토크나이저 페이지](main_classes/tokenizer)를 참조하세요.
@@ -63,9 +63,9 @@ JSON 파일에서 토크나이저를 불러오기 위해, 먼저 토크나이저
 JSON 파일을 저장한 경로는 `tokenizer_file` 매개변수를 사용하여 [`PreTrainedTokenizerFast`] 초기화 메소드에 전달할 수 있습니다:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
 ```
 
 이제 `fast_tokenizer` 객체는 🤗 Transformers 토크나이저에서 공유하는 모든 메소드와 함께 사용할 수 있습니다! 자세한 내용은 [토크나이저 페이지](main_classes/tokenizer)를 참조하세요.

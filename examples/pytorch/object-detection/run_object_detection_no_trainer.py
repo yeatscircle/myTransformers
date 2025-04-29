@@ -36,18 +36,18 @@ from torch.utils.data import DataLoader
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
 from tqdm.auto import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     AutoConfig,
     AutoImageProcessor,
     AutoModelForObjectDetection,
     SchedulerType,
     get_scheduler,
 )
-from transformers.image_processing_utils import BatchFeature
-from transformers.image_transforms import center_to_corners_format
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.image_processing_utils import BatchFeature
+from myTransformers.image_transforms import center_to_corners_format
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -226,7 +226,7 @@ def evaluation_loop(
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Finetune a transformers model for object detection task")
+    parser = argparse.ArgumentParser(description="Finetune a myTransformers model for object detection task")
     parser.add_argument(
         "--model_name_or_path",
         type=str,
@@ -417,10 +417,10 @@ def main():
     logger.info(accelerator.state, main_process_only=False)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     # We set device_specific to True as we want different data augmentation per device.

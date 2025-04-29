@@ -17,14 +17,14 @@ import unittest
 
 import pytest
 
-from transformers.testing_utils import require_vision
-from transformers.utils import is_vision_available
+from myTransformers.testing_utils import require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import AutoProcessor, BertTokenizer, CLIPImageProcessor, GitProcessor, PreTrainedTokenizerFast
+    from myTransformers import AutoProcessor, BertTokenizer, CLIPImageProcessor, GitProcessor, PreTrainedTokenizerFast
 
 
 @require_vision

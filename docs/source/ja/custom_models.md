@@ -29,7 +29,7 @@ rendered properly in your Markdown viewer.
 この例では、ResNetクラスのいくつかの引数を取得し、調整したいかもしれないとします。異なる設定は、異なるタイプのResNetを提供します。その後、これらの引数を確認した後、それらの引数を単に格納します。
 
 ```python
-from transformers import PretrainedConfig
+from myTransformers import PretrainedConfig
 from typing import List
 
 
@@ -37,17 +37,17 @@ class ResnetConfig(PretrainedConfig):
     model_type = "resnet"
 
     def __init__(
-        self,
-        block_type="bottleneck",
-        layers: List[int] = [3, 4, 6, 3],
-        num_classes: int = 1000,
-        input_channels: int = 3,
-        cardinality: int = 1,
-        base_width: int = 64,
-        stem_width: int = 64,
-        stem_type: str = "",
-        avg_down: bool = False,
-        **kwargs,
+            self,
+            block_type="bottleneck",
+            layers: List[int] = [3, 4, 6, 3],
+            num_classes: int = 1000,
+            input_channels: int = 3,
+            cardinality: int = 1,
+            base_width: int = 64,
+            stem_width: int = 64,
+            stem_type: str = "",
+            avg_down: bool = False,
+            **kwargs,
     ):
         if block_type not in ["basic", "bottleneck"]:
             raise ValueError(f"`block_type` must be 'basic' or bottleneck', got {block_type}.")
@@ -104,10 +104,9 @@ ResNet の設定ができたので、モデルを書き始めることができ�
 前述したように、この例をシンプルに保つために、モデルの緩いラッパーのみを書きます。このクラスを書く前に行う必要がある唯一のことは、ブロックタイプと実際のブロッククラスの間のマップです。その後、すべてを `ResNet` クラスに渡して設定からモデルを定義します：
 
 ```py
-from transformers import PreTrainedModel
+from myTransformers import PreTrainedModel
 from timm.models.resnet import BasicBlock, Bottleneck, ResNet
 from .configuration_resnet import ResnetConfig
-
 
 BLOCK_MAPPING = {"basic": BasicBlock, "bottleneck": Bottleneck}
 
@@ -296,9 +295,8 @@ resnet50d.push_to_hub("custom-resnet50d")
 自動クラスと `from_pretrained` メソッドを使用して、リポジトリ内のカスタムコードファイルと共に任意の構成、モデル、またはトークナイザを使用できます。 Hubにアップロードされるすべてのファイルとコードはマルウェアのスキャンが実施されます（詳細は[Hubセキュリティ](https://huggingface.co/docs/hub/security#malware-scanning)ドキュメンテーションを参照してください）、しかし、依然として悪意のあるコードを実行しないために、モデルコードと作者を確認する必要があります。
 `trust_remote_code=True` を設定してカスタムコードを持つモデルを使用できます：
 
-
 ```py
-from transformers import AutoModelForImageClassification
+from myTransformers import AutoModelForImageClassification
 
 model = AutoModelForImageClassification.from_pretrained("sgugger/custom-resnet50d", trust_remote_code=True)
 ```
@@ -325,7 +323,7 @@ model = AutoModelForImageClassification.from_pretrained(
 次のようにそれらを自動クラスに追加できます：
 
 ```py
-from transformers import AutoConfig, AutoModel, AutoModelForImageClassification
+from myTransformers import AutoConfig, AutoModel, AutoModelForImageClassification
 
 AutoConfig.register("resnet", ResnetConfig)
 AutoModel.register(ResnetConfig, ResnetModel)

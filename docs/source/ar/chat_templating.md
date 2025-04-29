@@ -9,32 +9,32 @@
 دعونا نجعل هذا ملموسًا بمثال سريع باستخدام نموذج `BlenderBot`. لدى BlenderBot قالب افتراضي بسيط للغاية، والذي يضيف في الغالب مسافات بيضاء بين جولات الحوار:
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> chat = [
-...    {"role": "user", "content": "Hello, how are you?"},
-...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...    {"role": "user", "content": "Hello, how are you?"},
+    ...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 " Hello, how are you?  I'm doing great. How can I help you today?   I'd like to show off how chat templating works!</s>"
 ```
 
 لاحظ كيف تم ضغط الدردشة بأكملها في سلسلة واحدة. إذا استخدمنا `tokenize=True`، وهو الإعداد الافتراضي، فسيتم أيضًا تحليل السلسلة نحويًا نيابة عنا. ولكن، لنشاهد قالبًا أكثر تعقيدًا في العمل، دعونا نستخدم نموذج `mistralai/Mistral-7B-Instruct-v0.1`.
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 
->>> chat = [
-...   {"role": "user", "content": "Hello, how are you?"},
-...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...   {"role": "user", "content": "Hello, how are you?"},
+    ...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 "<s>[INST] Hello, how are you? [/INST]I'm doing great. How can I help you today?</s> [INST] I'd like to show off how chat templating works! [/INST]</s>"
 ```
 
@@ -58,11 +58,11 @@ I'd like to show off how chat templating works!</s>
 فيما يلي مثال على إعداد الإدخال لـ `model.generate()`، باستخدام Zephyr مرة أخرى:
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 checkpoint = "HuggingFaceH4/zephyr-7b-beta"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForCausalLM.from_pretrained(checkpoint) # قد ترغب في استخدام bfloat16 و/أو الانتقال إلى GPU هنا
+model = AutoModelForCausalLM.from_pretrained(checkpoint)  # قد ترغب في استخدام bfloat16 و/أو الانتقال إلى GPU هنا
 
 messages = [
     {
@@ -70,7 +70,7 @@ messages = [
         "content": "You are a friendly chatbot who always responds in the style of a pirate",
     },
     {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
- ]
+]
 tokenized_chat = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
 print(tokenizer.decode(tokenized_chat[0]))
 ```
@@ -111,7 +111,7 @@ Matey, I'm afraid I must inform ye that humans cannot eat helicopters. Helicopte
 نعم يوجد ! تدعم قنوات المعالجة توليد النصوص مدخلات الدردشة ، مما يُسهّل استخدام نماذج الدردشة . في الماضي ، كنا نستخدم فئة "ConversationalPipeline" المُخصّصة ، ولكن تم الآن إيقافها وتم دمج وظائفها في [`TextGenerationPipeline`]. دعونا نجرّب مثال Zephyr مرة أخرى ، ولكن هذه المرة باستخدام قناة معالجة:
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-generation", "HuggingFaceH4/zephyr-7b-beta")
 messages = [
@@ -121,7 +121,7 @@ messages = [
     },
     {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
 ]
-print(pipe(messages, max_new_tokens=128)[0]['generated_text'][-1]) # طباعة استجابة المساعد
+print(pipe(messages, max_new_tokens=128)[0]['generated_text'][-1])  # طباعة استجابة المساعد
 ```
 
 ```النص
@@ -201,7 +201,7 @@ model.generate(**formatted_chat)
 نعم ! تُعد هذه طريقة جيدة للتأكد من أن قالب الدردشة يتطابق مع الرموز التي يراها النموذج أثناء التدريب . نوصي بتطبيق قالب الدردشة كخطوة معالجة أولية لمجموعة بياناتك . بعد ذلك ، يمكنك ببساطة متابعة عملية التدريب كما هو الحال مع أي مهمة تدريب نماذج لغات أخرى . عند التدريب ، يجب أن تُعيّن عادةً  `add_generation_prompt=False` ، لأنه لن تكون الرموز المُضافة لتحفيز رد المساعد مفيدة أثناء التدريب . دعونا نرى مثالاً :
 
 ```python
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 from datasets import Dataset
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
@@ -216,7 +216,8 @@ chat2 = [
 ]
 
 dataset = Dataset.from_dict({"chat": [chat1, chat2]})
-dataset = dataset.map(lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
+dataset = dataset.map(
+    lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
 print(dataset['formatted_chat'][0])
 ```
 ونحصل على:
@@ -299,7 +300,7 @@ model_input = tokenizer.apply_chat_template(
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 checkpoint = "NousResearch/Hermes-2-Pro-Llama-3-8B"
 
@@ -308,8 +309,9 @@ model = AutoModelForCausalLM.from_pretrained(checkpoint, torch_dtype=torch.bfloa
 
 ```python
 messages = [
-  {"role": "system", "content": "You are a bot that responds to weather queries. You should reply with the unit used in the queried location."},
-  {"role": "user", "content": "Hey, what's the temperature in Paris right now?"}
+    {"role": "system",
+     "content": "You are a bot that responds to weather queries. You should reply with the unit used in the queried location."},
+    {"role": "user", "content": "Hey, what's the temperature in Paris right now?"}
 ]
 ```
 
@@ -372,7 +374,8 @@ The current temperature in Paris, France is 22.0 ° Celsius.<|im_end|>
 يجب أن يكون إنشاء مخططات JSON لتمريرها إلى القالب تلقائيًا وغير مرئي طالما أن دوالك تتبع المواصفات الموضحة أعلاه، ولكن إذا واجهت مشكلات، أو إذا كنت تريد ببساطة مزيدًا من التحكم في التحويل، فيمكنك التعامل مع التحويل يدويًا. فيما يلي مثال على تحويل مخطط يدوي:
 
 ```python
-from transformers.utils import get_json_schema
+from myTransformers.utils import get_json_schema
+
 
 def multiply(a: float, b: float):
     """
@@ -383,6 +386,7 @@ def multiply(a: float, b: float):
         b: The second number to multiply
     """
     return a * b
+
 
 schema = get_json_schema(multiply)
 print(schema)
@@ -466,13 +470,13 @@ model_input = tokenizer.apply_chat_template(
 فيما يلي مثال على قالب RAG بالفعل:
 
 ```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 # تحميل النموذج والمجزىء اللغوي
 model_id = "CohereForAI/c4ai-command-r-v01-4bit"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto")
-device = model.device # الحصول على الجهاز الذي تم تحميل النموذج عليه
+device = model.device  # الحصول على الجهاز الذي تم تحميل النموذج عليه
 
 # تعريف مُدخلات المحادثة
 conversation = [
@@ -482,7 +486,7 @@ conversation = [
 # تعريف المستندات لتوليد قائم على الاسترجاع
 documents = [
     {
-        "title": "The Moon: Our Age-Old Foe", 
+        "title": "The Moon: Our Age-Old Foe",
         "text": "Man has always dreamed of destroying the moon. In this essay, I shall..."
     },
     {
@@ -505,7 +509,7 @@ gen_tokens = model.generate(
     max_new_tokens=100,
     do_sample=True,
     temperature=0.3,
-    )
+)
 
 # فك تشفير النص المُوَلّد وطباعته
 gen_text = tokenizer.decode(gen_tokens[0])

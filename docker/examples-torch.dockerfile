@@ -8,5 +8,5 @@ RUN pip --no-cache-dir install uv && uv venv && uv pip install --no-cache-dir -U
 RUN uv pip install --no-cache-dir 'torch==2.6.0' 'torchaudio==2.6.0' 'torchvision==0.21.0' --index-url https://download.pytorch.org/whl/cpu
 RUN uv pip install --no-deps timm accelerate --extra-index-url https://download.pytorch.org/whl/cpu
 RUN uv pip install --no-cache-dir librosa "git+https://github.com/huggingface/transformers.git@${REF}#egg=transformers[sklearn,sentencepiece,vision,testing]" seqeval albumentations jiwer
-RUN uv pip uninstall transformers
+RUN uv pip uninstall myTransformers
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

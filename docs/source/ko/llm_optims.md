@@ -51,9 +51,10 @@ rendered properly in your Markdown viewer.
 이렇게 하면 끝입니다!
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # 긴 경고 메시지를 방지하기 위해 설정 :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -83,9 +84,10 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 [`StaticCache`] 객체는 `past_key_values` 인수로 모델의 [`~GenerationMixin.generate`] 함수에 전달할 수 있습니다. 이 객체는 캐시 내용을 유지하므로, 동적 캐시를 사용하는 것처럼 새로운 [`~GenerationMixin.generate`] 호출에 이를 전달하여 생성을 계속할 수 있습니다.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, StaticCache
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, StaticCache
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # 긴 경고 메시지를 방지하기 위해 설정 :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -101,7 +103,7 @@ past_key_values = StaticCache(
     config=model.config,
     max_batch_size=1,
     # 캐시를 재사용할 계획이 있는 경우, 모든 경우에 충분한 캐시 길이를 설정해야 합니다
-    max_cache_len=prompt_length+(model.generation_config.max_new_tokens*2),
+    max_cache_len=prompt_length + (model.generation_config.max_new_tokens * 2),
     device=model.device,
     dtype=model.dtype
 )
@@ -114,7 +116,8 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 new_input_ids = outputs
 outputs = model.generate(new_input_ids, past_key_values=past_key_values)
 print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
-['The theory of special relativity states 1. The speed of light is constant in all inertial reference frames. 2. The speed of light is constant in all inertial reference frames. 3.']
+[
+    'The theory of special relativity states 1. The speed of light is constant in all inertial reference frames. 2. The speed of light is constant in all inertial reference frames. 3.']
 ```
 
 > [!TIP]
@@ -123,8 +126,8 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 더 깊이 들어가고 싶다면, [`StaticCache`] 객체를 모델의 `forward` 패스에 동일한 `past_key_values` 인수로 전달할 수도 있습니다. 이 전략을 사용하면, 현재 토큰과 이전에 생성된 토큰의 위치 및 캐시 위치를 바탕으로 다음 토큰을 디코딩하는 자체 함수를 작성할 수 있습니다.
 
 ```py
-from transformers import LlamaTokenizer, LlamaForCausalLM, StaticCache, logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import LlamaTokenizer, LlamaForCausalLM, StaticCache, logging
+from myTransformers.testing_utils import CaptureLogger
 import torch
 
 prompts = [
@@ -138,6 +141,7 @@ torch_device = "cuda"
 tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", pad_token="</s>", padding_side="right")
 model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf", device_map="sequential")
 inputs = tokenizer(prompts, return_tensors="pt", padding=True).to(model.device)
+
 
 def decode_one_tokens(model, cur_token, input_pos, cache_position, past_key_values):
     logits = model(
@@ -195,9 +199,10 @@ text
 전체 `generate` 함수를 컴파일하는 것은 코드 측면에서 기본 사용법보다 더 간단합니다. `generate` 함수에 대해 `torch.compile`을 호출하여 전체 함수를 컴파일하면 됩니다. 정적 캐시의 사용을 지정할 필요는 없습니다. 정적 캐시는 호환되지만, 벤치마크에서는 동적 캐시(기본 설정)가 더 빠른 것으로 나타났습니다.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # 긴 경고 메시지를 방지하기 위해 설정 :)
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -239,7 +244,7 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 <hfoption id="greedy search">
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -260,7 +265,7 @@ tokenizer.batch_decode(outputs, skip_special_tokens=True)
 추정 샘플링 디코딩(speculative sampling decoding)을 위해, 보조 모델 외에도 [`~GenerationMixin.generate`] 메서드에 `do_sample` 및 `temperature` 매개변수를 추가하십시오.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -288,7 +293,7 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 <hfoption id="greedy decoding">
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -309,7 +314,7 @@ print(tokenizer.batch_decode(outputs, skip_special_tokens=True))
 샘플링과 함께 프롬프트 조회 디코딩을 사용하려면, [`~GenerationMixin.generate`] 메서드에 `do_sample` 및 `temperature` 매개변수를 추가하십시오.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -337,7 +342,7 @@ FlashAttention과 [FlashAttention-2](./perf_infer_gpu_one#flashattention-2)는 �
 FlashAttention-2를 사용하려면 [`~PreTrainedModel.from_pretrained`] 메서드에서 `attn_implementation="flash_attention_2"`를 설정하십시오.
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quant_config = BitsAndBytesConfig(load_in_8bit=True)
 model = AutoModelForCausalLM.from_pretrained(
@@ -359,7 +364,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(
     "google/gemma-2b",
@@ -389,7 +394,7 @@ with torch.backends.cuda.sdp_kernel(enable_flash=True, enable_math=False, enable
 Mistral-7B-v0.1을 반정밀도로 로드하려면 [`~transformers.AutoModelForCausalLM.from_pretrained`] 메서드에서 `torch_dtype` 매개변수를 `torch.bfloat16`으로 설정하십시오. 이 경우 13.74GB의 메모리가 필요합니다.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 model = AutoModelForCausalLM.from_pretrained(
@@ -400,7 +405,7 @@ model = AutoModelForCausalLM.from_pretrained(
 추론을 위해 양자화된 모델(8비트 또는 4비트)을 로드하려면 [bitsandbytes](https://hf.co/docs/bitsandbytes)를 사용하고 `load_in_4bit` 또는 `load_in_8bit` 매개변수를 `True`로 설정하십시오. 모델을 8비트로 로드하는 데는 6.87GB의 메모리만 필요합니다.
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
 quant_config = BitsAndBytesConfig(load_in_8bit=True)

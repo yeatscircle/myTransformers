@@ -16,8 +16,8 @@
 import tempfile
 import unittest
 
-from transformers import AltCLIPProcessor, CLIPImageProcessor, XLMRobertaTokenizer, XLMRobertaTokenizerFast
-from transformers.testing_utils import require_vision
+from myTransformers import AltCLIPProcessor, CLIPImageProcessor, XLMRobertaTokenizer, XLMRobertaTokenizerFast
+from myTransformers.testing_utils import require_vision
 
 from ...test_processing_common import ProcessorTesterMixin
 

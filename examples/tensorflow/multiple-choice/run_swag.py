@@ -30,8 +30,8 @@ import datasets
 import tensorflow as tf
 from datasets import load_dataset
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_NAME,
     TF2_WEIGHTS_NAME,
     AutoConfig,
@@ -45,7 +45,7 @@ from transformers import (
     create_optimizer,
     set_seed,
 )
-from transformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils import check_min_version, send_example_telemetry
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -173,7 +173,7 @@ class DataTrainingArguments:
 
 def main():
     # region Argument parsing
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -202,9 +202,9 @@ def main():
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
+    myTransformers.utils.logging.set_verbosity(log_level)
+    myTransformers.utils.logging.enable_default_handler()
+    myTransformers.utils.logging.enable_explicit_format()
     # endregion
 
     # region Checkpoints

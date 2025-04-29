@@ -21,7 +21,7 @@ limitations under the License.
 먼저 GPU 활용과 모델 훈련 실행에 대한 예시를 살펴보겠습니다. 데모를 위해 몇몇 라이브러리를 설치해야 합니다:
 
 ```bash
-pip install transformers datasets accelerate nvidia-ml-py3
+pip install myTransformers datasets accelerate nvidia-ml-py3
 ```
 
 `nvidia-ml-py3` 라이브러리는 Python 내부에서 모델의 메모리 사용량을 모니터링할 수 있게 해줍니다. 터미널의 `nvidia-smi` 명령어에 익숙할 수 있는데, 이 라이브러리는 Python에서 직접 동일한 정보에 접근할 수 있게 해줍니다.
@@ -87,14 +87,15 @@ GPU memory occupied: 1343 MB.
 
 우선, `google-bert/bert-large-uncased` 모델을 로드합니다. 모델의 가중치를 직접 GPU에 로드해서 가중치만이 얼마나 많은 공간을 차지하는지 확인할 수 있습니다.
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
-
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
->>> print_gpu_utilization()
-GPU memory occupied: 2631 MB.
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
+>> > print_gpu_utilization()
+GPU
+memory
+occupied: 2631
+MB.
 ```
 
 모델의 가중치만으로도 GPU 메모리를 1.3 GB 차지하는 것을 볼 수 있습니다. 정확한 숫자는 사용하는 GPU에 따라 다릅니다. 최신 GPU에서는 모델 사용 속도를 높이는 최적화된 방식으로 가중치가 로드되므로, 모델이 더 많은 공간을 차지할 수 있습니다. 이제 `nvidia-smi` CLI와 동일한 결과를 얻는지 빠르게 확인할 수 있습니다:
@@ -150,15 +151,14 @@ default_args = {
 [`Trainer`]를 사용하여, GPU 성능 최적화 기술을 사용하지 않고 배치 크기가 4인 모델을 훈련시키겠습니다:
 
 ```py
->>> from transformers import TrainingArguments, Trainer, logging
+>> > from myTransformers import TrainingArguments, Trainer, logging
 
->>> logging.set_verbosity_error()
+>> > logging.set_verbosity_error()
 
-
->>> training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
->>> trainer = Trainer(model=model, args=training_args, train_dataset=ds)
->>> result = trainer.train()
->>> print_summary(result)
+>> > training_args = TrainingArguments(per_device_train_batch_size=4, **default_args)
+>> > trainer = Trainer(model=model, args=training_args, train_dataset=ds)
+>> > result = trainer.train()
+>> > print_summary(result)
 ```
 
 ```

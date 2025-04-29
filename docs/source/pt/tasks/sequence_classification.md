@@ -58,9 +58,9 @@ Existem dois campos neste dataset:
 Carregue o tokenizador do DistilBERT para processar o campo `text`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Crie uma função de pré-processamento para tokenizar o campo `text` e truncar as sequências para que não sejam maiores que o comprimento máximo de entrada do DistilBERT:
@@ -102,9 +102,9 @@ Use o [`DataCollatorWithPadding`] para criar um batch de exemplos. Ele também *
 Carregue o DistilBERT com [`AutoModelForSequenceClassification`] junto com o número de rótulos esperados:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
+>> > model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
 ```
 
 <Tip>
@@ -175,22 +175,22 @@ Se você não estiver familiarizado com o fine-tuning de um modelo com o Keras, 
 Configure o otimizador e alguns hiperparâmetros de treinamento:
 
 ```py
->>> from transformers import create_optimizer
->>> import tensorflow as tf
+>> > from myTransformers import create_optimizer
+>> > import tensorflow as tf
 
->>> batch_size = 16
->>> num_epochs = 5
->>> batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
->>> total_train_steps = int(batches_per_epoch * num_epochs)
->>> optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
+>> > total_train_steps = int(batches_per_epoch * num_epochs)
+>> > optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 Carregue o DistilBERT com [`TFAutoModelForSequenceClassification`] junto com o número de rótulos esperados:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
 ```
 
 Configure o modelo para treinamento com o método [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):

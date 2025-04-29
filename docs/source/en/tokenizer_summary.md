@@ -107,10 +107,10 @@ seen before, by decomposing them into known subwords. For instance, the [`~trans
 `"I have a new GPU!"` as follows:
 
 ```py
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> tokenizer.tokenize("I have a new GPU!")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer.tokenize("I have a new GPU!")
 ["i", "have", "a", "new", "gp", "##u", "!"]
 ```
 
@@ -121,10 +121,10 @@ be attached to the previous one, without space (for decoding or reversal of the 
 As another example, [`~transformers.XLNetTokenizer`] tokenizes our previously exemplary text as follows:
 
 ```py
->>> from transformers import XLNetTokenizer
+>> > from myTransformers import XLNetTokenizer
 
->>> tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
->>> tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
+>> > tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
+>> > tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
 ["▁Don", "'", "t", "▁you", "▁love", "▁", "🤗", "▁", "Transform", "ers", "?", "▁We", "▁sure", "▁do", "."]
 ```
 

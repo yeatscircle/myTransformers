@@ -23,13 +23,13 @@ Call [`~AutoFeatureExtractor.from_pretrained`] to load a feature extractor and i
 Pass the audio signal, typically stored in `array`, to the feature extractor and set the `sampling_rate` parameter to the pretrained audio models sampling rate. It is important the sampling rate of the audio data matches the sampling rate of the data a pretrained audio model was trained on.
 
 ```py
-from transformers import AutoFeatureExtractor
+from myTransformers import AutoFeatureExtractor
 
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 processed_sample = feature_extractor(dataset[0]["audio"]["array"], sampling_rate=16000)
 processed_sample
-{'input_values': [array([ 9.4472744e-05,  3.0777880e-03, -2.8888427e-03, ...,
-       -2.8888427e-03,  9.4472744e-05,  9.4472744e-05], dtype=float32)]}
+{'input_values': [array([9.4472744e-05, 3.0777880e-03, -2.8888427e-03, ...,
+                         -2.8888427e-03, 9.4472744e-05, 9.4472744e-05], dtype=float32)]}
 ```
 
 The feature extractor returns an input, `input_values`, that is ready for the model to consume.
@@ -53,7 +53,7 @@ The [AutoClass](./model_doc/auto) API automatically loads the correct feature ex
 Use [`~AutoFeatureExtractor.from_pretrained`] to load a feature extractor.
 
 ```py
-from transformers import AutoFeatureExtractor
+from myTransformers import AutoFeatureExtractor
 
 feature_extractor = AutoFeatureExtractor.from_pretrained("openai/whisper-tiny")
 ```
@@ -66,7 +66,7 @@ Every pretrained audio model has a specific associated feature extractor for cor
 A feature extractor can be loaded directly from its model-specific class.
 
 ```py
-from transformers import WhisperFeatureExtractor
+from myTransformers import WhisperFeatureExtractor
 
 feature_extractor = WhisperFeatureExtractor.from_pretrained("openai/whisper-tiny")
 ```
@@ -88,7 +88,7 @@ Load a dataset and feature extractor with [`~FeatureExtractionMixin.from_pretrai
 
 ```py
 from datasets import load_dataset, Audio
-from transformers import AutoFeatureExtractor
+from myTransformers import AutoFeatureExtractor
 
 dataset = load_dataset("PolyAI/minds14", name="en-US", split="train")
 feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")

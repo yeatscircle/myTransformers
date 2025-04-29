@@ -17,22 +17,22 @@ import importlib
 import io
 import unittest
 
-import transformers
+import myTransformers
 
-# Try to import everything from transformers to ensure every object can be loaded.
-from transformers import *  # noqa F406
-from transformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, require_flax, require_tf, require_torch
-from transformers.utils import ContextManagers, find_labels, is_flax_available, is_tf_available, is_torch_available
+# Try to import everything from myTransformers to ensure every object can be loaded.
+from myTransformers import *  # noqa F406
+from myTransformers.testing_utils import DUMMY_UNKNOWN_IDENTIFIER, require_flax, require_tf, require_torch
+from myTransformers.utils import ContextManagers, find_labels, is_flax_available, is_tf_available, is_torch_available
 
 
 if is_torch_available():
-    from transformers import BertForPreTraining, BertForQuestionAnswering, BertForSequenceClassification
+    from myTransformers import BertForPreTraining, BertForQuestionAnswering, BertForSequenceClassification
 
 if is_tf_available():
-    from transformers import TFBertForPreTraining, TFBertForQuestionAnswering, TFBertForSequenceClassification
+    from myTransformers import TFBertForPreTraining, TFBertForQuestionAnswering, TFBertForSequenceClassification
 
 if is_flax_available():
-    from transformers import FlaxBertForPreTraining, FlaxBertForQuestionAnswering, FlaxBertForSequenceClassification
+    from myTransformers import FlaxBertForPreTraining, FlaxBertForQuestionAnswering, FlaxBertForSequenceClassification
 
 
 MODEL_ID = DUMMY_UNKNOWN_IDENTIFIER
@@ -69,8 +69,8 @@ def context_fr():
 class TestImportMechanisms(unittest.TestCase):
     def test_module_spec_available(self):
         # If the spec is missing, importlib would not be able to import the module dynamically.
-        assert transformers.__spec__ is not None
-        assert importlib.util.find_spec("transformers") is not None
+        assert myTransformers.__spec__ is not None
+        assert importlib.util.find_spec("myTransformers") is not None
 
 
 class GenericUtilTests(unittest.TestCase):

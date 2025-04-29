@@ -16,8 +16,8 @@
 import copy
 import unittest
 
-from transformers import MoonshineConfig, is_torch_available
-from transformers.testing_utils import cleanup, require_torch, slow, torch_device
+from myTransformers import MoonshineConfig, is_torch_available
+from myTransformers.testing_utils import cleanup, require_torch, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -31,7 +31,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoProcessor,
         MoonshineForConditionalGeneration,
         MoonshineModel,

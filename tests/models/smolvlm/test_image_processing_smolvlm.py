@@ -17,9 +17,9 @@ import unittest
 
 import numpy as np
 
-from transformers.image_utils import PILImageResampling
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.image_utils import PILImageResampling
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin
 
@@ -27,7 +27,7 @@ from ...test_image_processing_common import ImageProcessingTestMixin
 if is_vision_available():
     from PIL import Image
 
-    from transformers import SmolVLMImageProcessor
+    from myTransformers import SmolVLMImageProcessor
 
 
 if is_torch_available():

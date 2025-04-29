@@ -72,20 +72,20 @@ TensorFlow's [model.save](https://www.tensorflow.org/tutorials/keras/save_and_lo
 - Save the model weights as a `h5` file extension with [`model.save_weights`](https://www.tensorflow.org/tutorials/keras/save_and_load#save_the_entire_model) and then reload the model with [`~TFPreTrainedModel.from_pretrained`]:
 
 ```py
->>> from transformers import TFPreTrainedModel
->>> from tensorflow import keras
+>> > from myTransformers import TFPreTrainedModel
+>> > from tensorflow import keras
 
->>> model.save_weights("some_folder/tf_model.h5")
->>> model = TFPreTrainedModel.from_pretrained("some_folder")
+>> > model.save_weights("some_folder/tf_model.h5")
+>> > model = TFPreTrainedModel.from_pretrained("some_folder")
 ```
 
 - Save the model with [`~TFPretrainedModel.save_pretrained`] and load it again with [`~TFPreTrainedModel.from_pretrained`]:
 
 ```py
->>> from transformers import TFPreTrainedModel
+>> > from myTransformers import TFPreTrainedModel
 
->>> model.save_pretrained("path_to/model")
->>> model = TFPreTrainedModel.from_pretrained("path_to/model")
+>> > model.save_pretrained("path_to/model")
+>> > model = TFPreTrainedModel.from_pretrained("path_to/model")
 ```
 
 ## ImportError
@@ -99,7 +99,7 @@ ImportError: cannot import name 'ImageGPTImageProcessor' from 'transformers' (un
 For these error types, check to make sure you have the latest version of 🤗 Transformers installed to access the most recent models:
 
 ```bash
-pip install transformers --upgrade
+pip install myTransformers --upgrade
 ```
 
 ## CUDA error: device-side assert triggered
@@ -131,11 +131,11 @@ Another option is to get a better traceback from the GPU. Add the following envi
 In some cases, the output `hidden_state` may be incorrect if the `input_ids` include padding tokens. To demonstrate, load a model and tokenizer. You can access a model's `pad_token_id` to see its value. The `pad_token_id` may be `None` for some models, but you can always manually set it.
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
->>> import torch
+>> > from myTransformers import AutoModelForSequenceClassification
+>> > import torch
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-uncased")
->>> model.config.pad_token_id
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-uncased")
+>> > model.config.pad_token_id
 0
 ```
 
@@ -189,10 +189,20 @@ checkpoint doesn't support a given task.
 For instance, you'll see this error in the following example because there is no GPT2 for question answering:
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForQuestionAnswering
+>> > from myTransformers import AutoProcessor, AutoModelForQuestionAnswering
 
->>> processor = AutoProcessor.from_pretrained("openai-community/gpt2-medium")
->>> model = AutoModelForQuestionAnswering.from_pretrained("openai-community/gpt2-medium")
-ValueError: Unrecognized configuration class <class 'transformers.models.gpt2.configuration_gpt2.GPT2Config'> for this kind of AutoModel: AutoModelForQuestionAnswering.
-Model type should be one of AlbertConfig, BartConfig, BertConfig, BigBirdConfig, BigBirdPegasusConfig, BloomConfig, ...
+>> > processor = AutoProcessor.from_pretrained("openai-community/gpt2-medium")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("openai-community/gpt2-medium")
+ValueError: Unrecognized
+configuration
+
+
+class <class 'myTransformers.models.gpt2.configuration_gpt2.GPT2Config' > for this kind of AutoModel: AutoModelForQuestionAnswering.
+
+
+Model
+type should be
+one
+of
+AlbertConfig, BartConfig, BertConfig, BigBirdConfig, BigBirdPegasusConfig, BloomConfig, ...
 ```

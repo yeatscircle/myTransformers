@@ -34,7 +34,7 @@ You can find all the original ColPali checkpoints under the [ColPali](https://hu
 import requests
 import torch
 from PIL import Image
-from transformers import ColPaliForRetrieval, ColPaliProcessor
+from myTransformers import ColPaliForRetrieval, ColPaliProcessor
 
 # Load model (bfloat16 support is limited; fallback to float32 if needed)
 model = ColPaliForRetrieval.from_pretrained(
@@ -83,8 +83,8 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes.md) to quanti
 import requests
 import torch
 from PIL import Image
-from transformers import ColPaliForRetrieval, ColPaliProcessor
-from transformers import BitsAndBytesConfig
+from myTransformers import ColPaliForRetrieval, ColPaliProcessor
+from myTransformers import BitsAndBytesConfig
 
 # 4-bit quantization configuration
 bnb_config = BitsAndBytesConfig(

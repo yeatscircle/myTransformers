@@ -21,15 +21,15 @@ import unittest
 import numpy as np
 from datasets import Audio, load_dataset
 
-from transformers import ClvpFeatureExtractor
-from transformers.testing_utils import (
+from myTransformers import ClvpFeatureExtractor
+from myTransformers.testing_utils import (
     check_json_file_has_correct_format,
     cleanup,
     require_torch,
     slow,
     torch_device,
 )
-from transformers.utils.import_utils import is_torch_available
+from myTransformers.utils.import_utils import is_torch_available
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 
@@ -40,7 +40,7 @@ if is_torch_available():
 global_rng = random.Random()
 
 
-# Copied from transformers.tests.models.whisper.test_feature_extraction_whisper.floats_list
+# Copied from myTransformers.tests.models.whisper.test_feature_extraction_whisper.floats_list
 def floats_list(shape, scale=1.0, rng=None, name=None):
     """Creates a random float32 tensor"""
     if rng is None:
@@ -92,7 +92,7 @@ class ClvpFeatureExtractionTester:
             "return_attention_mask": self.return_attention_mask,
         }
 
-    # Copied from transformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTester.prepare_inputs_for_common
+    # Copied from myTransformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTester.prepare_inputs_for_common
     def prepare_inputs_for_common(self, equal_length=False, numpify=False):
         def _flatten(list_of_lists):
             return list(itertools.chain(*list_of_lists))
@@ -122,7 +122,7 @@ class ClvpFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.Tes
         # clean-up as much as possible GPU memory occupied by PyTorch
         cleanup(torch_device)
 
-    # Copied from transformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_feat_extract_from_and_save_pretrained
+    # Copied from myTransformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_feat_extract_from_and_save_pretrained
     def test_feat_extract_from_and_save_pretrained(self):
         feat_extract_first = self.feature_extraction_class(**self.feat_extract_dict)
 
@@ -138,7 +138,7 @@ class ClvpFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.Tes
         self.assertTrue(np.allclose(mel_1, mel_2))
         self.assertEqual(dict_first, dict_second)
 
-    # Copied from transformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_feat_extract_to_json_file
+    # Copied from myTransformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_feat_extract_to_json_file
     def test_feat_extract_to_json_file(self):
         feat_extract_first = self.feature_extraction_class(**self.feat_extract_dict)
 
@@ -197,7 +197,7 @@ class ClvpFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.Tes
         for enc_seq_1, enc_seq_2 in zip(encoded_sequences_1, encoded_sequences_2):
             self.assertTrue(np.allclose(enc_seq_1, enc_seq_2, atol=1e-3))
 
-    # Copied from transformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_double_precision_pad
+    # Copied from myTransformers.tests.models.whisper.test_feature_extraction_whisper.WhisperFeatureExtractionTest.test_double_precision_pad
     def test_double_precision_pad(self):
         import torch
 

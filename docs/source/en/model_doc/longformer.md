@@ -35,7 +35,7 @@ The example below demonstrates how to fill the `<mask>` token with [`Pipeline`],
 
 ```python
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipeline = pipeline(
     task="fill-mask",
@@ -53,17 +53,17 @@ Tarell Brown and Donald Strickland will compete to replace Spencer with the 49er
 
 ```python
 import torch
-from transformers import AutoModelForMaskedLM, AutoTokenizer
+from myTransformers import AutoModelForMaskedLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("allenai/longformer-base-4096")
 model = AutoModelForMaskedLM.from_pretrained("allenai/longformer-base-4096")
 
 text = (
-"""
-San Francisco 49ers cornerback Shawntae Spencer will miss the rest of the <mask> with a torn ligament in his left knee.
-Spencer, a fifth-year pro, will be placed on injured reserve soon after undergoing surgery Wednesday to repair the ligament. He injured his knee late in the 49ers’ road victory at Seattle on Sept. 14, and missed last week’s victory over Detroit.
-Tarell Brown and Donald Strickland will compete to replace Spencer with the 49ers, who kept 12 defensive backs on their 53-man roster to start the season. Brown, a second-year pro, got his first career interception last weekend while filling in for Strickland, who also sat out with a knee injury.
-"""
+    """
+    San Francisco 49ers cornerback Shawntae Spencer will miss the rest of the <mask> with a torn ligament in his left knee.
+    Spencer, a fifth-year pro, will be placed on injured reserve soon after undergoing surgery Wednesday to repair the ligament. He injured his knee late in the 49ers’ road victory at Seattle on Sept. 14, and missed last week’s victory over Detroit.
+    Tarell Brown and Donald Strickland will compete to replace Spencer with the 49ers, who kept 12 defensive backs on their 53-man roster to start the season. Brown, a second-year pro, got his first career interception last weekend while filling in for Strickland, who also sat out with a knee injury.
+    """
 )
 
 input_ids = tokenizer([text], return_tensors="pt")["input_ids"]
@@ -79,7 +79,7 @@ tokenizer.decode(predictions).split()
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "San Francisco 49ers cornerback Shawntae Spencer will miss the rest of the <mask> with a torn ligament in his left knee." | transformers-cli run --task fill-mask --model allenai/longformer-base-4096 --device 0
+echo -e "San Francisco 49ers cornerback Shawntae Spencer will miss the rest of the <mask> with a torn ligament in his left knee." | myTransformers-cli run --task fill-mask --model allenai/longformer-base-4096 --device 0
 ```
 
 </hfoption>

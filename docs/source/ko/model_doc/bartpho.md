@@ -34,26 +34,27 @@ BARTpho 모델은 Nguyen Luong Tran, Duong Minh Le, Dat Quoc Nguyen에 의해 [B
 ## 사용 예시 [[usage-example]]
 
 ```python
->>> import torch
->>> from transformers import AutoModel, AutoTokenizer
+>> > import torch
+>> > from myTransformers import AutoModel, AutoTokenizer
 
->>> bartpho = AutoModel.from_pretrained("vinai/bartpho-syllable")
+>> > bartpho = AutoModel.from_pretrained("vinai/bartpho-syllable")
 
->>> tokenizer = AutoTokenizer.from_pretrained("vinai/bartpho-syllable")
+>> > tokenizer = AutoTokenizer.from_pretrained("vinai/bartpho-syllable")
 
->>> line = "Chúng tôi là những nghiên cứu viên."
+>> > line = "Chúng tôi là những nghiên cứu viên."
 
->>> input_ids = tokenizer(line, return_tensors="pt")
+>> > input_ids = tokenizer(line, return_tensors="pt")
 
->>> with torch.no_grad():
-...     features = bartpho(**input_ids)  # 이제 모델 출력은 튜플입니다
+>> > with torch.no_grad():
+    ...
+features = bartpho(**input_ids)  # 이제 모델 출력은 튜플입니다
 
->>> # With TensorFlow 2.0+:
->>> from transformers import TFAutoModel
+>> >  # With TensorFlow 2.0+:
+>> > from myTransformers import TFAutoModel
 
->>> bartpho = TFAutoModel.from_pretrained("vinai/bartpho-syllable")
->>> input_ids = tokenizer(line, return_tensors="tf")
->>> features = bartpho(**input_ids)
+>> > bartpho = TFAutoModel.from_pretrained("vinai/bartpho-syllable")
+>> > input_ids = tokenizer(line, return_tensors="tf")
+>> > features = bartpho(**input_ids)
 ```
 
 ## 사용 팁 [[usage-tips]]
@@ -64,16 +65,16 @@ BART 전용 클래스를 mBART 전용 클래스로 대체하여 조정해야 합
 예를 들어:
 
 ```python
->>> from transformers import MBartForConditionalGeneration
+>> > from myTransformers import MBartForConditionalGeneration
 
->>> bartpho = MBartForConditionalGeneration.from_pretrained("vinai/bartpho-syllable")
->>> TXT = "Chúng tôi là <mask> nghiên cứu viên."
->>> input_ids = tokenizer([TXT], return_tensors="pt")["input_ids"]
->>> logits = bartpho(input_ids).logits
->>> masked_index = (input_ids[0] == tokenizer.mask_token_id).nonzero().item()
->>> probs = logits[0, masked_index].softmax(dim=0)
->>> values, predictions = probs.topk(5)
->>> print(tokenizer.decode(predictions).split())
+>> > bartpho = MBartForConditionalGeneration.from_pretrained("vinai/bartpho-syllable")
+>> > TXT = "Chúng tôi là <mask> nghiên cứu viên."
+>> > input_ids = tokenizer([TXT], return_tensors="pt")["input_ids"]
+>> > logits = bartpho(input_ids).logits
+>> > masked_index = (input_ids[0] == tokenizer.mask_token_id).nonzero().item()
+>> > probs = logits[0, masked_index].softmax(dim=0)
+>> > values, predictions = probs.topk(5)
+>> > print(tokenizer.decode(predictions).split())
 ```
 
 - 이 구현은 토큰화만을 위한 것입니다: "monolingual_vocab_file"은 다국어

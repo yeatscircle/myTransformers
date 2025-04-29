@@ -18,15 +18,15 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import (
+from myTransformers import (
     SPIECE_UNDERLINE,
     AddedToken,
     AutoTokenizer,
     PreTrainedTokenizerFast,
     SpecialTokensMixin,
 )
-from transformers.convert_slow_tokenizer import MoshiConverter
-from transformers.testing_utils import (
+from myTransformers.convert_slow_tokenizer import MoshiConverter
+from myTransformers.testing_utils import (
     get_tests_dir,
     nested_simplify,
     require_sentencepiece,

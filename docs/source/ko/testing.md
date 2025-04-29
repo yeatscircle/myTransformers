@@ -201,7 +201,7 @@ Returns:
 Example:
     ```python
     >>> import torch
-    >>> from transformers import WhisperModel, WhisperFeatureExtractor
+    >>> from myTransformers import WhisperModel, WhisperFeatureExtractor
     >>> from datasets import load_dataset
 
     >>> model = WhisperModel.from_pretrained("openai/whisper-base")
@@ -506,9 +506,9 @@ def test_integration_foo():
 - 사용 가능한 GPU 수:
 
 ```python
-from transformers.testing_utils import get_gpu_count
+from myTransformers.testing_utils import get_gpu_count
 
-n_gpu = get_gpu_count()  #torch와 tf와 함께 작동
+n_gpu = get_gpu_count()  # torch와 tf와 함께 작동
 ```
 
 ### 분산 훈련[[distributed-training]]
@@ -721,7 +721,7 @@ pytest test_this2.py::test_floor[negative--1.5--2.0] test_this2.py::test_floor[i
 예를 들어 다음과 같습니다:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -733,7 +733,7 @@ class PathExampleTest(TestCasePlus):
 예를 들어 다음과 같습니다:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -756,7 +756,7 @@ class PathExampleTest(TestCasePlus):
 다음은 해당 클래스를 사용하는 예시입니다:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class ExamplesTests(TestCasePlus):
@@ -814,10 +814,9 @@ def test_whatever(self):
 `sys.path`를 다른 테스트로 임시로 오버라이드하기 위해 예를 들어 `ExtendSysPath` 컨텍스트 관리자를 사용할 수 있습니다.
 예를 들어 다음과 같습니다:
 
-
 ```python
 import os
-from transformers.testing_utils import ExtendSysPath
+from myTransformers.testing_utils import ExtendSysPath
 
 bindir = os.path.abspath(os.path.dirname(__file__))
 with ExtendSysPath(f"{bindir}/.."):
@@ -925,7 +924,9 @@ class TestClass():
 따라서 필수 테스트를 위한 일부 예외를 제외하고 느린 테스트는 다음과 같이 표시해야 합니다.
 
 ```python no-style
-from transformers.testing_utils import slow
+from myTransformers.testing_utils import slow
+
+
 @slow
 def test_integration_foo():
 ```
@@ -1069,7 +1070,7 @@ def test_result_and_stdout():
 출력에 `\r`이 포함되어 있는지의 여부에 관계없이 모든 것을 자동으로 처리하므로 편리합니다.
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 with CaptureStdout() as cs:
     function_that_writes_to_stdout()
@@ -1079,7 +1080,7 @@ print(cs.out)
 다음은 전체 테스트 예제입니다.
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 msg = "Secret message\r"
 final = "Hello World"
@@ -1091,7 +1092,7 @@ assert cs.out == final + "\n", f"captured: {cs.out}, expecting {final}"
 `stderr`를 캡처하고 싶다면, 대신 `CaptureStderr` 클래스를 사용하세요.
 
 ```python
-from transformers.testing_utils import CaptureStderr
+from myTransformers.testing_utils import CaptureStderr
 
 with CaptureStderr() as cs:
     function_that_writes_to_stderr()
@@ -1101,7 +1102,7 @@ print(cs.err)
 두 스트림을 동시에 캡처해야 한다면, 부모 `CaptureStd` 클래스를 사용하세요.
 
 ```python
-from transformers.testing_utils import CaptureStd
+from myTransformers.testing_utils import CaptureStd
 
 with CaptureStd() as cs:
     function_that_writes_to_stdout_and_stderr()
@@ -1117,12 +1118,12 @@ print(cs.err, cs.out)
 로거 출력을 검증해야 하는 경우 `CaptureLogger`를 사용할 수 있습니다.
 
 ```python
-from transformers import logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import logging
+from myTransformers.testing_utils import CaptureLogger
 
 msg = "Testing 1, 2, 3"
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers.models.bart.tokenization_bart")
+logger = logging.get_logger("myTransformers.models.bart.tokenization_bart")
 with CaptureLogger(logger) as cl:
     logger.info(msg)
 assert cl.out, msg + "\n"
@@ -1134,7 +1135,7 @@ assert cl.out, msg + "\n"
 `transformers.testing_utils.mockenv`라는 도우미 데코레이터를 사용할 수 있습니다.
 
 ```python
-from transformers.testing_utils import mockenv
+from myTransformers.testing_utils import mockenv
 
 
 class HfArgumentParserTest(unittest.TestCase):
@@ -1147,7 +1148,7 @@ class HfArgumentParserTest(unittest.TestCase):
 헬퍼 클래스 `transformers.test_utils.TestCasePlus`가 도움이 됩니다:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class EnvExampleTest(TestCasePlus):

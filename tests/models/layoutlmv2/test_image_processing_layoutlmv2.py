@@ -16,8 +16,8 @@ import unittest
 
 import requests
 
-from transformers.testing_utils import require_pytesseract, require_torch, require_vision
-from transformers.utils import is_pytesseract_available, is_torch_available, is_torchvision_available
+from myTransformers.testing_utils import require_pytesseract, require_torch, require_vision
+from myTransformers.utils import is_pytesseract_available, is_torch_available, is_torchvision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -28,10 +28,10 @@ if is_torch_available():
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv2ImageProcessor
+    from myTransformers import LayoutLMv2ImageProcessor
 
     if is_torchvision_available():
-        from transformers import LayoutLMv2ImageProcessorFast
+        from myTransformers import LayoutLMv2ImageProcessorFast
 
 
 class LayoutLMv2ImageProcessingTester:

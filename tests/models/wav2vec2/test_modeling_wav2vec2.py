@@ -25,8 +25,8 @@ import numpy as np
 from datasets import load_dataset
 from pytest import mark
 
-from transformers import Wav2Vec2Config, is_torch_available
-from transformers.testing_utils import (
+from myTransformers import Wav2Vec2Config, is_torch_available
+from myTransformers.testing_utils import (
     CaptureLogger,
     cleanup,
     is_flaky,
@@ -58,7 +58,7 @@ if is_torch_available():
     import torch
     from safetensors.torch import save_file as safe_save_file
 
-    from transformers import (
+    from myTransformers import (
         Wav2Vec2FeatureExtractor,
         Wav2Vec2ForAudioFrameClassification,
         Wav2Vec2ForCTC,
@@ -69,7 +69,7 @@ if is_torch_available():
         Wav2Vec2Model,
         Wav2Vec2Processor,
     )
-    from transformers.models.wav2vec2.modeling_wav2vec2 import (
+    from myTransformers.models.wav2vec2.modeling_wav2vec2 import (
         WAV2VEC2_ADAPTER_PT_FILE,
         WAV2VEC2_ADAPTER_SAFE_FILE,
         Wav2Vec2GumbelVectorQuantizer,
@@ -85,11 +85,11 @@ if is_torchaudio_available():
 if is_pyctcdecode_available():
     import pyctcdecode.decoder
 
-    from transformers import Wav2Vec2ProcessorWithLM
-    from transformers.models.wav2vec2_with_lm import processing_wav2vec2_with_lm
+    from myTransformers import Wav2Vec2ProcessorWithLM
+    from myTransformers.models.wav2vec2_with_lm import processing_wav2vec2_with_lm
 
 
-from transformers.utils.fx import symbolic_trace
+from myTransformers.utils.fx import symbolic_trace
 
 
 def _test_wav2vec2_with_lm_invalid_pool(in_queue, out_queue, timeout):

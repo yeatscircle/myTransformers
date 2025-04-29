@@ -38,7 +38,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티와의 공유를 권장합니다. 메시지가 표시되면(When prompted) 토큰을 입력하여 로그인합니다:
@@ -94,9 +94,9 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티와
 마스킹된 언어 모델링을 위해, 다음 단계로 DistilRoBERTa 토크나이저를 가져와서 `text` 하위 필드를 처리합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
 ```
 
 위의 예제에서와 마찬가지로, `text` 필드는 `answers` 안에 중첩되어 있습니다. 
@@ -185,10 +185,10 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티와
 시퀀스 끝 토큰을 패딩 토큰으로 사용하고 데이터를 반복할 때마다 토큰을 무작위로 마스킹하도록 `mlm_-probability`를 지정합니다:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 ```
 </pt>
 <tf>
@@ -196,9 +196,9 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티와
 시퀀스 끝 토큰을 패딩 토큰으로 사용하고 데이터를 반복할 때마다 토큰을 무작위로 마스킹하도록 `mlm_-probability`를 지정합니다:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -215,9 +215,9 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티와
 이제 모델 훈련을 시작할 준비가 되었습니다! [`AutoModelForMaskedLM`]를 사용해 DistilRoBERTa 모델을 가져옵니다:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 이제 세 단계가 남았습니다:
@@ -272,17 +272,17 @@ Keras로 모델을 미세 조정하는 데 익숙하지 않다면 기본 튜토�
 TensorFlow로 모델을 미세 조정하기 위해서는 옵티마이저(optimizer) 함수 설정, 학습률(learning rate) 스케쥴링, 훈련 하이퍼파라미터 설정부터 시작하세요:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 다음으로 [`TFAutoModelForMaskedLM`]를 사용해 DistilRoBERTa 모델을 가져옵니다:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] 메소드를 사용해 데이터 세트를 `tf.data.Dataset` 형식으로 변환하세요:
@@ -314,11 +314,13 @@ TensorFlow로 모델을 미세 조정하기 위해서는 옵티마이저(optimiz
 이는 업로드할 모델과 토크나이저의 위치를 [`~transformers.PushToHubCallback`]에 지정하여 수행할 수 있습니다:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_mlm_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_mlm_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -355,10 +357,10 @@ TensorFlow로 모델을 미세 조정하기 위해서는 옵티마이저(optimiz
 `top_k` 매개변수를 사용하여 반환하는 예측의 수를 지정할 수 있습니다:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> mask_filler = pipeline("fill-mask", "stevhliu/my_awesome_eli5_mlm_model")
->>> mask_filler(text, top_k=3)
+>> > mask_filler = pipeline("fill-mask", "stevhliu/my_awesome_eli5_mlm_model")
+>> > mask_filler(text, top_k=3)
 [{'score': 0.5150994658470154,
   'token': 21300,
   'token_str': ' spiral',

@@ -20,16 +20,16 @@ import unittest
 
 import pytest
 
-from transformers import CLIPTokenizer, CLIPTokenizerFast
-from transformers.models.clip.tokenization_clip import VOCAB_FILES_NAMES
-from transformers.testing_utils import require_vision
-from transformers.utils import IMAGE_PROCESSOR_NAME, is_vision_available
+from myTransformers import CLIPTokenizer, CLIPTokenizerFast
+from myTransformers.models.clip.tokenization_clip import VOCAB_FILES_NAMES
+from myTransformers.testing_utils import require_vision
+from myTransformers.utils import IMAGE_PROCESSOR_NAME, is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
 
 if is_vision_available():
-    from transformers import OwlViTImageProcessor, OwlViTProcessor
+    from myTransformers import OwlViTImageProcessor, OwlViTProcessor
 
 
 @require_vision

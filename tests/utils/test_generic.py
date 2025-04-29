@@ -17,10 +17,10 @@ import warnings
 
 import numpy as np
 
-from transformers.configuration_utils import PretrainedConfig
-from transformers.modeling_outputs import BaseModelOutput
-from transformers.testing_utils import require_flax, require_tf, require_torch
-from transformers.utils import (
+from myTransformers.configuration_utils import PretrainedConfig
+from myTransformers.modeling_outputs import BaseModelOutput
+from myTransformers.testing_utils import require_flax, require_tf, require_torch
+from myTransformers.utils import (
     can_return_tuple,
     expand_dims,
     filter_out_non_signature_kwargs,

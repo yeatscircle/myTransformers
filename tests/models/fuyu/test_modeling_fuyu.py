@@ -20,9 +20,9 @@ import pytest
 import requests
 from parameterized import parameterized
 
-from transformers import FuyuConfig, is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_torch_accelerator, slow
-from transformers.utils import cached_property
+from myTransformers import FuyuConfig, is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_torch_accelerator, slow
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_modeling_common import ModelTesterMixin, ids_tensor, random_attention_mask
@@ -34,11 +34,11 @@ if is_vision_available():
 
 
 if is_torch_available() and is_vision_available():
-    from transformers import FuyuProcessor
+    from myTransformers import FuyuProcessor
 
 
 if is_torch_available():
-    from transformers import FuyuForCausalLM
+    from myTransformers import FuyuForCausalLM
 
 
 class FuyuModelTester:

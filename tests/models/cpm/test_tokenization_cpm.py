@@ -13,8 +13,8 @@
 
 import unittest
 
-from transformers.models.cpm.tokenization_cpm import CpmTokenizer
-from transformers.testing_utils import custom_tokenizers
+from myTransformers.models.cpm.tokenization_cpm import CpmTokenizer
+from myTransformers.testing_utils import custom_tokenizers
 
 
 @custom_tokenizers

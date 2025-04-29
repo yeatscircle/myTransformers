@@ -56,7 +56,7 @@ AWQ 양자화된 모델은 해당 모델의 [config.json](https://huggingface.co
 양자화된 모델은 [`~PreTrainedModel.from_pretrained`] 메서드를 사용하여 가져옵니다. 모델을 CPU에 가져왔다면, 먼저 모델을 GPU 장치로 옮겨야 합니다.  `device_map` 파라미터를 사용하여 모델을 배치할 위치를 지정하세요:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "TheBloke/zephyr-7B-alpha-AWQ"
 model = AutoModelForCausalLM.from_pretrained(model_id, device_map="cuda:0")
@@ -65,7 +65,7 @@ model = AutoModelForCausalLM.from_pretrained(model_id, device_map="cuda:0")
 AWQ 양자화 모델을 가져오면 자동으로 성능상의 이유로 인해 가중치들의 기본값이 fp16으로 설정됩니다. 가중치를 다른 형식으로 가져오려면, `torch_dtype` 파라미터를 사용하세요:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "TheBloke/zephyr-7B-alpha-AWQ"
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32)
@@ -74,9 +74,10 @@ model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32
 추론을 더욱 가속화하기 위해 AWQ 양자화와 [FlashAttention-2](../perf_infer_gpu_one#flashattention-2) 를 결합 할 수 있습니다:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
-model = AutoModelForCausalLM.from_pretrained("TheBloke/zephyr-7B-alpha-AWQ", attn_implementation="flash_attention_2", device_map="cuda:0")
+model = AutoModelForCausalLM.from_pretrained("TheBloke/zephyr-7B-alpha-AWQ", attn_implementation="flash_attention_2",
+                                             device_map="cuda:0")
 ```
 
 ## 퓨즈된 모듈 [[fused-modules]]
@@ -99,7 +100,7 @@ model = AutoModelForCausalLM.from_pretrained("TheBloke/zephyr-7B-alpha-AWQ", att
 
 ```python
 import torch
-from transformers import AwqConfig, AutoModelForCausalLM
+from myTransformers import AwqConfig, AutoModelForCausalLM
 
 model_id = "TheBloke/Mistral-7B-OpenOrca-AWQ"
 
@@ -158,7 +159,7 @@ model = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=quant
 
 ```python
 import torch
-from transformers import AwqConfig, AutoModelForCausalLM
+from myTransformers import AwqConfig, AutoModelForCausalLM
 
 model_id = "TheBloke/Yi-34B-AWQ"
 
@@ -206,7 +207,7 @@ pip install git+https://github.com/casper-hansen/AutoAWQ.git
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, AwqConfig
 
 quantization_config = AwqConfig(version="exllama")
 

@@ -17,9 +17,9 @@ import unittest
 
 import requests
 
-from transformers import MgpstrConfig
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers import MgpstrConfig
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor
@@ -30,13 +30,13 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import MgpstrForSceneTextRecognition, MgpstrModel
+    from myTransformers import MgpstrForSceneTextRecognition, MgpstrModel
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import MgpstrProcessor
+    from myTransformers import MgpstrProcessor
 
 
 class MgpstrModelTester:

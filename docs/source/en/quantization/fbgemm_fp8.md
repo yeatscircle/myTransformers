@@ -32,7 +32,7 @@ If you're having installation issues, try installing the [nightly release](https
 Create a [`FbgemmFp8Config`] and pass it to [`~PreTrainedModel.from_pretrained`] to quantize a model to fp8.
 
 ```py
-from transformers import FbgemmFp8Config, AutoModelForCausalLM
+from myTransformers import FbgemmFp8Config, AutoModelForCausalLM
 
 quantization_config = FbgemmFp8Config()
 quantized_model = AutoModelForCausalLM.from_pretrained(

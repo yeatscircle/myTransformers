@@ -57,8 +57,8 @@ pipelines是使用模型进行推理的一种简单方法。这些pipelines是�
 
 ```python
 import datasets
-from transformers import pipeline
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers import pipeline
+from myTransformers.pipelines.pt_utils import KeyDataset
 from tqdm.auto import tqdm
 
 pipe = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h", device=0)
@@ -75,9 +75,8 @@ for out in tqdm(pipe(KeyDataset(dataset, "file"))):
 
 为了方便使用，也可以使用生成器：
 
-
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-classification")
 
@@ -106,8 +105,8 @@ for out in pipe(data()):
 所有pipeline都可以使用批处理。这将在pipeline使用其流处理功能时起作用（即传递列表或 `Dataset` 或 `generator` 时）。
 
 ```python
-from transformers import pipeline
-from transformers.pipelines.pt_utils import KeyDataset
+from myTransformers import pipeline
+from myTransformers.pipelines.pt_utils import KeyDataset
 import datasets
 
 dataset = datasets.load_dataset("imdb", name="plain_text", split="unsupervised")
@@ -128,7 +127,7 @@ for out in pipe(KeyDataset(dataset, "text"), batch_size=8, truncation="only_firs
 </Tip>
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 

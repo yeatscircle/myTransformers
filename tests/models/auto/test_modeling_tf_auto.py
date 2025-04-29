@@ -18,8 +18,8 @@ import copy
 import tempfile
 import unittest
 
-from transformers import CONFIG_MAPPING, AutoConfig, BertConfig, GPT2Config, T5Config, TapasConfig, is_tf_available
-from transformers.testing_utils import (
+from myTransformers import CONFIG_MAPPING, AutoConfig, BertConfig, GPT2Config, T5Config, TapasConfig, is_tf_available
+from myTransformers.testing_utils import (
     DUMMY_UNKNOWN_IDENTIFIER,
     SMALL_MODEL_IDENTIFIER,
     RequestCounter,
@@ -32,7 +32,7 @@ from ..bert.test_modeling_bert import BertModelTester
 
 
 if is_tf_available():
-    from transformers import (
+    from myTransformers import (
         TFAutoModel,
         TFAutoModelForCausalLM,
         TFAutoModelForMaskedLM,
@@ -55,7 +55,7 @@ if is_tf_available():
         TFT5ForConditionalGeneration,
         TFTapasForQuestionAnswering,
     )
-    from transformers.models.auto.modeling_tf_auto import (
+    from myTransformers.models.auto.modeling_tf_auto import (
         TF_MODEL_FOR_CAUSAL_LM_MAPPING,
         TF_MODEL_FOR_MASKED_LM_MAPPING,
         TF_MODEL_FOR_PRETRAINING_MAPPING,

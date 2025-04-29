@@ -17,10 +17,10 @@ import copy
 import tempfile
 import unittest
 
-from transformers import SeamlessM4TConfig, is_speech_available, is_torch_available
-from transformers.testing_utils import require_torch, slow, torch_device
-from transformers.trainer_utils import set_seed
-from transformers.utils import cached_property
+from myTransformers import SeamlessM4TConfig, is_speech_available, is_torch_available
+from myTransformers.testing_utils import require_torch, slow, torch_device
+from myTransformers.trainer_utils import set_seed
+from myTransformers.utils import cached_property
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import (
@@ -36,7 +36,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         SeamlessM4TForSpeechToSpeech,
         SeamlessM4TForSpeechToText,
         SeamlessM4TForTextToSpeech,
@@ -45,7 +45,7 @@ if is_torch_available():
     )
 
 if is_speech_available():
-    from transformers import SeamlessM4TProcessor
+    from myTransformers import SeamlessM4TProcessor
 
 
 class SeamlessM4TModelTester:

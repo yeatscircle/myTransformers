@@ -87,22 +87,21 @@ optimum-cli export onnx --model local_path --task question-answering distilbert_
 
 エクスポートされた `model.onnx` ファイルは、ONNX標準をサポートする[多くのアクセラレータ](https://onnx.ai/supported-tools.html#deployModel)の1つで実行できます。たとえば、[ONNX Runtime](https://onnxruntime.ai/)を使用してモデルを読み込み、実行する方法は以下の通りです：
 
-
 ```python
->>> from transformers import AutoTokenizer
->>> from optimum.onnxruntime import ORTModelForQuestionAnswering
+>> > from myTransformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForQuestionAnswering
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 🤗 HubからTensorFlowのチェックポイントをエクスポートするプロセスは、同様です。例えば、[Keras organization](https://huggingface.co/keras-io)から純粋なTensorFlowのチェックポイントをエクスポートする方法は以下の通りです：
 
 
 ```bash
-optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_squad_onnx/
+optimum-cli export onnx --model keras-io/myTransformers-qa distilbert_base_cased_squad_onnx/
 ```
 
 ### Exporting a 🤗 Transformers model to ONNX with `optimum.onnxruntime`
@@ -110,19 +109,19 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 CLIの代わりに、🤗 TransformersモデルをONNXにプログラム的にエクスポートすることもできます。以下のように行います：
 
 ```python
->>> from optimum.onnxruntime import ORTModelForSequenceClassification
->>> from transformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer
 
->>> model_checkpoint = "distilbert_base_uncased_squad"
->>> save_directory = "onnx/"
+>> > model_checkpoint = "distilbert_base_uncased_squad"
+>> > save_directory = "onnx/"
 
->>> # Load a model from transformers and export it to ONNX
->>> ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
->>> tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+>> >  # Load a model from myTransformers and export it to ONNX
+>> > ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
->>> # Save the onnx model and tokenizer
->>> ort_model.save_pretrained(save_directory)
->>> tokenizer.save_pretrained(save_directory)
+>> >  # Save the onnx model and tokenizer
+>> > ort_model.save_pretrained(save_directory)
+>> > tokenizer.save_pretrained(save_directory)
 ```
 
 ### Exporting a model for an unsupported architecture
@@ -141,51 +140,49 @@ CLIの代わりに、🤗 TransformersモデルをONNXにプログラム的に�
 
 
 ```bash
-pip install transformers[onnx]
+pip install myTransformers[onnx]
 ```
 
 `transformers.onnx`パッケージをPythonモジュールとして使用して、事前に用意された設定を使用してチェックポイントをエクスポートする方法は以下の通りです：
 
 ```bash
-python -m transformers.onnx --model=distilbert/distilbert-base-uncased onnx/
+python -m myTransformers.onnx --model=distilbert/distilbert-base-uncased onnx/
 ```
 
 この方法は、`--model`引数で定義されたチェックポイントのONNXグラフをエクスポートします。🤗 Hubのいずれかのチェックポイントまたはローカルに保存されたチェックポイントを渡すことができます。エクスポートされた`model.onnx`ファイルは、ONNX標準をサポートする多くのアクセラレータで実行できます。例えば、ONNX Runtimeを使用してモデルを読み込んで実行する方法は以下の通りです：
 
-
 ```python
->>> from transformers import AutoTokenizer
->>> from onnxruntime import InferenceSession
+>> > from myTransformers import AutoTokenizer
+>> > from onnxruntime import InferenceSession
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
->>> session = InferenceSession("onnx/model.onnx")
->>> # ONNX Runtime expects NumPy arrays as input
->>> inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
->>> outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > session = InferenceSession("onnx/model.onnx")
+>> >  # ONNX Runtime expects NumPy arrays as input
+>> > inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
+>> > outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
 ```
 
 必要な出力名（例: `["last_hidden_state"]`）は、各モデルのONNX構成を確認することで取得できます。例えば、DistilBERTの場合、次のようになります：
 
-
 ```python
->>> from transformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
+>> > from myTransformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
 
->>> config = DistilBertConfig()
->>> onnx_config = DistilBertOnnxConfig(config)
->>> print(list(onnx_config.outputs.keys()))
+>> > config = DistilBertConfig()
+>> > onnx_config = DistilBertOnnxConfig(config)
+>> > print(list(onnx_config.outputs.keys()))
 ["last_hidden_state"]
 ```
 
 ハブから純粋なTensorFlowのチェックポイントをプログラム的にエクスポートするプロセスは、以下のように同様です：
 
 ```bash
-python -m transformers.onnx --model=keras-io/transformers-qa onnx/
+python -m myTransformers.onnx --model=keras-io/myTransformers-qa onnx/
 ```
 
 ローカルに保存されたモデルをエクスポートする場合、モデルの重みとトークナイザのファイルを同じディレクトリに保存してください（例： `local-pt-checkpoint`）。その後、`transformers.onnx`パッケージの `--model`引数を希望するディレクトリに向けて設定して、ONNXにエクスポートします：
 
 
 ```bash
-python -m transformers.onnx --model=local-pt-checkpoint onnx/
+python -m myTransformers.onnx --model=local-pt-checkpoint onnx/
 ```
 

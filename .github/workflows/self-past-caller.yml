@@ -22,9 +22,9 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_models_gpu
-      slack_report_channel: "#transformers-ci-past-future"
+      slack_report_channel: "#myTransformers-ci-past-future"
       runner: past-ci
-      docker: huggingface/transformers-${{ inputs.framework }}-past-${{ inputs.version }}-gpu
+      docker: huggingface/myTransformers-${{ inputs.framework }}-past-${{ inputs.version }}-gpu
       ci_event: Past CI - ${{ inputs.framework }}-${{ inputs.version }}
     secrets: inherit
 
@@ -33,8 +33,8 @@ jobs:
     uses: ./.github/workflows/self-scheduled.yml
     with:
       job: run_torch_cuda_extensions_gpu
-      slack_report_channel: "#transformers-ci-past-future"
+      slack_report_channel: "#myTransformers-ci-past-future"
       runner: past-ci
-      docker: huggingface/transformers-${{ inputs.framework }}-past-${{ inputs.version }}-gpu
+      docker: huggingface/myTransformers-${{ inputs.framework }}-past-${{ inputs.version }}-gpu
       ci_event: Past CI - ${{ inputs.framework }}-${{ inputs.version }}
     secrets: inherit

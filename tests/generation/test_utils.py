@@ -28,8 +28,8 @@ import pytest
 from packaging import version
 from parameterized import parameterized
 
-from transformers import AutoConfig, AutoProcessor, AutoTokenizer, is_torch_available, logging, pipeline
-from transformers.testing_utils import (
+from myTransformers import AutoConfig, AutoProcessor, AutoTokenizer, is_torch_available, logging, pipeline
+from myTransformers.testing_utils import (
     CaptureLogger,
     is_flaky,
     require_accelerate,
@@ -49,14 +49,14 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_ipex_available, is_torchdynamo_exporting
+from myTransformers.utils import is_ipex_available, is_torchdynamo_exporting
 
 
 if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import (
+    from myTransformers import (
         AutoModelForCausalLM,
         AutoModelForImageTextToText,
         AutoModelForSeq2SeqLM,
@@ -70,7 +70,7 @@ if is_torch_available():
         SpeechEncoderDecoderModel,
         T5ForConditionalGeneration,
     )
-    from transformers.cache_utils import (
+    from myTransformers.cache_utils import (
         Cache,
         DynamicCache,
         EncoderDecoderCache,
@@ -78,7 +78,7 @@ if is_torch_available():
         QuantoQuantizedCache,
         StaticCache,
     )
-    from transformers.generation import (
+    from myTransformers.generation import (
         BeamSampleDecoderOnlyOutput,
         BeamSampleEncoderDecoderOutput,
         BeamSearchDecoderOnlyOutput,
@@ -106,15 +106,15 @@ if is_torch_available():
         WatermarkDetector,
         WatermarkingConfig,
     )
-    from transformers.generation.candidate_generator import (
+    from myTransformers.generation.candidate_generator import (
         AssistedCandidateGenerator,
         AssistedCandidateGeneratorDifferentTokenizers,
     )
-    from transformers.generation.utils import _speculative_sampling
+    from myTransformers.generation.utils import _speculative_sampling
 
 from unittest.mock import patch
 
-from transformers.utils import is_sklearn_available
+from myTransformers.utils import is_sklearn_available
 
 
 # TODO: raushan remove this when VLMs start accepting input embeds
@@ -5076,7 +5076,7 @@ class TestAssistedCandidateGeneratorUpdateStrategy(unittest.TestCase):
         self.original_threshold = self.assistant_model.generation_config.assistant_confidence_threshold
 
     def assert_no_sklearn(self):
-        with patch("transformers.utils.import_utils._sklearn_available", False):
+        with patch("myTransformers.utils.import_utils._sklearn_available", False):
             self.candidate_generator.update_candidate_strategy(self.input_ids, None, self.num_matches)
             self.assertEqual(self.candidate_generator.matches, self.original_matches)
             self.assertEqual(self.candidate_generator.probs, self.original_probs)

@@ -30,7 +30,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate -q
+pip install myTransformers datasets evaluate -q
 pip install jiwer -q
 ```
 
@@ -113,7 +113,7 @@ plot_images(sample_images_to_visualize, sample_captions)
 これを行うには、微調整しようとしているモデルに関連付けられたプロセッサ クラスをロードします。
 
 ```python
-from transformers import AutoProcessor
+from myTransformers import AutoProcessor
 
 checkpoint = "microsoft/git-base"
 processor = AutoProcessor.from_pretrained(checkpoint)
@@ -142,13 +142,13 @@ test_ds.set_transform(transforms)
 ["microsoft/git-base"](https://huggingface.co/microsoft/git-base) を [`AutoModelForCausalLM`](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForCausalLM) オブジェクト。
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(checkpoint)
 ```
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained(checkpoint)
 ```
@@ -181,7 +181,7 @@ def compute_metrics(eval_pred):
 まず、[`TrainingArguments`] を使用してトレーニング引数を定義します。
 
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 model_name = checkpoint.split("/")[1]
 

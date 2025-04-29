@@ -19,7 +19,7 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AddedToken,
     LayoutXLMTokenizerFast,
     SpecialTokensMixin,
@@ -27,8 +27,8 @@ from transformers import (
     is_torch_available,
     logging,
 )
-from transformers.models.layoutxlm.tokenization_layoutxlm import LayoutXLMTokenizer
-from transformers.testing_utils import (
+from myTransformers.models.layoutxlm.tokenization_layoutxlm import LayoutXLMTokenizer
+from myTransformers.testing_utils import (
     get_tests_dir,
     require_pandas,
     require_sentencepiece,
@@ -764,7 +764,7 @@ class LayoutXLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
             boxes=boxes,
         )
 
-        with self.assertLogs("transformers", level="WARNING") as cm:
+        with self.assertLogs("myTransformers", level="WARNING") as cm:
             tokenizer_fast.pad(encoding_fast)
         self.assertEqual(len(cm.records), 1)
         self.assertIn(
@@ -1224,7 +1224,7 @@ class LayoutXLMTokenizationTest(TokenizerTesterMixin, unittest.TestCase):
     def test_torch_encode_plus_sent_to_model(self):
         import torch
 
-        from transformers import MODEL_MAPPING, TOKENIZER_MAPPING
+        from myTransformers import MODEL_MAPPING, TOKENIZER_MAPPING
 
         MODEL_TOKENIZER_MAPPING = merge_model_tokenizer_mappings(MODEL_MAPPING, TOKENIZER_MAPPING)
 

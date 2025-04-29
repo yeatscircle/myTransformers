@@ -28,7 +28,7 @@ Greedy search works well for tasks with relatively short outputs. However, it br
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
@@ -48,7 +48,7 @@ Enable contrastive search with the `penalty_alpha` and `top_k` parameters. The `
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
@@ -71,7 +71,7 @@ Enable beam search with the `num_beams` parameter (should be greater than 1 othe
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
@@ -91,14 +91,15 @@ Enable diverse beam search with the `num_beams`, `num_beam_groups` and `diversit
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
 
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf", torch_dtype=torch.float16).to("cuda")
 # explicitly set to 100 because Llama2 generation length is 4096
-outputs = model.generate(**inputs, max_new_tokens=50, num_beams=6, num_beam_groups=3, diversity_penalty=1.0, do_sample=False)
+outputs = model.generate(**inputs, max_new_tokens=50, num_beams=6, num_beam_groups=3, diversity_penalty=1.0,
+                         do_sample=False)
 tokenizer.batch_decode(outputs, skip_special_tokens=True)
 'Hugging Face is an open-source company 🤗\nWe are an open-source company. Our mission is to democratize AI and make it accessible to everyone. We believe that AI should be used for the benefit of humanity, not for the benefit of a'
 ```
@@ -111,7 +112,7 @@ Enable multinomial sampling with `do_sample=True` and `num_beams=1`.
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
@@ -131,7 +132,7 @@ Enable beam search multinomial sampling by setting `num_beams` to a value greate
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
@@ -154,7 +155,7 @@ Enable speculative decoding with the `assistant_model` parameter. You'll notice 
 <hfoption id="greedy search">
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
 model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
@@ -169,7 +170,7 @@ tokenizer.batch_decode(outputs, skip_special_tokens=True)
 Speculative decoding is also supported in [`Pipeline`] with the `assistant_model` parameter.
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 import torch
 
 pipe = pipeline(
@@ -188,7 +189,7 @@ pipe_output[0]["generated_text"]
 Add the `temperature` parameter to control sampling randomness. For speculative decoding, a lower temperature may improve latency.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
 model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
@@ -211,11 +212,12 @@ Enable prompt lookup decoding with the `prompt_lookup_num_tokens` parameter.
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
 model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-1.7B", torch_dtype=torch.float16).to("cuda")
-assistant_model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-135M", torch_dtype=torch.float16).to("cuda")
+assistant_model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-135M", torch_dtype=torch.float16).to(
+    "cuda")
 inputs = tokenizer("Hugging Face is an open-source company", return_tensors="pt").to("cuda")
 
 outputs = model.generate(**inputs, assistant_model=assistant_model, max_new_tokens=20, prompt_lookup_num_tokens=5)
@@ -232,7 +234,7 @@ The assistant model is also part of the target model, so the caches and weights 
 For a model trained with early exit, pass `assistant_early_exit` to [`~GenerationMixin.generate`].
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 prompt = "Alice and Bob"
 checkpoint = "facebook/layerskip-llama3.2-1B"
@@ -254,7 +256,7 @@ Re-encoding involves decoding token ids into text and encoding the text with a d
 Add the `tokenizer` and `assistant_tokenizer` parameters to [`~GenerationMixin.generate`] to enable UAD.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 prompt = "Alice and Bob"
 
@@ -264,7 +266,8 @@ inputs = tokenizer(prompt, return_tensors="pt")
 
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2-9b")
 assistant_model = AutoModelForCausalLM.from_pretrained("double7/vicuna-68m")
-outputs = model.generate(**inputs, assistant_model=assistant_model, tokenizer=tokenizer, assistant_tokenizer=assistant_tokenizer)
+outputs = model.generate(**inputs, assistant_model=assistant_model, tokenizer=tokenizer,
+                         assistant_tokenizer=assistant_tokenizer)
 tokenizer.batch_decode(outputs, skip_special_tokens=True)
 ['Alice and Bob are sitting in a bar. Alice is drinking a beer and Bob is drinking a']
 ```
@@ -293,7 +296,7 @@ Enable DoLa with the following parameters.
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
 model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-1.7B", torch_dtype=torch.float16).to("cuda")
@@ -311,13 +314,13 @@ Contrast layers 18 and 20 with the final layer.
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceTB/SmolLM-1.7B")
 model = AutoModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-1.7B", torch_dtype=torch.float16).to("cuda")
 inputs = tokenizer("What is the highest peak in the world?", return_tensors="pt").to("cuda")
 
-outputs = model.generate(**inputs, max_new_tokens=50, dola_layers=[18,20], do_sample=False, repetition_penalty=1.2)
+outputs = model.generate(**inputs, max_new_tokens=50, dola_layers=[18, 20], do_sample=False, repetition_penalty=1.2)
 tokenizer.batch_decode(outputs[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
 " Mount EverestMount Everest, called Himalaya in Nepali, is the world's highest peak above sea level and it rises to an incredible height of 29,028 feet above the ocean. Its summit is over a mile taller than Mt"
 ```

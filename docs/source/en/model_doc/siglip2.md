@@ -44,12 +44,13 @@ The example below demonstrates zero-shot classification with [`Pipeline`] or the
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 image = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
 candidate_labels = ["a Pallas cat", "a lion", "a Siberian tiger"]
 
-pipeline = pipeline(task="zero-shot-image-classification", model="google/siglip2-base-patch16-224", device=0, torch_dtype=torch.bfloat16)
+pipeline = pipeline(task="zero-shot-image-classification", model="google/siglip2-base-patch16-224", device=0,
+                    torch_dtype=torch.bfloat16)
 pipeline(image, candidate_labels=candidate_labels)
 ```
 
@@ -60,9 +61,10 @@ pipeline(image, candidate_labels=candidate_labels)
 import torch
 import requests
 from PIL import Image
-from transformers import AutoProcessor, AutoModel
+from myTransformers import AutoProcessor, AutoModel
 
-model = AutoModel.from_pretrained("google/siglip2-base-patch16-224", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa")
+model = AutoModel.from_pretrained("google/siglip2-base-patch16-224", torch_dtype=torch.float16, device_map="auto",
+                                  attn_implementation="sdpa")
 processor = AutoProcessor.from_pretrained("google/siglip2-base-patch16-224")
 
 url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
@@ -90,9 +92,10 @@ print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
 import torch
 import requests
 from PIL import Image
-from transformers import AutoProcessor, AutoModel
+from myTransformers import AutoProcessor, AutoModel
 
-model = AutoModel.from_pretrained("google/siglip2-base-patch16-naflex", torch_dtype=torch.float16, device_map="auto", attn_implementation="sdpa")
+model = AutoModel.from_pretrained("google/siglip2-base-patch16-naflex", torch_dtype=torch.float16, device_map="auto",
+                                  attn_implementation="sdpa")
 processor = AutoProcessor.from_pretrained("google/siglip2-base-patch16-naflex")
 
 url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
@@ -122,10 +125,11 @@ The example below uses [bitsandbytes](../quantization/bitsandbytes) to only quan
 import torch
 import requests
 from PIL import Image
-from transformers import AutoProcessor, AutoModel, BitsAndBytesConfig
+from myTransformers import AutoProcessor, AutoModel, BitsAndBytesConfig
 
 bnb_config = BitsAndBytesConfig(load_in_4bit=True)
-model = AutoModel.from_pretrained("google/siglip2-large-patch16-512", quantization_config=bnb_config, device_map="auto", attn_implementation="sdpa")
+model = AutoModel.from_pretrained("google/siglip2-large-patch16-512", quantization_config=bnb_config, device_map="auto",
+                                  attn_implementation="sdpa")
 processor = AutoProcessor.from_pretrained("google/siglip2-base-patch16-224")
 
 url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/pipeline-cat-chonk.jpeg"
@@ -159,7 +163,7 @@ print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
     ```py
     # pip install -U flash-attn --no-build-isolation
 
-    from transformers import SiglipModel
+    from myTransformers import SiglipModel
 
     model = SiglipModel.from_pretrained(
         "google/siglip2-so400m-patch14-384",

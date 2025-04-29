@@ -29,8 +29,9 @@ Tips:
 ```
 
 Sample inference:
+
 ```python
-from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration
+from myTransformers import LlavaNextProcessor, LlavaNextForConditionalGeneration
 
 model_path = "ibm-granite/granite-vision-3.1-2b-preview"
 processor = LlavaNextProcessor.from_pretrained(model_path)
@@ -56,7 +57,6 @@ inputs = processor.apply_chat_template(
     return_dict=True,
     return_tensors="pt"
 ).to("cuda")
-
 
 # autoregressively complete prompt
 output = model.generate(**inputs, max_new_tokens=100)

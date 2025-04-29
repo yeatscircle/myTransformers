@@ -86,7 +86,7 @@ Bart モデルは、[BART: Denoising Sequence-to-Sequence Pre-training for Natur
 `facebook/bart-base` および `facebook/bart-large` チェックポイントを使用して、マルチトークン マスクを埋めることができます。
 
 ```python
-from transformers import BartForConditionalGeneration, BartTokenizer
+from myTransformers import BartForConditionalGeneration, BartTokenizer
 
 model = BartForConditionalGeneration.from_pretrained("facebook/bart-large", forced_bos_token_id=0)
 tok = BartTokenizer.from_pretrained("facebook/bart-large")

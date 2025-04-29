@@ -26,7 +26,7 @@ rendered properly in your Markdown viewer.
 首先继承基类 `Pipeline`，其中包含实现 `preprocess`、`_forward`、`postprocess` 和 `_sanitize_parameters` 所需的 4 个方法。
 
 ```python
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 class MyPipeline(Pipeline):
@@ -107,7 +107,7 @@ def _sanitize_parameters(self, **kwargs):
 要将你的 `new-task` 注册到支持的任务列表中，你需要将其添加到 `PIPELINE_REGISTRY` 中：
 
 ```python
-from transformers.pipelines import PIPELINE_REGISTRY
+from myTransformers.pipelines import PIPELINE_REGISTRY
 
 PIPELINE_REGISTRY.register_pipeline(
     "new-task",
@@ -136,7 +136,7 @@ PIPELINE_REGISTRY.register_pipeline(
 ```py
 import numpy as np
 
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 def softmax(outputs):
@@ -174,8 +174,8 @@ class PairClassificationPipeline(Pipeline):
 
 ```py
 from pair_classification import PairClassificationPipeline
-from transformers.pipelines import PIPELINE_REGISTRY
-from transformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
+from myTransformers.pipelines import PIPELINE_REGISTRY
+from myTransformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
 
 PIPELINE_REGISTRY.register_pipeline(
     "pair-classification",
@@ -189,7 +189,7 @@ PIPELINE_REGISTRY.register_pipeline(
 已经在 MRPC 数据集上进行了微调，用于将句子对分类为是释义或不是释义。
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline("pair-classification", model="sgugger/finetuned-bert-mrpc")
 ```
@@ -209,7 +209,7 @@ repo.push_to_hub()
 之后，只要提供选项 `trust_remote_code=True`，任何人都可以使用它：
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline(model="{your_username}/test-dynamic-pipeline", trust_remote_code=True)
 ```

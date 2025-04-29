@@ -49,7 +49,7 @@ This model was contributed by [saurabhdash](https://huggingface.co/saurabhdash) 
 Here's how to use Aya Vision for inference:
 
 ```python
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 import torch
 
 model_id = "CohereForAI/aya-vision-8b"
@@ -65,20 +65,21 @@ model = AutoModelForImageTextToText.from_pretrained(
 messages = [
     {"role": "user",
      "content": [
-       {"type": "image", "url": "https://pbs.twimg.com/media/Fx7YvfQWYAIp6rZ?format=jpg&name=medium"},
-        {"type": "text", "text": "चित्र में लिखा पाठ क्या कहता है?"},
-    ]},
-    ]
+         {"type": "image", "url": "https://pbs.twimg.com/media/Fx7YvfQWYAIp6rZ?format=jpg&name=medium"},
+         {"type": "text", "text": "चित्र में लिखा पाठ क्या कहता है?"},
+     ]},
+]
 
 # Process image on CUDA
 inputs = processor.apply_chat_template(
-    messages, padding=True, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt", device=torch_device
+    messages, padding=True, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors="pt",
+    device=torch_device
 ).to(model.device)
 
 gen_tokens = model.generate(
-    **inputs, 
-    max_new_tokens=300, 
-    do_sample=True, 
+    **inputs,
+    max_new_tokens=300,
+    do_sample=True,
     temperature=0.3,
 )
 
@@ -87,7 +88,7 @@ gen_text = print(processor.tokenizer.decode(gen_tokens[0][inputs.input_ids.shape
 ### Pipeline
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(model="CohereForAI/aya-vision-8b", task="image-text-to-text", device_map="auto")
 
@@ -95,10 +96,11 @@ pipe = pipeline(model="CohereForAI/aya-vision-8b", task="image-text-to-text", de
 messages = [
     {"role": "user",
      "content": [
-       {"type": "image", "url": "https://media.istockphoto.com/id/458012057/photo/istanbul-turkey.jpg?s=612x612&w=0&k=20&c=qogAOVvkpfUyqLUMr_XJQyq-HkACXyYUSZbKhBlPrxo="},
-        {"type": "text", "text": "Bu resimde hangi anıt gösterilmektedir?"},
-    ]},
-    ]
+         {"type": "image",
+          "url": "https://media.istockphoto.com/id/458012057/photo/istanbul-turkey.jpg?s=612x612&w=0&k=20&c=qogAOVvkpfUyqLUMr_XJQyq-HkACXyYUSZbKhBlPrxo="},
+         {"type": "text", "text": "Bu resimde hangi anıt gösterilmektedir?"},
+     ]},
+]
 outputs = pipe(text=messages, max_new_tokens=300, return_full_text=False)
 
 print(outputs)
@@ -109,7 +111,7 @@ print(outputs)
 Aya Vision can process multiple images in a single conversation. Here's how to use it with multiple images:
 
 ```python
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 import torch
 
 model_id = "CohereForAI/aya-vision-8b"
@@ -145,9 +147,9 @@ inputs = processor.apply_chat_template(
 ).to(model.device)
 
 gen_tokens = model.generate(
-    **inputs, 
-    max_new_tokens=300, 
-    do_sample=True, 
+    **inputs,
+    max_new_tokens=300,
+    do_sample=True,
     temperature=0.3,
 )
 
@@ -158,7 +160,7 @@ print(gen_text)
 For processing batched inputs (multiple conversations at once):
 
 ```python
-from transformers import AutoProcessor, AutoModelForImageTextToText
+from myTransformers import AutoProcessor, AutoModelForImageTextToText
 import torch
 
 model_id = "CohereForAI/aya-vision-8b"
@@ -204,11 +206,11 @@ batch_messages = [
 
 # Process each conversation separately and combine into a batch
 batch_inputs = processor.apply_chat_template(
-    batch_messages, 
-    padding=True, 
-    add_generation_prompt=True, 
-    tokenize=True, 
-    return_dict=True, 
+    batch_messages,
+    padding=True,
+    add_generation_prompt=True,
+    tokenize=True,
+    return_dict=True,
     return_tensors="pt"
 ).to(model.device)
 
@@ -223,10 +225,10 @@ batch_outputs = model.generate(
 # Decode the generated responses
 for i, output in enumerate(batch_outputs):
     response = processor.tokenizer.decode(
-        output[batch_inputs.input_ids.shape[1]:], 
+        output[batch_inputs.input_ids.shape[1]:],
         skip_special_tokens=True
     )
-    print(f"Response {i+1}:\n{response}\n")
+    print(f"Response {i + 1}:\n{response}\n")
 ```
 
 ## AyaVisionProcessor

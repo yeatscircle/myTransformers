@@ -130,7 +130,7 @@ import requests
 import torch
 
 from PIL import Image
-from transformers import AutoImageProcessor, AutoModelForObjectDetection
+from myTransformers import AutoImageProcessor, AutoModelForObjectDetection
 
 # Name of repo on the hub or path to a local folder
 model_name = "qubvel-hf/detr-resnet-50-finetuned-10k-cppe5"

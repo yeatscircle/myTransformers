@@ -57,7 +57,7 @@ pip install git+https://github.com/huggingface/peft.git
 2. [`AutoModelForCausalLM`] 클래스에 전달하십시오.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id)
@@ -72,7 +72,7 @@ model = AutoModelForCausalLM.from_pretrained(peft_model_id)
 `load_adapter` 메소드를 호출하여 PEFT 어댑터를 가져올 수도 있습니다.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "facebook/opt-350m"
 peft_model_id = "ybelkada/opt-350m-lora"
@@ -86,7 +86,7 @@ model.load_adapter(peft_model_id)
 `bitsandbytes` 통합은 8비트와 4비트 정밀도 데이터 유형을 지원하므로 큰 모델을 가져올 때 유용하면서 메모리도 절약합니다. 모델을 하드웨어에 효과적으로 분배하려면 [`~PreTrainedModel.from_pretrained`]에 `load_in_8bit` 또는 `load_in_4bit` 매개변수를 추가하고 `device_map="auto"`를 설정하세요:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
@@ -97,7 +97,7 @@ model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=
 새 어댑터가 현재 어댑터와 동일한 유형인 경우에 한해 기존 어댑터가 있는 모델에 새 어댑터를 추가하려면 [`~peft.PeftModel.add_adapter`]를 사용할 수 있습니다. 예를 들어 모델에 기존 LoRA 어댑터가 연결되어 있는 경우:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import PeftConfig
 
 model_id = "facebook/opt-350m"
@@ -137,7 +137,7 @@ print(tokenizer.decode(output_enabled[0], skip_special_tokens=True))
 모델에 어댑터를 추가한 후 어댑터 모듈을 활성화 또는 비활성화할 수 있습니다. 어댑터 모듈을 활성화하려면:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import PeftConfig
 
 model_id = "facebook/opt-350m"

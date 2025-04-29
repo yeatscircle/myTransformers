@@ -1,9 +1,9 @@
 import gc
 import unittest
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, CompressedTensorsConfig
-from transformers.testing_utils import require_compressed_tensors, require_torch
-from transformers.utils import is_torch_available
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, CompressedTensorsConfig
+from myTransformers.testing_utils import require_compressed_tensors, require_torch
+from myTransformers.utils import is_torch_available
 
 
 if is_torch_available():

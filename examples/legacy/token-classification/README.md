@@ -284,7 +284,7 @@ Evaluation on development dataset outputs the following:
 On the test dataset the following results could be achieved:
 
 ```bash
-05/29/2020 23:33:44 - INFO - transformers.trainer -   ***** Running Prediction *****
+05/29/2020 23:33:44 - INFO - myTransformers.trainer -   ***** Running Prediction *****
 05/29/2020 23:34:02 - INFO - __main__ -     eval_loss = 0.30948806500973547
 05/29/2020 23:34:02 - INFO - __main__ -     eval_precision = 0.5840108401084011
 05/29/2020 23:34:02 - INFO - __main__ -     eval_recall = 0.3994439295644115

@@ -25,32 +25,32 @@ rendered properly in your Markdown viewer.
 `BlenderBot` 모델을 사용한 간단한 예제를 통해 이를 구체적으로 살펴보겠습니다. BlenderBot은 기본적으로 매우 간단한 템플릿을 가지고 있으며, 주로 대화 라운드 사이에 공백을 추가합니다:
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> chat = [
-...    {"role": "user", "content": "Hello, how are you?"},
-...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...    {"role": "user", "content": "Hello, how are you?"},
+    ...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 " Hello, how are you?  I'm doing great. How can I help you today?   I'd like to show off how chat templating works!</s>"
 ```
 
 전체 채팅이 하나의 문자열로 압축된 것을 확인할 수 있습니다. 기본 설정인 `tokenize=True`를 사용하면, 그 문자열도 토큰화됩니다. 더 복잡한 템플릿을 사용하기 위해 `mistralai/Mistral-7B-Instruct-v0.1` 모델을 사용해 보겠습니다.
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 
->>> chat = [
-...   {"role": "user", "content": "Hello, how are you?"},
-...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...   {"role": "user", "content": "Hello, how are you?"},
+    ...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 "<s>[INST] Hello, how are you? [/INST]I'm doing great. How can I help you today?</s> [INST] I'd like to show off how chat templating works! [/INST]"
 ```
 
@@ -63,12 +63,11 @@ rendered properly in your Markdown viewer.
 다음은 `Zephyr` 어시스턴트 모델을 사용하여 `model.generate()`의 입력을 준비하는 예제입니다:
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 checkpoint = "HuggingFaceH4/zephyr-7b-beta"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-model = AutoModelForCausalLM.from_pretrained(checkpoint)   # 여기서 bfloat16 사용 및/또는 GPU로 이동할 수 있습니다.
-
+model = AutoModelForCausalLM.from_pretrained(checkpoint)  # 여기서 bfloat16 사용 및/또는 GPU로 이동할 수 있습니다.
 
 messages = [
     {
@@ -76,7 +75,7 @@ messages = [
         "content": "You are a friendly chatbot who always responds in the style of a pirate",
     },
     {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
- ]
+]
 tokenized_chat = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
 print(tokenizer.decode(tokenized_chat[0]))
 ```
@@ -114,7 +113,7 @@ Matey, I'm afraid I must inform ye that humans cannot eat helicopters. Helicopte
 네, 있습니다! 우리의 텍스트 생성 파이프라인은 채팅 입력을 지원하여 채팅 모델을 쉽게 사용할 수 있습니다. 이전에는 "ConversationalPipeline" 클래스를 사용했지만, 이제는 이 기능이 [`TextGenerationPipeline`]에 통합되었습니다. 이번에는 파이프라인을 사용하여 `Zephyr` 예제를 다시 시도해 보겠습니다:
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-generation", "HuggingFaceH4/zephyr-7b-beta")
 messages = [
@@ -184,7 +183,7 @@ Can I ask a question?<|im_end|>
 네! 이 방법은 채팅 템플릿을 모델이 훈련 중에 보는 토큰과 일치하도록 하는 좋은 방법입니다. 데이터 세트에 대한 전처리 단계로 채팅 템플릿을 적용하는 것이 좋습니다. 그 후에는 다른 언어 모델 훈련 작업과 같이 계속할 수 있습니다. 훈련할 때는 일반적으로 `add_generation_prompt=False`로 설정해야 합니다. 어시스턴트 응답을 프롬프트하는 추가 토큰은 훈련 중에는 도움이 되지 않기 때문입니다. 예제를 보겠습니다:
 
 ```python
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 from datasets import Dataset
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
@@ -199,7 +198,8 @@ chat2 = [
 ]
 
 dataset = Dataset.from_dict({"chat": [chat1, chat2]})
-dataset = dataset.map(lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
+dataset = dataset.map(
+    lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
 print(dataset['formatted_chat'][0])
 ```
 다음과 같은 결과를 얻을 수 있습니다:
@@ -278,7 +278,7 @@ model_input = tokenizer.apply_chat_template(
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 checkpoint = "NousResearch/Hermes-2-Pro-Llama-3-8B"
 
@@ -386,7 +386,8 @@ The current temperature in Paris, France is 22.0 ° Celsius.<|im_end|>
 위의 규격을 따른다면, 템플릿에 전달할 JSON 스키마 생성을 자동화하고 보이지 않게 처리하는 것이 좋습니다. 그러나 문제가 발생하거나 변환을 더 제어하고 싶다면 수동으로 변환을 처리할 수 있습니다. 다음은 수동 스키마 변환 예제입니다.
 
 ```python
-from transformers.utils import get_json_schema
+from myTransformers.utils import get_json_schema
+
 
 def multiply(a: float, b: float):
     """
@@ -397,6 +398,7 @@ def multiply(a: float, b: float):
         b: 곱할 두 번째 숫자
     """
     return a * b
+
 
 schema = get_json_schema(multiply)
 print(schema)
@@ -505,10 +507,10 @@ model_input = tokenizer.apply_chat_template(
 
 ```python
 
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> tokenizer.chat_template
+>> > tokenizer.chat_template
 "{% for message in messages %}{% if message['role'] == 'user' %}{{ ' ' }}{% endif %}{{ message['content'] }}{% if not loop.last %}{{ '  ' }}{% endif %}{% endfor %}{{ eos_token }}"
 ```
 

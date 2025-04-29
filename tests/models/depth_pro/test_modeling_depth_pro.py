@@ -15,9 +15,9 @@
 
 import unittest
 
-from transformers import DepthProConfig
-from transformers.file_utils import is_torch_available, is_vision_available
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers import DepthProConfig
+from myTransformers.file_utils import is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor, ids_tensor
@@ -28,14 +28,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import DepthProForDepthEstimation, DepthProModel
-    from transformers.models.auto.modeling_auto import MODEL_MAPPING_NAMES
+    from myTransformers import DepthProForDepthEstimation, DepthProModel
+    from myTransformers.models.auto.modeling_auto import MODEL_MAPPING_NAMES
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DepthProImageProcessor
+    from myTransformers import DepthProImageProcessor
 
 
 class DepthProModelTester:
@@ -302,7 +302,7 @@ class DepthProModelTest(ModelTesterMixin, PipelineTesterMixin, unittest.TestCase
             model = model_class(config=configs_no_init)
             for name, param in model.named_parameters():
                 non_uniform_init_parms = [
-                    # these encoders are vision transformers
+                    # these encoders are vision myTransformers
                     # any layer outside these encoders is either Conv2d or ConvTranspose2d
                     # which use kaiming initialization
                     "patch_encoder",

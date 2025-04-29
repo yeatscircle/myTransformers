@@ -15,15 +15,15 @@
 على سبيل المثال، تأمّل هذين التسلسُلين :
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence_a = "This is a short sequence."
->>> sequence_b = "This is a rather long sequence. It is at least longer than sequence A."
+>> > sequence_a = "This is a short sequence."
+>> > sequence_b = "This is a rather long sequence. It is at least longer than sequence A."
 
->>> encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
->>> encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
+>> > encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
+>> > encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
 ```
 
 لدى الإصدارات المشفرة أطوال مختلفة:
@@ -176,11 +176,11 @@
 يعمل كل محلل لغوي بشكل مختلف ولكن الآلية الأساسية تبقى كما هي. إليك مثال باستخدام محلل BERT اللغوي، والذي يعد محلل لغوي [WordPiece](https://arxiv.org/pdf/1609.08144.pdf):
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence = "A Titan RTX has 24GB of VRAM"
+>> > sequence = "A Titan RTX has 24GB of VRAM"
 ```
 
 يتولى المحلل اللغوي مهمة تقسيم التسلسل إلى رموز مميزة متوفرة في قاموس المحلل اللغوي.
@@ -393,14 +393,14 @@
 يمكننا استخدام برنامجنا للتمييز لإنشاء مثل هذه الجملة تلقائيًا عن طريق تمرير التسلسلين إلى `tokenizer` كمعامليين (وليس قائمة، كما كان من قبل) مثل هذا:
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
->>> sequence_a = "HuggingFace is based in NYC"
->>> sequence_b = "Where is HuggingFace based?"
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > sequence_a = "HuggingFace is based in NYC"
+>> > sequence_b = "Where is HuggingFace based?"
 
->>> encoded_dict = tokenizer(sequence_a، sequence_b)
->>> decoded = tokenizer.decode(encoded_dict["input_ids"])
+>> > encoded_dict = tokenizer(sequence_a، sequence_b)
+>> > decoded = tokenizer.decode(encoded_dict["input_ids"])
 ```
 
 والذي سيعيد:

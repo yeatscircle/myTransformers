@@ -42,7 +42,7 @@ pip install flute-kernel -i https://flute-ai.github.io/whl/cu12.4
 Create a [`HiggsConfig`] with the number of bits to quantize a model to.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, HiggsConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, HiggsConfig
 
 model = AutoModelForCausalLM.from_pretrained(
     "google/gemma-2-9b-it",
@@ -60,7 +60,7 @@ HIGGS is fully compatible with [torch.compile](https://pytorch.org/tutorials/int
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, HiggsConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, HiggsConfig
 
 model = AutoModelForCausalLM.from_pretrained(
     "google/gemma-2-9b-it",

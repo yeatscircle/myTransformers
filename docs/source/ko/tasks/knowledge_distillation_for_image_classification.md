@@ -25,7 +25,7 @@ rendered properly in your Markdown viewer.
 
 
 ```bash
-pip install transformers datasets accelerate tensorboard evaluate --upgrade
+pip install myTransformers datasets accelerate tensorboard evaluate --upgrade
 ```
 
 이 예제에서는 `merve/beans-vit-224` 모델을 교사 모델로 사용하고 있습니다. 이 모델은 beans 데이터셋에서 파인 튜닝된 `google/vit-base-patch16-224-in21k` 기반의 이미지 분류 모델입니다. 이 모델을 무작위로 초기화된 MobileNetV2로 증류해볼 것입니다.
@@ -40,30 +40,31 @@ dataset = load_dataset("beans")
 
 이 경우 두 모델의 이미지 프로세서가 동일한 해상도로 동일한 출력을 반환하기 때문에, 두가지를 모두 사용할 수 있습니다. 데이터셋의 모든 분할마다 전처리를 적용하기 위해 `dataset`의 `map()` 메소드를 사용할 것 입니다.
 
-
 ```python
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
+
 teacher_processor = AutoImageProcessor.from_pretrained("merve/beans-vit-224")
+
 
 def process(examples):
     processed_inputs = teacher_processor(examples["image"])
     return processed_inputs
+
 
 processed_datasets = dataset.map(process, batched=True)
 ```
 
 학생 모델(무작위로 초기화된 MobileNet)이 교사 모델(파인 튜닝된 비전 트랜스포머)을 모방하도록 할 것 입니다. 이를 위해 먼저 교사와 학생 모델의 로짓 출력값을 구합니다. 그런 다음 각 출력값을 매개변수 `temperature` 값으로 나누는데, 이 매개변수는 각 소프트 타겟의 중요도를 조절하는 역할을 합니다. 매개변수 `lambda` 는 증류 손실의 중요도에 가중치를 줍니다. 이 예제에서는 `temperature=5`와 `lambda=0.5`를 사용할 것입니다. 학생과 교사 간의 발산을 계산하기 위해 Kullback-Leibler Divergence 손실을 사용합니다. 두 데이터 P와 Q가 주어졌을 때, KL Divergence는 Q를 사용하여 P를 표현하는 데 얼만큼의 추가 정보가 필요한지를 말해줍니다. 두 데이터가 동일하다면, KL Divergence는 0이며, Q로 P를 설명하는 데 추가 정보가 필요하지 않음을 의미합니다. 따라서 지식 증류의 맥락에서 KL Divergence는 유용합니다.
 
-
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 
 class ImageDistilTrainer(Trainer):
-    def __init__(self, teacher_model=None, student_model=None, temperature=None, lambda_param=None,  *args, **kwargs):
+    def __init__(self, teacher_model=None, student_model=None, temperature=None, lambda_param=None, *args, **kwargs):
         super().__init__(model=student_model, *args, **kwargs)
         self.teacher = teacher_model
         self.student = student_model
@@ -78,7 +79,7 @@ class ImageDistilTrainer(Trainer):
         student_output = self.student(**inputs)
 
         with torch.no_grad():
-          teacher_output = self.teacher(**inputs)
+            teacher_output = self.teacher(**inputs)
 
         #  교사와 학생의 소프트 타겟(soft targets) 계산
 
@@ -107,9 +108,8 @@ notebook_login()
 
 이제 `TrainingArguments`, 교사 모델과 학생 모델을 설정하겠습니다.
 
-
 ```python
-from transformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
+from myTransformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
 
 training_args = TrainingArguments(
     output_dir="my-awesome-model",
@@ -125,7 +125,7 @@ training_args = TrainingArguments(
     push_to_hub=True,
     hub_strategy="every_save",
     hub_model_id=repo_name,
-    )
+)
 
 num_labels = len(processed_datasets["train"].features["labels"].names)
 
@@ -160,7 +160,7 @@ def compute_metrics(eval_pred):
 정의한 훈련 인수로 `Trainer`를 초기화해봅시다. 또한 데이터 콜레이터(data collator)를 초기화하겠습니다.
 
 ```python
-from transformers import DefaultDataCollator
+from myTransformers import DefaultDataCollator
 
 data_collator = DefaultDataCollator()
 trainer = ImageDistilTrainer(

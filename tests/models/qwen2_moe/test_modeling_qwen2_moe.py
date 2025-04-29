@@ -18,8 +18,8 @@ import unittest
 
 import pytest
 
-from transformers import AutoTokenizer, Qwen2MoeConfig, is_torch_available, set_seed
-from transformers.testing_utils import (
+from myTransformers import AutoTokenizer, Qwen2MoeConfig, is_torch_available, set_seed
+from myTransformers.testing_utils import (
     backend_empty_cache,
     require_bitsandbytes,
     require_flash_attn,
@@ -39,7 +39,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Qwen2MoeForCausalLM,
         Qwen2MoeForQuestionAnswering,
         Qwen2MoeForSequenceClassification,

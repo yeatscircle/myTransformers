@@ -23,9 +23,8 @@ rendered properly in your Markdown viewer.
 [`~generation.GenerationMixin.generate`] 的输出是 [`~utils.ModelOutput`] 的一个子类的实例。这个输出是一种包含 [`~generation.GenerationMixin.generate`] 返回的所有信息数据结构，但也可以作为元组或字典使用。
 这里是一个例子：
 
-
 ```python
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from myTransformers import GPT2Tokenizer, GPT2LMHeadModel
 
 tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
 model = GPT2LMHeadModel.from_pretrained("openai-community/gpt2")

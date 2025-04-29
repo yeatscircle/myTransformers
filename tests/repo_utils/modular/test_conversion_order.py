@@ -10,7 +10,7 @@ import create_dependency_mapping  # noqa: E402
 
 
 # This is equivalent to `all` in the current library state (as of 09/01/2025)
-MODEL_ROOT = os.path.join("src", "transformers", "models")
+MODEL_ROOT = os.path.join("src", "myTransformers", "models")
 FILES_TO_PARSE = [
     os.path.join(MODEL_ROOT, "starcoder2", "modular_starcoder2.py"),
     os.path.join(MODEL_ROOT, "gemma", "modular_gemma.py"),

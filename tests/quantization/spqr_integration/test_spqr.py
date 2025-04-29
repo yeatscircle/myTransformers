@@ -16,8 +16,8 @@ import gc
 import tempfile
 import unittest
 
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, SpQRConfig, StaticCache
-from transformers.testing_utils import (
+from myTransformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, SpQRConfig, StaticCache
+from myTransformers.testing_utils import (
     require_accelerate,
     require_spqr,
     require_torch_gpu,
@@ -25,7 +25,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_accelerate_available, is_torch_available
+from myTransformers.utils import is_accelerate_available, is_torch_available
 
 
 if is_torch_available():
@@ -107,7 +107,7 @@ class SpQRTest(unittest.TestCase):
         """
         from spqr_quant import QuantizedLinear
 
-        from transformers.integrations import replace_with_spqr_linear
+        from myTransformers.integrations import replace_with_spqr_linear
 
         model_id = "meta-llama/Llama-2-7b-hf"
         config = AutoConfig.from_pretrained(model_id)

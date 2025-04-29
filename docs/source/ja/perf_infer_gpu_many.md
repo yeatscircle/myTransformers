@@ -44,7 +44,7 @@ Flash Attentionは、fp16またはbf16 dtypeを使用しているモデルにの
 モデルをBetterTransformerに変換するには：
 
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("facebook/opt-350m")
 # convert the model to BetterTransformer
@@ -103,11 +103,10 @@ BetterTransformerのパフォーマンスの詳細については、この[ブ�
 
 モデルの最良のパフォーマンスを得るために、上記で説明した異なる方法を組み合わせることができます。例えば、FP4ミックスプレシジョン推論+Flash Attentionを使用したBetterTransformerを組み合わせることができます。
 
-
 ```py
 import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,

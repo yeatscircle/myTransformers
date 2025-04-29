@@ -44,7 +44,7 @@ strategy = tf.distribute.TPUStrategy(resolver)
 Load and tokenize a dataset - this example uses [CoLA](https://huggingface.co/datasets/nyu-mll/glue/viewer/cola) from the GLUE benchmark - and pad all samples to the maximum length so it is easier to load as an array and to avoid [XLA compilation issues](#xla).
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 from datasets import load_dataset
 import numpy as np
 
@@ -65,7 +65,7 @@ train_labels = np.array(dataset["label"])
 The model **must** be created inside [Strategy.scope](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy#scope) in order to replicate the model layers on each TPU device.
 
 ```py
-from transformers import TFAutoModelForSequenceClassification
+from myTransformers import TFAutoModelForSequenceClassification
 
 with strategy.scope():
     model = TFAutoModelForSequenceClassification.from_pretrained(model_checkpoint)
@@ -206,7 +206,7 @@ tf_dataset = tf_dataset.shuffle(len(tf_dataset))
 Transformers preprocessing classes like [`AutoImageProcessor`] are framework-agnostic and can't be compiled into a pipeline by `tf.data`. To get around this, get the normalization values (`mean` and `std`) from the [`AutoImageProcessor`] and use them in the `tf.data` pipeline.
 
 ```py
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
 
 processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 image_size = (processor.size["height"], processor.size["width"])
@@ -237,7 +237,7 @@ print(tf_dataset.element_spec)
 The dataset can now be passed to the [fit](https://keras.io/api/models/model_training_apis/#fit-method) method.
 
 ```py
-from transformers import TFAutoModelForImageClassification
+from myTransformers import TFAutoModelForImageClassification
 
 with strategy.scope():
     model = TFAutoModelForImageClassification.from_pretrained(image_model_checkpoint)
@@ -276,7 +276,7 @@ tf_dataset = model.prepare_tf_dataset(
 The dataset can now be passed to the [fit](https://keras.io/api/models/model_training_apis/#fit-method) method.
 
 ```py
-from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
 with strategy.scope():
     model = TFAutoModelForSequenceClassification.from_pretrained(model_checkpoint)

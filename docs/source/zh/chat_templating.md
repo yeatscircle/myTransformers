@@ -29,16 +29,16 @@ LLM 的一个常见应用场景是聊天。在聊天上下文中，不再是连�
 BlenderBot有一个非常简单的默认模板，主要是在对话轮之间添加空格：
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> chat = [
-...    {"role": "user", "content": "Hello, how are you?"},
-...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...    {"role": "user", "content": "Hello, how are you?"},
+    ...    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...    {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 " Hello, how are you?  I'm doing great. How can I help you today?   I'd like to show off how chat templating works!</s>"
 ```
 
@@ -46,16 +46,16 @@ BlenderBot有一个非常简单的默认模板，主要是在对话轮之间添�
 不过，为了看到更复杂的模板实际运行，让我们使用`mistralai/Mistral-7B-Instruct-v0.1`模型。
 
 ```python
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 
->>> chat = [
-...   {"role": "user", "content": "Hello, how are you?"},
-...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
-... ]
+>> > chat = [
+    ...   {"role": "user", "content": "Hello, how are you?"},
+    ...   {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    ...   {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    ...]
 
->>> tokenizer.apply_chat_template(chat, tokenize=False)
+>> > tokenizer.apply_chat_template(chat, tokenize=False)
 "<s>[INST] Hello, how are you? [/INST]I'm doing great. How can I help you today?</s> [INST] I'd like to show off how chat templating works! [/INST]"
 ```
 
@@ -71,7 +71,7 @@ Mistral-instruct是有使用这些token进行训练的，但BlenderBot没有。
 这是一个准备`model.generate()`的示例，使用`Zephyr`模型：
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 checkpoint = "HuggingFaceH4/zephyr-7b-beta"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -83,7 +83,7 @@ messages = [
         "content": "You are a friendly chatbot who always responds in the style of a pirate",
     },
     {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
- ]
+]
 tokenized_chat = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
 print(tokenizer.decode(tokenized_chat[0]))
 ```
@@ -120,7 +120,7 @@ Matey, I'm afraid I must inform ye that humans cannot eat helicopters. Helicopte
 有的，[`TextGenerationPipeline`]。这个`pipeline`的设计是为了方便使用聊天模型。让我们再试一次 Zephyr 的例子，但这次使用`pipeline`：
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline("text-generation", "HuggingFaceH4/zephyr-7b-beta")
 messages = [
@@ -192,7 +192,7 @@ Can I ask a question?<|im_end|>
 让我们看一个例子：
 
 ```python
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 from datasets import Dataset
 
 tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta")
@@ -207,7 +207,8 @@ chat2 = [
 ]
 
 dataset = Dataset.from_dict({"chat": [chat1, chat2]})
-dataset = dataset.map(lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
+dataset = dataset.map(
+    lambda x: {"formatted_chat": tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
 print(dataset['formatted_chat'][0])
 ```
 结果是：
@@ -223,12 +224,13 @@ The sun.</s>
 
 模型的聊天模板存储在`tokenizer.chat_template`属性上。如果没有设置，则将使用该模型的默认模板。
 让我们来看看`BlenderBot`的模板：
+
 ```python
 
->>> from transformers import AutoTokenizer
->>> tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
+>> > from myTransformers import AutoTokenizer
+>> > tokenizer = AutoTokenizer.from_pretrained("facebook/blenderbot-400M-distill")
 
->>> tokenizer.chat_template
+>> > tokenizer.chat_template
 "{% for message in messages %}{% if message['role'] == 'user' %}{{ ' ' }}{% endif %}{{ message['content'] }}{% if not loop.last %}{{ '  ' }}{% endif %}{% endfor %}{{ eos_token }}"
 ```
 

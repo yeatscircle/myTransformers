@@ -36,10 +36,10 @@ The example below demonstrates how to obtain an image embedding with [`Pipeline`
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 pipe = pipeline(
-    task="image-classification", 
+    task="image-classification",
     model="facebook/dinov2-small-imagenet1k-1-layer",
     torch_dtype=torch.float16,
     device=0
@@ -53,7 +53,7 @@ pipe("https://huggingface.co/datasets/huggingface/documentation-images/resolve/m
 
 ```py
 import requests
-from transformers import AutoImageProcessor, AutoModelForImageClassification
+from myTransformers import AutoImageProcessor, AutoModelForImageClassification
 from PIL import Image
 
 url = "http://images.cocodataset.org/val2017/000000039769.jpg"
@@ -61,9 +61,9 @@ image = Image.open(requests.get(url, stream=True).raw)
 
 processor = AutoImageProcessor.from_pretrained("facebook/dinov2-small-imagenet1k-1-layer")
 model = AutoModelForImageClassification.from_pretrained(
-    "facebook/dinov2-small-imagenet1k-1-layer", 
-    torch_dtype=torch.float16, 
-    device_map="auto", 
+    "facebook/dinov2-small-imagenet1k-1-layer",
+    torch_dtype=torch.float16,
+    device_map="auto",
     attn_implementation="sdpa"
 )
 
@@ -83,7 +83,7 @@ The example below uses [torchao](../quantization/torchao) to only quantize the w
 ```py
 # pip install torchao
 import requests
-from transformers import TorchAoConfig, AutoImageProcessor, AutoModelForImageClassification
+from myTransformers import TorchAoConfig, AutoImageProcessor, AutoModelForImageClassification
 from torchao.quantization import Int4WeightOnlyConfig
 from PIL import Image
 
@@ -115,7 +115,7 @@ print("Predicted class:", model.config.id2label[predicted_class_idx])
 
     ```py
     import torch
-    from transformers import AutoImageProcessor, AutoModel
+    from myTransformers import AutoImageProcessor, AutoModel
     from PIL import Image
     import requests
 

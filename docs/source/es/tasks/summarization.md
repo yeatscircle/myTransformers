@@ -63,9 +63,9 @@ El campo `text` es el input y el campo `summary` es el objetivo.
 Carga el tokenizador T5 para procesar `text` y `summary`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-small")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-small")
 ```
 
 La función de preprocesamiento necesita:
@@ -120,9 +120,9 @@ Usa [`DataCollatorForSeq2Seq`] para crear un lote de ejemplos. Esto también *re
 Carga T5 con [`AutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
 ```
 
 <Tip>
@@ -190,17 +190,17 @@ Para familiarizarte con el fine-tuning con Keras, ¡mira el tutorial básico [aq
 Crea la función optimizadora, establece la tasa de aprendizaje y algunos hiperparámetros de entrenamiento:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Carga T5 con [`TFAutoModelForSeq2SeqLM`]:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("google-t5/t5-small")
 ```
 
 Configura el modelo para entrenamiento con [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):

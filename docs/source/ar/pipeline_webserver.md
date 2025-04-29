@@ -13,13 +13,13 @@
 
 سنحل ذلك من خلال جعل خادم الويب يتعامل مع الحمل الخفيف لاستقبال الطلبات وإرسالها،وجعل مؤشر ترابط واحد يتعامل مع العمل الفعلي. سيستخدم هذا المثال `starlette`. ولكن قد تضطر إلى ضبط الكود أو تغييره إذا كنت تستخدم كودًا آخر لتحقيق التأثير نفسه. 
 
-أنشئ `server.py`: 
+أنشئ `server.py`:
 
 ```py
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse
 from starlette.routing import Route
-from transformers import pipeline
+from myTransformers import pipeline
 import asyncio
 
 

@@ -51,73 +51,85 @@ BridgeTower は、ビジュアル エンコーダー、テキスト エンコー
 次の例は、[`BridgeTowerProcessor`] と [`BridgeTowerForContrastiveLearning`] を使用して対照学習を実行する方法を示しています。
 
 ```python
->>> from transformers import BridgeTowerProcessor, BridgeTowerForContrastiveLearning
->>> import requests
->>> from PIL import Image
+>> > from myTransformers import BridgeTowerProcessor, BridgeTowerForContrastiveLearning
+>> > import requests
+>> > from PIL import Image
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
->>> texts = ["An image of two cats chilling on a couch", "A football player scoring a goal"]
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
+>> > texts = ["An image of two cats chilling on a couch", "A football player scoring a goal"]
 
->>> processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-large-itm-mlm-itc")
->>> model = BridgeTowerForContrastiveLearning.from_pretrained("BridgeTower/bridgetower-large-itm-mlm-itc")
+>> > processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-large-itm-mlm-itc")
+>> > model = BridgeTowerForContrastiveLearning.from_pretrained("BridgeTower/bridgetower-large-itm-mlm-itc")
 
->>> # forward pass
->>> scores = dict()
->>> for text in texts:
-...     # prepare inputs
-...     encoding = processor(image, text, return_tensors="pt")
-...     outputs = model(**encoding)
-...     scores[text] = outputs
+>> >  # forward pass
+>> > scores = dict()
+>> > for text in texts:
+    ...  # prepare inputs
+...
+encoding = processor(image, text, return_tensors="pt")
+...
+outputs = model(**encoding)
+...
+scores[text] = outputs
 ```
 
 次の例は、[`BridgeTowerProcessor`] と [`BridgeTowerForImageAndTextRetrieval`] を使用して画像テキストの取得を実行する方法を示しています。
 
 ```python
->>> from transformers import BridgeTowerProcessor, BridgeTowerForImageAndTextRetrieval
->>> import requests
->>> from PIL import Image
+>> > from myTransformers import BridgeTowerProcessor, BridgeTowerForImageAndTextRetrieval
+>> > import requests
+>> > from PIL import Image
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
->>> texts = ["An image of two cats chilling on a couch", "A football player scoring a goal"]
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
+>> > texts = ["An image of two cats chilling on a couch", "A football player scoring a goal"]
 
->>> processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
->>> model = BridgeTowerForImageAndTextRetrieval.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
+>> > processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
+>> > model = BridgeTowerForImageAndTextRetrieval.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
 
->>> # forward pass
->>> scores = dict()
->>> for text in texts:
-...     # prepare inputs
-...     encoding = processor(image, text, return_tensors="pt")
-...     outputs = model(**encoding)
-...     scores[text] = outputs.logits[0, 1].item()
+>> >  # forward pass
+>> > scores = dict()
+>> > for text in texts:
+    ...  # prepare inputs
+...
+encoding = processor(image, text, return_tensors="pt")
+...
+outputs = model(**encoding)
+...
+scores[text] = outputs.logits[0, 1].item()
 ```
 
 次の例は、[`BridgeTowerProcessor`] と [`BridgeTowerForMaskedLM`] を使用してマスクされた言語モデリングを実行する方法を示しています。
 
 ```python
->>> from transformers import BridgeTowerProcessor, BridgeTowerForMaskedLM
->>> from PIL import Image
->>> import requests
+>> > from myTransformers import BridgeTowerProcessor, BridgeTowerForMaskedLM
+>> > from PIL import Image
+>> > import requests
 
->>> url = "http://images.cocodataset.org/val2017/000000360943.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw).convert("RGB")
->>> text = "a <mask> looking out of the window"
+>> > url = "http://images.cocodataset.org/val2017/000000360943.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw).convert("RGB")
+>> > text = "a <mask> looking out of the window"
 
->>> processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
->>> model = BridgeTowerForMaskedLM.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
+>> > processor = BridgeTowerProcessor.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
+>> > model = BridgeTowerForMaskedLM.from_pretrained("BridgeTower/bridgetower-base-itm-mlm")
 
->>> # prepare inputs
->>> encoding = processor(image, text, return_tensors="pt")
+>> >  # prepare inputs
+>> > encoding = processor(image, text, return_tensors="pt")
 
->>> # forward pass
->>> outputs = model(**encoding)
+>> >  # forward pass
+>> > outputs = model(**encoding)
 
->>> results = processor.decode(outputs.logits.argmax(dim=-1).squeeze(0).tolist())
+>> > results = processor.decode(outputs.logits.argmax(dim=-1).squeeze(0).tolist())
 
->>> print(results)
-.a cat looking out of the window.
+>> > print(results)
+.a
+cat
+looking
+out
+of
+the
+window.
 ```
 
 チップ：

@@ -77,9 +77,9 @@ Observa que `text` es un subcampo anidado dentro del diccionario `answers`. Cuan
 Para modelados de lenguaje causales carga el tokenizador DistilGPT2 para procesar el subcampo `text`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 ```
 
 <Youtube id="8PmhEIXhBvI"/>
@@ -87,9 +87,9 @@ Para modelados de lenguaje causales carga el tokenizador DistilGPT2 para procesa
 Para modelados de lenguaje por enmascaramiento carga el tokenizador DistilRoBERTa, en lugar de DistilGPT2:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
 ```
 
 Extrae el subcampo `text` desde su estructura anidado con el método [`flatten`](https://huggingface.co/docs/datasets/process#flatten):
@@ -165,36 +165,36 @@ Para modelados de lenguaje causales, usa [`DataCollatorForLanguageModeling`] par
 Puedes usar el token de final de secuencia como el token de relleno y asignar `mlm=False`. Esto usará los inputs como etiquetas movidas un elemento hacia la derecha:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 ```
 
 Para modelados de lenguaje por enmascaramiento usa el mismo [`DataCollatorForLanguageModeling`] excepto que deberás especificar `mlm_probability` para enmascarar tokens aleatoriamente cada vez que iteras sobre los datos.
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 ```
 </pt>
 <tf>
 Puedes usar el token de final de secuencia como el token de relleno y asignar `mlm=False`. Esto usará los inputs como etiquetas movidas un elemento hacia la derecha:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 
 Para modelados de lenguajes por enmascaramiento usa el mismo [`DataCollatorForLanguageModeling`] excepto que deberás especificar `mlm_probability` para enmascarar tokens aleatoriamente cada vez que iteras sobre los datos.
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -210,9 +210,9 @@ El modelado de lenguaje causal es frecuentemente utilizado para generación de t
 Carga DistilGPT2 con [`AutoModelForCausalLM`]:
 
 ```py
->>> from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCausalLM, TrainingArguments, Trainer
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 <Tip>
@@ -276,17 +276,17 @@ Si no estás familiarizado con realizar fine-tuning de tus modelos con Keras, co
 Crea la función optimizadora, la tasa de aprendizaje, y algunos hiperparámetros de entrenamiento:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Carga DistilGPT2 con [`TFAutoModelForCausalLM`]:
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 Configura el modelo para entrenamiento con [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):
@@ -316,9 +316,9 @@ El modelado de lenguaje por enmascaramiento es también conocido como una tarea 
 Carga DistilRoBERTa con [`AutoModelForMaskedlM`]:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 <Tip>
@@ -383,17 +383,17 @@ Si no estás familiarizado con realizar fine-tuning de tus modelos con Keras, co
 Crea la función optimizadora, la tasa de aprendizaje, y algunos hiperparámetros de entrenamiento:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 Carga DistilRoBERTa con [`TFAutoModelForMaskedLM`]:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 Configura el modelo para entrenamiento con [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):

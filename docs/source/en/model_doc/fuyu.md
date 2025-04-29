@@ -48,7 +48,7 @@ Tips:
 git clone https://github.com/persimmon-ai-labs/adept-inference
 wget path/to/fuyu-8b-model-weights.tar
 tar -xvf fuyu-8b-model-weights.tar
-python src/transformers/models/fuyu/convert_fuyu_weights_to_hf.py  --input_dir /path/to/downloaded/fuyu/weights/ --output_dir /output/path \
+python src/myTransformers/models/fuyu/convert_fuyu_weights_to_hf.py  --input_dir /path/to/downloaded/fuyu/weights/ --output_dir /output/path \
     --pt_model_path /path/to/fuyu_8b_release/iter_0001251/mp_rank_00/model_optim_rng.pt
     --ada_lib_path /path/to/adept-inference
 ```
@@ -61,7 +61,8 @@ tar -xvf 8b_base_model_release.tar
 Then, model can be loaded via:
 
 ```py
-from transformers import FuyuConfig, FuyuForCausalLM
+from myTransformers import FuyuConfig, FuyuForCausalLM
+
 model_config = FuyuConfig()
 model = FuyuForCausalLM(model_config).from_pretrained('/output/path')
 ```
@@ -71,14 +72,12 @@ A processor requires an image_processor and a tokenizer. Hence, inputs can be lo
 
 ```py
 from PIL import Image
-from transformers import AutoTokenizer
-from transformers.models.fuyu.processing_fuyu import FuyuProcessor
-from transformers.models.fuyu.image_processing_fuyu import FuyuImageProcessor
-
+from myTransformers import AutoTokenizer
+from myTransformers.models.fuyu.processing_fuyu import FuyuProcessor
+from myTransformers.models.fuyu.image_processing_fuyu import FuyuImageProcessor
 
 tokenizer = AutoTokenizer.from_pretrained('adept-hf-collab/fuyu-8b')
 image_processor = FuyuImageProcessor()
-
 
 processor = FuyuProcessor(image_processor=image_processor, tokenizer=tokenizer)
 text_prompt = "Generate a coco-style caption.\\n"

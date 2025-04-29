@@ -18,16 +18,16 @@ import shutil
 import tempfile
 import unittest
 
-from transformers import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
-from transformers.models.layoutxlm import LayoutXLMProcessor, LayoutXLMTokenizer, LayoutXLMTokenizerFast
-from transformers.testing_utils import (
+from myTransformers import PreTrainedTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
+from myTransformers.models.layoutxlm import LayoutXLMProcessor, LayoutXLMTokenizer, LayoutXLMTokenizerFast
+from myTransformers.testing_utils import (
     require_pytesseract,
     require_sentencepiece,
     require_tokenizers,
     require_torch,
     slow,
 )
-from transformers.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
+from myTransformers.utils import FEATURE_EXTRACTOR_NAME, cached_property, is_pytesseract_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -35,7 +35,7 @@ from ...test_processing_common import ProcessorTesterMixin
 if is_pytesseract_available():
     from PIL import Image
 
-    from transformers import LayoutLMv2ImageProcessor
+    from myTransformers import LayoutLMv2ImageProcessor
 
 
 @require_pytesseract

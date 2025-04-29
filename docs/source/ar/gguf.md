@@ -66,7 +66,7 @@
 لتحميل ملفات `gguf` في `transformers`، يجب تحديد معامل `gguf_file` فى دالة `from_pretrained` لكل من المُجزّئ اللغوية والنموذج. فيما يلي كيفية تحميل المُجزّئ اللغوي ونموذج، يمكن تحميلهما من نفس الملف:
 
 ```py
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from myTransformers import AutoTokenizer, AutoModelForCausalLM
 
 model_id = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
 filename = "tinyllama-1.1b-chat-v1.0.Q6_K.gguf"

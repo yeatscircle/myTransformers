@@ -7,7 +7,7 @@ on:
 jobs:
   close_stale_issues:
     name: Close Stale Issues
-    if: github.repository == 'huggingface/transformers'
+    if: github.repository == 'huggingface/myTransformers'
     runs-on: ubuntu-22.04
     permissions:
       issues: write

@@ -63,13 +63,13 @@ limitations under the License.
 想要自动获取操作系统和软件版本，请运行以下命令：
 
 ```bash
-transformers-cli env
+myTransformers-cli env
 ```
 
 你也可以从代码仓库的根目录下运行相同的命令：
 
 ```bash
-python src/transformers/commands/transformers_cli.py env
+python src/myTransformers/commands/transformers_cli.py env
 ```
 
 ### 你想要新功能吗？
@@ -119,8 +119,8 @@ python src/transformers/commands/transformers_cli.py env
 2. 把派生仓库克隆到本地磁盘，并将基础仓库添加为远程仓库：
 
    ```bash
-   git clone git@github.com:<your Github handle>/transformers.git
-   cd transformers
+   git clone git@github.com:<your Github handle>/myTransformers.git
+   cd myTransformers
    git remote add upstream https://github.com/huggingface/transformers.git
    ```
 
@@ -195,7 +195,7 @@ python src/transformers/commands/transformers_cli.py env
    在仓库的根目录下运行以下命令：
 
    ```bash
-   doc-builder build transformers docs/source/en --build_dir ~/tmp/test-build
+   doc-builder build myTransformers docs/source/en --build_dir ~/tmp/test-build
    ```
 
    这将会在 `~/tmp/test-build` 文件夹中构建文档，你可以使用自己喜欢的编辑器查看生成的 Markdown 文件。当你创建 PR 时，也可以在GitHub上预览文档。

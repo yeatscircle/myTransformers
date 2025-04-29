@@ -45,8 +45,8 @@ from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_ke
 from huggingface_hub import HfApi
 from tqdm import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     FLAX_MODEL_FOR_CAUSAL_LM_MAPPING,
     AutoConfig,
@@ -56,8 +56,8 @@ from transformers import (
     is_tensorboard_available,
     set_seed,
 )
-from transformers.testing_utils import CaptureLogger
-from transformers.utils import send_example_telemetry
+from myTransformers.testing_utils import CaptureLogger
+from myTransformers.utils import send_example_telemetry
 
 
 logger = logging.getLogger(__name__)
@@ -328,7 +328,7 @@ def create_learning_rate_fn(
 
 
 def main():
-    # See all possible arguments in src/transformers/training_args.py
+    # See all possible arguments in src/myTransformers/training_args.py
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
@@ -365,10 +365,10 @@ def main():
     logger.setLevel(logging.INFO if jax.process_index() == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # Set the verbosity to info of the Transformers logger (on main process only):
     logger.info(f"Training/evaluation parameters {training_args}")
@@ -540,7 +540,7 @@ def main():
     text_column_name = "text" if "text" in column_names else column_names[0]
 
     # since this will be pickled to avoid _LazyModule error in Hasher force logger loading before tokenize_function
-    tok_logger = transformers.utils.logging.get_logger("transformers.tokenization_utils_base")
+    tok_logger = myTransformers.utils.logging.get_logger("myTransformers.tokenization_utils_base")
 
     def tokenize_function(examples):
         with CaptureLogger(tok_logger) as cl:

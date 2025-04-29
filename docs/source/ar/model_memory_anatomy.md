@@ -5,7 +5,7 @@
 لنبدأ باستكشاف مثال توضيحي على استخدام وحدة GPU وتشغيل تدريب نموذج. وللتوضيح، سنحتاج إلى تثبيت بعض المكتبات:
 
 ```bash
-pip install transformers datasets accelerate nvidia-ml-py3
+pip install myTransformers datasets accelerate nvidia-ml-py3
 ```
 
 تتيح مكتبة `nvidia-ml-py3` إمكانية مراقبة استخدام الذاكرة في النماذج من داخل بايثون. قد تكون على دراية بأمر `nvidia-smi` في الجهاز - تسمح هذه المكتبة بالوصول إلى نفس المعلومات مباشرة في بايثون.
@@ -68,11 +68,14 @@ GPU memory occupied: 1343 MB.
 أولاً، نقوم بتحميل نموذج `google-bert/bert-large-uncased`. نقوم بتحميل أوزان النموذج مباشرة إلى وحدة GPU حتى نتمكن من التحقق من مقدار المساحة التي تستخدمها الأوزان فقط.
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
->>> print_gpu_utilization()
-GPU memory occupied: 2631 MB.
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-large-uncased").to("cuda")
+>> > print_gpu_utilization()
+GPU
+memory
+occupied: 2631
+MB.
 ```
 
 يمكننا أن نرى أن أوزان النموذج وحدها تستهلك 1.3 جيجابايت من ذاكرة وحدة GPU. يعتمد الرقم الدقيق على وحدة GPU المحددة التي تستخدمها. لاحظ أنه في وحدات GPU الأحدث، قد يستغرق النموذج في بعض الأحيان مساحة أكبر نظرًا لأن الأوزان يتم تحميلها بطريقة مُحسّنة تُسرّع من استخدام النموذج. الآن يمكننا أيضًا التحقق بسرعة مما إذا كنا نحصل على نفس النتيجة كما هو الحال مع `nvidia-smi` CLI:
@@ -127,15 +130,14 @@ default_args = {
 دعونا نستخدم [`Trainer`] وقم بتدريب النموذج دون استخدام أي تقنيات تحسين أداء GPU وحجم دفعة يبلغ 4:
 
 ```py
->>> from transformers import TrainingArguments، Trainer، logging
+>> > from myTransformers import TrainingArguments، Trainer، logging
 
->>> logging.set_verbosity_error()
+>> > logging.set_verbosity_error()
 
-
->>> training_args = TrainingArguments(per_device_train_batch_size=4، **default_args)
->>> trainer = Trainer(model=model، args=training_args، train_dataset=ds)
->>> result = trainer.train()
->>> print_summary(result)
+>> > training_args = TrainingArguments(per_device_train_batch_size=4، ** default_args)
+>> > trainer = Trainer(model=model، args = training_args، train_dataset = ds)
+>> > result = trainer.train()
+>> > print_summary(result)
 ```
 
 ```

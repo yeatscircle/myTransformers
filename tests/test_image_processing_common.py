@@ -24,9 +24,9 @@ import numpy as np
 import requests
 from packaging import version
 
-from transformers import AutoImageProcessor, BatchFeature
-from transformers.image_utils import AnnotationFormat, AnnotionFormat
-from transformers.testing_utils import (
+from myTransformers import AutoImageProcessor, BatchFeature
+from myTransformers.image_utils import AnnotationFormat, AnnotionFormat
+from myTransformers.testing_utils import (
     check_json_file_has_correct_format,
     is_flaky,
     require_torch,
@@ -35,7 +35,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers.utils import is_torch_available, is_vision_available
 
 
 if is_torch_available():

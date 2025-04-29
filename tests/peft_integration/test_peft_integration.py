@@ -21,7 +21,7 @@ from datasets import Dataset, DatasetDict
 from huggingface_hub import hf_hub_download
 from packaging import version
 
-from transformers import (
+from myTransformers import (
     AutoModelForCausalLM,
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -30,7 +30,7 @@ from transformers import (
     TrainingArguments,
     logging,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     CaptureLogger,
     require_bitsandbytes,
     require_peft,
@@ -39,7 +39,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import check_torch_load_is_safe, is_torch_available
+from myTransformers.utils import check_torch_load_is_safe, is_torch_available
 
 
 if is_torch_available():
@@ -58,7 +58,7 @@ class PeftTesterMixin:
 @slow
 class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
     """
-    A testing suite that makes sure that the PeftModel class is correctly integrated into the transformers library.
+    A testing suite that makes sure that the PeftModel class is correctly integrated into the myTransformers library.
     """
 
     def _check_lora_correctly_converted(self, model):
@@ -82,7 +82,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
         This checks if we pass a remote folder that contains an adapter config and adapter weights, it
         should correctly load a model that has adapters injected on it.
         """
-        logger = logging.get_logger("transformers.integrations.peft")
+        logger = logging.get_logger("myTransformers.integrations.peft")
 
         for model_id in self.peft_test_model_ids:
             for transformers_class in self.transformers_test_model_classes:
@@ -523,7 +523,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
         """
         Simple test that tests the basic usage of PEFT model + pipeline
         """
-        from transformers import pipeline
+        from myTransformers import pipeline
 
         for adapter_id, base_model_id in zip(self.peft_test_model_ids, self.transformers_test_model_ids):
             peft_pipe = pipeline("text-generation", adapter_id)
@@ -640,7 +640,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
         """
         from peft import LoraConfig
 
-        logger = logging.get_logger("transformers.integrations.peft")
+        logger = logging.get_logger("myTransformers.integrations.peft")
 
         for model_id, peft_model_id in zip(self.transformers_test_model_ids, self.peft_test_model_ids):
             for transformers_class in self.transformers_test_model_classes:
@@ -668,7 +668,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
         """
         from peft import LoraConfig
 
-        logger = logging.get_logger("transformers.integrations.peft")
+        logger = logging.get_logger("myTransformers.integrations.peft")
 
         for model_id, peft_model_id in zip(self.transformers_test_model_ids, self.peft_test_model_ids):
             for transformers_class in self.transformers_test_model_classes:
@@ -826,7 +826,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
         """
         from peft import PeftModel
 
-        from transformers import pipeline
+        from myTransformers import pipeline
 
         ADAPTER_PATH = "peft-internal-testing/tiny-OPTForCausalLM-lora"
         BASE_PATH = "hf-internal-testing/tiny-random-OPTForCausalLM"
@@ -848,7 +848,7 @@ class PeftIntegrationTester(unittest.TestCase, PeftTesterMixin):
 
         # Create pipeline with PEFT model while capturing log output
         # Check that the warning message is not present in the logs
-        pipeline_logger = logging.get_logger("transformers.pipelines.base")
+        pipeline_logger = logging.get_logger("myTransformers.pipelines.base")
         with self.assertNoLogs(pipeline_logger, logging.ERROR):
             lora_generator = pipeline(
                 task="text-generation",

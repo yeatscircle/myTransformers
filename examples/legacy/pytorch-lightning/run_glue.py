@@ -10,10 +10,10 @@ import torch
 from lightning_base import BaseTransformer, add_generic_args, generic_train
 from torch.utils.data import DataLoader, TensorDataset
 
-from transformers import glue_compute_metrics as compute_metrics
-from transformers import glue_convert_examples_to_features as convert_examples_to_features
-from transformers import glue_output_modes, glue_tasks_num_labels
-from transformers import glue_processors as processors
+from myTransformers import glue_compute_metrics as compute_metrics
+from myTransformers import glue_convert_examples_to_features as convert_examples_to_features
+from myTransformers import glue_output_modes, glue_tasks_num_labels
+from myTransformers import glue_processors as processors
 
 
 logger = logging.getLogger(__name__)

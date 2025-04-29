@@ -24,7 +24,7 @@ This guide demonstrates how you can distill a [fine-tuned ViT model](https://hug
 Let's install the libraries needed for distillation and evaluating the process.
 
 ```bash
-pip install transformers datasets accelerate tensorboard evaluate --upgrade
+pip install myTransformers datasets accelerate tensorboard evaluate --upgrade
 ```
 
 In this example, we are using the `merve/beans-vit-224` model as teacher model. It's an image classification model, based on `google/vit-base-patch16-224-in21k` fine-tuned on beans dataset. We will distill this model to a randomly initialized MobileNetV2.
@@ -40,33 +40,36 @@ dataset = load_dataset("beans")
 We can use an image processor from either of the models, as in this case they return the same output with same resolution. We will use the `map()` method of `dataset` to apply the preprocessing to every split of the dataset.
 
 ```python
-from transformers import AutoImageProcessor
+from myTransformers import AutoImageProcessor
+
 teacher_processor = AutoImageProcessor.from_pretrained("merve/beans-vit-224")
+
 
 def process(examples):
     processed_inputs = teacher_processor(examples["image"])
     return processed_inputs
+
 
 processed_datasets = dataset.map(process, batched=True)
 ```
 
 Essentially, we want the student model (a randomly initialized MobileNet) to mimic the teacher model (fine-tuned vision transformer). To achieve this, we first get the logits output from the teacher and the student. Then, we divide each of them by the parameter `temperature` which controls the importance of each soft target. A parameter called `lambda` weighs the importance of the distillation loss. In this example, we will use `temperature=5` and `lambda=0.5`. We will use the Kullback-Leibler Divergence loss to compute the divergence between the student and teacher. Given two data P and Q, KL Divergence explains how much extra information we need to represent P using Q. If two are identical, their KL divergence is zero, as there's no other information needed to explain P from Q. Thus, in the context of knowledge distillation, KL divergence is useful.
 
-
 ```python
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from accelerate.test_utils.testing import get_backend
 
+
 class ImageDistilTrainer(Trainer):
-    def __init__(self, teacher_model=None, student_model=None, temperature=None, lambda_param=None,  *args, **kwargs):
+    def __init__(self, teacher_model=None, student_model=None, temperature=None, lambda_param=None, *args, **kwargs):
         super().__init__(model=student_model, *args, **kwargs)
         self.teacher = teacher_model
         self.student = student_model
         self.loss_function = nn.KLDivLoss(reduction="batchmean")
-        device, _, _ = get_backend() # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
+        device, _, _ = get_backend()  # automatically detects the underlying device type (CUDA, CPU, XPU, MPS, etc.)
         self.teacher.to(device)
         self.teacher.eval()
         self.temperature = temperature
@@ -76,7 +79,7 @@ class ImageDistilTrainer(Trainer):
         student_output = self.student(**inputs)
 
         with torch.no_grad():
-          teacher_output = self.teacher(**inputs)
+            teacher_output = self.teacher(**inputs)
 
         # Compute soft targets for teacher and student
         soft_teacher = F.softmax(teacher_output.logits / self.temperature, dim=-1)
@@ -104,7 +107,7 @@ notebook_login()
 Let's set the `TrainingArguments`, the teacher model and the student model.
 
 ```python
-from transformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
+from myTransformers import AutoModelForImageClassification, MobileNetV2Config, MobileNetV2ForImageClassification
 
 training_args = TrainingArguments(
     output_dir="my-awesome-model",
@@ -120,7 +123,7 @@ training_args = TrainingArguments(
     push_to_hub=True,
     hub_strategy="every_save",
     hub_model_id=repo_name,
-    )
+)
 
 num_labels = len(processed_datasets["train"].features["labels"].names)
 
@@ -154,7 +157,7 @@ def compute_metrics(eval_pred):
 Let's initialize the `Trainer` with the training arguments we defined. We will also initialize our data collator.
 
 ```python
-from transformers import DefaultDataCollator
+from myTransformers import DefaultDataCollator
 
 data_collator = DefaultDataCollator()
 trainer = ImageDistilTrainer(

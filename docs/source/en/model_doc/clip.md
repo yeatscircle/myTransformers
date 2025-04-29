@@ -41,13 +41,13 @@ The example below demonstrates how to calculate similarity scores between multip
 
 ```py
 import torch
-from transformers import pipeline
+from myTransformers import pipeline
 
 clip = pipeline(
-   task="zero-shot-image-classification",
-   model="openai/clip-vit-base-patch32",
-   torch_dtype=torch.bfloat16,
-   device=0
+    task="zero-shot-image-classification",
+    model="openai/clip-vit-base-patch32",
+    torch_dtype=torch.bfloat16,
+    device=0
 )
 labels = ["a photo of a cat", "a photo of a dog", "a photo of a car"]
 clip("http://images.cocodataset.org/val2017/000000039769.jpg", candidate_labels=labels)
@@ -60,9 +60,10 @@ clip("http://images.cocodataset.org/val2017/000000039769.jpg", candidate_labels=
 import requests
 import torch
 from PIL import Image
-from transformers import AutoProcessor, AutoModel
+from myTransformers import AutoProcessor, AutoModel
 
-model = AutoModel.from_pretrained("openai/clip-vit-base-patch32", torch_dtype=torch.bfloat16, attn_implementation="sdpa")
+model = AutoModel.from_pretrained("openai/clip-vit-base-patch32", torch_dtype=torch.bfloat16,
+                                  attn_implementation="sdpa")
 processor = AutoProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 url = "http://images.cocodataset.org/val2017/000000039769.jpg"

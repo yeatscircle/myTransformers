@@ -68,19 +68,19 @@ TensorFlowの[model.save](https://www.tensorflow.org/tutorials/keras/save_and_lo
 - モデルの重みを`h5`ファイル拡張子で保存し、[`~TFPreTrainedModel.from_pretrained`]を使用してモデルを再読み込みする：
 
 ```py
->>> from transformers import TFPreTrainedModel
+>> > from myTransformers import TFPreTrainedModel
 
->>> model.save_weights("some_folder/tf_model.h5")
->>> model = TFPreTrainedModel.from_pretrained("some_folder")
+>> > model.save_weights("some_folder/tf_model.h5")
+>> > model = TFPreTrainedModel.from_pretrained("some_folder")
 ```
 
 - Save the model with [`~TFPretrainedModel.save_pretrained`] and load it again with [`~TFPreTrainedModel.from_pretrained`]:
 
 ```py
->>> from transformers import TFPreTrainedModel
+>> > from myTransformers import TFPreTrainedModel
 
->>> model.save_pretrained("path_to/model")
->>> model = TFPreTrainedModel.from_pretrained("path_to/model")
+>> > model.save_pretrained("path_to/model")
+>> > model = TFPreTrainedModel.from_pretrained("path_to/model")
 ```
 
 ## ImportError
@@ -95,7 +95,7 @@ ImportError: cannot import name 'ImageGPTImageProcessor' from 'transformers' (un
 これらのエラータイプに関しては、最新バージョンの 🤗 Transformers がインストールされていることを確認して、最新のモデルにアクセスできるようにしてください：
 
 ```bash
-pip install transformers --upgrade
+pip install myTransformers --upgrade
 ```
 
 ## CUDA error: device-side assert triggered
@@ -127,13 +127,12 @@ GPUからより良いトレースバックを取得する別のオプション�
 
 一部のケースでは、`input_ids`にパディングトークンが含まれている場合、出力の`hidden_state`が正しくないことがあります。デモンストレーションのために、モデルとトークナイザーをロードします。モデルの`pad_token_id`にアクセスして、その値を確認できます。一部のモデルでは`pad_token_id`が`None`になることもありますが、常に手動で設定することができます。
 
-
 ```py
->>> from transformers import AutoModelForSequenceClassification
->>> import torch
+>> > from myTransformers import AutoModelForSequenceClassification
+>> > import torch
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-uncased")
->>> model.config.pad_token_id
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-uncased")
+>> > model.config.pad_token_id
 0
 ```
 
@@ -184,12 +183,21 @@ tensor([[ 0.0082, -0.2307],
 
 上記のテキストを日本語に翻訳し、Markdownファイルとしてフォーマットしました。
 
-
 ```py
->>> from transformers import AutoProcessor, AutoModelForQuestionAnswering
+>> > from myTransformers import AutoProcessor, AutoModelForQuestionAnswering
 
->>> processor = AutoProcessor.from_pretrained("openai-community/gpt2-medium")
->>> model = AutoModelForQuestionAnswering.from_pretrained("openai-community/gpt2-medium")
-ValueError: Unrecognized configuration class <class 'transformers.models.gpt2.configuration_gpt2.GPT2Config'> for this kind of AutoModel: AutoModelForQuestionAnswering.
-Model type should be one of AlbertConfig, BartConfig, BertConfig, BigBirdConfig, BigBirdPegasusConfig, BloomConfig, ...
+>> > processor = AutoProcessor.from_pretrained("openai-community/gpt2-medium")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("openai-community/gpt2-medium")
+ValueError: Unrecognized
+configuration
+
+
+class <class 'myTransformers.models.gpt2.configuration_gpt2.GPT2Config' > for this kind of AutoModel: AutoModelForQuestionAnswering.
+
+
+Model
+type should be
+one
+of
+AlbertConfig, BartConfig, BertConfig, BigBirdConfig, BigBirdPegasusConfig, BloomConfig, ...
 ```

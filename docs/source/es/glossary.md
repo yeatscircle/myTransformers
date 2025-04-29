@@ -31,15 +31,15 @@ Este argumento indica al modelo qué tokens deben recibir atención y cuáles no
 Por ejemplo, considera estas dos secuencias:
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence_a = "This is a short sequence."
->>> sequence_b = "This is a rather long sequence. It is at least longer than the sequence A."
+>> > sequence_a = "This is a short sequence."
+>> > sequence_b = "This is a rather long sequence. It is at least longer than the sequence A."
 
->>> encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
->>> encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
+>> > encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
+>> > encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
 ```
 
 Las versiones codificadas tienen longitudes diferentes:
@@ -186,11 +186,11 @@ Los IDs de entrada a menudo son los únicos parámetros necesarios que se deben 
 Cada tokenizador funciona de manera diferente, pero el mecanismo subyacente sigue siendo el mismo. Aquí tienes un ejemplo utilizando el tokenizador BERT, que es un tokenizador [WordPiece](https://arxiv.org/pdf/1609.08144.pdf):
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence = "A Titan RTX has 24GB of VRAM"
+>> > sequence = "A Titan RTX has 24GB of VRAM"
 ```
 
 El tokenizador se encarga de dividir la secuencia en tokens disponibles en el vocabulario del tokenizador.
@@ -413,14 +413,14 @@ la ayuda de tokens especiales, como el token de clasificación (`[CLS]`) y el to
 Podemos utilizar nuestro tokenizador para generar automáticamente una oración de este tipo al pasar las dos secuencias a `tokenizer` como dos argumentos (y no como una lista, como antes) de la siguiente manera:
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
->>> sequence_a = "HuggingFace is based in NYC"
->>> sequence_b = "Where is HuggingFace based?"
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > sequence_a = "HuggingFace is based in NYC"
+>> > sequence_b = "Where is HuggingFace based?"
 
->>> encoded_dict = tokenizer(sequence_a, sequence_b)
->>> decoded = tokenizer.decode(encoded_dict["input_ids"])
+>> > encoded_dict = tokenizer(sequence_a, sequence_b)
+>> > decoded = tokenizer.decode(encoded_dict["input_ids"])
 ```
 
 Que devolverá:

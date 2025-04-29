@@ -14,8 +14,8 @@
 
 import unittest
 
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig, QuarkConfig
-from transformers.testing_utils import (
+from myTransformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig, QuarkConfig
+from myTransformers.testing_utils import (
     is_torch_available,
     require_accelerate,
     require_quark,
@@ -23,7 +23,7 @@ from transformers.testing_utils import (
     require_torch_multi_gpu,
     slow,
 )
-from transformers.utils.import_utils import is_quark_available
+from myTransformers.utils.import_utils import is_quark_available
 
 
 if is_torch_available():

@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate sacrebleu
+pip install myTransformers datasets evaluate sacrebleu
 ```
 
 모델을 업로드하고 커뮤니티와 공유할 수 있도록 Hugging Face 계정에 로그인하는 것이 좋습니다. 새로운 창이 표시되면 토큰을 입력하여 로그인하세요.
@@ -81,10 +81,10 @@ pip install transformers datasets evaluate sacrebleu
 다음 단계로 영어-프랑스어 쌍을 처리하기 위해 T5 토크나이저를 가져오세요.
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> checkpoint = "google-t5/t5-small"
->>> tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+>> > checkpoint = "google-t5/t5-small"
+>> > tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 ```
 
 만들 전처리 함수는 아래 요구사항을 충족해야 합니다:
@@ -190,9 +190,9 @@ pip install transformers datasets evaluate sacrebleu
 모델을 훈련시킬 준비가 되었군요! [`AutoModelForSeq2SeqLM`]으로 T5를 로드하세요:
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
+>> > from myTransformers import AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 이제 세 단계만 거치면 끝입니다:
@@ -244,17 +244,17 @@ Keras로 모델을 파인튜닝하는 방법이 익숙하지 않다면, [여기]
 TensorFlow에서 모델을 파인튜닝하려면 우선 optimizer 함수, 학습률 스케줄 등의 훈련 하이퍼파라미터를 설정하세요:
 
 ```py
->>> from transformers import AdamWeightDecay
+>> > from myTransformers import AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 이제 [`TFAutoModelForSeq2SeqLM`]로 T5를 가져오세요:
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained(checkpoint)
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]로 데이터 세트를 `tf.data.Dataset` 형식으로 변환하세요:
@@ -288,19 +288,21 @@ TensorFlow에서 모델을 파인튜닝하려면 우선 optimizer 함수, 학습
 [`~transformers.KerasMetricCallback`]에 `compute_metrics` 함수를 전달하세요.
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 모델과 토크나이저를 업로드할 위치를 [`~transformers.PushToHubCallback`]에서 지정하세요:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_opus_books_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_opus_books_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -339,13 +341,13 @@ TensorFlow에서 모델을 파인튜닝하려면 우선 optimizer 함수, 학습
 파인튜닝된 모델로 추론하기에 제일 간단한 방법은 [`pipeline`]을 사용하는 것입니다. 해당 모델로 번역 `pipeline`을 만든 뒤, 텍스트를 전달하세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
 # Change `xx` to the language of the input and `yy` to the language of the desired output.
 # Examples: "en" for English, "fr" for French, "de" for German, "es" for Spanish, "zh" for Chinese, etc; translation_en_to_fr translates English to French
 # You can view all the lists of languages here - https://huggingface.co/languages
->>> translator = pipeline("translation_xx_to_yy", model="my_awesome_opus_books_model")
->>> translator(text)
+>> > translator = pipeline("translation_xx_to_yy", model="my_awesome_opus_books_model")
+>> > translator(text)
 [{'translation_text': 'Legumes partagent des ressources avec des bactéries azotantes.'}]
 ```
 
@@ -356,19 +358,19 @@ TensorFlow에서 모델을 파인튜닝하려면 우선 optimizer 함수, 학습
 텍스트를 토큰화하고 `input_ids`를 PyTorch 텐서로 반환하세요:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="pt").input_ids
 ```
 
 [`~generation.GenerationMixin.generate`] 메서드로 번역을 생성하세요. 다양한 텍스트 생성 전략 및 생성을 제어하기 위한 매개변수에 대한 자세한 내용은 [Text Generation](../main_classes/text_generation) API를 살펴보시기 바랍니다.
 
 ```py
->>> from transformers import AutoModelForSeq2SeqLM
+>> > from myTransformers import AutoModelForSeq2SeqLM
 
->>> model = AutoModelForSeq2SeqLM.from_pretrained("my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = AutoModelForSeq2SeqLM.from_pretrained("my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 생성된 토큰 ID들을 다시 텍스트로 디코딩하세요:
@@ -382,19 +384,19 @@ TensorFlow에서 모델을 파인튜닝하려면 우선 optimizer 함수, 학습
 텍스트를 토큰화하고 `input_ids`를 TensorFlow 텐서로 반환하세요:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_opus_books_model")
->>> inputs = tokenizer(text, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_opus_books_model")
+>> > inputs = tokenizer(text, return_tensors="tf").input_ids
 ```
 
 [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] 메서드로 번역을 생성하세요. 다양한 텍스트 생성 전략 및 생성을 제어하기 위한 매개변수에 대한 자세한 내용은 [Text Generation](../main_classes/text_generation) API를 살펴보시기 바랍니다.
 
 ```py
->>> from transformers import TFAutoModelForSeq2SeqLM
+>> > from myTransformers import TFAutoModelForSeq2SeqLM
 
->>> model = TFAutoModelForSeq2SeqLM.from_pretrained("my_awesome_opus_books_model")
->>> outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
+>> > model = TFAutoModelForSeq2SeqLM.from_pretrained("my_awesome_opus_books_model")
+>> > outputs = model.generate(inputs, max_new_tokens=40, do_sample=True, top_k=30, top_p=0.95)
 ```
 
 생성된 토큰 ID들을 다시 텍스트로 디코딩하세요:

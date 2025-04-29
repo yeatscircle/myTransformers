@@ -39,11 +39,11 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-all-latest-gpu
+          context: ./docker/myTransformers-all-latest-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-all-latest-gpu${{ inputs.image_postfix }}
+          tags: huggingface/myTransformers-all-latest-gpu${{ inputs.image_postfix }}
       # Push CI images still need to be re-built daily
       -
         name: Build and push (for Push CI) in a daily basis
@@ -52,18 +52,18 @@ jobs:
         if: inputs.image_postfix != '-push-ci'
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-all-latest-gpu
+          context: ./docker/myTransformers-all-latest-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-all-latest-gpu-push-ci
+          tags: huggingface/myTransformers-all-latest-gpu-push-ci
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the transformers-all-latest-gpu-push-ci docker build
+          title: 🤗 Results of the myTransformers-all-latest-gpu-push-ci docker build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -88,18 +88,18 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-deepspeed-latest-gpu
+          context: ./docker/myTransformers-pytorch-deepspeed-latest-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-deepspeed-latest-gpu${{ inputs.image_postfix }}
+          tags: huggingface/myTransformers-pytorch-deepspeed-latest-gpu${{ inputs.image_postfix }}
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER}}
-          title: 🤗 Results of the transformers-pytorch-deepspeed-latest-gpu docker build
+          title: 🤗 Results of the myTransformers-pytorch-deepspeed-latest-gpu docker build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -129,18 +129,18 @@ jobs:
         if: inputs.image_postfix != '-push-ci'
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-deepspeed-latest-gpu
+          context: ./docker/myTransformers-pytorch-deepspeed-latest-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-deepspeed-latest-gpu-push-ci
+          tags: huggingface/myTransformers-pytorch-deepspeed-latest-gpu-push-ci
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the transformers-pytorch-deepspeed-latest-gpu-push-ci docker build
+          title: 🤗 Results of the myTransformers-pytorch-deepspeed-latest-gpu-push-ci docker build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -167,16 +167,16 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-doc-builder
+          context: ./docker/myTransformers-doc-builder
           push: true
-          tags: huggingface/transformers-doc-builder
+          tags: huggingface/myTransformers-doc-builder
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the huggingface/transformers-doc-builder docker build
+          title: 🤗 Results of the huggingface/myTransformers-doc-builder docker build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -203,18 +203,18 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-gpu
+          context: ./docker/myTransformers-pytorch-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-gpu
+          tags: huggingface/myTransformers-pytorch-gpu
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the huggingface/transformers-pytorch-gpudocker build
+          title: 🤗 Results of the huggingface/myTransformers-pytorch-gpudocker build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -239,11 +239,11 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-amd-gpu
+          context: ./docker/myTransformers-pytorch-amd-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-amd-gpu${{ inputs.image_postfix }}
+          tags: huggingface/myTransformers-pytorch-amd-gpu${{ inputs.image_postfix }}
       # Push CI images still need to be re-built daily
       -
         name: Build and push (for Push CI) in a daily basis
@@ -252,18 +252,18 @@ jobs:
         if: inputs.image_postfix != '-push-ci'
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-amd-gpu
+          context: ./docker/myTransformers-pytorch-amd-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-amd-gpu-push-ci
+          tags: huggingface/myTransformers-pytorch-amd-gpu-push-ci
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the huggingface/transformers-pytorch-amd-gpu-push-ci build
+          title: 🤗 Results of the huggingface/myTransformers-pytorch-amd-gpu-push-ci build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -290,18 +290,18 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-tensorflow-gpu
+          context: ./docker/myTransformers-tensorflow-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-tensorflow-gpu
+          tags: huggingface/myTransformers-tensorflow-gpu
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the huggingface/transformers-tensorflow-gpu build
+          title: 🤗 Results of the huggingface/myTransformers-tensorflow-gpu build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -326,11 +326,11 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-deepspeed-amd-gpu
+          context: ./docker/myTransformers-pytorch-deepspeed-amd-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-deepspeed-amd-gpu${{ inputs.image_postfix }}
+          tags: huggingface/myTransformers-pytorch-deepspeed-amd-gpu${{ inputs.image_postfix }}
       # Push CI images still need to be re-built daily
       -
         name: Build and push (for Push CI) in a daily basis
@@ -339,18 +339,18 @@ jobs:
         if: inputs.image_postfix != '-push-ci'
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-pytorch-deepspeed-amd-gpu
+          context: ./docker/myTransformers-pytorch-deepspeed-amd-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-pytorch-deepspeed-amd-gpu-push-ci
+          tags: huggingface/myTransformers-pytorch-deepspeed-amd-gpu-push-ci
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the transformers-pytorch-deepspeed-amd-gpu build
+          title: 🤗 Results of the myTransformers-pytorch-deepspeed-amd-gpu build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}
 
@@ -377,17 +377,17 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/transformers-quantization-latest-gpu
+          context: ./docker/myTransformers-quantization-latest-gpu
           build-args: |
             REF=main
           push: true
-          tags: huggingface/transformers-quantization-latest-gpu${{ inputs.image_postfix }}
+          tags: huggingface/myTransformers-quantization-latest-gpu${{ inputs.image_postfix }}
 
       - name: Post to Slack
         if: always()
         uses: huggingface/hf-workflows/.github/actions/post-slack@main
         with:
           slack_channel: ${{ secrets.CI_SLACK_CHANNEL_DOCKER }}
-          title: 🤗 Results of the transformers-quantization-latest-gpu build
+          title: 🤗 Results of the myTransformers-quantization-latest-gpu build
           status: ${{ job.status }}
           slack_token: ${{ secrets.SLACK_CIFEEDBACK_BOT_TOKEN }}

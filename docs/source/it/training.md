@@ -46,16 +46,19 @@ Inizia caricando il dataset [Yelp Reviews](https://huggingface.co/datasets/yelp_
 Come già sai, hai bisogno di un tokenizer per processare il testo e includere una strategia di padding e truncation per gestire sequenze di lunghezza variabile. Per processare il dataset in un unico passo, usa il metodo [`map`](https://huggingface.co/docs/datasets/process#map) di 🤗 Datasets che applica la funzione di preprocessing all'intero dataset:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+
+>> >
+
+def tokenize_function(examples):
 
 
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
 
-
->>> tokenized_datasets = dataset.map(tokenize_function, batched=True)
+>> > tokenized_datasets = dataset.map(tokenize_function, batched=True)
 ```
 
 Se vuoi, puoi creare un sottoinsieme più piccolo del dataset per il fine-tuning così da ridurre il tempo necessario:
@@ -78,9 +81,9 @@ Se vuoi, puoi creare un sottoinsieme più piccolo del dataset per il fine-tuning
 Inizia caricando il tuo modello e specificando il numero di etichette (labels) attese. Nel dataset Yelp Review [dataset card](https://huggingface.co/datasets/yelp_review_full#data-fields), sai che ci sono cinque etichette:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 <Tip>
@@ -96,9 +99,9 @@ Successivamente, crea una classe [`TrainingArguments`] contenente tutti gli iper
 Specifica dove salvare i checkpoints del tuo addestramento:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer")
+>> > training_args = TrainingArguments(output_dir="test_trainer")
 ```
 
 ### Metriche
@@ -124,9 +127,9 @@ Richiama `compute` su `metric` per calcolare l'accuratezza delle tue previsioni.
 Se preferisci monitorare le tue metriche di valutazione durante il fine-tuning, specifica il parametro `eval_strategy` nei tuoi training arguments per restituire le metriche di valutazione ad ogni epoca di addestramento:
 
 ```py
->>> from transformers import TrainingArguments, Trainer
+>> > from myTransformers import TrainingArguments, Trainer
 
->>> training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
+>> > training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
 ```
 
 ### Trainer
@@ -161,9 +164,9 @@ I modelli 🤗 Transformers supportano anche l'addestramento in TensorFlow usand
 Il [`DefaultDataCollator`] assembla tensori in lotti su cui il modello si addestrerà. Assicurati di specificare di restituire tensori per TensorFlow in `return_tensors`:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 ```
 
 <Tip>
@@ -197,10 +200,10 @@ Successivamente, converti i datasets tokenizzati in TensorFlow datasets con il m
 Carica un modello TensorFlow col numero atteso di etichette:
 
 ```py
->>> import tensorflow as tf
->>> from transformers import TFAutoModelForSequenceClassification
+>> > import tensorflow as tf
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 Poi compila e fai il fine-tuning del tuo modello usando [`fit`](https://keras.io/api/models/model_training_apis/) come faresti con qualsiasi altro modello di Keras:
@@ -277,9 +280,9 @@ Crea un `DataLoader` per i tuoi datasets di train e test così puoi iterare sui 
 Carica il tuo modello con il numero atteso di etichette:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 ### Ottimizzatore e learning rate scheduler
@@ -295,12 +298,13 @@ Crea un ottimizzatore e il learning rate scheduler per fare il fine-tuning del m
 Crea il learning rate scheduler predefinito da [`Trainer`]:
 
 ```py
->>> from transformers import get_scheduler
+>> > from myTransformers import get_scheduler
 
->>> num_epochs = 3
->>> num_training_steps = num_epochs * len(train_dataloader)
->>> lr_scheduler = get_scheduler(
-...     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
+>> > num_epochs = 3
+>> > num_training_steps = num_epochs * len(train_dataloader)
+>> > lr_scheduler = get_scheduler(
+    ...
+name = "linear", optimizer = optimizer, num_warmup_steps = 0, num_training_steps = num_training_steps
 ... )
 ```
 

@@ -16,15 +16,15 @@ import unittest
 
 from parameterized import parameterized
 
-from transformers import AddedToken, AutoModelForCausalLM, AutoModelForSeq2SeqLM, AutoTokenizer
-from transformers.testing_utils import (
+from myTransformers import AddedToken, AutoModelForCausalLM, AutoModelForSeq2SeqLM, AutoTokenizer
+from myTransformers.testing_utils import (
     require_gguf,
     require_read_token,
     require_torch_gpu,
     slow,
     torch_device,
 )
-from transformers.utils import is_gguf_available, is_torch_available
+from myTransformers.utils import is_gguf_available, is_torch_available
 
 
 if is_torch_available():

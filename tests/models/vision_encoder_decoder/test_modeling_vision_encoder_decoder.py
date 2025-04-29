@@ -20,8 +20,8 @@ from datasets import load_dataset
 from huggingface_hub import hf_hub_download
 from packaging import version
 
-from transformers import DonutProcessor, NougatProcessor, TrOCRProcessor
-from transformers.testing_utils import (
+from myTransformers import DonutProcessor, NougatProcessor, TrOCRProcessor
+from myTransformers.testing_utils import (
     require_levenshtein,
     require_nltk,
     require_sentencepiece,
@@ -32,7 +32,7 @@ from transformers.testing_utils import (
     to_2tuple,
     torch_device,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     cached_property,
     is_torch_available,
     is_vision_available,
@@ -54,7 +54,7 @@ if is_torch_available():
     import numpy as np
     import torch
 
-    from transformers import (
+    from myTransformers import (
         AutoTokenizer,
         BartForCausalLM,
         BertLMHeadModel,
@@ -68,14 +68,14 @@ if is_torch_available():
         VisionEncoderDecoderModel,
         ViTModel,
     )
-    from transformers.modeling_outputs import BaseModelOutput
+    from myTransformers.modeling_outputs import BaseModelOutput
 
 
 if is_vision_available():
     import PIL
     from PIL import Image
 
-    from transformers import ViTImageProcessor
+    from myTransformers import ViTImageProcessor
 
 
 @require_torch

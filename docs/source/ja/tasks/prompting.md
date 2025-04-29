@@ -71,16 +71,17 @@ Falcon、LLaMA などの大規模言語モデルは、事前にトレーニン�
 `text-generation`パイプラインを使用してデコーダのみのモデルで推論を実行します。
 
 ```python
->>> from transformers import pipeline
->>> import torch
+>> > from myTransformers import pipeline
+>> > import torch
 
->>> torch.manual_seed(0) # doctest: +IGNORE_RESULT
+>> > torch.manual_seed(0)  # doctest: +IGNORE_RESULT
 
->>> generator = pipeline('text-generation', model = 'openai-community/gpt2')
->>> prompt = "Hello, I'm a language model"
+>> > generator = pipeline('text-generation', model='openai-community/gpt2')
+>> > prompt = "Hello, I'm a language model"
 
->>> generator(prompt, max_length = 30)
-[{'generated_text': "Hello, I'm a language model expert, so I'm a big believer in the concept that I know very well and then I try to look into"}]
+>> > generator(prompt, max_length=30)
+[{
+     'generated_text': "Hello, I'm a language model expert, so I'm a big believer in the concept that I know very well and then I try to look into"}]
 ```
 
 エンコーダー/デコーダーを使用して推論を実行するには、`text2text-generation` パイプラインを使用します。
@@ -111,25 +112,30 @@ Falcon、LLaMA などの大規模言語モデルは、事前にトレーニン�
 まず、環境をセットアップしましょう。
 
 ```bash
-pip install -q transformers accelerate
+pip install -q myTransformers accelerate
 ```
 
 次に、適切なパイプライン (`text_generation`) を使用してモデルをロードしましょう。
 
 ```python
->>> from transformers import pipeline, AutoTokenizer
->>> import torch
+>> > from myTransformers import pipeline, AutoTokenizer
+>> > import torch
 
->>> torch.manual_seed(0) # doctest: +IGNORE_RESULT
->>> model = "tiiuae/falcon-7b-instruct"
+>> > torch.manual_seed(0)  # doctest: +IGNORE_RESULT
+>> > model = "tiiuae/falcon-7b-instruct"
 
->>> tokenizer = AutoTokenizer.from_pretrained(model)
->>> pipe = pipeline(
-...     "text-generation",
-...     model=model,
-...     tokenizer=tokenizer,
-...     torch_dtype=torch.bfloat16,
-...     device_map="auto",
+>> > tokenizer = AutoTokenizer.from_pretrained(model)
+>> > pipe = pipeline(
+    ...
+"text-generation",
+...
+model = model,
+...
+tokenizer = tokenizer,
+...
+torch_dtype = torch.bfloat16,
+...
+device_map = "auto",
 ... )
 ```
 

@@ -16,21 +16,21 @@ import unittest
 
 import pytest
 
-from transformers import DetrConfig, MaskFormerConfig, ResNetBackbone, ResNetConfig, TimmBackbone
-from transformers.testing_utils import require_torch, slow
-from transformers.utils.backbone_utils import (
+from myTransformers import DetrConfig, MaskFormerConfig, ResNetBackbone, ResNetConfig, TimmBackbone
+from myTransformers.testing_utils import require_torch, slow
+from myTransformers.utils.backbone_utils import (
     BackboneMixin,
     get_aligned_output_features_output_indices,
     load_backbone,
     verify_out_features_out_indices,
 )
-from transformers.utils.import_utils import is_torch_available
+from myTransformers.utils.import_utils import is_torch_available
 
 
 if is_torch_available():
     import torch
 
-    from transformers import BertPreTrainedModel
+    from myTransformers import BertPreTrainedModel
 
 
 class BackboneUtilsTester(unittest.TestCase):
@@ -59,7 +59,7 @@ class BackboneUtilsTester(unittest.TestCase):
 
     def test_verify_out_features_out_indices(self):
         # Stage names must be set
-        with pytest.raises(ValueError, match="Stage_names must be set for transformers backbones"):
+        with pytest.raises(ValueError, match="Stage_names must be set for myTransformers backbones"):
             verify_out_features_out_indices(["a", "b"], (0, 1), None)
 
         # Out features must be a list

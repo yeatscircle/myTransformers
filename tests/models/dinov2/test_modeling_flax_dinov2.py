@@ -18,9 +18,9 @@ import unittest
 
 import numpy as np
 
-from transformers import Dinov2Config
-from transformers.testing_utils import require_flax, require_vision, slow
-from transformers.utils import cached_property, is_flax_available, is_vision_available
+from myTransformers import Dinov2Config
+from myTransformers.testing_utils import require_flax, require_vision, slow
+from myTransformers.utils import cached_property, is_flax_available, is_vision_available
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_flax_common import FlaxModelTesterMixin, floats_tensor
@@ -29,12 +29,12 @@ from ...test_modeling_flax_common import FlaxModelTesterMixin, floats_tensor
 if is_flax_available():
     import jax
 
-    from transformers.models.dinov2.modeling_flax_dinov2 import FlaxDinov2ForImageClassification, FlaxDinov2Model
+    from myTransformers.models.dinov2.modeling_flax_dinov2 import FlaxDinov2ForImageClassification, FlaxDinov2Model
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import AutoImageProcessor
+    from myTransformers import AutoImageProcessor
 
 
 class FlaxDinov2ModelTester:
@@ -98,7 +98,7 @@ class FlaxDinov2ModelTester:
 
         return config, pixel_values
 
-    # Copied from transformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.prepare_config_and_inputs with ViT -> Dinov2
+    # Copied from myTransformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.prepare_config_and_inputs with ViT -> Dinov2
     def create_and_check_model(self, config, pixel_values):
         model = FlaxDinov2Model(config=config)
         result = model(pixel_values)
@@ -108,7 +108,7 @@ class FlaxDinov2ModelTester:
         num_patches = (image_size[1] // patch_size[1]) * (image_size[0] // patch_size[0])
         self.parent.assertEqual(result.last_hidden_state.shape, (self.batch_size, num_patches + 1, self.hidden_size))
 
-    # Copied from transformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.create_and_check_for_image_classification with ViT -> Dinov2
+    # Copied from myTransformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.create_and_check_for_image_classification with ViT -> Dinov2
     def create_and_check_for_image_classification(self, config, pixel_values):
         config.num_labels = self.type_sequence_label_size
         model = FlaxDinov2ForImageClassification(config=config)
@@ -122,7 +122,7 @@ class FlaxDinov2ModelTester:
         pixel_values = floats_tensor([self.batch_size, 1, self.image_size, self.image_size])
         result = model(pixel_values)
 
-    # Copied from transformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.prepare_config_and_inputs_for_common
+    # Copied from myTransformers.models.vit.test_modeling_flax_vit.FlaxViTModelTester.prepare_config_and_inputs_for_common
     def prepare_config_and_inputs_for_common(self):
         config_and_inputs = self.prepare_config_and_inputs()
         (
@@ -134,7 +134,7 @@ class FlaxDinov2ModelTester:
 
 
 @require_flax
-# Copied from transformers.models.vit.test_modeling_flax_vit.FlaxViTModelTest with google/vit-base-patch16-224 -> facebook/dinov2-base
+# Copied from myTransformers.models.vit.test_modeling_flax_vit.FlaxViTModelTest with google/vit-base-patch16-224 -> facebook/dinov2-base
 class FlaxDionv2ModelTest(FlaxModelTesterMixin, unittest.TestCase):
     all_model_classes = (FlaxDinov2Model, FlaxDinov2ForImageClassification) if is_flax_available() else ()
 

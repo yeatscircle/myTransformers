@@ -174,10 +174,11 @@ Pass your training arguments as usual to [`Trainer`]:
 - `hub_model_id`、つまりHubのユーザー名とモデル名。
 
 ```python
->>> from transformers import PushToHubCallback
+>> > from myTransformers import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="./your_model_save_path", tokenizer=tokenizer, hub_model_id="your-username/my-awesome-model"
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "./your_model_save_path", tokenizer = tokenizer, hub_model_id = "your-username/my-awesome-model"
 ... )
 ```
 
@@ -203,9 +204,9 @@ Pass your training arguments as usual to [`Trainer`]:
 ユーザーは、`from_pretrained` 関数を使用してモデルをロードできます：
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> model = AutoModel.from_pretrained("your_username/my-awesome-model")
+>> > model = AutoModel.from_pretrained("your_username/my-awesome-model")
 ```
 
 組織に所属し、モデルを組織名のもとにプッシュしたい場合、`repo_id` にそれを追加してください：

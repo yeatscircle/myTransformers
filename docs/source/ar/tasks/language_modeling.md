@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 قبل أن تبدأ، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 نحن نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل ومشاركة نموذجك مع المجتمع. عند المطالبة، أدخل رمزك لتسجيل الدخول:
@@ -96,9 +96,9 @@ pip install transformers datasets evaluate
 الخطوة التالية هي تحميل مجزء النص DistilGPT2 لمعالجة حقل `text` الفرعي:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 ```
 
 ستلاحظ من المثال أعلاه، الحقل `text` هو في الواقع متداخل داخل `answers`. هذا يعني أنك ستحتاج إلى
@@ -187,10 +187,10 @@ pip install transformers datasets evaluate
 استخدم رمز نهاية التسلسل كرمز للحشو، وحدد `mlm_probability` لحجب الرموز بشكل عشوائي عند كل تكرار للبيانات:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 ```
 
 </pt>
@@ -198,9 +198,9 @@ pip install transformers datasets evaluate
 استخدم رمز نهاية التسلسل كرمز للحشو، وحدد `mlm_probability` لحجب الرموز بشكل عشوائي عند كل تكرار للبيانات:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False, return_tensors="tf")
 ```
 
 </tf>
@@ -220,9 +220,9 @@ pip install transformers datasets evaluate
 أنت جاهز الآن لبدء تدريب نموذجك! قم بتحميل DistilGPT2 باستخدام [`AutoModelForCausalLM`]:
 
 ```py
->>> from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCausalLM, TrainingArguments, Trainer
 
->>> model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 في هذه المرحلة، تبقى ثلاث خطوات فقط:
@@ -277,17 +277,17 @@ Perplexity: 49.61
 لتدريب نموذج في TensorFlow، ابدأ بإعداد دالة المحسن، وجدول معدل التعلم، وبعض معاملات التدريب:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 ثم يمكنك تحميل DistilGPT2 باستخدام [`TFAutoModelForCausalLM`]:
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
+>> > model = TFAutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")
 ```
 
 حول مجموعات بياناتك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -319,11 +319,13 @@ Perplexity: 49.61
 يمكن القيام بذلك عن طريق تحديد مكان دفع نموذجك ومجمّع البيانات في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_clm-model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_clm-model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -358,11 +360,12 @@ Perplexity: 49.61
 أبسط طريقة لتجربة نموذجك المدرب للاستدلال هي استخدامه في [`pipeline`]. قم بتنفيذ `pipeline` لتوليد النص مع نموذجك، ومرر نصك إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> generator = pipeline("text-generation", model="username/my_awesome_eli5_clm-model")
->>> generator(prompt)
-[{'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
+>> > generator = pipeline("text-generation", model="username/my_awesome_eli5_clm-model")
+>> > generator(prompt)
+[{
+     'generated_text': "Somatic hypermutation allows the immune system to be able to effectively reverse the damage caused by an infection.\n\n\nThe damage caused by an infection is caused by the immune system's ability to perform its own self-correcting tasks."}]
 ```
 
 <frameworkcontent>
@@ -370,20 +373,20 @@ Perplexity: 49.61
 قسم النص وإرجع `input_ids` كتنسورات PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="pt").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="pt").input_ids
 ```
 
 استخدم طريقة [`~generation.GenerationMixin.generate`] لتوليد النص.
 للمزيد من التفاصيل حول استراتيجيات توليد النص المختلفة والبارامترات للتحكم في التوليد، راجع صفحة [استراتيجيات توليد النص](../generation_strategies).
 
 ```py
->>> from transformers import AutoModelForCausalLM
+>> > from myTransformers import AutoModelForCausalLM
 
->>> model = AutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
->>> outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = AutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > outputs = model.generate(inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 فك ترميز الرموز المولدة مرة أخرى إلى نص:
@@ -397,19 +400,19 @@ Perplexity: 49.61
 قم بتقسيم النص وإرجاع `input_ids` كـ TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
->>> inputs = tokenizer(prompt, return_tensors="tf").input_ids
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > inputs = tokenizer(prompt, return_tensors="tf").input_ids
 ```
 
 استخدم طريقة [`~transformers.generation_tf_utils.TFGenerationMixin.generate`] لإنشاء الملخص. للمزيد من التفاصيل حول استراتيجيات توليد النص المختلفة والبارامترات للتحكم في التوليد، راجع صفحة [استراتيجيات توليد النص](../generation_strategies).
 
 ```py
->>> from transformers import TFAutoModelForCausalLM
+>> > from myTransformers import TFAutoModelForCausalLM
 
->>> model = TFAutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
->>> outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
+>> > model = TFAutoModelForCausalLM.from_pretrained("username/my_awesome_eli5_clm-model")
+>> > outputs = model.generate(input_ids=inputs, max_new_tokens=100, do_sample=True, top_k=50, top_p=0.95)
 ```
 
 فك ترميز  الرموز المولدة مرة أخرى إلى نص:

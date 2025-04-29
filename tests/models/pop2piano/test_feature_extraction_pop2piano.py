@@ -19,7 +19,7 @@ import unittest
 import numpy as np
 from datasets import load_dataset
 
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     check_json_file_has_correct_format,
     require_essentia,
     require_librosa,
@@ -27,7 +27,7 @@ from transformers.testing_utils import (
     require_tf,
     require_torch,
 )
-from transformers.utils.import_utils import (
+from myTransformers.utils.import_utils import (
     is_essentia_available,
     is_librosa_available,
     is_scipy_available,
@@ -44,7 +44,7 @@ requirements_available = (
 if requirements_available:
     import torch
 
-    from transformers import Pop2PianoFeatureExtractor
+    from myTransformers import Pop2PianoFeatureExtractor
 
 
 class Pop2PianoFeatureExtractionTester:

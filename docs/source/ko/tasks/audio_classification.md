@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 라이브러리가 모두 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 모델을 업로드하고 커뮤니티와 공유할 수 있도록 허깅페이스 계정에 로그인하는 것이 좋습니다. 메시지가 표시되면 토큰을 입력하여 로그인합니다:
@@ -123,9 +123,9 @@ DatasetDict({
 다음 단계는 오디오 신호를 처리하기 위해 Wav2Vec2 특징 추출기를 가져오는 것입니다:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 MinDS-14 데이터 세트의 샘플링 속도는 8khz이므로(이 정보는 [데이터세트 카드](https://huggingface.co/datasets/PolyAI/minds14)에서 확인할 수 있습니다), 사전 훈련된 Wav2Vec2 모델을 사용하려면 데이터 세트를 16kHz로 리샘플링해야 합니다:
@@ -198,11 +198,12 @@ MinDS-14 데이터 세트의 샘플링 속도는 8khz이므로(이 정보는 [�
 이제 모델 훈련을 시작할 준비가 되었습니다! [`AutoModelForAudioClassification`]을 이용해서 Wav2Vec2를 불러옵니다. 예상되는 레이블 수와 레이블 매핑을 지정합니다:
 
 ```py
->>> from transformers import AutoModelForAudioClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForAudioClassification, TrainingArguments, Trainer
 
->>> num_labels = len(id2label)
->>> model = AutoModelForAudioClassification.from_pretrained(
-...     "facebook/wav2vec2-base", num_labels=num_labels, label2id=label2id, id2label=id2label
+>> > num_labels = len(id2label)
+>> > model = AutoModelForAudioClassification.from_pretrained(
+    ...
+"facebook/wav2vec2-base", num_labels = num_labels, label2id = label2id, id2label = id2label
 ... )
 ```
 
@@ -274,10 +275,10 @@ For a more in-depth example of how to finetune a model for audio classification,
 추론을 위해 미세 조정한 모델을 시험해 보는 가장 간단한 방법은 [`pipeline`]에서 사용하는 것입니다. 모델을 사용하여 오디오 분류를 위한 `pipeline`을 인스턴스화하고 오디오 파일을 전달합니다:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("audio-classification", model="stevhliu/my_awesome_minds_model")
->>> classifier(audio_file)
+>> > classifier = pipeline("audio-classification", model="stevhliu/my_awesome_minds_model")
+>> > classifier(audio_file)
 [
     {'score': 0.09766869246959686, 'label': 'cash_deposit'},
     {'score': 0.07998877018690109, 'label': 'app_error'},
@@ -294,20 +295,21 @@ For a more in-depth example of how to finetune a model for audio classification,
 특징 추출기를 가져와서 오디오 파일을 전처리하고 `입력`을 PyTorch 텐서로 반환합니다:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("stevhliu/my_awesome_minds_model")
->>> inputs = feature_extractor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("stevhliu/my_awesome_minds_model")
+>> > inputs = feature_extractor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 모델에 입력을 전달하고 로짓을 반환합니다:
 
 ```py
->>> from transformers import AutoModelForAudioClassification
+>> > from myTransformers import AutoModelForAudioClassification
 
->>> model = AutoModelForAudioClassification.from_pretrained("stevhliu/my_awesome_minds_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForAudioClassification.from_pretrained("stevhliu/my_awesome_minds_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 확률이 가장 높은 클래스를 가져온 다음 모델의 `id2label` 매핑을 사용하여 이를 레이블로 변환합니다:

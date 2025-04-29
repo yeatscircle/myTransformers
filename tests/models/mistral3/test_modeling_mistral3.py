@@ -15,13 +15,13 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     Mistral3Config,
     is_bitsandbytes_available,
     is_torch_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     cleanup,
     require_bitsandbytes,
     require_read_token,
@@ -40,13 +40,13 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         Mistral3ForConditionalGeneration,
     )
 
 
 if is_bitsandbytes_available():
-    from transformers import BitsAndBytesConfig
+    from myTransformers import BitsAndBytesConfig
 
 
 class Mistral3VisionText2TextModelTester:

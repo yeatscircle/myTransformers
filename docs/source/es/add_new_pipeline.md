@@ -30,7 +30,7 @@ Empieza heredando la clase base `Pipeline` con los 4 métodos que debemos implem
 `_forward` (ejecución), `postprocess` (posprocesamiento) y `_sanitize_parameters` (verificar parámetros).
 
 ```python
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 class MyPipeline(Pipeline):
@@ -124,7 +124,7 @@ Para registrar tu `new-task` (nueva tarea) en la lista de tareas, debes añadirl
 `PIPELINE_REGISTRY` (registro de pipelines):
 
 ```python
-from transformers.pipelines import PIPELINE_REGISTRY
+from myTransformers.pipelines import PIPELINE_REGISTRY
 
 PIPELINE_REGISTRY.register_pipeline(
     "new-task",
@@ -154,7 +154,7 @@ clasificación de duplas de oraciones de esta forma:
 ```py
 import numpy as np
 
-from transformers import Pipeline
+from myTransformers import Pipeline
 
 
 def softmax(outputs):
@@ -192,8 +192,8 @@ esto en un archivo llamado `pair_classification.py`, podemos importarlo y regist
 
 ```py
 from pair_classification import PairClassificationPipeline
-from transformers.pipelines import PIPELINE_REGISTRY
-from transformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
+from myTransformers.pipelines import PIPELINE_REGISTRY
+from myTransformers import AutoModelForSequenceClassification, TFAutoModelForSequenceClassification
 
 PIPELINE_REGISTRY.register_pipeline(
     "pair-classification",
@@ -207,7 +207,7 @@ Una vez hecho esto, podemos usarlo con un modelo pre-entrenado. Por ejemplo, al 
 se le hizo fine-tuning con el dataset MRPC, en el cual se clasifican duplas de oraciones como paráfrasis o no.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline("pair-classification", model="sgugger/finetuned-bert-mrpc")
 ```
@@ -224,7 +224,7 @@ y además guardará el modelo y el tokenizer del pipeline, antes de enviar todo 
 `trust_remote_code=True` (confiar en código remoto):
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline(model="{your_username}/test-dynamic-pipeline", trust_remote_code=True)
 ```

@@ -17,8 +17,8 @@ import unittest
 
 import numpy as np
 
-from transformers import GPT2Tokenizer, GPTNeoConfig, is_flax_available
-from transformers.testing_utils import require_flax, slow
+from myTransformers import GPT2Tokenizer, GPTNeoConfig, is_flax_available
+from myTransformers.testing_utils import require_flax, slow
 
 from ...test_modeling_flax_common import FlaxModelTesterMixin, ids_tensor, random_attention_mask
 
@@ -27,7 +27,7 @@ if is_flax_available():
     import jax
     import jax.numpy as jnp
 
-    from transformers.models.gpt_neo.modeling_flax_gpt_neo import FlaxGPTNeoForCausalLM, FlaxGPTNeoModel
+    from myTransformers.models.gpt_neo.modeling_flax_gpt_neo import FlaxGPTNeoForCausalLM, FlaxGPTNeoModel
 
 
 class FlaxGPTNeoModelTester:

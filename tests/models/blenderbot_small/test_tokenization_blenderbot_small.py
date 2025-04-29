@@ -19,7 +19,7 @@ import os
 import unittest
 from functools import lru_cache
 
-from transformers.models.blenderbot_small.tokenization_blenderbot_small import (
+from myTransformers.models.blenderbot_small.tokenization_blenderbot_small import (
     VOCAB_FILES_NAMES,
     BlenderbotSmallTokenizer,
 )

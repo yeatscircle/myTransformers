@@ -16,9 +16,9 @@ import unittest
 
 import numpy as np
 
-from transformers.image_utils import OPENAI_CLIP_MEAN, OPENAI_CLIP_STD
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_torch_available, is_torchvision_available, is_vision_available
+from myTransformers.image_utils import OPENAI_CLIP_MEAN, OPENAI_CLIP_STD
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_torch_available, is_torchvision_available, is_vision_available
 
 from ...test_image_processing_common import ImageProcessingTestMixin, prepare_image_inputs
 
@@ -29,10 +29,10 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import LlavaOnevisionImageProcessor
+    from myTransformers import LlavaOnevisionImageProcessor
 
     if is_torchvision_available():
-        from transformers import LlavaOnevisionImageProcessorFast, LlavaOnevisionVideoProcessor
+        from myTransformers import LlavaOnevisionImageProcessorFast, LlavaOnevisionVideoProcessor
 
 
 class LlavaOnevisionImageProcessingTester:

@@ -23,7 +23,7 @@ rendered properly in your Markdown viewer.
 在开始之前，确保你已经安装了所有必要的库：
 
 ```bash
-!pip install transformers datasets evaluate accelerate
+!pip install myTransformers datasets evaluate accelerate
 ```
 
 你还需要安装喜欢的机器学习框架：
@@ -68,9 +68,9 @@ pip install tensorflow
 创建一个 [`pipeline`] 实例并且指定你想要将它用于的任务，就可以开始了。你可以将 [`pipeline`] 用于任何一个上面提到的任务，如果想知道支持的任务的完整列表，可以查阅 [pipeline API 参考](./main_classes/pipelines)。不过, 在这篇教程中，你将把 [`pipeline`] 用在一个情感分析示例上：
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis")
+>> > classifier = pipeline("sentiment-analysis")
 ```
 
 [`pipeline`] 会下载并缓存一个用于情感分析的默认的[预训练模型](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)和分词器。现在你可以在目标文本上使用 `classifier` 了：
@@ -93,10 +93,10 @@ label: NEGATIVE, with score: 0.5309
 [`pipeline`] 也可以为任何你喜欢的任务遍历整个数据集。在下面这个示例中，让我们选择自动语音识别作为我们的任务：
 
 ```py
->>> import torch
->>> from transformers import pipeline
+>> > import torch
+>> > from myTransformers import pipeline
 
->>> speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
+>> > speech_recognizer = pipeline("automatic-speech-recognition", model="facebook/wav2vec2-base-960h")
 ```
 
 加载一个你想遍历的音频数据集（查阅 🤗 Datasets [快速开始](https://huggingface.co/docs/datasets/quickstart#audio) 获得更多信息）。比如，加载 [MInDS-14](https://huggingface.co/datasets/PolyAI/minds14) 数据集：
@@ -137,20 +137,20 @@ label: NEGATIVE, with score: 0.5309
 使用 [`AutoModelForSequenceClassification`] 和 [`AutoTokenizer`] 来加载预训练模型和它关联的分词器（更多信息可以参考下一节的 `AutoClass`）：
 
 ```py
->>> from transformers import AutoTokenizer, AutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </pt>
 <tf>
 使用 [`TFAutoModelForSequenceClassification`] 和 [`AutoTokenizer`] 来加载预训练模型和它关联的分词器（更多信息可以参考下一节的 `TFAutoClass`）：
 
 ```py
->>> from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer, TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 </tf>
 </frameworkcontent>
@@ -180,10 +180,10 @@ label: NEGATIVE, with score: 0.5309
 使用 [`AutoTokenizer`] 加载一个分词器:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tokenizer = AutoTokenizer.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tokenizer = AutoTokenizer.from_pretrained(model_name)
 ```
 
 将文本传入分词器：
@@ -243,10 +243,10 @@ label: NEGATIVE, with score: 0.5309
 🤗 Transformers 提供了一种简单统一的方式来加载预训练的实例. 这表示你可以像加载 [`AutoTokenizer`] 一样加载 [`AutoModel`]。唯一不同的地方是为你的任务选择正确的[`AutoModel`]。对于文本（或序列）分类，你应该加载[`AutoModelForSequenceClassification`]：
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -276,10 +276,10 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 🤗 Transformers 提供了一种简单统一的方式来加载预训练的实例。这表示你可以像加载 [`AutoTokenizer`] 一样加载 [`TFAutoModel`]。唯一不同的地方是为你的任务选择正确的 [`TFAutoModel`]，对于文本（或序列）分类，你应该加载 [`TFAutoModelForSequenceClassification`]：
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+>> > model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
 ```
 
 <Tip>
@@ -353,19 +353,19 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 <pt>
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
->>> pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(pt_save_directory)
+>> > pt_model = AutoModelForSequenceClassification.from_pretrained(pt_save_directory, from_pt=True)
 ```
 </pt>
 <tf>
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
->>> tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(tf_save_directory)
+>> > tf_model = TFAutoModelForSequenceClassification.from_pretrained(tf_save_directory, from_tf=True)
 ```
 </tf>
 </frameworkcontent>
@@ -377,9 +377,9 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 通过导入 [`AutoConfig`] 来开始，之后加载你想修改的预训练模型。在 [`AutoConfig.from_pretrained`] 中，你能够指定想要修改的属性，比如注意力头的数量：
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
+>> > my_config = AutoConfig.from_pretrained("distilbert/distilbert-base-uncased", n_heads=12)
 ```
 
 <frameworkcontent>
@@ -387,18 +387,18 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 使用 [`AutoModel.from_config`] 根据你的自定义配置创建一个模型：
 
 ```py
->>> from transformers import AutoModel
+>> > from myTransformers import AutoModel
 
->>> my_model = AutoModel.from_config(my_config)
+>> > my_model = AutoModel.from_config(my_config)
 ```
 </pt>
 <tf>
 使用 [`TFAutoModel.from_config`] 根据你的自定义配置创建一个模型：
 
 ```py
->>> from transformers import TFAutoModel
+>> > from myTransformers import TFAutoModel
 
->>> my_model = TFAutoModel.from_config(my_config)
+>> > my_model = TFAutoModel.from_config(my_config)
 ```
 </tf>
 </frameworkcontent>
@@ -414,7 +414,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. [`PreTrainedModel`] 或者 [`torch.nn.Module`](https://pytorch.org/docs/stable/nn.html#torch.nn.Module)：
 
    ```py
-   >>> from transformers import AutoModelForSequenceClassification
+   >>> from myTransformers import AutoModelForSequenceClassification
 
    >>> model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -422,7 +422,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. [`TrainingArguments`] 含有你可以修改的模型超参数，比如学习率，批次大小和训练时的迭代次数。如果你没有指定训练参数，那么它会使用默认值：
 
    ```py
-   >>> from transformers import TrainingArguments
+   >>> from myTransformers import TrainingArguments
 
    >>> training_args = TrainingArguments(
    ...     output_dir="path/to/save/folder/",
@@ -436,7 +436,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 3. 一个预处理类，比如分词器，特征提取器或者处理器：
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -461,7 +461,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 6. 用来从数据集中创建批次的 [`DataCollatorWithPadding`]：
 
    ```py
-   >>> from transformers import DataCollatorWithPadding
+   >>> from myTransformers import DataCollatorWithPadding
 
    >>> data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
    ```
@@ -469,15 +469,21 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 现在把所有的类传给 [`Trainer`]：
 
 ```py
->>> from transformers import Trainer
+>> > from myTransformers import Trainer
 
->>> trainer = Trainer(
-...     model=model,
-...     args=training_args,
-...     train_dataset=dataset["train"],
-...     eval_dataset=dataset["test"],
-...     processing_class=tokenizer,
-...     data_collator=data_collator,
+>> > trainer = Trainer(
+    ...
+model = model,
+...
+args = training_args,
+...
+train_dataset = dataset["train"],
+...
+eval_dataset = dataset["test"],
+...
+processing_class = tokenizer,
+...
+data_collator = data_collator,
 ... )  # doctest: +SKIP
 ```
 
@@ -504,7 +510,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 1. 使用 [`TFPreTrainedModel`] 或者 [`tf.keras.Model`](https://www.tensorflow.org/api_docs/python/tf/keras/Model) 来开始：
 
    ```py
-   >>> from transformers import TFAutoModelForSequenceClassification
+   >>> from myTransformers import TFAutoModelForSequenceClassification
 
    >>> model = TFAutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased")
    ```
@@ -512,7 +518,7 @@ tensor([[0.0021, 0.0018, 0.0115, 0.2121, 0.7725],
 2. 一个预处理类，比如分词器，特征提取器或者处理器：
 
    ```py
-   >>> from transformers import AutoTokenizer
+   >>> from myTransformers import AutoTokenizer
 
    >>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
    ```

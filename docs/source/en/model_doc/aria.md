@@ -38,12 +38,13 @@ The original code can be found [here](https://github.com/rhymes-ai/Aria).
 ## Usage tips
 
 Here's how to use the model for vision tasks:
+
 ```python
 import requests
 import torch
 from PIL import Image
 
-from transformers import AriaProcessor, AriaForConditionalGeneration
+from myTransformers import AriaProcessor, AriaForConditionalGeneration
 
 model_id_or_path = "rhymes-ai/Aria"
 

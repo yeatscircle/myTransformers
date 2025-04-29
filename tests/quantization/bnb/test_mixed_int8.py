@@ -18,7 +18,7 @@ import unittest
 
 from packaging import version
 
-from transformers import (
+from myTransformers import (
     AutoConfig,
     AutoModel,
     AutoModelForCausalLM,
@@ -28,8 +28,8 @@ from transformers import (
     BitsAndBytesConfig,
     pipeline,
 )
-from transformers.models.opt.modeling_opt import OPTAttention
-from transformers.testing_utils import (
+from myTransformers.models.opt.modeling_opt import OPTAttention
+from myTransformers.testing_utils import (
     apply_skip_if_not_implemented,
     is_accelerate_available,
     is_bitsandbytes_available,
@@ -145,7 +145,7 @@ class MixedInt8Test(BaseMixedInt8Test):
         """
         from accelerate import init_empty_weights
 
-        from transformers.integrations.bitsandbytes import get_keys_to_not_convert
+        from myTransformers.integrations.bitsandbytes import get_keys_to_not_convert
 
         model_id = "mosaicml/mpt-7b"
         config = AutoConfig.from_pretrained(
@@ -163,8 +163,8 @@ class MixedInt8Test(BaseMixedInt8Test):
         """
         from accelerate import init_empty_weights
 
-        from transformers import AutoModelForMaskedLM, Blip2ForConditionalGeneration, MptForCausalLM, OPTForCausalLM
-        from transformers.integrations.bitsandbytes import get_keys_to_not_convert
+        from myTransformers import AutoModelForMaskedLM, Blip2ForConditionalGeneration, MptForCausalLM, OPTForCausalLM
+        from myTransformers.integrations.bitsandbytes import get_keys_to_not_convert
 
         model_id = "mosaicml/mpt-7b"
         config = AutoConfig.from_pretrained(model_id, revision="72e5f594ce36f9cabfa2a9fd8f58b491eb467ee7")
@@ -236,7 +236,7 @@ class MixedInt8Test(BaseMixedInt8Test):
         A simple test to check if the model conversion has been done correctly by checking on the
         memory footprint of the converted model and the class type of the linear layers of the converted models
         """
-        from transformers import T5PreTrainedModel
+        from myTransformers import T5PreTrainedModel
 
         self.model_fp16.get_memory_footprint()
         self.model_8bit.get_memory_footprint()
@@ -510,7 +510,7 @@ class MixedInt8T5Test(unittest.TestCase):
         `flan-t5-small` uses `T5DenseGatedActDense` whereas `google-t5/t5-small` uses `T5DenseReluDense`. We need to test
         both cases.
         """
-        from transformers import T5ForConditionalGeneration
+        from myTransformers import T5ForConditionalGeneration
 
         modules = T5ForConditionalGeneration._keep_in_fp32_modules
         T5ForConditionalGeneration._keep_in_fp32_modules = None
@@ -535,7 +535,7 @@ class MixedInt8T5Test(unittest.TestCase):
         both cases.
         """
 
-        from transformers import T5ForConditionalGeneration
+        from myTransformers import T5ForConditionalGeneration
 
         # test with `google-t5/t5-small`
         model = T5ForConditionalGeneration.from_pretrained(self.model_name, load_in_8bit=True, device_map="auto")
@@ -561,7 +561,7 @@ class MixedInt8T5Test(unittest.TestCase):
         both cases.
         """
 
-        from transformers import T5ForConditionalGeneration
+        from myTransformers import T5ForConditionalGeneration
 
         # test with `google-t5/t5-small`
         model = T5ForConditionalGeneration.from_pretrained(self.model_name, load_in_8bit=True, device_map="auto")
@@ -653,7 +653,7 @@ class MixedInt8TestPipeline(BaseMixedInt8Test):
 
     def test_pipeline(self):
         r"""
-        The aim of this test is to verify that the mixed int8 is compatible with `pipeline` from transformers. Since
+        The aim of this test is to verify that the mixed int8 is compatible with `pipeline` from myTransformers. Since
         we used pipeline for inference speed benchmarking we want to make sure that this feature does not break anything
         on pipeline.
         """

@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate jiwer
+pip install myTransformers datasets evaluate jiwer
 ```
 
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -107,9 +107,9 @@ DatasetDict({
 次のステップでは、Wav2Vec2 プロセッサをロードしてオーディオ信号を処理します。
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 MInDS-14 データセットのサンプリング レートは 8000kHz です (この情報は [データセット カード](https://huggingface.co/datasets/PolyAI/minds14) で確認できます)。つまり、データセットを再サンプリングする必要があります。事前トレーニングされた Wav2Vec2 モデルを使用するには、16000kHz に設定します。
@@ -239,12 +239,15 @@ MInDS-14 データセットのサンプリング レートは 8000kHz です (�
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForCTC`] で Wav2Vec2 をロードします。 `ctc_loss_reduction` パラメータで適用する削減を指定します。多くの場合、デフォルトの合計ではなく平均を使用する方が適切です。
 
 ```py
->>> from transformers import AutoModelForCTC, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForCTC, TrainingArguments, Trainer
 
->>> model = AutoModelForCTC.from_pretrained(
-...     "facebook/wav2vec2-base",
-...     ctc_loss_reduction="mean",
-...     pad_token_id=processor.tokenizer.pad_token_id,
+>> > model = AutoModelForCTC.from_pretrained(
+    ...
+"facebook/wav2vec2-base",
+...
+ctc_loss_reduction = "mean",
+...
+pad_token_id = processor.tokenizer.pad_token_id,
 ... )
 ```
 
@@ -322,10 +325,10 @@ MInDS-14 データセットのサンプリング レートは 8000kHz です (�
 推論用に微調整されたモデルを試す最も簡単な方法は、それを [`pipeline`] で使用することです。モデルを使用して自動音声認識用の`pipeline`をインスタンス化し、オーディオ ファイルをそれに渡します。
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
->>> transcriber(audio_file)
+>> > transcriber = pipeline("automatic-speech-recognition", model="stevhliu/my_awesome_asr_minds_model")
+>> > transcriber(audio_file)
 {'text': 'I WOUD LIKE O SET UP JOINT ACOUNT WTH Y PARTNER'}
 ```
 
@@ -343,20 +346,21 @@ MInDS-14 データセットのサンプリング レートは 8000kHz です (�
 プロセッサをロードしてオーディオ ファイルと文字起こしを前処理し、`input`を PyTorch テンソルとして返します。
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
+>> > processor = AutoProcessor.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > inputs = processor(dataset[0]["audio"]["array"], sampling_rate=sampling_rate, return_tensors="pt")
 ```
 
 Pass your inputs to the model and return the logits:
 
 ```py
->>> from transformers import AutoModelForCTC
+>> > from myTransformers import AutoModelForCTC
 
->>> model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForCTC.from_pretrained("stevhliu/my_awesome_asr_mind_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 最も高い確率で予測された `input_ids` を取得し、プロセッサを使用して予測された `input_ids` をデコードしてテキストに戻します。

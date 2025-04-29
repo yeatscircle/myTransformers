@@ -71,13 +71,13 @@ optimum-cli export onnx --model local_path --task question-answering distilbert_
 The `model.onnx` file can be deployed with any [accelerator](https://onnx.ai/supported-tools.html#deployModel) that supports ONNX. The example below demonstrates loading and running a model with ONNX Runtime.
 
 ```python
->>> from transformers import AutoTokenizer
->>> from optimum.onnxruntime import ORTModelForQuestionAnswering
+>> > from myTransformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForQuestionAnswering
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 ## optimum.onnxruntime
@@ -85,15 +85,15 @@ The `model.onnx` file can be deployed with any [accelerator](https://onnx.ai/sup
 The `optimum.onnxruntime` module supports programmatically exporting a Transformers model. Instantiate a [`~optimum.onnxruntime.ORTModel`] for a task and set `export=True`. Use [`~OptimizedModel.save_pretrained`] to save the ONNX model.
 
 ```python
->>> from optimum.onnxruntime import ORTModelForSequenceClassification
->>> from transformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer
 
->>> model_checkpoint = "distilbert/distilbert-base-uncased-distilled-squad"
->>> save_directory = "onnx/"
+>> > model_checkpoint = "distilbert/distilbert-base-uncased-distilled-squad"
+>> > save_directory = "onnx/"
 
->>> ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
->>> tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+>> > ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
->>> ort_model.save_pretrained(save_directory)
->>> tokenizer.save_pretrained(save_directory)
+>> > ort_model.save_pretrained(save_directory)
+>> > tokenizer.save_pretrained(save_directory)
 ```

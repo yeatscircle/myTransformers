@@ -23,7 +23,7 @@ rendered properly in your Markdown viewer.
 これがどのようになるかを例で見てみましょう。
 
 ```python
-from transformers import BertTokenizer, BertForSequenceClassification
+from myTransformers import BertTokenizer, BertForSequenceClassification
 import torch
 
 tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")

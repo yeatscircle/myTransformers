@@ -37,7 +37,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에 필요한 모든 라이브러리가 설치되었는지 확인하세요:
 
 ```bash
-pip install -q datasets transformers evaluate
+pip install -q datasets myTransformers evaluate
 ```
 커뮤니티에 모델을 업로드하고 공유할 수 있도록 Hugging Face 계정에 로그인하는 것을 권장합니다. 프롬프트가 나타나면 토큰을 입력하여 로그인하세요:
 
@@ -98,10 +98,10 @@ pip install -q datasets transformers evaluate
 다음 단계는 모델에 사용할 이미지와 주석을 준비하기 위해 SegFormer 이미지 프로세서를 불러오는 것입니다. 우리가 사용하는 데이터 세트와 같은 일부 데이터 세트는 배경 클래스로 제로 인덱스를 사용합니다. 하지만 배경 클래스는 150개의 클래스에 실제로는 포함되지 않기 때문에 `do_reduce_labels=True` 를 설정해 모든 레이블에서 배경 클래스를 제거해야 합니다. 제로 인덱스는 `255`로 대체되므로 SegFormer의 손실 함수에서 무시됩니다:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> checkpoint = "nvidia/mit-b0"
->>> image_processor = AutoImageProcessor.from_pretrained(checkpoint, do_reduce_labels=True)
+>> > checkpoint = "nvidia/mit-b0"
+>> > image_processor = AutoImageProcessor.from_pretrained(checkpoint, do_reduce_labels=True)
 ```
 
 <frameworkcontent>
@@ -294,9 +294,9 @@ pip install -q datasets transformers evaluate
 이제 모델 학습을 시작할 준비가 되었습니다! [`AutoModelForSemanticSegmentation`]로 SegFormer를 불러오고, 모델에 레이블 ID와 레이블 클래스 간의 매핑을 전달합니다:
 
 ```py
->>> from transformers import AutoModelForSemanticSegmentation, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSemanticSegmentation, TrainingArguments, Trainer
 
->>> model = AutoModelForSemanticSegmentation.from_pretrained(checkpoint, id2label=id2label, label2id=label2id)
+>> > model = AutoModelForSemanticSegmentation.from_pretrained(checkpoint, id2label=id2label, label2id=label2id)
 ```
 
 이제 세 단계만 남았습니다:
@@ -360,69 +360,85 @@ TensorFlow에서 모델을 미세 조정하려면 다음 단계를 따르세요:
 하이퍼파라미터, 옵티마이저, 학습률 스케쥴러를 정의하는 것으로 시작하세요:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 2
->>> num_epochs = 50
->>> num_train_steps = len(train_ds) * num_epochs
->>> learning_rate = 6e-5
->>> weight_decay_rate = 0.01
+>> > batch_size = 2
+>> > num_epochs = 50
+>> > num_train_steps = len(train_ds) * num_epochs
+>> > learning_rate = 6e-5
+>> > weight_decay_rate = 0.01
 
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=learning_rate,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=weight_decay_rate,
-...     num_warmup_steps=0,
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = learning_rate,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = weight_decay_rate,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 그런 다음 레이블 매핑과 함께 [`TFAutoModelForSemanticSegmentation`]을 사용하여 SegFormer를 불러오고 옵티마이저로 컴파일합니다. 트랜스포머 모델은 모두 디폴트로 태스크 관련 손실 함수가 있으므로 원치 않으면 지정할 필요가 없습니다:
 
 ```py
->>> from transformers import TFAutoModelForSemanticSegmentation
+>> > from myTransformers import TFAutoModelForSemanticSegmentation
 
->>> model = TFAutoModelForSemanticSegmentation.from_pretrained(
-...     checkpoint,
-...     id2label=id2label,
-...     label2id=label2id,
+>> > model = TFAutoModelForSemanticSegmentation.from_pretrained(
+    ...
+checkpoint,
+...
+id2label = id2label,
+...
+label2id = label2id,
 ... )
->>> model.compile(optimizer=optimizer)  # 손실 함수 인자가 없습니다!
+>> > model.compile(optimizer=optimizer)  # 손실 함수 인자가 없습니다!
 ```
 
 [`~datasets.Dataset.to_tf_dataset`] 와 [`DefaultDataCollator`]를 사용해 데이터 세트를 `tf.data.Dataset` 포맷으로 변환하세요:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 
->>> tf_train_dataset = train_ds.to_tf_dataset(
-...     columns=["pixel_values", "label"],
-...     shuffle=True,
-...     batch_size=batch_size,
-...     collate_fn=data_collator,
+>> > tf_train_dataset = train_ds.to_tf_dataset(
+    ...
+columns = ["pixel_values", "label"],
+...
+shuffle = True,
+...
+batch_size = batch_size,
+...
+collate_fn = data_collator,
 ... )
 
->>> tf_eval_dataset = test_ds.to_tf_dataset(
-...     columns=["pixel_values", "label"],
-...     shuffle=True,
-...     batch_size=batch_size,
-...     collate_fn=data_collator,
+>> > tf_eval_dataset = test_ds.to_tf_dataset(
+    ...
+columns = ["pixel_values", "label"],
+...
+shuffle = True,
+...
+batch_size = batch_size,
+...
+collate_fn = data_collator,
 ... )
 ```
 
 예측으로 정확도를 계산하고 모델을 🤗 Hub로 푸시하려면 [Keras callbacks](../main_classes/keras_callbacks)를 사용하세요. `compute_metrics` 함수를 [`KerasMetricCallback`]에 전달하고, 모델 업로드를 위해 [`PushToHubCallback`]를 사용하세요:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback, PushToHubCallback
 
->>> metric_callback = KerasMetricCallback(
-...     metric_fn=compute_metrics, eval_dataset=tf_eval_dataset, batch_size=batch_size, label_cols=["labels"]
+>> > metric_callback = KerasMetricCallback(
+    ...
+metric_fn = compute_metrics, eval_dataset = tf_eval_dataset, batch_size = batch_size, label_cols = ["labels"]
 ... )
 
->>> push_to_hub_callback = PushToHubCallback(output_dir="scene_segmentation", tokenizer=image_processor)
+>> > push_to_hub_callback = PushToHubCallback(output_dir="scene_segmentation", tokenizer=image_processor)
 
->>> callbacks = [metric_callback, push_to_hub_callback]
+>> > callbacks = [metric_callback, push_to_hub_callback]
 ```
 
 이제 모델을 훈련할 준비가 되었습니다! 훈련 및 검증 데이터 세트, 에포크 수와 함께 `fit()`을 호출하고, 콜백을 사용하여 모델을 미세 조정합니다:
@@ -463,37 +479,89 @@ TensorFlow에서 모델을 미세 조정하려면 다음 단계를 따르세요:
 추론을 위해 미세 조정한 모델을 시험해 보는 가장 간단한 방법은 [`pipeline`]에서 사용하는 것입니다. 모델을 사용하여 이미지 분할을 위한 `pipeline`을 인스턴스화하고 이미지를 전달합니다:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> segmenter = pipeline("image-segmentation", model="my_awesome_seg_model")
->>> segmenter(image)
+>> > segmenter = pipeline("image-segmentation", model="my_awesome_seg_model")
+>> > segmenter(image)
 [{'score': None,
   'label': 'wall',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062690>},
- {'score': None,
-  'label': 'sky',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062A50>},
- {'score': None,
-  'label': 'floor',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062B50>},
- {'score': None,
-  'label': 'ceiling',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062A10>},
- {'score': None,
-  'label': 'bed ',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062E90>},
- {'score': None,
-  'label': 'windowpane',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062390>},
- {'score': None,
-  'label': 'cabinet',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062550>},
- {'score': None,
-  'label': 'chair',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062D90>},
- {'score': None,
-  'label': 'armchair',
-  'mask': <PIL.Image.Image image mode=L size=640x427 at 0x7FD5B2062E10>}]
+  'mask': < PIL.Image.Image image mode = L
+size = 640
+x427
+at
+0x7FD5B2062690 >},
+{'score': None,
+ 'label': 'sky',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062A50 >},
+{'score': None,
+ 'label': 'floor',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062B50 >},
+{'score': None,
+ 'label': 'ceiling',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062A10 >},
+{'score': None,
+ 'label': 'bed ',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062E90 >},
+{'score': None,
+ 'label': 'windowpane',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062390 >},
+{'score': None,
+ 'label': 'cabinet',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062550 >},
+{'score': None,
+ 'label': 'chair',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062D90 >},
+{'score': None,
+ 'label': 'armchair',
+ 'mask': < PIL.Image.Image
+image
+mode = L
+size = 640
+x427
+at
+0x7FD5B2062E10 >}]
 ```
 원하는 경우 `pipeline`의 결과를 수동으로 복제할 수도 있습니다. 이미지 프로세서로 이미지를 처리하고 `pixel_values`을 GPU에 배치합니다:
 
@@ -530,19 +598,19 @@ TensorFlow에서 모델을 미세 조정하려면 다음 단계를 따르세요:
 이미지 프로세서를 로드하여 이미지를 전처리하고 입력을 TensorFlow 텐서로 반환합니다:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("MariaK/scene_segmentation")
->>> inputs = image_processor(image, return_tensors="tf")
+>> > image_processor = AutoImageProcessor.from_pretrained("MariaK/scene_segmentation")
+>> > inputs = image_processor(image, return_tensors="tf")
 ```
 
 모델에 입력을 전달하고 `logits`를 반환합니다:
 
 ```py
->>> from transformers import TFAutoModelForSemanticSegmentation
+>> > from myTransformers import TFAutoModelForSemanticSegmentation
 
->>> model = TFAutoModelForSemanticSegmentation.from_pretrained("MariaK/scene_segmentation")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForSemanticSegmentation.from_pretrained("MariaK/scene_segmentation")
+>> > logits = model(**inputs).logits
 ```
 
 그런 다음 로그를 원본 이미지 크기로 재조정하고 클래스 차원에 argmax를 적용합니다:

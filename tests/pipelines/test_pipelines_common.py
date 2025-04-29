@@ -25,7 +25,7 @@ import numpy as np
 from huggingface_hub import HfFolder, Repository, delete_repo
 from requests.exceptions import HTTPError
 
-from transformers import (
+from myTransformers import (
     AutomaticSpeechRecognitionPipeline,
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -37,9 +37,9 @@ from transformers import (
     TFAutoModelForSequenceClassification,
     pipeline,
 )
-from transformers.pipelines import PIPELINE_REGISTRY, get_task
-from transformers.pipelines.base import Pipeline, _pad
-from transformers.testing_utils import (
+from myTransformers.pipelines import PIPELINE_REGISTRY, get_task
+from myTransformers.pipelines.base import Pipeline, _pad
+from myTransformers.testing_utils import (
     TOKEN,
     USER,
     CaptureLogger,
@@ -57,8 +57,8 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import direct_transformers_import, is_tf_available, is_torch_available
-from transformers.utils import logging as transformers_logging
+from myTransformers.utils import direct_transformers_import, is_tf_available, is_torch_available
+from myTransformers.utils import logging as transformers_logging
 
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "utils"))
@@ -69,7 +69,7 @@ from test_module.custom_pipeline import PairClassificationPipeline  # noqa E402
 logger = logging.getLogger(__name__)
 
 
-PATH_TO_TRANSFORMERS = os.path.join(Path(__file__).parent.parent.parent, "src/transformers")
+PATH_TO_TRANSFORMERS = os.path.join(Path(__file__).parent.parent.parent, "src/myTransformers")
 
 
 # Dynamically import the Transformers module to grab the attribute classes of the processor form their names.
@@ -398,7 +398,7 @@ class PipelinePadTest(unittest.TestCase):
 class PipelineUtilsTest(unittest.TestCase):
     @require_torch
     def test_pipeline_dataset(self):
-        from transformers.pipelines.pt_utils import PipelineDataset
+        from myTransformers.pipelines.pt_utils import PipelineDataset
 
         dummy_dataset = [0, 1, 2, 3]
 
@@ -412,7 +412,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from myTransformers.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [0, 1, 2, 3]
 
@@ -427,7 +427,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_iterator_no_len(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from myTransformers.pipelines.pt_utils import PipelineIterator
 
         def dummy_dataset():
             yield from range(4)
@@ -444,7 +444,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_batch_unbatch_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from myTransformers.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [{"id": [0, 1, 2]}, {"id": [3]}]
 
@@ -460,7 +460,7 @@ class PipelineUtilsTest(unittest.TestCase):
     def test_pipeline_batch_unbatch_iterator_tensors(self):
         import torch
 
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from myTransformers.pipelines.pt_utils import PipelineIterator
 
         dummy_dataset = [{"id": torch.LongTensor([[10, 20], [0, 1], [0, 2]])}, {"id": torch.LongTensor([[3]])}]
 
@@ -476,7 +476,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_chunk_iterator(self):
-        from transformers.pipelines.pt_utils import PipelineChunkIterator
+        from myTransformers.pipelines.pt_utils import PipelineChunkIterator
 
         def preprocess_chunk(n: int):
             yield from range(n)
@@ -491,7 +491,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_pack_iterator(self):
-        from transformers.pipelines.pt_utils import PipelinePackIterator
+        from myTransformers.pipelines.pt_utils import PipelinePackIterator
 
         def pack(item):
             return {"id": item["id"] + 1, "is_last": item["is_last"]}
@@ -524,7 +524,7 @@ class PipelineUtilsTest(unittest.TestCase):
 
     @require_torch
     def test_pipeline_pack_unbatch_iterator(self):
-        from transformers.pipelines.pt_utils import PipelinePackIterator
+        from myTransformers.pipelines.pt_utils import PipelinePackIterator
 
         dummy_dataset = [{"id": [0, 1, 2], "is_last": [False, True, False]}, {"id": [3], "is_last": [True]}]
 
@@ -560,7 +560,7 @@ class PipelineUtilsTest(unittest.TestCase):
         # Test when no device is passed to pipeline
         import torch
 
-        from transformers import AutoModelForCausalLM
+        from myTransformers import AutoModelForCausalLM
 
         tokenizer = AutoTokenizer.from_pretrained("hf-internal-testing/tiny-random-bert")
         # Case 1: Model is manually moved to device
@@ -589,7 +589,7 @@ class PipelineUtilsTest(unittest.TestCase):
         # Test when device ids are different, pipeline should move the model to the passed device id
         import torch
 
-        from transformers import AutoModelForCausalLM
+        from myTransformers import AutoModelForCausalLM
 
         tokenizer = AutoTokenizer.from_pretrained("hf-internal-testing/tiny-random-bert")
         model_device = f"{torch_device}:1"
@@ -606,7 +606,7 @@ class PipelineUtilsTest(unittest.TestCase):
     def test_load_default_pipelines_pt(self):
         import torch
 
-        from transformers.pipelines import SUPPORTED_TASKS
+        from myTransformers.pipelines import SUPPORTED_TASKS
 
         set_seed_fn = lambda: torch.manual_seed(0)  # noqa: E731
         for task in SUPPORTED_TASKS.keys():
@@ -623,8 +623,8 @@ class PipelineUtilsTest(unittest.TestCase):
     @slow
     @require_tf
     def test_load_default_pipelines_tf(self):
-        from transformers.modeling_tf_utils import keras
-        from transformers.pipelines import SUPPORTED_TASKS
+        from myTransformers.modeling_tf_utils import keras
+        from myTransformers.pipelines import SUPPORTED_TASKS
 
         set_seed_fn = lambda: keras.utils.set_random_seed(0)  # noqa: E731
         for task in SUPPORTED_TASKS.keys():
@@ -676,7 +676,7 @@ class PipelineUtilsTest(unittest.TestCase):
         gc.collect()
 
     def check_default_pipeline(self, task, framework, set_seed_fn, check_models_equal_fn):
-        from transformers.pipelines import SUPPORTED_TASKS, pipeline
+        from myTransformers.pipelines import SUPPORTED_TASKS, pipeline
 
         task_dict = SUPPORTED_TASKS[task]
         # test to compare pipeline to manually loading the respective model
@@ -773,7 +773,7 @@ class CustomPipeline(Pipeline):
 class CustomPipelineTest(unittest.TestCase):
     def test_warning_logs(self):
         transformers_logging.set_verbosity_debug()
-        logger_ = transformers_logging.get_logger("transformers.pipelines.base")
+        logger_ = transformers_logging.get_logger("myTransformers.pipelines.base")
 
         alias = "text-classification"
         # Get the original task, so we can restore it at the end.
@@ -952,7 +952,7 @@ class DynamicPipelineTester(unittest.TestCase):
 
     @unittest.skip("Broken, TODO @Yih-Dar")
     def test_push_to_hub_dynamic_pipeline(self):
-        from transformers import BertConfig, BertForSequenceClassification, BertTokenizer
+        from myTransformers import BertConfig, BertForSequenceClassification, BertTokenizer
 
         PIPELINE_REGISTRY.register_pipeline(
             "pair-classification",

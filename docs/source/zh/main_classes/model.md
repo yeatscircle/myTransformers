@@ -32,7 +32,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 您可以使用 `low_cpu_mem_usage=True` 激活此选项。首先，在 Meta 设备上创建模型（带有空权重），然后将状态字典加载到其中（在分片检查点的情况下逐片加载）。这样，最大使用的内存占用仅为模型的完整大小。
 
 ```python
-from transformers import AutoModelForSeq2SeqLM
+from myTransformers import AutoModelForSeq2SeqLM
 
 t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", low_cpu_mem_usage=True)
 ```
@@ -42,7 +42,7 @@ t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", low_cpu_mem_usag
 在传递 `device_map` 时，`low_cpu_mem_usage` 会自动设置为 `True`，因此您不需要指定它：
 
 ```python
-from transformers import AutoModelForSeq2SeqLM
+from myTransformers import AutoModelForSeq2SeqLM
 
 t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", device_map="auto")
 ```

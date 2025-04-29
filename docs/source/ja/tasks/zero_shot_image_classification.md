@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install -q transformers
+pip install -q myTransformers
 ```
 
 ## Zero-shot image classification pipeline
@@ -48,10 +48,10 @@ pip install -q transformers
 [Hugging Face Hub のチェックポイント](https://huggingface.co/models?pipeline_tag=zero-shot-image-classification&sort=downloads) からパイプラインをインスタンス化します。
 
 ```python
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> checkpoint = "openai/clip-vit-large-patch14"
->>> detector = pipeline(model=checkpoint, task="zero-shot-image-classification")
+>> > checkpoint = "openai/clip-vit-large-patch14"
+>> > detector = pipeline(model=checkpoint, task="zero-shot-image-classification")
 ```
 
 次に、分類したい画像を選択します。
@@ -92,10 +92,10 @@ pip install -q transformers
 ここでは、前と同じチェックポイントを使用します。
 
 ```py
->>> from transformers import AutoProcessor, AutoModelForZeroShotImageClassification
+>> > from myTransformers import AutoProcessor, AutoModelForZeroShotImageClassification
 
->>> model = AutoModelForZeroShotImageClassification.from_pretrained(checkpoint)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > model = AutoModelForZeroShotImageClassification.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 ```
 
 気分を変えて、別の画像を撮ってみましょう。

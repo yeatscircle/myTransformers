@@ -22,7 +22,7 @@ from functools import reduce
 import numpy as np
 import requests
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     JanusConfig,
     JanusForConditionalGeneration,
@@ -32,9 +32,9 @@ from transformers import (
     is_torch_available,
     is_vision_available,
 )
-from transformers.models.auto import get_values
-from transformers.models.auto.modeling_auto import MODEL_FOR_BACKBONE_MAPPING_NAMES, MODEL_MAPPING_NAMES
-from transformers.testing_utils import (
+from myTransformers.models.auto import get_values
+from myTransformers.models.auto.modeling_auto import MODEL_FOR_BACKBONE_MAPPING_NAMES, MODEL_MAPPING_NAMES
+from myTransformers.testing_utils import (
     require_torch,
     slow,
     torch_device,

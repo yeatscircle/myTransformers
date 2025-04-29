@@ -29,7 +29,7 @@ Create a pipeline for your task, and then pass it to Gradio's [Interface.from_pi
 Add [launch](https://www.gradio.app/main/docs/gradio/blocks#blocks-launch) to create a web server and start up the app.
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 import gradio as gr
 
 pipeline = pipeline("image-classification", model="google/vit-base-patch16-224")

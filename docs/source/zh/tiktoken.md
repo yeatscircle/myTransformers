@@ -27,7 +27,7 @@ rendered properly in your Markdown viewer.
 为了在transformers中正确加载`tiktoken`文件，请确保`tiktoken.model`文件是tiktoken格式的，并且会在加载`from_pretrained`时自动加载。以下展示如何从同一个文件中加载词符化器(tokenizer)和模型：
 
 ```py
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_id, subfolder="original") 
@@ -40,7 +40,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id, subfolder="original")
 
 ```py
 
-from transformers.integrations.tiktoken import convert_tiktoken_to_fast
+from myTransformers.integrations.tiktoken import convert_tiktoken_to_fast
 from tiktoken import get_encoding
 
 # You can load your custom encoding or the one provided by OpenAI

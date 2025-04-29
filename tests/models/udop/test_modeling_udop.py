@@ -18,8 +18,8 @@ import unittest
 
 from huggingface_hub import hf_hub_download
 
-from transformers import UdopConfig, is_torch_available, is_vision_available
-from transformers.testing_utils import (
+from myTransformers import UdopConfig, is_torch_available, is_vision_available
+from myTransformers.testing_utils import (
     require_sentencepiece,
     require_tokenizers,
     require_torch,
@@ -27,7 +27,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import cached_property
+from myTransformers.utils import cached_property
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -39,7 +39,7 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import UdopEncoderModel, UdopForConditionalGeneration, UdopModel, UdopProcessor
+    from myTransformers import UdopEncoderModel, UdopForConditionalGeneration, UdopModel, UdopProcessor
 
 
 if is_vision_available():

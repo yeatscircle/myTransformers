@@ -15,10 +15,10 @@
 
 import unittest
 
-from transformers import DPTConfig
-from transformers.file_utils import is_torch_available, is_vision_available
-from transformers.pytorch_utils import is_torch_greater_or_equal_than_2_4
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers import DPTConfig
+from myTransformers.file_utils import is_torch_available, is_vision_available
+from myTransformers.pytorch_utils import is_torch_greater_or_equal_than_2_4
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor, ids_tensor
@@ -29,14 +29,14 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import DPTForDepthEstimation, DPTForSemanticSegmentation, DPTModel
-    from transformers.models.auto.modeling_auto import MODEL_MAPPING_NAMES
+    from myTransformers import DPTForDepthEstimation, DPTForSemanticSegmentation, DPTModel
+    from myTransformers.models.auto.modeling_auto import MODEL_MAPPING_NAMES
 
 
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DPTImageProcessor
+    from myTransformers import DPTImageProcessor
 
 
 class DPTModelTester:

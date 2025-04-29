@@ -39,7 +39,7 @@ rendered properly in your Markdown viewer.
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل نموذجك ومشاركته مع المجتمع. عند المطالبة، أدخل الرمز المميز الخاص بك لتسجيل الدخول:
@@ -91,9 +91,9 @@ pip install transformers datasets evaluate
 الخطوة التالية هي تحميل المحلل اللغوى DistilBERT لمعالجة حقلي `question` و `context`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 هناك بعض خطوات المعالجة المسبقة الخاصة بمهام الإجابة على الأسئلة التي يجب أن تكون على دراية بها:
@@ -169,19 +169,19 @@ pip install transformers datasets evaluate
 
 <frameworkcontent>
 <pt>
- 
-```py
->>> from transformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator()
+```py
+>> > from myTransformers import DefaultDataCollator
+
+>> > data_collator = DefaultDataCollator()
 ```
 </pt>
 <tf>
- 
-```py
->>> from transformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+```py
+>> > from myTransformers import DefaultDataCollator
+
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -200,9 +200,9 @@ pip install transformers datasets evaluate
 أنت جاهز لبدء تدريب نموذجك الآن! قم بتحميل DistilBERT باستخدام [`AutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = AutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 في هذه المرحلة، تبقى ثلاث خطوات فقط:
@@ -251,24 +251,27 @@ pip install transformers datasets evaluate
 لضبط نموذج في TensorFlow، ابدأ بإعداد دالة مُحسِّن، وجدول معدل التعلم، وبعض المعاملات الفائقة للتدريب:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_epochs = 2
->>> total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
->>> optimizer, schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_warmup_steps=0,
-...     num_train_steps=total_train_steps,
+>> > batch_size = 16
+>> > num_epochs = 2
+>> > total_train_steps = (len(tokenized_squad["train"]) // batch_size) * num_epochs
+>> > optimizer, schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_warmup_steps = 0,
+...
+num_train_steps = total_train_steps,
 ... )
 ```
 
 ثم يمكنك تحميل DistilBERT باستخدام [`TFAutoModelForQuestionAnswering`]:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
+>> > model = TFAutoModelForQuestionAnswering.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 حوّل مجموعات البيانات الخاصة بك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -300,11 +303,13 @@ pip install transformers datasets evaluate
 آخر شيء يجب إعداده قبل بدء التدريب هو توفير طريقة لدفع نموذجك إلى Hub. يمكن القيام بذلك عن طريق تحديد مكان دفع نموذجك ومعالجك المعجمي في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_qa_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_qa_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -345,10 +350,10 @@ pip install transformers datasets evaluate
 أبسط طريقة لتجربة نموذجك المُدرَّب للاستدلال هي استخدامه في [`pipeline`]. قم بإنشاء كائن لـ `pipeline` للإجابة على الأسئلة باستخدام نموذجك، ومرِّر النص إليه:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
->>> question_answerer(question=question, context=context)
+>> > question_answerer = pipeline("question-answering", model="my_awesome_qa_model")
+>> > question_answerer(question=question, context=context)
 {'score': 0.2058267742395401,
  'start': 10,
  'end': 95,
@@ -363,21 +368,22 @@ pip install transformers datasets evaluate
  قسّم النص وأرجع تنسورات PyTorch:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, context, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, context, return_tensors="pt")
 ```
 
 مرر مدخلاتك إلى النموذج وأرجع `logits`:
 
 ```py
->>> import torch
->>> from transformers import AutoModelForQuestionAnswering
+>> > import torch
+>> > from myTransformers import AutoModelForQuestionAnswering
 
->>> model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> with torch.no_grad():
-...     outputs = model(**inputs)
+>> > model = AutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > with torch.no_grad():
+    ...
+outputs = model(**inputs)
 ```
 
 احصل على أعلى احتمال من مخرجات النموذج لموضعي البداية والنهاية:
@@ -399,19 +405,19 @@ pip install transformers datasets evaluate
 قم بتحليل النص المعجمي وأعد موترات TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
->>> inputs = tokenizer(question, context, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_qa_model")
+>> > inputs = tokenizer(question, context, return_tensors="tf")
 ```
 
 مرر مدخلاتك إلى النموذج وأعد `logits`:
 
 ```py
->>> from transformers import TFAutoModelForQuestionAnswering
+>> > from myTransformers import TFAutoModelForQuestionAnswering
 
->>> model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
->>> outputs = model(**inputs)
+>> > model = TFAutoModelForQuestionAnswering.from_pretrained("my_awesome_qa_model")
+>> > outputs = model(**inputs)
 ```
 
 احصل على أعلى احتمال من مخرجات النموذج لموضعي البداية والنهاية:

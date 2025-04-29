@@ -36,7 +36,7 @@ rendered properly in your Markdown viewer.
 시작하기 전에, 필요한 모든 라이브러리가 설치되어 있는지 확인하세요:
 
 ```bash
-pip install transformers datasets evaluate seqeval
+pip install myTransformers datasets evaluate seqeval
 ```
 
 Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티에 공유하는 것을 권장합니다. 메시지가 표시되면, 토큰을 입력하여 로그인하세요:
@@ -102,9 +102,9 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티에
 다음으로 `tokens` 필드를 전처리하기 위해 DistilBERT 토크나이저를 가져옵니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 위의 예제 `tokens` 필드를 보면 입력이 이미 토큰화된 것처럼 보입니다. 그러나 실제로 입력은 아직 토큰화되지 않았으므로 단어를 하위 단어로 토큰화하기 위해 `is_split_into_words=True`를 설정해야 합니다. 예제로 확인합니다:
@@ -262,10 +262,11 @@ Hugging Face 계정에 로그인하여 모델을 업로드하고 커뮤니티에
 이제 모델을 훈련시킬 준비가 되었습니다! [`AutoModelForSequenceClassification`]로 DistilBERT를 가져오고 예상되는 레이블 수와 레이블 매핑을 지정하세요:
 
 ```py
->>> from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = AutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -317,26 +318,31 @@ Keras를 사용하여 모델을 파인 튜닝하는 방법에 익숙하지 않�
 TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수와 학습률 스케쥴, 그리고 일부 훈련 하이퍼파라미터를 설정해야 합니다:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 3
->>> num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=0.01,
-...     num_warmup_steps=0,
+>> > batch_size = 16
+>> > num_train_epochs = 3
+>> > num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = 0.01,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 그런 다음 [`TFAutoModelForSequenceClassification`]을 사용하여 DistilBERT를 가져오고, 예상되는 레이블 수와 레이블 매핑을 지정합니다:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=13, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForTokenClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 13, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -371,19 +377,21 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 [`~transformers.KerasMetricCallback`]에 `compute_metrics` 함수를 전달하세요:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 [`~transformers.PushToHubCallback`]에서 모델과 토크나이저를 업로드할 위치를 지정합니다:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_wnut_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_wnut_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -424,10 +432,10 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 파인 튜닝된 모델로 추론을 시도하는 가장 간단한 방법은 [`pipeline`]를 사용하는 것입니다. 모델로 NER의 `pipeline`을 인스턴스화하고, 텍스트를 전달해보세요:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
->>> classifier(text)
+>> > classifier = pipeline("ner", model="stevhliu/my_awesome_wnut_model")
+>> > classifier(text)
 [{'entity': 'B-location',
   'score': 0.42658573,
   'index': 2,
@@ -467,20 +475,21 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 PyTorch 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 입력을 모델에 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import AutoModelForTokenClassification
+>> > from myTransformers import AutoModelForTokenClassification
 
->>> model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 가장 높은 확률을 가진 클래스를 모델의 `id2label` 매핑을 사용하여 텍스트 레이블로 변환합니다:
@@ -512,19 +521,19 @@ TensorFlow에서 모델을 파인 튜닝하려면, 먼저 옵티마이저 함수
 텍스트를 토큰화하고 TensorFlow 텐서를 반환합니다:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 입력값을 모델에 전달하고 `logits`을 반환합니다:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForTokenClassification.from_pretrained("stevhliu/my_awesome_wnut_model")
+>> > logits = model(**inputs).logits
 ```
 
 가장 높은 확률을 가진 클래스를 모델의 `id2label` 매핑을 사용하여 텍스트 레이블로 변환합니다:

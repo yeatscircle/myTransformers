@@ -68,13 +68,14 @@ pip install -U flash-attn --no-build-isolation
 
 ### Usage
 
-Below is an expected speedup diagram comparing the pure inference time between the native implementation in transformers of `facebook/hubert-large-ls960-ft`, the flash-attention-2 and the sdpa (scale-dot-product-attention) version. We show the average speedup obtained on the `librispeech_asr` `clean` validation split: 
+Below is an expected speedup diagram comparing the pure inference time between the native implementation in transformers of `facebook/hubert-large-ls960-ft`, the flash-attention-2 and the sdpa (scale-dot-product-attention) version. We show the average speedup obtained on the `librispeech_asr` `clean` validation split:
 
 ```python
->>> from transformers import HubertModel
->>> import torch
+>> > from myTransformers import HubertModel
+>> > import torch
 
->>> model = HubertModel.from_pretrained("facebook/hubert-large-ls960-ft", torch_dtype=torch.float16, attn_implementation="flash_attention_2").to("cuda")
+>> > model = HubertModel.from_pretrained("facebook/hubert-large-ls960-ft", torch_dtype=torch.float16,
+                                         attn_implementation="flash_attention_2").to("cuda")
 ...
 ```
 

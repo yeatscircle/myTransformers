@@ -24,7 +24,7 @@ bitsandbytes를 사용하려면 다음 라이브러리가 설치되어 있어야
 <hfoption id="8-bit">
 
 ```bash
-pip install transformers accelerate bitsandbytes>0.37.0
+pip install myTransformers accelerate bitsandbytes>0.37.0
 ```
 
 </hfoption>
@@ -32,7 +32,7 @@ pip install transformers accelerate bitsandbytes>0.37.0
 
 ```bash
 pip install bitsandbytes>=0.39.0
-pip install --upgrade accelerate transformers
+pip install --upgrade accelerate myTransformers
 ```
 
 </hfoption>
@@ -43,15 +43,15 @@ pip install --upgrade accelerate transformers
 <hfoptions id="bnb">
 <hfoption id="8-bit">
 
-모델을 8비트로 양자화하면 메모리 사용량이 절반으로 줄어들며, 대규모 모델의 경우 사용 가능한 GPU를 효율적으로 활용하려면 `device_map="auto"`를 설정하세요. 
+모델을 8비트로 양자화하면 메모리 사용량이 절반으로 줄어들며, 대규모 모델의 경우 사용 가능한 GPU를 효율적으로 활용하려면 `device_map="auto"`를 설정하세요.
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
 model_8bit = AutoModelForCausalLM.from_pretrained(
-    "bigscience/bloom-1b7", 
+    "bigscience/bloom-1b7",
     quantization_config=quantization_config
 )
 ```
@@ -60,13 +60,13 @@ model_8bit = AutoModelForCausalLM.from_pretrained(
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
 model_8bit = AutoModelForCausalLM.from_pretrained(
-    "facebook/opt-350m", 
-    quantization_config=quantization_config, 
+    "facebook/opt-350m",
+    quantization_config=quantization_config,
     torch_dtype=torch.float32
 )
 model_8bit.model.decoder.layers[-1].final_layer_norm.weight.dtype
@@ -75,12 +75,12 @@ model_8bit.model.decoder.layers[-1].final_layer_norm.weight.dtype
 모델이 8비트로 양자화되면 최신 버전의 Transformers와 bitsandbytes를 사용하지 않는 한 양자화된 가중치를 Hub에 푸시할 수 없습니다. 최신 버전을 사용하는 경우, [`~PreTrainedModel.push_to_hub`] 메소드를 사용하여 8비트 모델을 Hub에 푸시할 수 있습니다. 양자화 config.json 파일이 먼저 푸시되고, 그 다음 양자화된 모델 가중치가 푸시됩니다.
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
 model = AutoModelForCausalLM.from_pretrained(
-    "bigscience/bloom-560m", 
+    "bigscience/bloom-560m",
     quantization_config=quantization_config
 )
 tokenizer = AutoTokenizer.from_pretrained("bigscience/bloom-560m")
@@ -94,7 +94,7 @@ model.push_to_hub("bloom-560m-8bit")
 모델을 4비트로 양자화하면 메모리 사용량이 4배 줄어들며, 대규모 모델의 경우 사용 가능한 GPU를 효율적으로 활용하려면 `device_map="auto"`를 설정하세요:
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
 
@@ -108,13 +108,13 @@ model_4bit = AutoModelForCausalLM.from_pretrained(
 
 ```py
 import torch
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True)
 
 model_4bit = AutoModelForCausalLM.from_pretrained(
     "facebook/opt-350m",
-    quantization_config=quantization_config, 
+    quantization_config=quantization_config,
     torch_dtype=torch.float32
 )
 model_4bit.model.decoder.layers[-1].final_layer_norm.weight.dtype
@@ -140,7 +140,7 @@ print(model.get_memory_footprint())
 양자화된 모델은 [`~PreTrainedModel.from_pretrained`] 메소드를 사용하여 `load_in_8bit` 또는 `load_in_4bit` 매개변수를 지정하지 않고도 가져올 수 있습니다:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model = AutoModelForCausalLM.from_pretrained("{your_username}/bloom-560m-8bit", device_map="auto")
 ```
@@ -160,7 +160,7 @@ model = AutoModelForCausalLM.from_pretrained("{your_username}/bloom-560m-8bit", 
 8비트 모델은 CPU와 GPU 간에 가중치를 오프로드하여 매우 큰 모델을 메모리에 장착할 수 있습니다. CPU로 전송된 가중치는 실제로 **float32**로 저장되며 8비트로 변환되지 않습니다. 예를 들어, [bigscience/bloom-1b7](https://huggingface.co/bigscience/bloom-1b7) 모델의 오프로드를 활성화하려면 [`BitsAndBytesConfig`]를 생성하는 것부터 시작하세요:
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(llm_int8_enable_fp32_cpu_offload=True)
 ```
@@ -194,7 +194,7 @@ model_8bit = AutoModelForCausalLM.from_pretrained(
 모델에 가장 적합한 임곗값을 찾으려면 [`BitsAndBytesConfig`]에서 `llm_int8_threshold` 매개변수를 실험해보는 것이 좋습니다:
 
 ```py
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 model_id = "bigscience/bloom-1b7"
 
@@ -214,7 +214,7 @@ model_8bit = AutoModelForCausalLM.from_pretrained(
 [Jukebox](model_doc/jukebox)와 같은 일부 모델은 모든 모듈을 8비트로 양자화할 필요가 없으며, 이는 실제로 불안정성을 유발할 수 있습니다. Jukebox의 경우, [`BitsAndBytesConfig`]의 `llm_int8_skip_modules` 매개변수를 사용하여 여러 `lm_head` 모듈을 건너뛰어야 합니다:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 model_id = "bigscience/bloom-1b7"
 
@@ -250,7 +250,7 @@ model_8bit = AutoModelForCausalLM.from_pretrained(
 
 ```py
 import torch
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
 ```
@@ -260,7 +260,7 @@ quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dty
 NF4는 [QLoRA](https://hf.co/papers/2305.14314) 논문에서 소개된 4비트 데이터 유형으로, 정규 분포에서 초기화된 가중치에 적합합니다. 4비트 기반 모델을 훈련할 때 NF4를 사용해야 합니다. 이는 [`BitsAndBytesConfig`]에서 `bnb_4bit_quant_type` 매개변수로 설정할 수 있습니다:
 
 ```py
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 nf4_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -277,21 +277,22 @@ model_nf4 = AutoModelForCausalLM.from_pretrained(model_id, quantization_config=n
 중첩 양자화는 추가적인 성능 손실 없이 추가적인 메모리를 절약할 수 있는 기술입니다. 이 기능은 이미 양자화된 가중치의 2차 양자화를 수행하여 매개변수당 추가로 0.4비트를 절약합니다. 예를 들어, 중첩 양자화를 통해 16GB NVIDIA T4 GPU에서 시퀀스 길이 1024, 배치 크기 1, 그레이디언트 누적 4단계를 사용하여 [Llama-13b](https://huggingface.co/meta-llama/Llama-2-13b) 모델을 미세 조정할 수 있습니다.
 
 ```py
-from transformers import BitsAndBytesConfig
+from myTransformers import BitsAndBytesConfig
 
 double_quant_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_use_double_quant=True,
 )
 
-model_double_quant = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-13b", quantization_config=double_quant_config)
+model_double_quant = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-13b",
+                                                          quantization_config=double_quant_config)
 ```
 
 ## `bitsandbytes` 모델의 비양자화[[dequantizing-`bitsandbytes`-models]]
 양자화된 후에는 모델을 원래의 정밀도로 비양자화할 수 있지만, 이는 모델의 품질이 약간 저하될 수 있습니다. 비양자화된 모델에 맞출 수 있는 충분한 GPU RAM이 있는지 확인하세요.
 
 ```python
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer
 
 model_id = "facebook/opt-125m"
 

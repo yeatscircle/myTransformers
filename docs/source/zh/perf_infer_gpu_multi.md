@@ -22,7 +22,7 @@ rendered properly in your Markdown viewer.
 ```python
 import os
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
 

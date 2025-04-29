@@ -46,7 +46,7 @@ There are two ways to specify the input language:
 1. By setting a default language before using the model:
 
 ```python
-from transformers import XmodModel
+from myTransformers import XmodModel
 
 model = XmodModel.from_pretrained("facebook/xmod-base")
 model.set_default_language("en_XX")

@@ -29,13 +29,13 @@ Image-to-Image 작업은 애플리케이션이 이미지를 입력받아 또 다
 필요한 라이브러리를 설치하는 것부터 시작하겠습니다.
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 이제 [Swin2SR 모델](https://huggingface.co/caidas/swin2SR-lightweight-x2-64)을 사용하여 파이프라인을 초기화할 수 있습니다. 그런 다음 이미지와 함께 호출하여 파이프라인으로 추론할 수 있습니다. 현재 이 파이프라인에서는 [Swin2SR 모델](https://huggingface.co/caidas/swin2SR-lightweight-x2-64)만 지원됩니다.
 
 ```python
-from transformers import pipeline
+from myTransformers import pipeline
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 pipe = pipeline(task="image-to-image", model="caidas/swin2SR-lightweight-x2-64", device=device)
@@ -69,10 +69,10 @@ print(upscaled.size)
 # (1072, 880)
 ```
 
-파이프라인 없이 직접 추론을 수행하려면 Transformers의 `Swin2SRForImageSuperResolution` 및 `Swin2SRImageProcessor` 클래스를 사용할 수 있습니다. 이를 위해 동일한 모델 체크포인트를 사용합니다. 모델과 프로세서를 초기화해 보겠습니다. 
+파이프라인 없이 직접 추론을 수행하려면 Transformers의 `Swin2SRForImageSuperResolution` 및 `Swin2SRImageProcessor` 클래스를 사용할 수 있습니다. 이를 위해 동일한 모델 체크포인트를 사용합니다. 모델과 프로세서를 초기화해 보겠습니다.
 
 ```python
-from transformers import Swin2SRForImageSuperResolution, Swin2SRImageProcessor 
+from myTransformers import Swin2SRForImageSuperResolution, Swin2SRImageProcessor
 
 model = Swin2SRForImageSuperResolution.from_pretrained("caidas/swin2SR-lightweight-x2-64").to(device)
 processor = Swin2SRImageProcessor("caidas/swin2SR-lightweight-x2-64")

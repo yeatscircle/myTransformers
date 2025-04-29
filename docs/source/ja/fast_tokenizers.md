@@ -43,11 +43,10 @@ rendered properly in your Markdown viewer.
 🤗 Transformersライブラリでこのトークナイザーオブジェクトをどのように活用できるかを見てみましょう。[`PreTrainedTokenizerFast`]クラスは、
 *tokenizer*オブジェクトを引数として受け入れ、簡単にインスタンス化できるようにします。
 
-
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 ```
 
 このオブジェクトは、🤗 Transformers トークナイザーが共有するすべてのメソッドと一緒に使用できます！詳細については、[トークナイザーページ](main_classes/tokenizer)をご覧ください。
@@ -62,11 +61,10 @@ JSONファイルからトークナイザーを読み込むには、まずトー�
 
 このファイルを保存したパスは、`PreTrainedTokenizerFast` の初期化メソッドに `tokenizer_file` パラメータを使用して渡すことができます：
 
-
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
 ```
 
 このオブジェクトは、🤗 Transformers トークナイザーが共有するすべてのメソッドと一緒に使用できるようになりました！詳細については、[トークナイザーページ](main_classes/tokenizer)をご覧ください。

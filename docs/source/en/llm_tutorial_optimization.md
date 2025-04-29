@@ -64,10 +64,11 @@ Note, however that while very effective, this naive pipeline parallelism does no
 If you have access to an 8 x 80GB A100 node, you could load BLOOM as follows
 
 ```bash
-!pip install transformers accelerate bitsandbytes optimum
+!pip install myTransformers accelerate bitsandbytes optimum
 ```
+
 ```python
-from transformers import AutoModelForCausalLM
+from myTransformers import AutoModelForCausalLM
 
 model = AutoModelForCausalLM.from_pretrained("bigscience/bloom", device_map="auto", pad_token_id=0)
 ```
@@ -81,10 +82,11 @@ Since the model is loaded in bfloat16 precision, using our rule of thumb above, 
 We first load the model and tokenizer and then pass both to Transformers' [pipeline](https://huggingface.co/docs/transformers/main_classes/pipelines) object.
 
 ```python
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 import torch
 
-model = AutoModelForCausalLM.from_pretrained("bigcode/octocoder", torch_dtype=torch.bfloat16, device_map="auto", pad_token_id=0)
+model = AutoModelForCausalLM.from_pretrained("bigcode/octocoder", torch_dtype=torch.bfloat16, device_map="auto",
+                                             pad_token_id=0)
 tokenizer = AutoTokenizer.from_pretrained("bigcode/octocoder")
 
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)

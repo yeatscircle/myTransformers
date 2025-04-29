@@ -18,7 +18,7 @@ import unittest
 
 import requests
 
-from transformers import (
+from myTransformers import (
     AriaConfig,
     AriaForConditionalGeneration,
     AriaTextConfig,
@@ -27,8 +27,8 @@ from transformers import (
     is_torch_available,
     is_vision_available,
 )
-from transformers.models.idefics3 import Idefics3VisionConfig
-from transformers.testing_utils import (
+from myTransformers.models.idefics3 import Idefics3VisionConfig
+from myTransformers.testing_utils import (
     require_bitsandbytes,
     require_torch,
     require_torch_large_accelerator,

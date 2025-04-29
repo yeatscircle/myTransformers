@@ -73,19 +73,19 @@ optimum-cli export onnx --model local_path --task question-answering distilbert_
 يمكن بعد ذلك تشغيل ملف `model.onnx` الناتج على أحد [المسرعات](https://onnx.ai/supported-tools.html#deployModel) العديدة التي تدعم معيار ONNX. على سبيل المثال، يمكننا تحميل النموذج وتشغيله باستخدام [ONNX Runtime](https://onnxruntime.ai/) كما يلي:
 
 ```python
->>> from transformers import AutoTokenizer
->>> from optimum.onnxruntime import ORTModelForQuestionAnswering
+>> > from myTransformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForQuestionAnswering
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
->>> inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
->>> outputs = model(**inputs)
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > model = ORTModelForQuestionAnswering.from_pretrained("distilbert_base_uncased_squad_onnx")
+>> > inputs = tokenizer("What am I using?", "Using DistilBERT with ONNX Runtime!", return_tensors="pt")
+>> > outputs = model(**inputs)
 ```
 
 تكون العملية مماثلة بالنسبة إلى نقاط تفتيش TensorFlow على Hub. على سبيل المثال، إليك كيفية تصدير نقطة تفتيش TensorFlow نقية من [منظمة Keras](https://huggingface.co/keras-io):
 
 ```bash
-optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_squad_onnx/
+optimum-cli export onnx --model keras-io/myTransformers-qa distilbert_base_cased_squad_onnx/
 ```
 
 ### تصدير نموذج 🤗 Transformers إلى ONNX باستخدام `optimum.onnxruntime`
@@ -93,19 +93,19 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 كبديل لواجهة سطر الأوامر، يُمكنك تصدير نموذج 🤗 Transformers إلى ONNX برمجيًا كما يلي:
 
 ```python
->>> from optimum.onnxruntime import ORTModelForSequenceClassification
->>> from transformers import AutoTokenizer
+>> > from optimum.onnxruntime import ORTModelForSequenceClassification
+>> > from myTransformers import AutoTokenizer
 
->>> model_checkpoint = "distilbert_base_uncased_squad"
->>> save_directory = "onnx/"
+>> > model_checkpoint = "distilbert_base_uncased_squad"
+>> > save_directory = "onnx/"
 
->>> # تحميل نموذج من transformers وتصديره إلى ONNX
->>> ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
->>> tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+>> >  # تحميل نموذج من myTransformers وتصديره إلى ONNX
+>> > ort_model = ORTModelForSequenceClassification.from_pretrained(model_checkpoint, export=True)
+>> > tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
->>> # حفظ نموذج onnx ومجزىء النصوص
->>> ort_model.save_pretrained(save_directory)
->>> tokenizer.save_pretrained(save_directory)
+>> >  # حفظ نموذج onnx ومجزىء النصوص
+>> > ort_model.save_pretrained(save_directory)
+>> > tokenizer.save_pretrained(save_directory)
 ```
 
 ### تصدير نموذج لهندسة غير مدعومة
@@ -123,48 +123,48 @@ optimum-cli export onnx --model keras-io/transformers-qa distilbert_base_cased_s
 لتصدير نموذج 🤗 Transformers إلى ONNX باستخدام `transformers.onnx`، ثبّت التبعيات الإضافية:
 
 ```bash
-pip install transformers[onnx]
+pip install myTransformers[onnx]
 ```
 
 استخدم حزمة `transformers.onnx` كنموذج Python لتصدير نقطة حفظ باستخدام تكوين جاهز:
 
 ```bash
-python -m transformers.onnx --model=distilbert/distilbert-base-uncased onnx/
+python -m myTransformers.onnx --model=distilbert/distilbert-base-uncased onnx/
 ```
 
 يُصدّر هذا رسمًا بيانيًا ONNX لنقطة الحفظ المُحددة بواسطة وسيطة `--model`. مرر أي نقطة حفظ على 🤗 Hub أو نقطة حفظ مُخزنة محليًا.
 يُمكن بعد ذلك تشغيل ملف `model.onnx` الناتج على أحد المُسرعات العديدة التي تدعم معيار ONNX. على سبيل المثال، قم بتحميل وتشغيل النموذج باستخدام ONNX Runtime كما يلي:
 
 ```python
->>> from transformers import AutoTokenizer
->>> from onnxruntime import InferenceSession
+>> > from myTransformers import AutoTokenizer
+>> > from onnxruntime import InferenceSession
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
->>> session = InferenceSession("onnx/model.onnx")
->>> # يتوقع ONNX Runtime مصفوفات NumPy كمدخلات
->>> inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
->>> outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > session = InferenceSession("onnx/model.onnx")
+>> >  # يتوقع ONNX Runtime مصفوفات NumPy كمدخلات
+>> > inputs = tokenizer("Using DistilBERT with ONNX Runtime!", return_tensors="np")
+>> > outputs = session.run(output_names=["last_hidden_state"], input_feed=dict(inputs))
 ```
 
 يُمكن الحصول على أسماء المخرجات المطلوبة (مثل `["last_hidden_state"]`) من خلال إلقاء نظرة على تكوين ONNX لكل نموذج. على سبيل المثال، بالنسبة لـ DistilBERT، لدينا:
 
 ```python
->>> from transformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
+>> > from myTransformers.models.distilbert import DistilBertConfig, DistilBertOnnxConfig
 
->>> config = DistilBertConfig()
->>> onnx_config = DistilBertOnnxConfig(config)
->>> print(list(onnx_config.outputs.keys()))
+>> > config = DistilBertConfig()
+>> > onnx_config = DistilBertOnnxConfig(config)
+>> > print(list(onnx_config.outputs.keys()))
 ["last_hidden_state"]
 ```
 
 العمليات مُتطابقة لنقاط الحفظ TensorFlow على Hub. على سبيل المثال، صدّر نقطة حفظ TensorFlow خالصة كما يلي:
 
 ```bash
-python -m transformers.onnx --model=keras-io/transformers-qa onnx/
+python -m myTransformers.onnx --model=keras-io/myTransformers-qa onnx/
 ```
 
 لتصدير نموذج مُخزن محليًا، احفظ أوزان النموذج ومجزىء اللغوى في نفس الدليل (على سبيل المثال `local-pt-checkpoint`)، ثم قم بتصديره إلى ONNX عن طريق توجيه وسيط `--model` لحزمة `transformers.onnx` إلى الدليل المطلوب:
 
 ```bash
-python -m transformers.onnx --model=local-pt-checkpoint onnx/
+python -m myTransformers.onnx --model=local-pt-checkpoint onnx/
 ```

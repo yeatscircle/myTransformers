@@ -48,7 +48,7 @@ source .env/bin/activate
 Ahora puedes instalar 🤗 Transformers con el siguiente comando:
 
 ```bash
-pip install transformers
+pip install myTransformers
 ```
 
 Solo para CPU, puedes instalar 🤗 Transformers y una biblioteca de deep learning con un comando de una sola línea.
@@ -56,19 +56,19 @@ Solo para CPU, puedes instalar 🤗 Transformers y una biblioteca de deep learni
 Por ejemplo, instala 🤗 Transformers y Pytorch:
 
 ```bash
-pip install transformers[torch]
+pip install myTransformers[torch]
 ```
 
 🤗 Transformers y TensorFlow 2.0:
 
 ```bash
-pip install transformers[tf-cpu]
+pip install myTransformers[tf-cpu]
 ```
 
 🤗 Transformers y Flax:
 
 ```bash
-pip install transformers[flax]
+pip install myTransformers[flax]
 ```
 
 Por último, revisa si 🤗 Transformers ha sido instalada exitosamente con el siguiente comando que descarga un modelo pre-entrenado:
@@ -108,7 +108,7 @@ Clona el repositorio e instala 🤗 Transformers con los siguientes comandos:
 
 ```bash
 git clone https://github.com/huggingface/transformers.git
-cd transformers
+cd myTransformers
 pip install -e .
 ```
 
@@ -123,7 +123,7 @@ Debes mantener el directorio `transformers` si deseas seguir usando la bibliotec
 Puedes actualizar tu copia local a la última versión de 🤗 Transformers con el siguiente comando:
 
 ```bash
-cd ~/transformers/
+cd ~/myTransformers/
 git pull
 ```
 
@@ -134,7 +134,7 @@ El entorno de Python que creaste para la instalación de 🤗 Transformers encon
 Puedes instalar 🤗 Transformers desde el canal de conda `conda-forge` con el siguiente comando:
 
 ```bash
-conda install conda-forge::transformers
+conda install conda-forge::myTransformers
 ```
 
 ## Configuración de Caché
@@ -190,7 +190,7 @@ Otra opción para usar 🤗 Transformers offline es descargando previamente los 
     1. Descarga previamente los archivos con [`PreTrainedModel.from_pretrained`]:
 
     ```py
-    >>> from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    >>> from myTransformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
     >>> tokenizer = AutoTokenizer.from_pretrained("bigscience/T0_3B")
     >>> model = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0_3B")
@@ -230,9 +230,9 @@ Otra opción para usar 🤗 Transformers offline es descargando previamente los 
 Una vez que el archivo se descargue y se almacene en caché localmente, especifica tu ruta local para cargarlo y usarlo:
 
 ```py
->>> from transformers import AutoConfig
+>> > from myTransformers import AutoConfig
 
->>> config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
+>> > config = AutoConfig.from_pretrained("./your/path/bigscience_t0/config.json")
 ```
 
 <Tip>

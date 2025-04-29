@@ -19,9 +19,9 @@ import unittest
 import pytest
 from packaging import version
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, GemmaConfig, is_torch_available
-from transformers.generation.configuration_utils import GenerationConfig
-from transformers.testing_utils import (
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, GemmaConfig, is_torch_available
+from myTransformers.generation.configuration_utils import GenerationConfig
+from myTransformers.testing_utils import (
     cleanup,
     is_flaky,
     require_bitsandbytes,
@@ -44,7 +44,7 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         GemmaForCausalLM,
         GemmaForSequenceClassification,
         GemmaForTokenClassification,
@@ -684,7 +684,7 @@ class GemmaIntegrationTest(unittest.TestCase):
         if version.parse(torch.__version__) < version.parse("2.3.0"):
             self.skipTest(reason="This test requires torch >= 2.3 to run.")
 
-        from transformers.integrations.executorch import (
+        from myTransformers.integrations.executorch import (
             TorchExportableModuleWithStaticCache,
             convert_and_export_with_cache,
         )

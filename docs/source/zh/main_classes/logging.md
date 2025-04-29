@@ -23,9 +23,9 @@ rendered properly in your Markdown viewer.
 要更改日志详细程度，只需使用其中一个直接的setter。例如，以下是如何将日志详细程度更改为INFO级别的方法：
 
 ```python
-import transformers
+import myTransformers
 
-transformers.logging.set_verbosity_info()
+myTransformers.logging.set_verbosity_info()
 ```
 
 您还可以使用环境变量`TRANSFORMERS_VERBOSITY`来覆盖默认的日志详细程度。您可以将其设置为以下级别之一：`debug`、`info`、`warning`、`error`、`critical`。例如：
@@ -43,10 +43,10 @@ TRANSFORMERS_NO_ADVISORY_WARNINGS=1 ./myprogram.py
 以下是如何在您自己的模块或脚本中使用与库相同的logger的示例：
 
 ```python
-from transformers.utils import logging
+from myTransformers.utils import logging
 
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers")
+logger = logging.get_logger("myTransformers")
 logger.info("INFO")
 logger.warning("WARN")
 ```

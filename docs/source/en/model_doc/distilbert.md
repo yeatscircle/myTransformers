@@ -40,7 +40,7 @@ The example below demonstrates how to classify text with [`Pipeline`], [`AutoMod
 <hfoption id="Pipeline">
 
 ```py
-from transformers import pipeline
+from myTransformers import pipeline
 
 classifier = pipeline(
     task="text-classification",
@@ -60,7 +60,7 @@ print(result)
 
 ```py
 import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from myTransformers import AutoModelForSequenceClassification, AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(
     "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
@@ -86,7 +86,7 @@ print(f"Predicted label: {predicted_label}")
 <hfoption id="transformers-cli">
 
 ```bash
-echo -e "I love using Hugging Face Transformers!" | transformers-cli run --task text-classification --model distilbert-base-uncased-finetuned-sst-2-english
+echo -e "I love using Hugging Face Transformers!" | myTransformers-cli run --task text-classification --model distilbert-base-uncased-finetuned-sst-2-english
 ```
 
 </hfoption>

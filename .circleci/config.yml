@@ -25,9 +25,9 @@ jobs:
                 fi
     # Fetch the tests to run
     fetch_tests:
-        working_directory: ~/transformers
+        working_directory: ~/myTransformers
         docker:
-            - image: huggingface/transformers-quality
+            - image: huggingface/myTransformers-quality
         parallelism: 1
         steps:
             - checkout
@@ -85,9 +85,9 @@ jobs:
 
     # To run all tests for the nightly build
     fetch_all_tests:
-        working_directory: ~/transformers
+        working_directory: ~/myTransformers
         docker:
-            - image: huggingface/transformers-quality
+            - image: huggingface/myTransformers-quality
         parallelism: 1
         steps:
             - checkout
@@ -136,9 +136,9 @@ jobs:
                 configuration_path: test_preparation/generated_config.yml
 
     check_code_quality:
-        working_directory: ~/transformers
+        working_directory: ~/myTransformers
         docker:
-            - image: huggingface/transformers-quality
+            - image: huggingface/myTransformers-quality
         resource_class: large
         environment:
             TRANSFORMERS_IS_CI: yes
@@ -151,8 +151,8 @@ jobs:
                 name: Show installed libraries and their versions
                 command: pip freeze | tee installed.txt
             - store_artifacts:
-                  path: ~/transformers/installed.txt
-            - run: python -c "from transformers import *" || (echo '🚨 import failed, this means you introduced unprotected imports! 🚨'; exit 1)
+                  path: ~/myTransformers/installed.txt
+            - run: python -c "from myTransformers import *" || (echo '🚨 import failed, this means you introduced unprotected imports! 🚨'; exit 1)
             - run: ruff check examples tests src utils
             - run: ruff format examples tests src utils --check
             - run: python utils/custom_init_isort.py --check_only
@@ -161,9 +161,9 @@ jobs:
             - run: python utils/check_docstrings.py --check_all
 
     check_repository_consistency:
-        working_directory: ~/transformers
+        working_directory: ~/myTransformers
         docker:
-            - image: huggingface/transformers-consistency
+            - image: huggingface/myTransformers-consistency
         resource_class: large
         environment:
             TRANSFORMERS_IS_CI: yes
@@ -176,7 +176,7 @@ jobs:
                 name: Show installed libraries and their versions
                 command: pip freeze | tee installed.txt
             - store_artifacts:
-                  path: ~/transformers/installed.txt
+                  path: ~/myTransformers/installed.txt
             - run: python utils/check_copies.py
             - run: python utils/check_modular_conversion.py
             - run: python utils/check_dummies.py

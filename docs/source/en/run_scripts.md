@@ -30,7 +30,7 @@ Install Transformers from source in a new virtual environment to run the latest 
 
 ```bash
 git clone https://github.com/huggingface/transformers
-cd transformers
+cd myTransformers
 pip install .
 ```
 

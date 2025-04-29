@@ -21,12 +21,12 @@ import pytest
 import requests
 from parameterized import parameterized
 
-from transformers import (
+from myTransformers import (
     AutoProcessor,
     is_torch_available,
     is_vision_available,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     cleanup,
     is_flaky,
     require_torch,
@@ -43,7 +43,7 @@ from ...test_modeling_common import ModelTesterMixin, floats_tensor, ids_tensor
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         SmolVLMConfig,
         SmolVLMForConditionalGeneration,
         SmolVLMModel,

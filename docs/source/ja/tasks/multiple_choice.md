@@ -28,7 +28,7 @@ rendered properly in your Markdown viewer.
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 モデルをアップロードしてコミュニティと共有できるように、Hugging Face アカウントにログインすることをお勧めします。プロンプトが表示されたら、トークンを入力してログインします。
@@ -77,9 +77,9 @@ pip install transformers datasets evaluate
 次のステップでは、BERT トークナイザーをロードして、文の始まりと 4 つの可能な終わりを処理します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 作成する前処理関数は次のことを行う必要があります。
@@ -114,9 +114,10 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 ```
 
 [`DataCollatorForMultipleChoice`] は、すべてのモデル入力を平坦化し、パディングを適用して、結果を非平坦化します。
+
 ```py
->>> from transformers import DataCollatorForMultipleChoice
->>> collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
+>> > from myTransformers import DataCollatorForMultipleChoice
+>> > collator = DataCollatorForMultipleChoice(tokenizer=tokenizer)
 ```
 
 ## Evaluate
@@ -156,9 +157,9 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 これでモデルのトレーニングを開始する準備が整いました。 [`AutoModelForMultipleChoice`] を使用して BERT をロードします。
 
 ```py
->>> from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
 
->>> model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 この時点で残っている手順は次の 3 つだけです。
@@ -209,20 +210,20 @@ Keras を使用したモデルの微調整に慣れていない場合は、[こ�
 TensorFlow でモデルを微調整するには、オプティマイザー関数、学習率スケジュール、およびいくつかのトレーニング ハイパーパラメーターをセットアップすることから始めます。
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 2
->>> total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
->>> optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_train_epochs = 2
+>> > total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
+>> > optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 次に、[`TFAutoModelForMultipleChoice`] を使用して BERT をロードできます。
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 [`~transformers.TFPreTrainedModel.prepare_tf_dataset`] を使用して、データセットを `tf.data.Dataset` 形式に変換します。
@@ -255,19 +256,21 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 `compute_metrics` 関数を [`~transformers.KerasMetricCallback`] に渡します。
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 [`~transformers.PushToHubCallback`] でモデルとトークナイザーをプッシュする場所を指定します。
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -316,21 +319,21 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 各プロンプトと回答候補のペアをトークン化し、PyTorch テンソルを返します。いくつかの`lables`も作成する必要があります。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
->>> labels = torch.tensor(0).unsqueeze(0)
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
+>> > labels = torch.tensor(0).unsqueeze(0)
 ```
 
 入力とラベルをモデルに渡し、`logits`を返します。
 
 ```py
->>> from transformers import AutoModelForMultipleChoice
+>> > from myTransformers import AutoModelForMultipleChoice
 
->>> model = AutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
->>> outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
->>> logits = outputs.logits
+>> > model = AutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
+>> > outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
+>> > logits = outputs.logits
 ```
 
 最も高い確率でクラスを取得します。
@@ -346,21 +349,21 @@ TensorFlow でモデルを微調整するには、オプティマイザー関数
 各プロンプトと回答候補のペアをトークン化し、TensorFlow テンソルを返します。
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
+>> > tokenizer = AutoTokenizer.from_pretrained("my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
 ```
 
 入力をモデルに渡し、`logits`を返します。
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
->>> inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
->>> outputs = model(inputs)
->>> logits = outputs.logits
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("my_awesome_swag_model")
+>> > inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
+>> > outputs = model(inputs)
+>> > logits = outputs.logits
 ```
 
 最も高い確率でクラスを取得します。

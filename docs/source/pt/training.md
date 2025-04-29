@@ -56,16 +56,19 @@ para manejar qualquer tamanho varíavel de sequência. Para processar o seu data
 todo o dataset.
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+
+>> >
+
+def tokenize_function(examples):
 
 
->>> def tokenize_function(examples):
-...     return tokenizer(examples["text"], padding="max_length", truncation=True)
+    ...
+return tokenizer(examples["text"], padding="max_length", truncation=True)
 
-
->>> tokenized_datasets = dataset.map(tokenize_function, batched=True)
+>> > tokenized_datasets = dataset.map(tokenize_function, batched=True)
 ```
 
 Se desejar, é possível criar um subconjunto menor do dataset completo para aplicar o fine-tuning e assim reduzir o tempo necessário.
@@ -91,9 +94,9 @@ A partir do [Card Dataset](https://huggingface.co/datasets/yelp_review_full#data
 sabemos ter 5 labels usamos o seguinte código:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 <Tip>
@@ -116,9 +119,9 @@ porém, sinta-se livre para experimentar com eles e encontrar uma configuração
 Especifique onde salvar os checkpoints do treinamento:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer")
+>> > training_args = TrainingArguments(output_dir="test_trainer")
 ```
 
 ### Métricas
@@ -150,9 +153,9 @@ Se quiser controlar as suas métricas de avaliação durante o fine-tuning, espe
 nos seus argumentos de treinamento para que o modelo considere a métrica de avaliação ao final de cada época:
 
 ```py
->>> from transformers import TrainingArguments
+>> > from myTransformers import TrainingArguments
 
->>> training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
+>> > training_args = TrainingArguments(output_dir="test_trainer", eval_strategy="epoch")
 ```
 
 ### Trainer
@@ -190,9 +193,9 @@ O [`DefaultDataCollator`] junta os tensores em um batch para que o modelo possa 
 Assegure-se de especificar os `return_tensors` para retornar os tensores do TensorFlow:
 
 ```py
->>> from transformers import DefaultDataCollator
+>> > from myTransformers import DefaultDataCollator
 
->>> data_collator = DefaultDataCollator(return_tensors="tf")
+>> > data_collator = DefaultDataCollator(return_tensors="tf")
 ```
 
 <Tip>
@@ -229,10 +232,10 @@ Especifique suas entradas em `columns` e seu rótulo em `label_cols`:
 Carregue um modelo do TensorFlow com o número esperado de rótulos:
 
 ```py
->>> import tensorflow as tf
->>> from transformers import TFAutoModelForSequenceClassification
+>> > import tensorflow as tf
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 A seguir, compile e ajuste o fine-tuning a seu modelo com [`fit`](https://keras.io/api/models/model_training_apis/) como
@@ -309,9 +312,9 @@ Crie um `DataLoader` para os seus datasets de treinamento e de teste para poder 
 Carregue seu modelo com o número de labels esperados:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
+>> > model = AutoModelForSequenceClassification.from_pretrained("google-bert/bert-base-cased", num_labels=5)
 ```
 
 ### Otimização e configuração do Learning Rate
@@ -328,12 +331,13 @@ Iremos utilizar o otimizador [`AdamW`](https://pytorch.org/docs/stable/generated
 Defina o learning rate do [`Trainer`]:
 
 ```py
->>> from transformers import get_scheduler
+>> > from myTransformers import get_scheduler
 
->>> num_epochs = 3
->>> num_training_steps = num_epochs * len(train_dataloader)
->>> lr_scheduler = get_scheduler(
-...     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
+>> > num_epochs = 3
+>> > num_training_steps = num_epochs * len(train_dataloader)
+>> > lr_scheduler = get_scheduler(
+    ...
+name = "linear", optimizer = optimizer, num_warmup_steps = 0, num_training_steps = num_training_steps
 ... )
 ```
 

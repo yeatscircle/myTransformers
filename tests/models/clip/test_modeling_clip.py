@@ -23,8 +23,8 @@ import requests
 from parameterized import parameterized
 from pytest import mark
 
-from transformers import CLIPConfig, CLIPTextConfig, CLIPVisionConfig
-from transformers.testing_utils import (
+from myTransformers import CLIPConfig, CLIPTextConfig, CLIPVisionConfig
+from myTransformers.testing_utils import (
     require_flash_attn,
     require_torch,
     require_torch_gpu,
@@ -33,7 +33,7 @@ from transformers.testing_utils import (
     slow,
     torch_device,
 )
-from transformers.utils import (
+from myTransformers.utils import (
     is_torch_available,
     is_vision_available,
 )
@@ -55,7 +55,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         CLIPForImageClassification,
         CLIPModel,
         CLIPTextModel,
@@ -67,7 +67,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import CLIPProcessor
+    from myTransformers import CLIPProcessor
 
 
 class CLIPVisionModelTester:

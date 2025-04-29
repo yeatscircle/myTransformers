@@ -31,15 +31,15 @@ rendered properly in your Markdown viewer.
 例えば、次の2つのシーケンスを考えてみてください：
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence_a = "This is a short sequence."
->>> sequence_b = "This is a rather long sequence. It is at least longer than the sequence A."
+>> > sequence_a = "This is a short sequence."
+>> > sequence_b = "This is a rather long sequence. It is at least longer than the sequence A."
 
->>> encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
->>> encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
+>> > encoded_sequence_a = tokenizer(sequence_a)["input_ids"]
+>> > encoded_sequence_b = tokenizer(sequence_b)["input_ids"]
 ```
 
 The encoded versions have different lengths:
@@ -187,13 +187,12 @@ The encoded versions have different lengths:
 
 各トークナイザーは異なる方法で動作しますが、基本的なメカニズムは同じです。以下はBERTトークナイザーを使用した例です。BERTトークナイザーは[WordPiece](https://arxiv.org/pdf/1609.08144.pdf)トークナイザーです。
 
-
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
 
->>> sequence = "A Titan RTX has 24GB of VRAM"
+>> > sequence = "A Titan RTX has 24GB of VRAM"
 ```
 
 トークナイザーは、シーケンスをトークナイザー語彙で使用可能なトークンに分割します。
@@ -398,14 +397,14 @@ The encoded versions have different lengths:
 我々は、前述のように、2つのシーケンスを2つの引数として `tokenizer` に渡すことで、このような文を自動的に生成することができます（以前のようにリストではなく）。以下のように：
 
 ```python
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
->>> sequence_a = "HuggingFace is based in NYC"
->>> sequence_b = "Where is HuggingFace based?"
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > sequence_a = "HuggingFace is based in NYC"
+>> > sequence_b = "Where is HuggingFace based?"
 
->>> encoded_dict = tokenizer(sequence_a, sequence_b)
->>> decoded = tokenizer.decode(encoded_dict["input_ids"])
+>> > encoded_dict = tokenizer(sequence_a, sequence_b)
+>> > decoded = tokenizer.decode(encoded_dict["input_ids"])
 ```
 
 これに対応するコードは以下です：

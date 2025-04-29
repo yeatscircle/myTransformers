@@ -22,7 +22,7 @@ import os
 import datasets
 import tensorflow as tf
 
-from transformers import AutoTokenizer
+from myTransformers import AutoTokenizer
 
 
 logger = logging.getLogger(__name__)

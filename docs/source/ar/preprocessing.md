@@ -36,9 +36,9 @@ pip install datasets
 ابدأ بتحميل  المُجزّئ اللغوي مُدرب مسبقًا باستخدام طريقة [`AutoTokenizer.from_pretrained`]. يقوم هذا بتنزيل المفردات *vocab* الذي تم تدريب النموذج عليه:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-cased")
 ```
 
 ثم مرر نصك إلى المُجزّئ اللغوي:
@@ -261,9 +261,9 @@ array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 قم بتحميل مستخرج الميزات باستخدام [`AutoFeatureExtractor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoFeatureExtractor
+>> > from myTransformers import AutoFeatureExtractor
 
->>> feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
+>> > feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/wav2vec2-base")
 ```
 
 مرر صفيف الصوت إلى مستخرج الميزات. كما نوصي بإضافة معامل `sampling_rate` في مستخرج الميزات من أجل تصحيح الأخطاء الصامتة التي قد تحدث بشكل أفضل.
@@ -358,9 +358,9 @@ array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 قم بتحميل معالج الصور باستخدام [`AutoImageProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoImageProcessor
+>> > from myTransformers import AutoImageProcessor
 
->>> image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
+>> > image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
 ```
 
 أولاً، دعنا نضيف بعض الزيادات إلى الصور. يمكنك استخدام أي مكتبة تفضلها، ولكن في هذا الدليل، سنستخدم وحدة [`transforms`](https://pytorch.org/vision/stable/transforms.html) من torchvision. إذا كنت مهتمًا باستخدام مكتبة زيادة بيانات أخرى، فتعرف على كيفية القيام بذلك في [دفاتر Albumentations](https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/image_classification_albumentations.ipynb) أو [دفاتر Kornia](https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/image_classification_kornia.ipynb).
@@ -496,9 +496,9 @@ array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 قم بتحميل معالج باستخدام [`AutoProcessor.from_pretrained`]:
 
 ```py
->>> from transformers import AutoProcessor
+>> > from myTransformers import AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
+>> > processor = AutoProcessor.from_pretrained("facebook/wav2vec2-base-960h")
 ```
 
 1. قم بإنشاء دالة لمعالجة بيانات الصوت الموجودة في `array` إلى `input_values`، ورموز `text` إلى `labels`. هذه هي المدخلات للنموذج:

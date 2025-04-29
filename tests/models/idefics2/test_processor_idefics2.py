@@ -19,9 +19,9 @@ from io import BytesIO
 
 import requests
 
-from transformers import Idefics2Processor
-from transformers.testing_utils import require_torch, require_vision
-from transformers.utils import is_vision_available
+from myTransformers import Idefics2Processor
+from myTransformers.testing_utils import require_torch, require_vision
+from myTransformers.utils import is_vision_available
 
 from ...test_processing_common import ProcessorTesterMixin
 
@@ -29,7 +29,7 @@ from ...test_processing_common import ProcessorTesterMixin
 if is_vision_available():
     from PIL import Image
 
-    from transformers import (
+    from myTransformers import (
         AutoProcessor,
         Idefics2Processor,
     )

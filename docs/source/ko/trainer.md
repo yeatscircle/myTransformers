@@ -53,7 +53,7 @@ pip install accelerate --upgrade
 훈련 옵션이나 하이퍼파라미터를 지정하려면, [`TrainingArguments`] 클래스에서 확인 할 수 있습니다. 예를 들어, 모델을 저장할 디렉토리를 `output_dir`에 정의하고, 훈련 후에 Hub로 모델을 푸시하려면 `push_to_hub=True`로 설정합니다.
 
 ```py
-from transformers import TrainingArguments
+from myTransformers import TrainingArguments
 
 training_args = TrainingArguments(
     output_dir="your-model",
@@ -74,7 +74,7 @@ training_args = TrainingArguments(
 마지막으로, [`~Trainer.train`]를 호출하여 훈련을 시작하세요!
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -127,12 +127,13 @@ trainer.train(resume_from_checkpoint="your-model/checkpoint-1000")
 
 ```py
 from torch import nn
-from transformers import Trainer
+from myTransformers import Trainer
+
 
 class CustomTrainer(Trainer):
     def compute_loss(self,
 
- model, inputs, return_outputs=False):
+                     model, inputs, return_outputs=False):
         labels = inputs.pop("labels")
         # 순방향 전파
         outputs = model(**inputs)
@@ -150,12 +151,13 @@ class CustomTrainer(Trainer):
 예를 들어, 훈련 루프에 10단계 후 조기 종료 콜백을 추가하려면 다음과 같이 합니다.
 
 ```py
-from transformers import TrainerCallback
+from myTransformers import TrainerCallback
+
 
 class EarlyStoppingCallback(TrainerCallback):
     def __init__(self, num_steps=10):
         self.num_steps = num_steps
-    
+
     def on_step_end(self, args, state, control, **kwargs):
         if state.global_step >= self.num_steps:
             return {"should_training_stop": True}
@@ -166,7 +168,7 @@ class EarlyStoppingCallback(TrainerCallback):
 그런 다음, 이를 [`Trainer`]의 `callback` 매개변수에 전달합니다.
 
 ```py
-from transformers import Trainer
+from myTransformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -246,7 +248,7 @@ my_app.py ... --log_level error --log_level_replica error --log_on_each_node 0
 [NEFTune](https://hf.co/papers/2310.05914)은 훈련 중 임베딩 벡터에 노이즈를 추가하여 성능을 향상시킬 수 있는 기술입니다. [`Trainer`]에서 이를 활성화하려면 [`TrainingArguments`]의 `neftune_noise_alpha` 매개변수를 설정하여 노이즈의 양을 조절합니다.
 
 ```py
-from transformers import TrainingArguments, Trainer
+from myTransformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(..., neftune_noise_alpha=0.1)
 trainer = Trainer(..., args=training_args)
@@ -271,7 +273,7 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 train_dataset = datasets.load_dataset('imdb', split='train')
 
@@ -291,7 +293,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',
@@ -308,7 +310,7 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 train_dataset = datasets.load_dataset('imdb', split='train')
 
@@ -329,7 +331,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',
@@ -352,7 +354,7 @@ import torch
 import datasets
 import trl
 
-from transformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoConfig, AutoTokenizer, AutoModelForCausalLM
 
 train_dataset = datasets.load_dataset('imdb', split='train')
 
@@ -372,7 +374,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_config(config).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',
@@ -400,7 +402,7 @@ LOMO 옵티마이저는 [제한된 자원으로 대형 언어 모델의 전체 �
 ```python
 import torch
 import datasets
-from transformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM
+from myTransformers import TrainingArguments, AutoTokenizer, AutoModelForCausalLM
 import trl
 
 train_dataset = datasets.load_dataset('imdb', split='train')
@@ -424,7 +426,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id, low_cpu_mem_usage=True).to(0)
 
 trainer = trl.SFTTrainer(
-    model=model, 
+    model=model,
     args=args,
     train_dataset=train_dataset,
     dataset_text_field='text',

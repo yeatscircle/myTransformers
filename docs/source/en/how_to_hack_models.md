@@ -23,8 +23,8 @@ This guide will show you how to customize a models attention mechanism in order 
 > The [clear_import_cache](https://github.com/huggingface/transformers/blob/9985d06add07a4cc691dc54a7e34f54205c04d40/src/transformers/utils/import_utils.py#L2286) utility is very useful when you're iteratively modifying and developing model code. It removes all cached Transformers modules and allows Python to reload the modified code without constantly restarting your environment.
 >
 > ```py
-> from transformers import AutoModel
-> from transformers.utils.import_utils import clear_import_cache
+> from myTransformers import AutoModel
+> from myTransformers.utils.import_utils import clear_import_cache
 >
 > model = AutoModel.from_pretrained("bert-base-uncased")
 > # modifications to model code
@@ -43,7 +43,8 @@ This guide will show you how to customize a models attention mechanism in order 
 ```py
 import torch
 import torch.nn as nn
-from transformers.models.sam.modeling_sam import SamVisionAttention
+from myTransformers.models.sam.modeling_sam import SamVisionAttention
+
 
 class SamVisionAttentionSplit(SamVisionAttention, nn.Module):
     def __init__(self, config, window_size):
@@ -113,8 +114,8 @@ Assign the custom `SamVisionAttentionSplit` class to the original models `SamVis
 Load the model with [`~PreTrainedModel.from_pretrained`].
 
 ```py
-from transformers import SamModel
-from transformers.models.sam import modeling_sam
+from myTransformers import SamModel
+from myTransformers.models.sam import modeling_sam
 
 # replace the attention class in the modeling_sam module
 modeling_sam.SamVisionAttention = SamVisionAttentionSplit

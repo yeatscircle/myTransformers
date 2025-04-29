@@ -44,7 +44,7 @@ The original code can be found [here](https://github.com/jpwang/lilt).
 The script will result in `config.json` and `pytorch_model.bin` files being stored locally. After doing this, one can do the following (assuming you're logged in with your HuggingFace account):
 
 ```python
-from transformers import LiltModel
+from myTransformers import LiltModel
 
 model = LiltModel.from_pretrained("path_to_your_files")
 model.push_to_hub("name_of_repo_on_the_hub")

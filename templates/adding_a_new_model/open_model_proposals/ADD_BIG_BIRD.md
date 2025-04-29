@@ -269,8 +269,8 @@ If any of the mentioned aspects above are **not** clear to you, now is a great t
     repository as a remote:
 
     ```bash
-    git clone https://github.com/[your Github handle]/transformers.git
-    cd transformers
+    git clone https://github.com/[your Github handle]/myTransformers.git
+    cd myTransformers
     git remote add upstream https://github.com/huggingface/transformers.git
     ```
 
@@ -682,7 +682,8 @@ implementation of *BigBird*, *i.e.* the following command
 should work:
 
 ```python
-from transformers import BigBirdModel, BigBirdConfig
+from myTransformers import BigBirdModel, BigBirdConfig
+
 model = BigBirdModel(BigBirdConfig())
 ```
 
@@ -1001,7 +1002,8 @@ For BigBird, the tokenizer (sentencepiece) files can be found [here](https://git
 as easily as:
 
 ```python
-from transformers import BertGenerationTokenizer
+from myTransformers import BertGenerationTokenizer
+
 tokenizer = BertGenerationTokenizer("/path/to/gpt2.model/file")
 ```
 
@@ -1023,7 +1025,8 @@ the original repository, an analogous script for 🤗 Transformers should
 be created. It should look similar to this:
 
 ```python
-from transformers import BertGenerationTokenizer
+from myTransformers import BertGenerationTokenizer
+
 input_str = "This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words."
 
 tokenizer = BertGenerationTokenizer.from_pretrained("/path/big/bird/folder")

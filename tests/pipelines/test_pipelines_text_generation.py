@@ -14,14 +14,14 @@
 
 import unittest
 
-from transformers import (
+from myTransformers import (
     MODEL_FOR_CAUSAL_LM_MAPPING,
     TF_MODEL_FOR_CAUSAL_LM_MAPPING,
     TextGenerationPipeline,
     logging,
     pipeline,
 )
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     CaptureLogger,
     is_pipeline_test,
     require_accelerate,
@@ -254,7 +254,7 @@ class TextGenerationPipelineTests(unittest.TestCase):
     def test_small_chat_model_with_dataset_pt(self):
         from torch.utils.data import Dataset
 
-        from transformers.pipelines.pt_utils import KeyDataset
+        from myTransformers.pipelines.pt_utils import KeyDataset
 
         class MyDataset(Dataset):
             data = [
@@ -293,7 +293,7 @@ class TextGenerationPipelineTests(unittest.TestCase):
 
     @require_torch
     def test_small_chat_model_with_iterator_pt(self):
-        from transformers.pipelines.pt_utils import PipelineIterator
+        from myTransformers.pipelines.pt_utils import PipelineIterator
 
         text_generator = pipeline(
             task="text-generation", model="hf-internal-testing/tiny-gpt2-with-chatml-template", framework="pt"
@@ -634,9 +634,9 @@ class TextGenerationPipelineTests(unittest.TestCase):
         prompt = """Hello world"""
         text_generator = pipeline("text-generation", model="hf-internal-testing/tiny-random-gpt2")
         if text_generator.model.framework == "tf":
-            logger = logging.get_logger("transformers.generation.tf_utils")
+            logger = logging.get_logger("myTransformers.generation.tf_utils")
         else:
-            logger = logging.get_logger("transformers.generation.utils")
+            logger = logging.get_logger("myTransformers.generation.utils")
         logger_msg = "Both `max_new_tokens`"  # The beginning of the message to be checked in this test
 
         # Both are set by the user -> log warning

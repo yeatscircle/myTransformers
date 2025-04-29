@@ -17,9 +17,9 @@ import inspect
 import math
 import unittest
 
-from transformers import DabDetrConfig, ResNetConfig, is_torch_available, is_vision_available
-from transformers.testing_utils import require_timm, require_torch, require_vision, slow, torch_device
-from transformers.utils import cached_property
+from myTransformers import DabDetrConfig, ResNetConfig, is_torch_available, is_vision_available
+from myTransformers.testing_utils import require_timm, require_torch, require_vision, slow, torch_device
+from myTransformers.utils import cached_property
 
 from ...test_configuration_common import ConfigTester
 from ...test_modeling_common import ModelTesterMixin, _config_zero_init, floats_tensor
@@ -30,7 +30,7 @@ if is_torch_available():
     import torch
     import torch.nn.functional as F
 
-    from transformers import (
+    from myTransformers import (
         DabDetrForObjectDetection,
         DabDetrModel,
     )
@@ -39,7 +39,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import ConditionalDetrImageProcessor
+    from myTransformers import ConditionalDetrImageProcessor
 
 
 class DabDetrModelTester:

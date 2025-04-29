@@ -75,7 +75,7 @@ This model was contributed by [sshleifer](https://huggingface.co/sshleifer). The
 The `facebook/bart-base` and `facebook/bart-large` checkpoints can be used to fill multi-token masks.
 
 ```python
-from transformers import BartForConditionalGeneration, BartTokenizer
+from myTransformers import BartForConditionalGeneration, BartTokenizer
 
 model = BartForConditionalGeneration.from_pretrained("facebook/bart-large", forced_bos_token_id=0)
 tok = BartTokenizer.from_pretrained("facebook/bart-large")

@@ -44,12 +44,12 @@ import subprocess
 from collections import OrderedDict
 from typing import List, Optional, Tuple, Union
 
-from transformers.utils import direct_transformers_import
+from myTransformers.utils import direct_transformers_import
 
 
 # All paths are set with the intent you should run this script from the root of the repo with the command
 # python utils/check_copies.py
-TRANSFORMERS_PATH = "src/transformers"
+TRANSFORMERS_PATH = "src/myTransformers"
 MODEL_TEST_PATH = "tests/models"
 PATH_TO_DOCS = "docs/source/en"
 REPO_PATH = "."
@@ -169,7 +169,7 @@ LOCALIZED_READMES = {
     },
 }
 
-# This is to make sure the transformers module imported is the one in the repo.
+# This is to make sure the myTransformers module imported is the one in the repo.
 transformers_module = direct_transformers_import(TRANSFORMERS_PATH)
 
 
@@ -419,7 +419,7 @@ def find_code_in_transformers(
         base_path = TRANSFORMERS_PATH
 
     # Detail: the `Copied from` statement is originally designed to work with the last part of `TRANSFORMERS_PATH`,
-    # (which is `transformers`). The same should be applied for `MODEL_TEST_PATH`. However, its last part is `models`
+    # (which is `myTransformers`). The same should be applied for `MODEL_TEST_PATH`. However, its last part is `models`
     # (to only check and search in it) which is a bit confusing. So we keep the copied statement staring with
     # `tests.models.` and change it to `tests` here.
     if base_path == MODEL_TEST_PATH:
@@ -433,7 +433,7 @@ def find_code_in_transformers(
             module = os.path.join(module, parts[i])
     if i >= len(parts):
         raise ValueError(
-            f"`object_name` should begin with the name of a module of transformers but got {object_name}."
+            f"`object_name` should begin with the name of a module of myTransformers but got {object_name}."
         )
 
     with open(os.path.join(base_path, f"{module}.py"), "r", encoding="utf-8", newline="\n") as f:
@@ -496,7 +496,7 @@ def find_code_and_splits(object_name: str, base_path: str, buffer: Optional[dict
 
     Args:
         object_name (`str`):
-            The name of the object, e.g. `transformers.models.bert.modeling_bert.BertAttention` or
+            The name of the object, e.g. `myTransformers.models.bert.modeling_bert.BertAttention` or
             `tests.models.llama.test_modeling_llama.LlamaModelTest.test_config`.
         base_path (`str`):
             The path to the base directory within which the search will be performed. It could be either
@@ -534,7 +534,7 @@ def find_code_and_splits(object_name: str, base_path: str, buffer: Optional[dict
     return lines, code, code_splits
 
 
-_re_copy_warning = re.compile(r"^(\s*)#\s*Copied from\s+transformers\.(\S+\.\S+)\s*($|\S.*$)")
+_re_copy_warning = re.compile(r"^(\s*)#\s*Copied from\s+myTransformers\.(\S+\.\S+)\s*($|\S.*$)")
 _re_copy_warning_for_test_file = re.compile(r"^(\s*)#\s*Copied from\s+tests\.(\S+\.\S+)\s*($|\S.*$)")
 _re_replace_pattern = re.compile(r"^\s*(\S+)->(\S+)(\s+.*|$)")
 _re_fill_pattern = re.compile(r"<FILL\s+[^>]*>")

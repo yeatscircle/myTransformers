@@ -33,7 +33,7 @@ rendered properly in your Markdown viewer.
 قبل أن تبدأ، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 نحن نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل ومشاركة نموذجك مع المجتمع. عندما تتم مطالبتك، أدخل رمزك لتسجيل الدخول:
@@ -92,9 +92,9 @@ pip install transformers datasets evaluate
 بالنسبة لنمذجة اللغة المقنعة، فإن الخطوة التالية هي تحميل معالج DistilRoBERTa لمعالجة حقل `text` الفرعي:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilroberta-base")
 ```
 
 ستلاحظ من المثال أعلاه، أن حقل `text` موجود بالفعل داخل `answers`. هذا يعني أنك ستحتاج إلى استخراج حقل `text` الفرعي من بنيته المضمنة باستخدام الدالة [`flatten`](https://huggingface.co/docs/datasets/process#flatten):
@@ -182,10 +182,10 @@ pip install transformers datasets evaluate
 استخدم رمز نهاية التسلسل كرمز الحشو وحدد `mlm_probability` لحجب الرموز عشوائياً كل مرة تكرر فيها البيانات:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> tokenizer.pad_token = tokenizer.eos_token
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+>> > tokenizer.pad_token = tokenizer.eos_token
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 ```
 </pt>
 <tf>
@@ -193,9 +193,9 @@ pip install transformers datasets evaluate
 استخدم رمز نهاية التسلسل كرمز الحشو وحدد `mlm_probability` لحجب الرموز عشوائياً كل مرة تكرر فيها البيانات:
 
 ```py
->>> from transformers import DataCollatorForLanguageModeling
+>> > from myTransformers import DataCollatorForLanguageModeling
 
->>> data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
+>> > data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15, return_tensors="tf")
 ```
 </tf>
 </frameworkcontent>
@@ -214,9 +214,9 @@ pip install transformers datasets evaluate
 أنت مستعد الآن لبدء تدريب نموذجك! قم بتحميل DistilRoBERTa باستخدام [`AutoModelForMaskedLM`]:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = AutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 في هذه المرحلة، تبقى ثلاث خطوات فقط:
@@ -273,17 +273,17 @@ Perplexity: 8.76
 لتعديل نموذج في TensorFlow، ابدأ بإعداد دالة محسن، وجدول معدل التعلم، وبعض معلمات التدريب:
 
 ```py
->>> from transformers import create_optimizer, AdamWeightDecay
+>> > from myTransformers import create_optimizer, AdamWeightDecay
 
->>> optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
+>> > optimizer = AdamWeightDecay(learning_rate=2e-5, weight_decay_rate=0.01)
 ```
 
 ثم يمكنك تحميل DistilRoBERTa باستخدام [`TFAutoModelForMaskedLM`]:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
+>> > model = TFAutoModelForMaskedLM.from_pretrained("distilbert/distilroberta-base")
 ```
 
 قم بتحويل مجموعات بياناتك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -315,11 +315,13 @@ Perplexity: 8.76
 يمكن القيام بذلك عن طريق تحديد مكان دفع نموذجك ومعالج الرموز في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> callback = PushToHubCallback(
-...     output_dir="my_awesome_eli5_mlm_model",
-...     tokenizer=tokenizer,
+>> > callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_eli5_mlm_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -354,10 +356,10 @@ Perplexity: 8.76
 أبسط طريقة لتجربة نموذجك المعدل للاستدلال هي استخدامه في [`pipeline`]. قم بإنشاء كائن  `pipeline` لملء الفراغ مع نموذجك، ومرر نصك إليه. إذا أردت، يمكنك استخدام معلمة `top_k` لتحديد عدد التنبؤات التي تريد إرجاعها:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> mask_filler = pipeline("fill-mask", "username/my_awesome_eli5_mlm_model")
->>> mask_filler(text, top_k=3)
+>> > mask_filler = pipeline("fill-mask", "username/my_awesome_eli5_mlm_model")
+>> > mask_filler(text, top_k=3)
 [{'score': 0.5150994658470154,
   'token': 21300,
   'token_str': ' spiral',
@@ -377,21 +379,21 @@ Perplexity: 8.76
 قم بتجزئة النص وإرجاع `input_ids` كمتجهات PyTorch. ستحتاج أيضًا إلى تحديد موضع رمز `<mask>`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="pt")
->>> mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
+>> > mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
 ```
 
 قم بتمرير المدخلات إلى النموذج وإرجاع `logits` للرمز المقنع:
 
 ```py
->>> from transformers import AutoModelForMaskedLM
+>> > from myTransformers import AutoModelForMaskedLM
 
->>> model = AutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = AutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 ثم قم بإرجاع الرموز الثلاثة المقنعة ذات الاحتمالية الأعلى وطباعتها:
@@ -410,21 +412,21 @@ The Milky Way is a small galaxy.
 قم بتقسيم النص إلى رموز وإرجاع `input_ids` كـ TensorFlow tensors. ستحتاج أيضًا إلى تحديد موضع رمز `<mask>`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> inputs = tokenizer(text, return_tensors="tf")
->>> mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
+>> > mask_token_index = tf.where(inputs["input_ids"] == tokenizer.mask_token_id)[0, 1]
 ```
 
 قم بتمرير المدخلات إلى النموذج وإرجاع `logits` للرمز المقنع:
 
 ```py
->>> from transformers import TFAutoModelForMaskedLM
+>> > from myTransformers import TFAutoModelForMaskedLM
 
->>> model = TFAutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
->>> logits = model(**inputs).logits
->>> mask_token_logits = logits[0, mask_token_index, :]
+>> > model = TFAutoModelForMaskedLM.from_pretrained("username/my_awesome_eli5_mlm_model")
+>> > logits = model(**inputs).logits
+>> > mask_token_logits = logits[0, mask_token_index, :]
 ```
 
 ثم قم بإرجاع الرموز الثلاثة المقنعة ذات الاحتمالية الأعلى وطباعتها:

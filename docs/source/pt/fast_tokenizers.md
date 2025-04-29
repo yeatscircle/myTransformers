@@ -41,9 +41,9 @@ Agora temos um tokenizer treinado nos arquivos que foram definidos. Nós podemos
 Vamos ver como aproveitar esse objeto tokenizer na biblioteca 🤗 Transformers. A classe [`PreTrainedTokenizerFast`] permite uma instanciação fácil, aceitando o objeto *tokenizer* instanciado como um argumento:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_object=tokenizer)
 ```
 Esse objeto pode ser utilizado com todos os métodos compartilhados pelos tokenizers dos 🤗 Transformers! Vá para [a página do tokenizer](main_classes/tokenizer) para mais informações.
 
@@ -58,9 +58,9 @@ Para carregar um tokenizer de um arquivo JSON vamos primeiro começar salvando n
 A pasta para qual salvamos esse arquivo pode ser passada para o método de inicialização do [`PreTrainedTokenizerFast`] usando o `tokenizer_file` parâmetro:
 
 ```python
->>> from transformers import PreTrainedTokenizerFast
+>> > from myTransformers import PreTrainedTokenizerFast
 
->>> fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
+>> > fast_tokenizer = PreTrainedTokenizerFast(tokenizer_file="tokenizer.json")
 ```
 
 Esse objeto pode ser utilizado com todos os métodos compartilhados pelos tokenizers dos 🤗 Transformers! Vá para [a página do tokenizer](main_classes/tokenizer) para mais informações.

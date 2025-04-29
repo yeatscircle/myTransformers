@@ -27,7 +27,7 @@ by [`~generation.GenerationMixin.generate`], but that can also be used as tuple 
 Here's an example:
 
 ```python
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from myTransformers import GPT2Tokenizer, GPT2LMHeadModel
 
 tokenizer = GPT2Tokenizer.from_pretrained("openai-community/gpt2")
 model = GPT2LMHeadModel.from_pretrained("openai-community/gpt2")

@@ -68,24 +68,24 @@ BART와 동일한 모델을 사용하는 번역 모델 프레임워크입니다.
 
 [Tatoeba-Challenge 리포지토리](https://github.com/Helsinki-NLP/Tatoeba-Challenge)의 새로운 다국적 모델은 3자리 언어 코드를 사용합니다:
 
-
 ```python
->>> from transformers import MarianMTModel, MarianTokenizer
+>> > from myTransformers import MarianMTModel, MarianTokenizer
 
->>> src_text = [
-...     ">>fra<< this is a sentence in english that we want to translate to french",
-...     ">>por<< This should go to portuguese",
-...     ">>esp<< And this to Spanish",
-... ]
+>> > src_text = [
+    ...     ">>fra<< this is a sentence in english that we want to translate to french",
+    ...     ">>por<< This should go to portuguese",
+    ...     ">>esp<< And this to Spanish",
+    ...]
 
->>> model_name = "Helsinki-NLP/opus-mt-en-roa"
->>> tokenizer = MarianTokenizer.from_pretrained(model_name)
->>> print(tokenizer.supported_language_codes)
-['>>zlm_Latn<<', '>>mfe<<', '>>hat<<', '>>pap<<', '>>ast<<', '>>cat<<', '>>ind<<', '>>glg<<', '>>wln<<', '>>spa<<', '>>fra<<', '>>ron<<', '>>por<<', '>>ita<<', '>>oci<<', '>>arg<<', '>>min<<']
+>> > model_name = "Helsinki-NLP/opus-mt-en-roa"
+>> > tokenizer = MarianTokenizer.from_pretrained(model_name)
+>> > print(tokenizer.supported_language_codes)
+['>>zlm_Latn<<', '>>mfe<<', '>>hat<<', '>>pap<<', '>>ast<<', '>>cat<<', '>>ind<<', '>>glg<<', '>>wln<<', '>>spa<<',
+ '>>fra<<', '>>ron<<', '>>por<<', '>>ita<<', '>>oci<<', '>>arg<<', '>>min<<']
 
->>> model = MarianMTModel.from_pretrained(model_name)
->>> translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
->>> [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+>> > model = MarianMTModel.from_pretrained(model_name)
+>> > translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
+>> > [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
 ["c'est une phrase en anglais que nous voulons traduire en français",
  'Isto deve ir para o português.',
  'Y esto al español']
@@ -133,23 +133,22 @@ GROUP_MEMBERS = {
 
 영어를 여러 로망스 언어로 번역하는 예제입니다. 여기서는 구형 2자리 언어 코드를 사용합니다:
 
-
 ```python
->>> from transformers import MarianMTModel, MarianTokenizer
+>> > from myTransformers import MarianMTModel, MarianTokenizer
 
->>> src_text = [
-...     ">>fr<< this is a sentence in english that we want to translate to french",
-...     ">>pt<< This should go to portuguese",
-...     ">>es<< And this to Spanish",
-... ]
+>> > src_text = [
+    ...     ">>fr<< this is a sentence in english that we want to translate to french",
+    ...     ">>pt<< This should go to portuguese",
+    ...     ">>es<< And this to Spanish",
+    ...]
 
->>> model_name = "Helsinki-NLP/opus-mt-en-ROMANCE"
->>> tokenizer = MarianTokenizer.from_pretrained(model_name)
+>> > model_name = "Helsinki-NLP/opus-mt-en-ROMANCE"
+>> > tokenizer = MarianTokenizer.from_pretrained(model_name)
 
->>> model = MarianMTModel.from_pretrained(model_name)
->>> translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
->>> tgt_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
-["c'est une phrase en anglais que nous voulons traduire en français", 
+>> > model = MarianMTModel.from_pretrained(model_name)
+>> > translated = model.generate(**tokenizer(src_text, return_tensors="pt", padding=True))
+>> > tgt_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+["c'est une phrase en anglais que nous voulons traduire en français",
  'Isto deve ir para o português.',
  'Y esto al español']
 ```

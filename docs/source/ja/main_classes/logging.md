@@ -22,11 +22,10 @@ rendered properly in your Markdown viewer.
 
 詳細度を変更するには、直接設定メソッドの1つを使用するだけです。例えば、詳細度をINFOレベルに変更する方法は以下の通りです。
 
-
 ```python
-import transformers
+import myTransformers
 
-transformers.logging.set_verbosity_info()
+myTransformers.logging.set_verbosity_info()
 ```
 
 
@@ -50,10 +49,10 @@ TRANSFORMERS_NO_ADVISORY_WARNINGS=1 ./myprogram.py
 以下は、独自のモジュールまたはスクリプトでライブラリと同じロガーを使用する方法の例です。
 
 ```python
-from transformers.utils import logging
+from myTransformers.utils import logging
 
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers")
+logger = logging.get_logger("myTransformers")
 logger.info("INFO")
 logger.warning("WARN")
 ```

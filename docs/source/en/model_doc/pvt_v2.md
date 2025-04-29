@@ -47,11 +47,12 @@ This model was contributed by [FoamoftheSea](https://huggingface.co/FoamoftheSea
 - ImageNet pretrained weights for all model sizes can be found on the [hub](https://huggingface.co/models?other=pvt_v2).
 
  The best way to get started with the PVTv2 is to load the pretrained checkpoint with the size of your choosing using `AutoModelForImageClassification`:
+
 ```python
 import requests
 import torch
 
-from transformers import AutoModelForImageClassification, AutoImageProcessor
+from myTransformers import AutoModelForImageClassification, AutoImageProcessor
 from PIL import Image
 
 model = AutoModelForImageClassification.from_pretrained("OpenGVLab/pvt_v2_b0")
@@ -68,7 +69,7 @@ To use the PVTv2 as a backbone for more complex architectures like DeformableDET
 import requests
 import torch
 
-from transformers import AutoConfig, AutoModelForObjectDetection, AutoImageProcessor
+from myTransformers import AutoConfig, AutoModelForObjectDetection, AutoImageProcessor
 from PIL import Image
 
 model = AutoModelForObjectDetection.from_config(

@@ -20,15 +20,15 @@ import numpy as np
 import pytest
 from datasets import load_dataset
 
-from transformers.testing_utils import (
+from myTransformers.testing_utils import (
     require_essentia,
     require_librosa,
     require_pretty_midi,
     require_scipy,
     require_torch,
 )
-from transformers.tokenization_utils import BatchEncoding
-from transformers.utils.import_utils import (
+from myTransformers.tokenization_utils import BatchEncoding
+from myTransformers.utils.import_utils import (
     is_essentia_available,
     is_librosa_available,
     is_pretty_midi_available,
@@ -48,7 +48,7 @@ requirements_available = (
 if requirements_available:
     import pretty_midi
 
-    from transformers import (
+    from myTransformers import (
         Pop2PianoFeatureExtractor,
         Pop2PianoForConditionalGeneration,
         Pop2PianoProcessor,

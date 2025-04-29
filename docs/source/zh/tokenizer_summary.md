@@ -90,10 +90,10 @@ and [SentencePiece](#sentencepiece)，并且给出了示例，哪个模型用到
 方式是通过分解这些单词到已知的子词，举个例子：[`~transformers.BertTokenizer`]对句子`"I have a new GPU!"`分词的结果如下：
 
 ```py
->>> from transformers import BertTokenizer
+>> > from myTransformers import BertTokenizer
 
->>> tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
->>> tokenizer.tokenize("I have a new GPU!")
+>> > tokenizer = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer.tokenize("I have a new GPU!")
 ["i", "have", "a", "new", "gp", "##u", "!"]
 ```
 
@@ -104,10 +104,10 @@ token应该附着在前面那个token的后面，不带空格的附着（分词�
 另外一个例子，[`~transformers.XLNetTokenizer`]对前面的文本例子分词结果如下：
 
 ```py
->>> from transformers import XLNetTokenizer
+>> > from myTransformers import XLNetTokenizer
 
->>> tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
->>> tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
+>> > tokenizer = XLNetTokenizer.from_pretrained("xlnet/xlnet-base-cased")
+>> > tokenizer.tokenize("Don't you love 🤗 Transformers? We sure do.")
 ["▁Don", "'", "t", "▁you", "▁love", "▁", "🤗", "▁", "Transform", "ers", "?", "▁We", "▁sure", "▁do", "."]
 ```
 

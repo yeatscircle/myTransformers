@@ -38,9 +38,8 @@ rendered properly in your Markdown viewer.
 
 您可以使用`max_shard_size`参数来控制分片之前的最大大小。为了示例的目的，我们将使用具有较小分片大小的普通大小的模型：让我们以传统的BERT模型为例。
 
-
 ```py
-from transformers import AutoModel
+from myTransformers import AutoModel
 
 model = AutoModel.from_pretrained("google-bert/bert-base-cased")
 ```
@@ -107,13 +106,14 @@ dict_keys(['metadata', 'weight_map'])
 
 如果您想直接在模型内部加载这样的分片`checkpoint`，而不使用 [`PreTrainedModel.from_pretrained`](就像您会为完整`checkpoint`执行 `model.load_state_dict()` 一样)，您应该使用 [`modeling_utils.load_sharded_checkpoint`]：
 
-
 ```py
->>> from transformers.modeling_utils import load_sharded_checkpoint
+>> > from myTransformers.modeling_utils import load_sharded_checkpoint
 
->>> with tempfile.TemporaryDirectory() as tmp_dir:
-...     model.save_pretrained(tmp_dir, max_shard_size="200MB")
-...     load_sharded_checkpoint(model, tmp_dir)
+>> > with tempfile.TemporaryDirectory() as tmp_dir:
+    ...
+model.save_pretrained(tmp_dir, max_shard_size="200MB")
+...
+load_sharded_checkpoint(model, tmp_dir)
 ```
 
 ## 低内存加载

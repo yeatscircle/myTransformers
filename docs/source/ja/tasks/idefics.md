@@ -51,7 +51,7 @@ DeepMind によって最初に開発された最先端の視覚言語モデル�
 始める前に、必要なライブラリがすべてインストールされていることを確認してください。
 
 ```bash
-pip install -q bitsandbytes sentencepiece accelerate transformers
+pip install -q bitsandbytes sentencepiece accelerate myTransformers
 ```
 
 <Tip>
@@ -70,15 +70,14 @@ pip install -q bitsandbytes sentencepiece accelerate transformers
 IDEFICS プロセッサは、[`LlamaTokenizer`] と IDEFICS 画像プロセッサを単一のプロセッサにラップして処理します。
 モデルのテキストと画像の入力を準備します。
 
-
 ```py
->>> import torch
+>> > import torch
 
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor
 
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16, device_map="auto")
+>> > model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16, device_map="auto")
 ```
 
 `device_map`を`auto`に設定すると、モデルの重みを最も最適化された状態でロードおよび保存する方法が自動的に決定されます。
@@ -90,22 +89,26 @@ IDEFICS プロセッサは、[`LlamaTokenizer`] と IDEFICS 画像プロセッ�
 プロセッサを 4 ビット精度で使用する場合、`BitsAndBytesConfig`を`from_pretrained`メソッドに渡すと、モデルが圧縮されます。
 ロード中にその場で。
 
-
 ```py
->>> import torch
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor, BitsAndBytesConfig
+>> > import torch
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor, BitsAndBytesConfig
 
->>> quantization_config = BitsAndBytesConfig(
-...     load_in_4bit=True,
-...     bnb_4bit_compute_dtype=torch.float16,
+>> > quantization_config = BitsAndBytesConfig(
+    ...
+load_in_4bit = True,
+...
+bnb_4bit_compute_dtype = torch.float16,
 ... )
 
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> model = IdeficsForVisionText2Text.from_pretrained(
-...     checkpoint,
-...     quantization_config=quantization_config,
-...     device_map="auto"
+>> > model = IdeficsForVisionText2Text.from_pretrained(
+    ...
+checkpoint,
+...
+quantization_config = quantization_config,
+...
+device_map = "auto"
 ... )
 ```
 
@@ -389,42 +392,44 @@ This is an image of a vegetable stand.
 会話での使用とプロンプトは、基本モデルの使用と非常に似ています。
 
 ```py
->>> import torch
->>> from transformers import IdeficsForVisionText2Text, AutoProcessor
+>> > import torch
+>> > from myTransformers import IdeficsForVisionText2Text, AutoProcessor
 
->>> device = "cuda" if torch.cuda.is_available() else "cpu"
+>> > device = "cuda" if torch.cuda.is_available() else "cpu"
 
->>> checkpoint = "HuggingFaceM4/idefics-9b-instruct"
->>> model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16).to(device)
->>> processor = AutoProcessor.from_pretrained(checkpoint)
+>> > checkpoint = "HuggingFaceM4/idefics-9b-instruct"
+>> > model = IdeficsForVisionText2Text.from_pretrained(checkpoint, torch_dtype=torch.bfloat16).to(device)
+>> > processor = AutoProcessor.from_pretrained(checkpoint)
 
->>> prompts = [
-...     [
-...         "User: What is in this image?",
-...         "https://upload.wikimedia.org/wikipedia/commons/8/86/Id%C3%A9fix.JPG",
-...         "<end_of_utterance>",
+>> > prompts = [
+    ...[
+        ...         "User: What is in this image?",
+    ...         "https://upload.wikimedia.org/wikipedia/commons/8/86/Id%C3%A9fix.JPG",
+    ...         "<end_of_utterance>",
 
-...         "\nAssistant: This picture depicts Idefix, the dog of Obelix in Asterix and Obelix. Idefix is running on the ground.<end_of_utterance>",
+    ...
+    "\nAssistant: This picture depicts Idefix, the dog of Obelix in Asterix and Obelix. Idefix is running on the ground.<end_of_utterance>",
 
-...         "\nUser:",
-...         "https://static.wikia.nocookie.net/asterix/images/2/25/R22b.gif/revision/latest?cb=20110815073052",
-...         "And who is that?<end_of_utterance>",
+    ...         "\nUser:",
+    ...         "https://static.wikia.nocookie.net/asterix/images/2/25/R22b.gif/revision/latest?cb=20110815073052",
+    ...         "And who is that?<end_of_utterance>",
 
-...         "\nAssistant:",
-...     ],
-... ]
+    ...         "\nAssistant:",
+    ...],
+...]
 
->>> # --batched mode
->>> inputs = processor(prompts, add_end_of_utterance_token=False, return_tensors="pt").to(device)
->>> # --single sample mode
->>> # inputs = processor(prompts[0], return_tensors="pt").to(device)
+>> >  # --batched mode
+>> > inputs = processor(prompts, add_end_of_utterance_token=False, return_tensors="pt").to(device)
+>> >  # --single sample mode
+>> >  # inputs = processor(prompts[0], return_tensors="pt").to(device)
 
->>> # Generation args
->>> exit_condition = processor.tokenizer("<end_of_utterance>", add_special_tokens=False).input_ids
->>> bad_words_ids = processor.tokenizer(["<image>", "<fake_token_around_image>"], add_special_tokens=False).input_ids
+>> >  # Generation args
+>> > exit_condition = processor.tokenizer("<end_of_utterance>", add_special_tokens=False).input_ids
+>> > bad_words_ids = processor.tokenizer(["<image>", "<fake_token_around_image>"], add_special_tokens=False).input_ids
 
->>> generated_ids = model.generate(**inputs, eos_token_id=exit_condition, bad_words_ids=bad_words_ids, max_length=100)
->>> generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)
->>> for i, t in enumerate(generated_text):
-...     print(f"{i}:\n{t}\n")
+>> > generated_ids = model.generate(**inputs, eos_token_id=exit_condition, bad_words_ids=bad_words_ids, max_length=100)
+>> > generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)
+>> > for i, t in enumerate(generated_text):
+    ...
+print(f"{i}:\n{t}\n")
 ```

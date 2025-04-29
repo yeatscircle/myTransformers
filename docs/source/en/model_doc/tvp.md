@@ -46,13 +46,14 @@ The [`TvpProcessor`] wraps [`BertTokenizer`] and [`TvpImageProcessor`] into a si
 encode the text and prepare the images respectively.
 
 The following example shows how to run temporal video grounding using [`TvpProcessor`] and [`TvpForVideoGrounding`].
+
 ```python
 import av
 import cv2
 import numpy as np
 import torch
 from huggingface_hub import hf_hub_download
-from transformers import AutoProcessor, TvpForVideoGrounding
+from myTransformers import AutoProcessor, TvpForVideoGrounding
 
 
 def pyav_decode(container, sampling_rate, num_frames, clip_idx, num_clips, target_fps):
@@ -137,20 +138,22 @@ raw_sampled_frms = decode(**decoder_kwargs)
 text = "a person is sitting on a bed."
 processor = AutoProcessor.from_pretrained("Intel/tvp-base")
 model_inputs = processor(
-    text=[text], videos=list(raw_sampled_frms), return_tensors="pt", max_text_length=100#, size=size
+    text=[text], videos=list(raw_sampled_frms), return_tensors="pt", max_text_length=100  # , size=size
 )
 
 model_inputs["pixel_values"] = model_inputs["pixel_values"].to(model.dtype)
 output = model(**model_inputs)
+
 
 def get_video_duration(filename):
     cap = cv2.VideoCapture(filename)
     if cap.isOpened():
         rate = cap.get(5)
         frame_num = cap.get(7)
-        duration = frame_num/rate
+        duration = frame_num / rate
         return duration
     return -1
+
 
 duration = get_video_duration(file)
 start, end = processor.post_process_video_grounding(output.logits, duration)

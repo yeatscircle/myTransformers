@@ -80,7 +80,7 @@ Python 代码与编译 TorchScript 的性能基准。
 然后将其保存到名为 `traced_bert.pt` 的磁盘文件中：
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 
 enc = BertTokenizer.from_pretrained("google-bert/bert-base-uncased")
@@ -179,7 +179,7 @@ transformers 模型，或其变体，如 [distilBERT](https://huggingface.co/doc
 `BertModel` 以将模型转换为 AWS NEURON。导入 `torch.neuron` 框架扩展以通过 Python API 访问 Neuron SDK 的组件：
 
 ```python
-from transformers import BertModel, BertTokenizer, BertConfig
+from myTransformers import BertModel, BertTokenizer, BertConfig
 import torch
 import torch.neuron
 ```

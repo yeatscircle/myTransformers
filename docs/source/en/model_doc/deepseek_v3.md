@@ -35,30 +35,32 @@ We are super happy to make this code community-powered, and would love to see ho
 ### Usage tips
 The model uses Multi-head Latent Attention (MLA) and DeepSeekMoE architectures for efficient inference and cost-effective training. It employs an auxiliary-loss-free strategy for load balancing and multi-token prediction training objective. The model can be used for various language tasks after being pre-trained on 14.8 trillion tokens and going through Supervised Fine-Tuning and Reinforcement Learning stages.
 
-You can run the model in `FP8` automatically, using 2 nodes of 8 H100 should be more than enough! 
+You can run the model in `FP8` automatically, using 2 nodes of 8 H100 should be more than enough!
 
 ```python
 # `run_deepseek_v1.py`
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+
 torch.manual_seed(30)
 
 tokenizer = AutoTokenizer.from_pretrained("deepseek-r1")
 
 chat = [
-  {"role": "user", "content": "Hello, how are you?"},
-  {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
-  {"role": "user", "content": "I'd like to show off how chat templating works!"},
+    {"role": "user", "content": "Hello, how are you?"},
+    {"role": "assistant", "content": "I'm doing great. How can I help you today?"},
+    {"role": "user", "content": "I'd like to show off how chat templating works!"},
 ]
 
-
 model = AutoModelForCausalLM.from_pretrained("deepseek-r1", device_map="auto", torch_dtype=torch.bfloat16)
-inputs = tokenizer.apply_chat_template(chat, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(model.device)
+inputs = tokenizer.apply_chat_template(chat, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(
+    model.device)
 import time
+
 start = time.time()
 outputs = model.generate(inputs, max_new_tokens=50)
 print(tokenizer.batch_decode(outputs))
-print(time.time()-start)
+print(time.time() - start)
 ```
 This generated: 
 

@@ -41,9 +41,8 @@ Transformers 4.20.0では、[`~PreTrainedModel.from_pretrained`] メソッドが
 
 このオプションは `low_cpu_mem_usage=True` で有効にできます。モデルはまず空の重みを持つメタデバイス上に作成され、その後状態辞書が内部に読み込まれます（シャードされたチェックポイントの場合、シャードごとに読み込まれます）。この方法で使用される最大RAMは、モデルの完全なサイズだけです。
 
-
 ```py
-from transformers import AutoModelForSeq2SeqLM
+from myTransformers import AutoModelForSeq2SeqLM
 
 t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", low_cpu_mem_usage=True)
 ```
@@ -52,9 +51,8 @@ t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", low_cpu_mem_usag
 
 `device_map` を渡す際、`low_cpu_mem_usage` は自動的に `True` に設定されるため、それを指定する必要はありません。
 
-
 ```py
-from transformers import AutoModelForSeq2SeqLM
+from myTransformers import AutoModelForSeq2SeqLM
 
 t0pp = AutoModelForSeq2SeqLM.from_pretrained("bigscience/T0pp", device_map="auto")
 ```

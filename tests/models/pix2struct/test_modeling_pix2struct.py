@@ -22,9 +22,9 @@ import unittest
 import numpy as np
 import requests
 
-from transformers import Pix2StructConfig, Pix2StructTextConfig, Pix2StructVisionConfig
-from transformers.testing_utils import require_torch, require_vision, slow, torch_device
-from transformers.utils import is_torch_available, is_vision_available
+from myTransformers import Pix2StructConfig, Pix2StructTextConfig, Pix2StructVisionConfig
+from myTransformers.testing_utils import require_torch, require_vision, slow, torch_device
+from myTransformers.utils import is_torch_available, is_vision_available
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -42,7 +42,7 @@ if is_torch_available():
     import torch
     from torch import nn
 
-    from transformers import (
+    from myTransformers import (
         Pix2StructForConditionalGeneration,
         Pix2StructProcessor,
         Pix2StructTextModel,

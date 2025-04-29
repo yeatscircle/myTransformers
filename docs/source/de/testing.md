@@ -201,7 +201,7 @@ Returns:
 Example:
     ```python
     >>> import torch
-    >>> from transformers import WhisperModel, WhisperFeatureExtractor
+    >>> from myTransformers import WhisperModel, WhisperFeatureExtractor
     >>> from datasets import load_dataset
 
     >>> model = WhisperModel.from_pretrained("openai/whisper-base")
@@ -506,7 +506,7 @@ Innerhalb von Tests:
 - Wie viele GPUs sind verfügbar:
 
 ```python
-from transformers.testing_utils import get_gpu_count
+from myTransformers.testing_utils import get_gpu_count
 
 n_gpu = get_gpu_count()  # works with torch and tf
 ```
@@ -736,7 +736,7 @@ Um diese zu verwenden, müssen Sie lediglich sicherstellen, dass der Test in ein
 `transformers.test_utils.TestCasePlus` befindet. Zum Beispiel:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -748,7 +748,7 @@ Wenn Sie Pfade nicht über `pathlib` manipulieren müssen oder nur einen Pfad al
 `str()` auf das `pathlib`-Objekt anwenden oder die Accessoren mit der Endung `_str` verwenden. Zum Beispiel:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class PathExampleTest(TestCasePlus):
@@ -771,7 +771,7 @@ Unittest.TestCase`, so dass wir in den Testmodulen einfach von ihr erben können
 Hier ist ein Beispiel für die Verwendung dieser Klasse:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class ExamplesTests(TestCasePlus):
@@ -829,10 +829,9 @@ anders.
 Wenn Sie `sys.path` vorübergehend überschreiben müssen, um z.B. von einem anderen Test zu importieren, können Sie den
 Kontextmanager `ExtendSysPath` verwenden. Beispiel:
 
-
 ```python
 import os
-from transformers.testing_utils import ExtendSysPath
+from myTransformers.testing_utils import ExtendSysPath
 
 bindir = os.path.abspath(os.path.dirname(__file__))
 with ExtendSysPath(f"{bindir}/.."):
@@ -940,7 +939,9 @@ eine Stunde auf die Fertigstellung der Testsuite auf CI zu warten. Daher sollten
 wie im folgenden Beispiel markiert werden:
 
 ```python no-style
-from transformers.testing_utils import slow
+from myTransformers.testing_utils import slow
+
+
 @slow
 def test_integration_foo():
 ```
@@ -1084,7 +1085,7 @@ Aber dann haben wir einen Hilfskontextmanager-Wrapper, der sich automatisch um a
 einige "*.*.*.*" enthält oder nicht:
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 with CaptureStdout() as cs:
     function_that_writes_to_stdout()
@@ -1094,7 +1095,7 @@ print(cs.out)
 Hier ist ein vollständiges Testbeispiel:
 
 ```python
-from transformers.testing_utils import CaptureStdout
+from myTransformers.testing_utils import CaptureStdout
 
 msg = "Secret message\r"
 final = "Hello World"
@@ -1106,7 +1107,7 @@ assert cs.out == final + "\n", f"captured: {cs.out}, expecting {final}"
 Wenn Sie `stderr` aufzeichnen möchten, verwenden Sie stattdessen die Klasse `CaptureStderr`:
 
 ```python
-from transformers.testing_utils import CaptureStderr
+from myTransformers.testing_utils import CaptureStderr
 
 with CaptureStderr() as cs:
     function_that_writes_to_stderr()
@@ -1116,7 +1117,7 @@ print(cs.err)
 Wenn Sie beide Streams auf einmal erfassen müssen, verwenden Sie die übergeordnete Klasse `CaptureStd`:
 
 ```python
-from transformers.testing_utils import CaptureStd
+from myTransformers.testing_utils import CaptureStd
 
 with CaptureStd() as cs:
     function_that_writes_to_stdout_and_stderr()
@@ -1132,12 +1133,12 @@ aus dem Kontext wieder.
 Wenn Sie die Ausgabe eines Loggers validieren müssen, können Sie `CaptureLogger` verwenden:
 
 ```python
-from transformers import logging
-from transformers.testing_utils import CaptureLogger
+from myTransformers import logging
+from myTransformers.testing_utils import CaptureLogger
 
 msg = "Testing 1, 2, 3"
 logging.set_verbosity_info()
-logger = logging.get_logger("transformers.models.bart.tokenization_bart")
+logger = logging.get_logger("myTransformers.models.bart.tokenization_bart")
 with CaptureLogger(logger) as cl:
     logger.info(msg)
 assert cl.out, msg + "\n"
@@ -1149,7 +1150,7 @@ Wenn Sie die Auswirkungen von Umgebungsvariablen für einen bestimmten Test test
 `transformers.testing_utils.mockenv`
 
 ```python
-from transformers.testing_utils import mockenv
+from myTransformers.testing_utils import mockenv
 
 
 class HfArgumentParserTest(unittest.TestCase):
@@ -1162,7 +1163,7 @@ Manchmal muss ein externes Programm aufgerufen werden, was die Einstellung von `
 mehrere lokale Pfade. Eine Hilfsklasse `transformers.test_utils.TestCasePlus` hilft Ihnen dabei:
 
 ```python
-from transformers.testing_utils import TestCasePlus
+from myTransformers.testing_utils import TestCasePlus
 
 
 class EnvExampleTest(TestCasePlus):

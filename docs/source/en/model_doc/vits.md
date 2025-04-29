@@ -31,7 +31,7 @@ The example below demonstrates how to generate text based on an image with [`Pip
 
 ```python
 import torch
-from transformers import pipeline, set_seed
+from myTransformers import pipeline, set_seed
 from scipy.io.wavfile import write
 
 set_seed(555)
@@ -60,7 +60,7 @@ write("hello.wav", sampling_rate, audio_data.squeeze())
 import torch
 import scipy
 from IPython.display import Audio
-from transformers import AutoTokenizer, VitsModel, set_seed
+from myTransformers import AutoTokenizer, VitsModel, set_seed
 
 tokenizer = AutoTokenizer.from_pretrained("facebook/mms-tts-eng")
 model = VitsModel.from_pretrained("facebook/mms-tts-eng", torch_dtype=torch.float16).to("cuda")
@@ -88,7 +88,7 @@ Audio(waveform, rate=model.config.sampling_rate)
 
    ```py
    # pip install -U uroman
-   from transformers import VitsTokenizer
+   from myTransformers import VitsTokenizer
 
    tokenizer = VitsTokenizer.from_pretrained("facebook/mms-tts-eng")
    print(tokenizer.is_uroman)
@@ -106,7 +106,7 @@ Audio(waveform, rate=model.config.sampling_rate)
 
    ```py
    import torch
-   from transformers import VitsTokenizer, VitsModel, set_seed
+   from myTransformers import VitsTokenizer, VitsModel, set_seed
    import os
    import subprocess
 

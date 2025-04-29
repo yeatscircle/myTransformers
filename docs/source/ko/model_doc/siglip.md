@@ -54,22 +54,22 @@ SigLIP을 사용하는 방법에는 두 가지 주요 방법이 있습니다: �
 파이프라인을 사용하면 몇 줄의 코드로 모델을 사용할 수 있습니다:
 
 ```python
->>> from transformers import pipeline
->>> from PIL import Image
->>> import requests
+>> > from myTransformers import pipeline
+>> > from PIL import Image
+>> > import requests
 
->>> # 파이프라인 로드
->>> image_classifier = pipeline(task="zero-shot-image-classification", model="google/siglip-base-patch16-224")
+>> >  # 파이프라인 로드
+>> > image_classifier = pipeline(task="zero-shot-image-classification", model="google/siglip-base-patch16-224")
 
->>> # 이미지 로드
->>> url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> >  # 이미지 로드
+>> > url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> # 추론
->>> candidate_labels = ["2 cats", "a plane", "a remote"]
->>> outputs = image_classifier(image, candidate_labels=candidate_labels)
->>> outputs = [{"score": round(output["score"], 4), "label": output["label"] } for output in outputs]
->>> print(outputs)
+>> >  # 추론
+>> > candidate_labels = ["2 cats", "a plane", "a remote"]
+>> > outputs = image_classifier(image, candidate_labels=candidate_labels)
+>> > outputs = [{"score": round(output["score"], 4), "label": output["label"]} for output in outputs]
+>> > print(outputs)
 [{'score': 0.1979, 'label': '2 cats'}, {'score': 0.0, 'label': 'a remote'}, {'score': 0.0, 'label': 'a plane'}]
 ```
 
@@ -78,30 +78,33 @@ SigLIP을 사용하는 방법에는 두 가지 주요 방법이 있습니다: �
 전처리와 후처리를 직접 수행하려면 다음과 같이 하면 됩니다:
 
 ```python
->>> from PIL import Image
->>> import requests
->>> from transformers import AutoProcessor, AutoModel
->>> import torch
+>> > from PIL import Image
+>> > import requests
+>> > from myTransformers import AutoProcessor, AutoModel
+>> > import torch
 
->>> model = AutoModel.from_pretrained("google/siglip-base-patch16-224")
->>> processor = AutoProcessor.from_pretrained("google/siglip-base-patch16-224")
+>> > model = AutoModel.from_pretrained("google/siglip-base-patch16-224")
+>> > processor = AutoProcessor.from_pretrained("google/siglip-base-patch16-224")
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> candidate_labels = ["2 cats", "2 dogs"]
+>> > candidate_labels = ["2 cats", "2 dogs"]
 # 파이프라인 프롬프트 템플릿을 따라 동일한 결과를 얻습니다
->>> texts = [f'This is a photo of {label}.' for label in candidate_labels]
+>> > texts = [f'This is a photo of {label}.' for label in candidate_labels]
 # 중요: 모델이 이렇게 학습되었으므로 `padding=max_length`를 전달합니다
->>> inputs = processor(text=texts, images=image, padding="max_length", return_tensors="pt")
+>> > inputs = processor(text=texts, images=image, padding="max_length", return_tensors="pt")
 
->>> with torch.no_grad():
-...     outputs = model(**inputs)
+>> > with torch.no_grad():
+    ...
+outputs = model(**inputs)
 
->>> logits_per_image = outputs.logits_per_image
->>> probs = torch.sigmoid(logits_per_image) # 시그모이드 활성화 함수를 적용한 확률입니다
->>> print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
-19.8% that image 0 is '2 cats'
+>> > logits_per_image = outputs.logits_per_image
+>> > probs = torch.sigmoid(logits_per_image)  # 시그모이드 활성화 함수를 적용한 확률입니다
+>> > print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
+19.8 % that
+image
+0 is '2 cats'
 ```
 
 ## 리소스[[resources]]
@@ -127,37 +130,45 @@ pip install -U flash-attn --no-build-isolation
 Flash Attention 2를 사용하여 모델을 로드하고 실행하려면 아래 코드를 참조하세요:
 
 ```python
->>> import torch
->>> import requests
->>> from PIL import Image
->>> from transformers import SiglipProcessor, SiglipModel
->>> device = "cuda" # 모델을 로드할 장치
+>> > import torch
+>> > import requests
+>> > from PIL import Image
+>> > from myTransformers import SiglipProcessor, SiglipModel
+>> > device = "cuda"  # 모델을 로드할 장치
 
->>> model = SiglipModel.from_pretrained(
-...     "google/siglip-so400m-patch14-384",
-...     attn_implementation="flash_attention_2",
-...     torch_dtype=torch.float16,
-...     device_map=device,
+>> > model = SiglipModel.from_pretrained(
+    ...
+"google/siglip-so400m-patch14-384",
+...
+attn_implementation = "flash_attention_2",
+...
+torch_dtype = torch.float16,
+...
+device_map = device,
 ... )
->>> processor = SiglipProcessor.from_pretrained("google/siglip-so400m-patch14-384")
+>> > processor = SiglipProcessor.from_pretrained("google/siglip-so400m-patch14-384")
 
->>> url = "http://images.cocodataset.org/val2017/000000039769.jpg"
->>> image = Image.open(requests.get(url, stream=True).raw)
+>> > url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+>> > image = Image.open(requests.get(url, stream=True).raw)
 
->>> candidate_labels = ["2 cats", "2 dogs"]
+>> > candidate_labels = ["2 cats", "2 dogs"]
 # 파이프라인 프롬프트 템플릿을 따라 동일한 결과를 얻습니다
->>> texts = [f'This is a photo of {label}.' for label in candidate_labels]
+>> > texts = [f'This is a photo of {label}.' for label in candidate_labels]
 # 중요: 모델이 이렇게 학습되었으므로 `padding=max_length`를 전달합니다
->>> inputs = processor(text=texts, images=image, padding="max_length", return_tensors="pt").to(device)
+>> > inputs = processor(text=texts, images=image, padding="max_length", return_tensors="pt").to(device)
 
->>> with torch.no_grad():
-...     with torch.autocast(device):
-...         outputs = model(**inputs)
+>> > with torch.no_grad():
+    ...
+with torch.autocast(device):
+    ...
+outputs = model(**inputs)
 
->>> logits_per_image = outputs.logits_per_image
->>> probs = torch.sigmoid(logits_per_image) # 시그모이드 활성화 함수를 적용한 확률입니다
->>> print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
-19.8% that image 0 is '2 cats'
+>> > logits_per_image = outputs.logits_per_image
+>> > probs = torch.sigmoid(logits_per_image)  # 시그모이드 활성화 함수를 적용한 확률입니다
+>> > print(f"{probs[0][0]:.1%} that image 0 is '{candidate_labels[0]}'")
+19.8 % that
+image
+0 is '2 cats'
 ```
 
 
@@ -172,13 +183,17 @@ PyTorch는 `torch.nn.functional`의 일부로 스케일된 점곱 어텐션(SDPA
 `from_pretrained()`에서 `attn_implementation="sdpa"`를 설정하여 SDPA를 명시적으로 요청할 수 있습니다. `torch>=2.1.1`이 설치되어 있는지 확인하세요.
 
 ```python
->>> from transformers import SiglipModel
+>> > from myTransformers import SiglipModel
 
->>> model = SiglipModel.from_pretrained(
-...     "google/siglip-so400m-patch14-384",
-...     attn_implementation="sdpa",
-...     torch_dtype=torch.float16,
-...     device_map=device,
+>> > model = SiglipModel.from_pretrained(
+    ...
+"google/siglip-so400m-patch14-384",
+...
+attn_implementation = "sdpa",
+...
+torch_dtype = torch.float16,
+...
+device_map = device,
 ... )
 ```
 

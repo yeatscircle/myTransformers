@@ -70,20 +70,19 @@ my_xla_fn = tf.function(model.my_xla_fn, jit_compile=True)
 🤗 Transformers에서 XLA로 가속화된 생성을 활성화하려면 최신 버전의 `transformers`가 설치되어 있어야 합니다. 다음과 같이 설치할 수 있습니다:
 
 ```bash
-pip install transformers --upgrade
+pip install myTransformers --upgrade
 ```
 
 그리고 다음 코드를 실행할 수 있습니다:
 
 ```py
 import tensorflow as tf
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
+from myTransformers import AutoTokenizer, TFAutoModelForCausalLM
 
 # 최소 버전의 Transformers가 설치되어 있지 않다면 오류가 발생합니다.
-from transformers.utils import check_min_version
+from myTransformers.utils import check_min_version
 
 check_min_version("4.21.0")
-
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", padding_side="left", pad_token="</s>")
 model = TFAutoModelForCausalLM.from_pretrained("openai-community/gpt2")
@@ -112,7 +111,7 @@ XLA 활성화 함수(`xla_generate()`와 같은)를 처음 실행할 때 내부�
 
 ```py
 import tensorflow as tf
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
+from myTransformers import AutoTokenizer, TFAutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", padding_side="left", pad_token="</s>")
 model = TFAutoModelForCausalLM.from_pretrained("openai-community/gpt2")
@@ -133,7 +132,7 @@ print(f"Generated -- {decoded_text}")
 ```py
 import time
 import tensorflow as tf
-from transformers import AutoTokenizer, TFAutoModelForCausalLM
+from myTransformers import AutoTokenizer, TFAutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("openai-community/gpt2", padding_side="left", pad_token="</s>")
 model = TFAutoModelForCausalLM.from_pretrained("openai-community/gpt2")

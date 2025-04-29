@@ -36,7 +36,7 @@ To see all architectures and checkpoints compatible with this task, we recommend
 Before you begin, make sure you have all the necessary libraries installed:
 
 ```bash
-pip install transformers datasets evaluate accelerate
+pip install myTransformers datasets evaluate accelerate
 ```
 
 We encourage you to login to your Hugging Face account so you can upload and share your model with the community. When prompted, enter your token to login:
@@ -77,9 +77,9 @@ There are two fields in this dataset:
 The next step is to load a DistilBERT tokenizer to preprocess the `text` field:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Create a preprocessing function to tokenize `text` and truncate sequences to be no longer than DistilBERT's maximum input length:
@@ -158,10 +158,11 @@ If you aren't familiar with finetuning a model with the [`Trainer`], take a look
 You're ready to start training your model now! Load DistilBERT with [`AutoModelForSequenceClassification`] along with the number of expected labels, and the label mappings:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = AutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -219,23 +220,24 @@ If you aren't familiar with finetuning a model with Keras, take a look at the ba
 To finetune a model in TensorFlow, start by setting up an optimizer function, learning rate schedule, and some training hyperparameters:
 
 ```py
->>> from transformers import create_optimizer
->>> import tensorflow as tf
+>> > from myTransformers import create_optimizer
+>> > import tensorflow as tf
 
->>> batch_size = 16
->>> num_epochs = 5
->>> batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
->>> total_train_steps = int(batches_per_epoch * num_epochs)
->>> optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_epochs = 5
+>> > batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
+>> > total_train_steps = int(batches_per_epoch * num_epochs)
+>> > optimizer, schedule = create_optimizer(init_lr=2e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 Then you can load DistilBERT with [`TFAutoModelForSequenceClassification`] along with the number of expected labels, and the label mappings:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained(
-...     "distilbert/distilbert-base-uncased", num_labels=2, id2label=id2label, label2id=label2id
+>> > model = TFAutoModelForSequenceClassification.from_pretrained(
+    ...
+"distilbert/distilbert-base-uncased", num_labels = 2, id2label = id2label, label2id = label2id
 ... )
 ```
 
@@ -270,19 +272,21 @@ The last two things to setup before you start training is to compute the accurac
 Pass your `compute_metrics` function to [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 Specify where to push your model and tokenizer in the [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -323,10 +327,10 @@ Grab some text you'd like to run inference on:
 The simplest way to try out your finetuned model for inference is to use it in a [`pipeline`]. Instantiate a `pipeline` for sentiment analysis with your model, and pass your text to it:
 
 ```py
->>> from transformers import pipeline
+>> > from myTransformers import pipeline
 
->>> classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
->>> classifier(text)
+>> > classifier = pipeline("sentiment-analysis", model="stevhliu/my_awesome_model")
+>> > classifier(text)
 [{'label': 'POSITIVE', 'score': 0.9994940757751465}]
 ```
 
@@ -337,20 +341,21 @@ You can also manually replicate the results of the `pipeline` if you'd like:
 Tokenize the text and return PyTorch tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="pt")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="pt")
 ```
 
 Pass your inputs to the model and return the `logits`:
 
 ```py
->>> from transformers import AutoModelForSequenceClassification
+>> > from myTransformers import AutoModelForSequenceClassification
 
->>> model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> with torch.no_grad():
-...     logits = model(**inputs).logits
+>> > model = AutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > with torch.no_grad():
+    ...
+logits = model(**inputs).logits
 ```
 
 Get the class with the highest probability, and use the model's `id2label` mapping to convert it to a text label:
@@ -365,19 +370,19 @@ Get the class with the highest probability, and use the model's `id2label` mappi
 Tokenize the text and return TensorFlow tensors:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
->>> inputs = tokenizer(text, return_tensors="tf")
+>> > tokenizer = AutoTokenizer.from_pretrained("stevhliu/my_awesome_model")
+>> > inputs = tokenizer(text, return_tensors="tf")
 ```
 
 Pass your inputs to the model and return the `logits`:
 
 ```py
->>> from transformers import TFAutoModelForSequenceClassification
+>> > from myTransformers import TFAutoModelForSequenceClassification
 
->>> model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
->>> logits = model(**inputs).logits
+>> > model = TFAutoModelForSequenceClassification.from_pretrained("stevhliu/my_awesome_model")
+>> > logits = model(**inputs).logits
 ```
 
 Get the class with the highest probability, and use the model's `id2label` mapping to convert it to a text label:

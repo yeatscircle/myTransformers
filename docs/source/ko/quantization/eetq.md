@@ -31,8 +31,10 @@ pip install .
 ```
 
 비양자화 모델은 "from_pretrained"를 통해 양자화할 수 있습니다.
+
 ```py
-from transformers import AutoModelForCausalLM, EetqConfig
+from myTransformers import AutoModelForCausalLM, EetqConfig
+
 path = "/path/to/model".
 quantization_config = EetqConfig("int8")
 model = AutoModelForCausalLM.from_pretrained(path, device_map="auto", quantization_config=quantization_config)

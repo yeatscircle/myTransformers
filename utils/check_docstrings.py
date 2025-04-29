@@ -45,13 +45,13 @@ from typing import Any, Optional, Tuple, Union
 from check_repo import ignore_undocumented
 from git import Repo
 
-from transformers.utils import direct_transformers_import
+from myTransformers.utils import direct_transformers_import
 
 
 PATH_TO_REPO = Path(__file__).parent.parent.resolve()
-PATH_TO_TRANSFORMERS = Path("src").resolve() / "transformers"
+PATH_TO_TRANSFORMERS = Path("src").resolve() / "myTransformers"
 
-# This is to make sure the transformers module imported is the one in the repo.
+# This is to make sure the myTransformers module imported is the one in the repo.
 transformers = direct_transformers_import(PATH_TO_TRANSFORMERS)
 
 OPTIONAL_KEYWORD = "*optional*"
@@ -975,11 +975,11 @@ def check_docstrings(overwrite: bool = False, check_all: bool = False):
         repo = Repo(PATH_TO_REPO)
         # Diff from index to unstaged files
         for modified_file_diff in repo.index.diff(None):
-            if modified_file_diff.a_path.startswith("src/transformers"):
+            if modified_file_diff.a_path.startswith("src/myTransformers"):
                 module_diff_files.add(modified_file_diff.a_path)
         # Diff from index to `main`
         for modified_file_diff in repo.index.diff(repo.refs.main.commit):
-            if modified_file_diff.a_path.startswith("src/transformers"):
+            if modified_file_diff.a_path.startswith("src/myTransformers"):
                 module_diff_files.add(modified_file_diff.a_path)
         # quick escape route: if there are no module files in the diff, skip this check
         if len(module_diff_files) == 0:

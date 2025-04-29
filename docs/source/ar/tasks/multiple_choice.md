@@ -28,7 +28,7 @@ rendered properly in your Markdown viewer.
 قبل البدء، تأكد من تثبيت جميع المكتبات الضرورية:
 
 ```bash
-pip install transformers datasets evaluate
+pip install myTransformers datasets evaluate
 ```
 
 نشجعك على تسجيل الدخول إلى حساب Hugging Face الخاص بك حتى تتمكن من تحميل نموذجك ومشاركته مع المجتمع. عند المطالبة، أدخل الرمز المميز الخاص بك لتسجيل الدخول:
@@ -77,9 +77,9 @@ pip install transformers datasets evaluate
 الخطوة التالية هي استدعاء مُجزئ BERT لمعالجة بدايات الجمل والنهايات الأربع المحتملة:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 تحتاج دالة المعالجة المسبقة التي تريد إنشاءها إلى:
@@ -120,85 +120,155 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 <pt>
 
 ```py
->>> from dataclasses import dataclass
->>> from transformers.tokenization_utils_base import PreTrainedTokenizerBase, PaddingStrategy
->>> from typing import Optional, Union
->>> import torch
+>> > from dataclasses import dataclass
+>> > from myTransformers.tokenization_utils_base import PreTrainedTokenizerBase, PaddingStrategy
+>> > from typing import Optional, Union
+>> > import torch
 
->>> @dataclass
-... class DataCollatorForMultipleChoice:
-...     """
+>> >
+
+@dataclass
+
+
+...
+
+
+class DataCollatorForMultipleChoice:
+
+
+    ...
+"""
 ...     Data collator that will dynamically pad the inputs for multiple choice received.
 ...     """
 
-...     tokenizer: PreTrainedTokenizerBase
-...     padding: Union[bool, str, PaddingStrategy] = True
-...     max_length: Optional[int] = None
-...     pad_to_multiple_of: Optional[int] = None
+...
+tokenizer: PreTrainedTokenizerBase
+...
+padding: Union[bool, str, PaddingStrategy] = True
+...
+max_length: Optional[int] = None
+...
+pad_to_multiple_of: Optional[int] = None
 
-...     def __call__(self, features):
-...         label_name = "label" if "label" in features[0].keys() else "labels"
-...         labels = [feature.pop(label_name) for feature in features]
-...         batch_size = len(features)
-...         num_choices = len(features[0]["input_ids"])
-...         flattened_features = [
-...             [{k: v[i] for k, v in feature.items()} for i in range(num_choices)] for feature in features
-...         ]
-...         flattened_features = sum(flattened_features, [])
+...
 
-...         batch = self.tokenizer.pad(
-...             flattened_features,
-...             padding=self.padding,
-...             max_length=self.max_length,
-...             pad_to_multiple_of=self.pad_to_multiple_of,
-...             return_tensors="pt",
+
+def __call__(self, features):
+
+
+    ...
+label_name = "label" if "label" in features[0].keys() else "labels"
+...
+labels = [feature.pop(label_name) for feature in features]
+...
+batch_size = len(features)
+...
+num_choices = len(features[0]["input_ids"])
+...
+flattened_features = [
+    ...[{k: v[i] for k, v in feature.items()} for i in range(num_choices)]
+for feature in features
+        ...         ]
+...
+flattened_features = sum(flattened_features, [])
+
+...
+batch = self.tokenizer.pad(
+    ...
+flattened_features,
+...
+padding = self.padding,
+...
+max_length = self.max_length,
+...
+pad_to_multiple_of = self.pad_to_multiple_of,
+...
+return_tensors = "pt",
 ...         )
 
-...         batch = {k: v.view(batch_size, num_choices, -1) for k, v in batch.items()}
-...         batch["labels"] = torch.tensor(labels, dtype=torch.int64)
-...         return batch
+...
+batch = {k: v.view(batch_size, num_choices, -1) for k, v in batch.items()}
+...
+batch["labels"] = torch.tensor(labels, dtype=torch.int64)
+...
+return batch
 ```
 </pt>
 <tf>
- 
-```py
->>> from dataclasses import dataclass
->>> from transformers.tokenization_utils_base import PreTrainedTokenizerBase, PaddingStrategy
->>> from typing import Optional, Union
->>> import tensorflow as tf
 
->>> @dataclass
-... class DataCollatorForMultipleChoice:
-...     """
+```py
+>> > from dataclasses import dataclass
+>> > from myTransformers.tokenization_utils_base import PreTrainedTokenizerBase, PaddingStrategy
+>> > from typing import Optional, Union
+>> > import tensorflow as tf
+
+>> >
+
+@dataclass
+
+
+...
+
+
+class DataCollatorForMultipleChoice:
+
+
+    ...
+"""
 ...     Data collator that will dynamically pad the inputs for multiple choice received.
 ...     """
 
-...     tokenizer: PreTrainedTokenizerBase
-...     padding: Union[bool, str, PaddingStrategy] = True
-...     max_length: Optional[int] = None
-...     pad_to_multiple_of: Optional[int] = None
+...
+tokenizer: PreTrainedTokenizerBase
+...
+padding: Union[bool, str, PaddingStrategy] = True
+...
+max_length: Optional[int] = None
+...
+pad_to_multiple_of: Optional[int] = None
 
-...     def __call__(self, features):
-...         label_name = "label" if "label" in features[0].keys() else "labels"
-...         labels = [feature.pop(label_name) for feature in features]
-...         batch_size = len(features)
-...         num_choices = len(features[0]["input_ids"])
-...         flattened_features = [
-...             [{k: v[i] for k, v in feature.items()} for i in range(num_choices)] for feature in features
-...         ]
-...         flattened_features = sum(flattened_features, [])
+...
 
-...         batch = self.tokenizer.pad(
-...             flattened_features,
-...             padding=self.padding,
-...             max_length=self.max_length,
-...             pad_to_multiple_of=self.pad_to_multiple_of,
-...             return_tensors="tf",
+
+def __call__(self, features):
+
+
+    ...
+label_name = "label" if "label" in features[0].keys() else "labels"
+...
+labels = [feature.pop(label_name) for feature in features]
+...
+batch_size = len(features)
+...
+num_choices = len(features[0]["input_ids"])
+...
+flattened_features = [
+    ...[{k: v[i] for k, v in feature.items()} for i in range(num_choices)]
+for feature in features
+        ...         ]
+...
+flattened_features = sum(flattened_features, [])
+
+...
+batch = self.tokenizer.pad(
+    ...
+flattened_features,
+...
+padding = self.padding,
+...
+max_length = self.max_length,
+...
+pad_to_multiple_of = self.pad_to_multiple_of,
+...
+return_tensors = "tf",
 ...         )
 
-...         batch = {k: tf.reshape(v, (batch_size, num_choices, -1)) for k, v in batch.items()}
-...         batch["labels"] = tf.convert_to_tensor(labels, dtype=tf.int64)
-...         return batch
+...
+batch = {k: tf.reshape(v, (batch_size, num_choices, -1)) for k, v in batch.items()}
+...
+batch["labels"] = tf.convert_to_tensor(labels, dtype=tf.int64)
+...
+return batch
 ```
 </tf>
 </frameworkcontent>
@@ -240,9 +310,9 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 أنت جاهز لبدء تدريب نموذجك الآن! قم بتحميل BERT باستخدام [`AutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
 
->>> model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = AutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 في هذه المرحلة، تبقى ثلاث خطوات فقط:
@@ -293,20 +363,20 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 لضبط نموذج في TensorFlow، ابدأ بإعداد دالة مُحسِّن وجدول معدل التعلم وبعض معلمات التدريب:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 2
->>> total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
->>> optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
+>> > batch_size = 16
+>> > num_train_epochs = 2
+>> > total_train_steps = (len(tokenized_swag["train"]) // batch_size) * num_train_epochs
+>> > optimizer, schedule = create_optimizer(init_lr=5e-5, num_warmup_steps=0, num_train_steps=total_train_steps)
 ```
 
 ثم يمكنك تحميل BERT باستخدام [`TFAutoModelForMultipleChoice`]:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("google-bert/bert-base-uncased")
 ```
 
 حوّل مجموعات البيانات الخاصة بك إلى تنسيق `tf.data.Dataset` باستخدام [`~transformers.TFPreTrainedModel.prepare_tf_dataset`]:
@@ -339,19 +409,21 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 مرر دالتك `compute_metrics` إلى [`~transformers.KerasMetricCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import KerasMetricCallback
+>> > from myTransformers.keras_callbacks import KerasMetricCallback
 
->>> metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
+>> > metric_callback = KerasMetricCallback(metric_fn=compute_metrics, eval_dataset=tf_validation_set)
 ```
 
 حدد مكان دفع نموذجك ومعالجك في [`~transformers.PushToHubCallback`]:
 
 ```py
->>> from transformers.keras_callbacks import PushToHubCallback
+>> > from myTransformers.keras_callbacks import PushToHubCallback
 
->>> push_to_hub_callback = PushToHubCallback(
-...     output_dir="my_awesome_model",
-...     tokenizer=tokenizer,
+>> > push_to_hub_callback = PushToHubCallback(
+    ...
+output_dir = "my_awesome_model",
+...
+tokenizer = tokenizer,
 ... )
 ```
 
@@ -395,21 +467,21 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 قم بتحليل كل مطالبة وزوج إجابة مرشح وأعد تنسورات PyTorch. يجب عليك أيضًا إنشاء بعض `العلامات`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
->>> labels = torch.tensor(0).unsqueeze(0)
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="pt", padding=True)
+>> > labels = torch.tensor(0).unsqueeze(0)
 ```
 
 مرر مدخلاتك والعلامات إلى النموذج وأرجع`logits`:
 
 ```py
->>> from transformers import AutoModelForMultipleChoice
+>> > from myTransformers import AutoModelForMultipleChoice
 
->>> model = AutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
->>> outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
->>> logits = outputs.logits
+>> > model = AutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
+>> > outputs = model(**{k: v.unsqueeze(0) for k, v in inputs.items()}, labels=labels)
+>> > logits = outputs.logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأكبر:
@@ -424,21 +496,21 @@ tokenized_swag = swag.map(preprocess_function, batched=True)
 قم بتحليل كل مطالبة وزوج إجابة مرشح وأعد موترات TensorFlow:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
->>> inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
+>> > tokenizer = AutoTokenizer.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = tokenizer([[prompt, candidate1], [prompt, candidate2]], return_tensors="tf", padding=True)
 ```
 
 مرر مدخلاتك إلى النموذج وأعد القيم logits:
 
 ```py
->>> from transformers import TFAutoModelForMultipleChoice
+>> > from myTransformers import TFAutoModelForMultipleChoice
 
->>> model = TFAutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
->>> inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
->>> outputs = model(inputs)
->>> logits = outputs.logits
+>> > model = TFAutoModelForMultipleChoice.from_pretrained("username/my_awesome_swag_model")
+>> > inputs = {k: tf.expand_dims(v, 0) for k, v in inputs.items()}
+>> > outputs = model(inputs)
+>> > logits = outputs.logits
 ```
 
 استخرج الفئة ذات الاحتمالية الأكبر:

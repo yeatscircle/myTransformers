@@ -30,7 +30,7 @@ env:
   MKL_NUM_THREADS: 8
   RUN_SLOW: yes
   # For gated repositories, we still need to agree to share information on the Hub repo. page in order to get access.
-  # This token is created under the bot `hf-transformers-bot`.
+  # This token is created under the bot `hf-myTransformers-bot`.
   HF_HUB_READ_TOKEN: ${{ secrets.HF_HUB_READ_TOKEN }}
   SIGOPT_API_TOKEN: ${{ secrets.SIGOPT_API_TOKEN }}
   TF_FORCE_GPU_ALLOW_GROWTH: true
@@ -69,22 +69,22 @@ jobs:
           echo "matrix_folders=$matrix_folders" >> $GITHUB_ENV
 
       - name: Update clone
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: git fetch && git checkout ${{ github.sha }}
 
-      - name: Reinstall transformers in edit mode (remove the one installed during docker image build)
-        working-directory: /transformers
-        run: python3 -m pip uninstall -y transformers && python3 -m pip install -e .
+      - name: Reinstall myTransformers in edit mode (remove the one installed during docker image build)
+        working-directory: /myTransformers
+        run: python3 -m pip uninstall -y myTransformers && python3 -m pip install -e .
 
       - name: Update / Install some packages (for Past CI)
         if: ${{ contains(inputs.docker, '-past-') }}
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 -m pip install -U datasets
 
       - name: Update / Install some packages (for Past CI)
         if: ${{ contains(inputs.docker, '-past-') && contains(inputs.docker, '-pytorch-') }}
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 -m pip install --no-cache-dir git+https://github.com/huggingface/accelerate@main#egg=accelerate
 
@@ -93,16 +93,16 @@ jobs:
           nvidia-smi
 
       - name: Environment
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: |
           python3 utils/print_env.py
 
       - name: Show installed libraries and their versions
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: pip freeze
 
       - name: Set `machine_type` for report and artifact names
-        working-directory: /transformers
+        working-directory: /myTransformers
         shell: bash
         run: |
           echo "${{ inputs.machine_type }}"
@@ -119,13 +119,13 @@ jobs:
           echo "machine_type=$machine_type" >> $GITHUB_ENV
 
       - name: Run all tests on GPU
-        working-directory: /transformers
+        working-directory: /myTransformers
         run: python3 -m pytest -rsfE -v --make-reports=${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ matrix.folders }}_test_reports tests/${{ matrix.folders }}
 
       - name: Failure short reports
         if: ${{ failure() }}
         continue-on-error: true
-        run: cat /transformers/reports/${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ matrix.folders }}_test_reports/failures_short.txt
+        run: cat /myTransformers/reports/${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ matrix.folders }}_test_reports/failures_short.txt
 
       - name: Run test
         shell: bash
@@ -139,4 +139,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ env.matrix_folders }}_test_reports
-          path: /transformers/reports/${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ matrix.folders }}_test_reports
+          path: /myTransformers/reports/${{ env.machine_type }}_${{ inputs.report_name_prefix }}_${{ matrix.folders }}_test_reports

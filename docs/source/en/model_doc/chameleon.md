@@ -71,13 +71,14 @@ Chameleon is a gated model so make sure to have access and login to Hugging Face
 Here's how to load the model and perform inference in half-precision (`torch.bfloat16`):
 
 ```python
-from transformers import ChameleonProcessor, ChameleonForConditionalGeneration
+from myTransformers import ChameleonProcessor, ChameleonForConditionalGeneration
 import torch
 from PIL import Image
 import requests
 
 processor = ChameleonProcessor.from_pretrained("facebook/chameleon-7b")
-model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b", torch_dtype=torch.bfloat16, device_map="cuda")
+model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b", torch_dtype=torch.bfloat16,
+                                                          device_map="cuda")
 
 # prepare image and text prompt
 url = 'http://images.cocodataset.org/val2017/000000039769.jpg'
@@ -96,14 +97,15 @@ print(processor.decode(output[0], skip_special_tokens=True))
 Chameleon can perform inference with multiple images as input, where images either belong to the same prompt or different prompts (in batched inference). Here is how you can do it:
 
 ```python
-from transformers import ChameleonProcessor, ChameleonForConditionalGeneration
+from myTransformers import ChameleonProcessor, ChameleonForConditionalGeneration
 import torch
 from PIL import Image
 import requests
 
 processor = ChameleonProcessor.from_pretrained("facebook/chameleon-7b")
 
-model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b", torch_dtype=torch.bfloat16, device_map="cuda")
+model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b", torch_dtype=torch.bfloat16,
+                                                          device_map="cuda")
 
 # Get three different images
 url = "https://www.ilankelman.org/stopsigns/australia.jpg"
@@ -123,7 +125,8 @@ prompts = [
 
 # We can simply feed images in the order they have to be used in the text prompt
 # Each "<image>" token uses one image leaving the next for the subsequent "<image>" tokens
-inputs = processor(images=[image_stop, image_cats, image_snowman], text=prompts, padding=True, return_tensors="pt").to(device="cuda", dtype=torch.bfloat16)
+inputs = processor(images=[image_stop, image_cats, image_snowman], text=prompts, padding=True, return_tensors="pt").to(
+    device="cuda", dtype=torch.bfloat16)
 
 # Generate
 generate_ids = model.generate(**inputs, max_new_tokens=50)
@@ -147,7 +150,7 @@ We value your feedback to help identify bugs before the full release! Check out 
 Simply change the snippet above with:
 
 ```python
-from transformers import ChameleonForConditionalGeneration, BitsAndBytesConfig
+from myTransformers import ChameleonForConditionalGeneration, BitsAndBytesConfig
 
 # specify how to quantize the model
 quantization_config = BitsAndBytesConfig(
@@ -156,7 +159,8 @@ quantization_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.bfloat16,
 )
 
-model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b", quantization_config=quantization_config, device_map="cuda")
+model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b",
+                                                          quantization_config=quantization_config, device_map="cuda")
 ```
 
 ### Use Flash-Attention 2 and SDPA to further speed-up generation
@@ -164,7 +168,7 @@ model = ChameleonForConditionalGeneration.from_pretrained("facebook/chameleon-7b
 The models supports both, Flash-Attention 2 and PyTorch's [`torch.nn.functional.scaled_dot_product_attention`](https://pytorch.org/docs/master/generated/torch.nn.functional.scaled_dot_product_attention.html) which can be enables for optimization. SDPA is the default options when you load the model, If you want to switch for Flash Attention 2, first make sure to install flash-attn. Refer to the [original repository](https://github.com/Dao-AILab/flash-attention) regarding that package installation. Simply change the snippet above with:
 
 ```python
-from transformers import ChameleonForConditionalGeneration
+from myTransformers import ChameleonForConditionalGeneration
 
 model_id = "facebook/chameleon-7b"
 model = ChameleonForConditionalGeneration.from_pretrained(

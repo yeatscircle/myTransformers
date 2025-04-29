@@ -29,8 +29,8 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import Compose, Lambda, Normalize, RandomHorizontalFlip, RandomResizedCrop, ToTensor
 from tqdm.auto import tqdm
 
-import transformers
-from transformers import (
+import myTransformers
+from myTransformers import (
     CONFIG_MAPPING,
     IMAGE_PROCESSOR_MAPPING,
     MODEL_FOR_MASKED_IMAGE_MODELING_MAPPING,
@@ -40,8 +40,8 @@ from transformers import (
     SchedulerType,
     get_scheduler,
 )
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from myTransformers.utils import check_min_version, send_example_telemetry
+from myTransformers.utils.versions import require_version
 
 
 """ Pre-training a 🤗 Transformers model for simple masked image modeling (SimMIM)
@@ -62,7 +62,7 @@ MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Finetune a transformers model on a simple Masked Image Modeling task"
+        description="Finetune a myTransformers model on a simple Masked Image Modeling task"
     )
     parser.add_argument(
         "--dataset_name",
@@ -402,10 +402,10 @@ def main():
     logger.info(accelerator.state)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
-        transformers.utils.logging.set_verbosity_info()
+        myTransformers.utils.logging.set_verbosity_info()
     else:
         datasets.utils.logging.set_verbosity_error()
-        transformers.utils.logging.set_verbosity_error()
+        myTransformers.utils.logging.set_verbosity_error()
 
     # If passed along, set the training seed now.
     if args.seed is not None:

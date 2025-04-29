@@ -78,13 +78,13 @@ Once you've confirmed the bug hasn't already been reported, please include the f
 To get the OS and software versions automatically, run the following command:
 
 ```bash
-transformers-cli env
+myTransformers-cli env
 ```
 
 You can also run the same command from the root of the repository:
 
 ```bash
-python src/transformers/commands/transformers_cli.py env
+python src/myTransformers/commands/transformers_cli.py env
 ```
 
 ### Do you want a new feature?
@@ -141,8 +141,8 @@ You'll need **[Python 3.9](https://github.com/huggingface/transformers/blob/main
 2. Clone your fork to your local disk, and add the base repository as a remote:
 
    ```bash
-   git clone git@github.com:<your Github handle>/transformers.git
-   cd transformers
+   git clone git@github.com:<your Github handle>/myTransformers.git
+   cd myTransformers
    git remote add upstream https://github.com/huggingface/transformers.git
    ```
 
@@ -230,7 +230,7 @@ You'll need **[Python 3.9](https://github.com/huggingface/transformers/blob/main
    Run the following command from the root of the repository:
 
    ```bash
-   doc-builder build transformers docs/source/en --build_dir ~/tmp/test-build
+   doc-builder build myTransformers docs/source/en --build_dir ~/tmp/test-build
    ```
 
    This will build the documentation in the `~/tmp/test-build` folder where you can inspect the generated

@@ -59,7 +59,7 @@ images:
     os_version: &OS_VERSION ubuntu18.04
     transformers_version: &TRANSFORMERS_VERSION 4.5.0 # this was adjusted from 4.4.2 to 4.5.0
     datasets_version: &DATASETS_VERSION 1.6.0 # this was adjusted from 1.5.0 to 1.6.0
-    tag: !join [ *VERSION, '-', 'transformers', *TRANSFORMERS_VERSION, '-', *DEVICE_TYPE, '-', *TAG_PYTHON_VERSION, '-',
+    tag: !join [ *VERSION, '-', 'myTransformers', *TRANSFORMERS_VERSION, '-', *DEVICE_TYPE, '-', *TAG_PYTHON_VERSION, '-',
       *CUDA_VERSION, '-', *OS_VERSION ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /, 
       *CUDA_VERSION, /Dockerfile., *DEVICE_TYPE ]
@@ -129,7 +129,7 @@ images:
     os_version: &OS_VERSION ubuntu18.04
     transformers_version: &TRANSFORMERS_VERSION 4.4.2
     datasets_version: &DATASETS_VERSION 1.5.0
-    tag: !join [ *VERSION, '-', 'transformers', *TRANSFORMERS_VERSION, '-', *DEVICE_TYPE, '-', *TAG_PYTHON_VERSION, '-',
+    tag: !join [ *VERSION, '-', 'myTransformers', *TRANSFORMERS_VERSION, '-', *DEVICE_TYPE, '-', *TAG_PYTHON_VERSION, '-',
       *CUDA_VERSION, '-', *OS_VERSION ]
     docker_file: !join [ docker/, *SHORT_VERSION, /, *DOCKER_PYTHON_VERSION, /, 
       *CUDA_VERSION, /Dockerfile., *DEVICE_TYPE ]

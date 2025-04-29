@@ -31,7 +31,8 @@ These models are contributed by [nghuyong](https://huggingface.co/nghuyong) and 
 Take `ernie-1.0-base-zh` as an example:
 
 ```Python
-from transformers import AutoTokenizer, AutoModel
+from myTransformers import AutoTokenizer, AutoModel
+
 tokenizer = AutoTokenizer.from_pretrained("nghuyong/ernie-1.0-base-zh")
 model = AutoModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
 ```

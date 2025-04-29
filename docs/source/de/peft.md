@@ -57,7 +57,7 @@ Um ein PEFT-Adaptermodell von 🤗 Transformers zu laden und zu verwenden, stell
 2. übergeben Sie es an die Klasse [`AutoModelForCausalLM`].
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id)
@@ -72,7 +72,7 @@ Sie können einen PEFT-Adapter entweder mit einer `AutoModelFor`-Klasse oder der
 Sie können einen PEFT-Adapter auch laden, indem Sie die Methode `load_adapter` aufrufen:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "facebook/opt-350m"
 peft_model_id = "ybelkada/opt-350m-lora"
@@ -86,7 +86,7 @@ model.load_adapter(peft_model_id)
 Die `bitsandbytes`-Integration unterstützt Datentypen mit 8bit und 4bit Genauigkeit, was für das Laden großer Modelle nützlich ist, weil es Speicher spart (lesen Sie den `bitsandbytes`-Integrations [guide](./quantization#bitsandbytes-integration), um mehr zu erfahren). Fügen Sie die Parameter `load_in_8bit` oder `load_in_4bit` zu [`~PreTrainedModel.from_pretrained`] hinzu und setzen Sie `device_map="auto"`, um das Modell effektiv auf Ihre Hardware zu verteilen:
 
 ```py
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from myTransformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 peft_model_id = "ybelkada/opt-350m-lora"
 model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=BitsAndBytesConfig(load_in_8bit=True))
@@ -97,7 +97,7 @@ model = AutoModelForCausalLM.from_pretrained(peft_model_id, quantization_config=
 Sie können [`~peft.PeftModel.add_adapter`] verwenden, um einen neuen Adapter zu einem Modell mit einem bestehenden Adapter hinzuzufügen, solange der neue Adapter vom gleichen Typ ist wie der aktuelle Adapter. Wenn Sie zum Beispiel einen bestehenden LoRA-Adapter an ein Modell angehängt haben:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import PeftConfig
 
 model_id = "facebook/opt-350m"
@@ -137,7 +137,7 @@ print(tokenizer.decode(output_enabled[0], skip_special_tokens=True))
 Sobald Sie einen Adapter zu einem Modell hinzugefügt haben, können Sie das Adaptermodul aktivieren oder deaktivieren. So aktivieren Sie das Adaptermodul:
 
 ```py
-from transformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
+from myTransformers import AutoModelForCausalLM, OPTForCausalLM, AutoTokenizer
 from peft import PeftConfig
 
 model_id = "facebook/opt-350m"

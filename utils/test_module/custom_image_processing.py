@@ -1,4 +1,4 @@
-from transformers import CLIPImageProcessor
+from myTransformers import CLIPImageProcessor
 
 
 class CustomImageProcessor(CLIPImageProcessor):

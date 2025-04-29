@@ -19,8 +19,8 @@ from unittest.util import safe_repr
 
 from parameterized import parameterized
 
-from transformers import AutoTokenizer, MambaConfig, is_torch_available
-from transformers.testing_utils import require_torch, require_torch_multi_gpu, slow, torch_device
+from myTransformers import AutoTokenizer, MambaConfig, is_torch_available
+from myTransformers.testing_utils import require_torch, require_torch_multi_gpu, slow, torch_device
 
 from ...generation.test_utils import GenerationTesterMixin
 from ...test_configuration_common import ConfigTester
@@ -31,11 +31,11 @@ from ...test_pipeline_mixin import PipelineTesterMixin
 if is_torch_available():
     import torch
 
-    from transformers import (
+    from myTransformers import (
         MambaForCausalLM,
         MambaModel,
     )
-    from transformers.models.mamba.modeling_mamba import MambaCache
+    from myTransformers.models.mamba.modeling_mamba import MambaCache
 
 
 class MambaModelTester:

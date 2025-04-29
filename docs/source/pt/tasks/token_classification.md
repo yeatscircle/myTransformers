@@ -83,9 +83,9 @@ O `ner_tag` descreve uma entidade, como uma organização, local ou pessoa. A le
 Carregue o tokenizer do DistilBERT para processar os `tokens`:
 
 ```py
->>> from transformers import AutoTokenizer
+>> > from myTransformers import AutoTokenizer
 
->>> tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
+>> > tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased")
 ```
 
 Como a entrada já foi dividida em palavras, defina `is_split_into_words=True` para tokenizar as palavras em subpalavras:
@@ -160,9 +160,9 @@ Use o [`DataCollatorForTokenClassification`] para criar um batch de exemplos. El
 Carregue o DistilBERT com o [`AutoModelForTokenClassification`] junto com o número de rótulos esperados:
 
 ```py
->>> from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
+>> > from myTransformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
->>> model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=14)
+>> > model = AutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=14)
 ```
 
 <Tip>
@@ -228,25 +228,29 @@ Se você não estiver familiarizado com o fine-tuning de um modelo com o Keras, 
 Configure o otimizador e alguns hiperparâmetros de treinamento:
 
 ```py
->>> from transformers import create_optimizer
+>> > from myTransformers import create_optimizer
 
->>> batch_size = 16
->>> num_train_epochs = 3
->>> num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
->>> optimizer, lr_schedule = create_optimizer(
-...     init_lr=2e-5,
-...     num_train_steps=num_train_steps,
-...     weight_decay_rate=0.01,
-...     num_warmup_steps=0,
+>> > batch_size = 16
+>> > num_train_epochs = 3
+>> > num_train_steps = (len(tokenized_wnut["train"]) // batch_size) * num_train_epochs
+>> > optimizer, lr_schedule = create_optimizer(
+    ...
+init_lr = 2e-5,
+...
+num_train_steps = num_train_steps,
+...
+weight_decay_rate = 0.01,
+...
+num_warmup_steps = 0,
 ... )
 ```
 
 Carregue o DistilBERT com o [`TFAutoModelForTokenClassification`] junto com o número de rótulos esperados:
 
 ```py
->>> from transformers import TFAutoModelForTokenClassification
+>> > from myTransformers import TFAutoModelForTokenClassification
 
->>> model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
+>> > model = TFAutoModelForTokenClassification.from_pretrained("distilbert/distilbert-base-uncased", num_labels=2)
 ```
 
 Configure o modelo para treinamento com o método [`compile`](https://keras.io/api/models/model_training_apis/#compile-method):
